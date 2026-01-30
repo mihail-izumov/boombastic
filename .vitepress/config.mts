@@ -298,7 +298,7 @@ export default defineConfig({
       }
     `]
   ],
-  base: '/',
+  base: '/boombastic/',
   cleanUrls: true,
   appearance: false,
   outDir: '.vitepress/dist',
