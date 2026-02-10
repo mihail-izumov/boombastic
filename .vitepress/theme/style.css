@@ -1,11 +1,7 @@
 /**
- * Customize default theme styling by overriding CSS variables:
- * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ * БумБастик — Deep Blue + Lime accent theme
+ * Base: #292562 | Accent: #C5F946
  */
-
-/**
- * Colors: Signal-style green/lime palette
- * -------------------------------------------------------------------------- */
 
 :root {
   --vp-c-default-1: var(--vp-c-gray-1);
@@ -13,11 +9,11 @@
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  /* Брендовые цвета — зелёный/лайм как в Сигнале */
-  --vp-c-brand-1: #347b6c;
+  /* Брендовые цвета — глубокий синий + лайм */
+  --vp-c-brand-1: #4361ee;
   --vp-c-brand-2: #C5F946;
-  --vp-c-brand-3: #347b6c;
-  --vp-c-brand-soft: rgba(52, 123, 108, 0.14);
+  --vp-c-brand-3: #3b4cc0;
+  --vp-c-brand-soft: rgba(67, 97, 238, 0.14);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
@@ -35,57 +31,27 @@
   --vp-c-danger-soft: var(--vp-c-red-soft);
 }
 
-/**
- * Component: Button
- * -------------------------------------------------------------------------- */
-
 :root {
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
   --vp-button-brand-bg: var(--vp-c-brand-3);
   --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-text: #000;
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
 }
 
-/**
- * Component: Home — зелёный градиент как в Сигнале
- * -------------------------------------------------------------------------- */
-
+/* Hero — синий градиент */
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #22c55e 30%,
-    #16a34a 70%
-  );
-
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #22c55e 50%,
-    #16a34a 50%
-  );
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #4361ee 30%, #7b2ff7 70%);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #4361ee 50%, #7b2ff7 50%);
   --vp-home-hero-image-filter: blur(44px);
 }
-
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-
-/**
- * Component: Custom Block
- * -------------------------------------------------------------------------- */
+@media (min-width: 640px) { :root { --vp-home-hero-image-filter: blur(56px); } }
+@media (min-width: 960px) { :root { --vp-home-hero-image-filter: blur(68px); } }
 
 :root {
   --vp-custom-block-tip-border: transparent;
@@ -94,15 +60,5 @@
   --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
 }
 
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
-
-.DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand-1) !important;
-}
-
-.vp-doc {
-  position: relative;
-  padding-bottom: 120px;
-}
+.DocSearch { --docsearch-primary-color: var(--vp-c-brand-1) !important; }
+.vp-doc { position: relative; padding-bottom: 120px; }
