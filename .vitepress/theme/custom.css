@@ -1,15 +1,15 @@
 /* ═══════════════════════════════════════════════════════════════════════
    БумБастик — custom.css
-   Deep Blue (#292562) + Lime (#C5F946) accent
+   Muted Deep Blue (#1c1a3e) + Lime (#C5F946) accent
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* --- HERO: Синее свечение --- */
+/* --- HERO: Приглушённое синее свечение --- */
 .VPHero { position: relative; }
 .VPHero::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cdefs%3E%3CradialGradient id='blueGlow' cx='65%25' cy='45%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%234361ee' stop-opacity='0.6'/%3E%3Cstop offset='50%25' stop-color='%233b4cc0' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23292562' stop-opacity='0.8'/%3E%3C/radialGradient%3E%3CradialGradient id='accent1' cx='80%25' cy='30%25' r='25%25'%3E%3Cstop offset='0%25' stop-color='%237b2ff7' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23blueGlow)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23accent1)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cdefs%3E%3CradialGradient id='blueGlow' cx='65%25' cy='45%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%234a5aad' stop-opacity='0.5'/%3E%3Cstop offset='50%25' stop-color='%233d47a0' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='%231c1a3e' stop-opacity='0.8'/%3E%3C/radialGradient%3E%3CradialGradient id='accent1' cx='80%25' cy='30%25' r='25%25'%3E%3Cstop offset='0%25' stop-color='%236b4dba' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23blueGlow)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23accent1)'/%3E%3C/svg%3E");
   background-size: cover;
   background-position: center;
   filter: blur(50px);
@@ -20,32 +20,32 @@
 
 /* Hero кнопки */
 .VPButton.brand {
-  background: #3b4cc0 !important;
+  background: #3d47a0 !important;
   color: rgba(255, 255, 255, 0.9) !important;
   border: none !important;
   transition: all 0.3s ease !important;
 }
 .VPButton.brand:hover {
   background: #C5F946 !important;
-  color: #1a1744 !important;
-  box-shadow: 0 8px 25px rgba(197, 249, 70, 0.4) !important;
+  color: #1a1840 !important;
+  box-shadow: 0 8px 25px rgba(197, 249, 70, 0.35) !important;
   transform: translateY(-2px);
 }
 
 /* Hero текст */
 .VPHero .name {
-  background: linear-gradient(120deg, #4361ee 30%, #7b2ff7 70%) !important;
+  background: linear-gradient(120deg, #5a6ac0 30%, #7b5dca 70%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 
-/* --- КАРТОЧКИ FEATURES: С градиентным фоном как в Сигнале --- */
+/* --- КАРТОЧКИ: Glassmorphism Border эффект --- */
 .layout-home .VPFeature .title { color: #C5F946 !important; }
-.layout-home .VPFeature .details { color: rgba(255, 255, 255, 0.75) !important; }
+.layout-home .VPFeature .details { color: rgba(255, 255, 255, 0.7) !important; }
 .layout-home .VPFeature a:hover { color: #C5F946 !important; }
 
-/* --- ЦЕНТРИРОВАНИЕ ДЛЯ pageClass: centered-page --- */
+/* --- ЦЕНТРИРОВАНИЕ ДЛЯ centered-page --- */
 .centered-page .VPDoc { display: block !important; }
 .centered-page .VPDoc .aside,
 .centered-page .VPDoc .outline { display: none !important; }
@@ -56,58 +56,28 @@
   .centered-page .VPDoc .content { max-width: 100%; }
 }
 
-/* --- Лаймовый бейдж Signal --- */
+/* --- Лаймовый бейдж --- */
 .signal-badge {
-  display: inline-block;
-  padding: 2px 12px;
-  border-radius: 16px;
-  background: #1e1b4b;
-  border: 1px solid #C5F946;
-  color: #C5F946;
-  font-weight: 500;
-  font-size: 0.875em;
-  line-height: 1.5;
-  box-shadow: none;
-  transition: none;
-  cursor: default;
+  display: inline-block; padding: 2px 12px; border-radius: 16px;
+  background: #1e1b4b; border: 1px solid #C5F946; color: #C5F946;
+  font-weight: 500; font-size: 0.875em; line-height: 1.5;
+  box-shadow: none; transition: none; cursor: default;
 }
-.signal-badge:hover {
-  background: #1e1b4b;
-  border-color: #C5F946;
-  color: #C5F946;
-  box-shadow: none;
-}
+.signal-badge:hover { background: #1e1b4b; border-color: #C5F946; color: #C5F946; box-shadow: none; }
 
-/* --- Фиолетовый бейдж Korzh --- */
+/* --- Фиолетовый бейдж --- */
 .korzh-badge {
-  display: inline-block;
-  padding: 2px 12px;
-  border-radius: 16px;
-  background: #2D2A33;
-  border: 1px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  color: #c5a8f0;
-  font-weight: 500;
-  font-size: 0.875em;
-  line-height: 1.5;
-  box-shadow: none;
-  transition: none;
-  cursor: default;
+  display: inline-block; padding: 2px 12px; border-radius: 16px;
+  background: #2D2A33; border: 1px solid transparent; background-clip: padding-box;
+  position: relative; color: #c5a8f0; font-weight: 500; font-size: 0.875em;
+  line-height: 1.5; box-shadow: none; transition: none; cursor: default;
 }
 .korzh-badge::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 16px;
-  padding: 1px;
+  content: ''; position: absolute; inset: -1px; border-radius: 16px; padding: 1px;
   background: linear-gradient(180deg, #7d6db8 0%, #544d7a 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
 }
 .korzh-badge:hover { color: #c5a8f0; }
 
-/* --- Лаймовое выделение текста --- */
 .lime-text { color: #C5F946 !important; }
