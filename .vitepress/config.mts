@@ -2,7 +2,7 @@ import { defineConfig, DefaultTheme } from 'vitepress'
 
 export default defineConfig({
   appearance: {
-    initialValue: 'light' as any
+    initialValue: 'dark' as any
   },
   title: 'БумБастик',
   locales: {
@@ -298,7 +298,7 @@ export default defineConfig({
   ],
   base: '/boombastic/',
   cleanUrls: true,
-  appearance: false,
+  appearance: 'dark',
   outDir: '.vitepress/dist',
   description: 'Игровые парки для детей и их родителей.',
   themeConfig: {
