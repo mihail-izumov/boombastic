@@ -14,28 +14,25 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: 'public/prkx-icon.png' }],
-    ['link', { rel: 'shortcut icon', href: '/prkx-icon.png' }],
+    // 1) Исправленный путь к фавиконке
+    ['link', { rel: 'icon', type: 'image/png', href: '/boombastic/prkx-icon.png' }],
+    ['link', { rel: 'shortcut icon', href: '/boombastic/prkx-icon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
 
-    // ═══════════════════════════════════════════════════════════════════
-    // JS: Тёмная тема, навбар при скролле, футер, модал «Войти»,
-    //     перевод UI элементов на русский
-    // ═══════════════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════
+    // JS: тёмная тема, навбар, футер, модал, перевод UI
+    // ═══════════════════════════════════════════════════════
     ['script', {}, `
     (function() {
       document.documentElement.classList.add('dark');
 
-      /* === 4) НАВБАР: добавляем класс bb-scrolled при скролле === */
+      /* === НАВБАР: .bb-scrolled при скролле === */
       function handleNavbarScroll() {
         var navbar = document.querySelector('.VPNavBar');
         if (!navbar) return;
         function onScroll() {
-          if (window.scrollY > 10) {
-            navbar.classList.add('bb-scrolled');
-          } else {
-            navbar.classList.remove('bb-scrolled');
-          }
+          if (window.scrollY > 10) navbar.classList.add('bb-scrolled');
+          else navbar.classList.remove('bb-scrolled');
         }
         window.removeEventListener('scroll', onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -45,13 +42,12 @@ export default defineConfig({
       /* === ФУТЕР === */
       function createFooterContent() {
         var links = [
-          { text: '↗ Контакт', href: '/contact-us' },
+          { text: 'Контакт', href: '/contact-us' },
           { text: 'ВКонтакте', href: 'https://vk.com/boombastic_parks', target: '_blank' }
         ];
-        var html = '<hr style="border:0;border-top:1px solid rgba(74,90,173,0.15);margin:24px 0;">';
+        var html = '<hr style="border:0;border-top:1px solid rgba(74,90,173,0.12);margin:24px 0;">';
         html += '<div class="custom-footer-links"><div class="footer-row">';
-        links.forEach(function(link, i) {
-          if (i > 0) html += '<span class="dot-separator">•</span>';
+        links.forEach(function(link) {
           html += '<a href="' + link.href + '"' + (link.target ? ' target="' + link.target + '" rel="noopener noreferrer"' : '') + '>' + link.text + '</a>';
         });
         html += '</div></div>';
@@ -80,111 +76,72 @@ export default defineConfig({
         var overlay = document.createElement('div');
         overlay.id = 'bb-login-modal';
         overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;align-items:center;justify-content:center;';
-
         var backdrop = document.createElement('div');
         backdrop.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,30,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;';
         backdrop.addEventListener('click', function() { closeLoginModal(); });
-
         var modal = document.createElement('div');
         modal.style.cssText = 'position:relative;width:90%;max-width:480px;height:80vh;max-height:700px;border-radius:16px;overflow:hidden;background:white;box-shadow:0 25px 60px rgba(0,0,0,0.5);';
-
-        /* 10) Кнопка закрытия — тёмная на светлом фоне */
         var closeBtn = document.createElement('button');
         closeBtn.innerHTML = '✕';
         closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:10;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.1);color:#333;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;';
-        closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.12)'; this.style.color = '#000'; });
-        closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.06)'; this.style.color = '#333'; });
+        closeBtn.addEventListener('mouseenter', function() { this.style.background='rgba(0,0,0,0.12)'; this.style.color='#000'; });
+        closeBtn.addEventListener('mouseleave', function() { this.style.background='rgba(0,0,0,0.06)'; this.style.color='#333'; });
         closeBtn.addEventListener('click', function() { closeLoginModal(); });
-
         var iframe = document.createElement('iframe');
         iframe.src = 'https://lk.b00m.fun';
         iframe.style.cssText = 'width:100%;height:100%;border:none;';
-
-        modal.appendChild(closeBtn);
-        modal.appendChild(iframe);
-        overlay.appendChild(backdrop);
-        overlay.appendChild(modal);
+        modal.appendChild(closeBtn); modal.appendChild(iframe);
+        overlay.appendChild(backdrop); overlay.appendChild(modal);
         document.body.appendChild(overlay);
       }
-
       window.openLoginModal = function() {
         var m = document.getElementById('bb-login-modal');
-        if (m) { m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; }
       };
       function closeLoginModal() {
         var m = document.getElementById('bb-login-modal');
-        if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+        if (m) { m.style.display='none'; document.body.style.overflow=''; }
       }
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLoginModal(); });
+      document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeLoginModal(); });
 
-      /* === КНОПКА «Войти» — перехват клика === */
+      /* === КНОПКА «Войти» === */
       function setupLoginButton() {
-        var btns = document.querySelectorAll('.VPSocialLink[aria-label="apply-link"]');
-        btns.forEach(function(btn) {
+        document.querySelectorAll('.VPSocialLink[aria-label="apply-link"]').forEach(function(btn) {
           if (btn.dataset.loginReady) return;
           btn.dataset.loginReady = 'true';
-          btn.removeAttribute('href');
-          btn.style.cursor = 'pointer';
-          btn.addEventListener('click', function(e) {
-            e.preventDefault(); e.stopPropagation();
-            window.openLoginModal();
-          });
+          btn.removeAttribute('href'); btn.style.cursor = 'pointer';
+          btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.openLoginModal(); });
         });
       }
 
-      /* === 6) ПЕРЕВОД UI НА РУССКИЙ === */
+      /* === ПЕРЕВОД UI === */
       function translateUI() {
-        /* Next page / Previous page */
         document.querySelectorAll('.pager-link .desc').forEach(function(el) {
-          if (el.textContent.trim() === 'Next page') el.textContent = 'Следующая страница';
-          if (el.textContent.trim() === 'Previous page') el.textContent = 'Предыдущая страница';
+          if (el.textContent.trim()==='Next page') el.textContent='Следующая страница';
+          if (el.textContent.trim()==='Previous page') el.textContent='Предыдущая страница';
         });
-        /* Return to top */
         document.querySelectorAll('.VPBackToTop span, [class*="back-to-top"]').forEach(function(el) {
-          if (el.textContent.trim() === 'Return to top') el.textContent = 'Наверх';
+          if (el.textContent.trim()==='Return to top') el.textContent='Наверх';
         });
-        /* Menu */
-        document.querySelectorAll('.VPLocalNav .menu-text, .VPNavBarHamburger + span').forEach(function(el) {
-          if (el.textContent.trim() === 'Menu') el.textContent = 'Меню';
+        document.querySelectorAll('.VPLocalNav .menu-text').forEach(function(el) {
+          if (el.textContent.trim()==='Menu') el.textContent='Меню';
         });
-        /* On this page */
-        document.querySelectorAll('.VPDocOutlineDropdown button span, .VPDocAsideOutline .content .outline-title').forEach(function(el) {
-          if (el.textContent.trim() === 'On this page') el.textContent = 'На этой странице';
-        });
-        /* Table of Contents */
         document.querySelectorAll('.outline-title').forEach(function(el) {
-          if (el.textContent.trim() === 'On this page') el.textContent = 'На этой странице';
-          if (el.textContent.trim() === 'Table of Contents') el.textContent = 'Содержание';
-        });
-        /* Sidebar toggle */
-        document.querySelectorAll('.VPLocalNav .VPLocalNavOutlineDropdown button span').forEach(function(el) {
-          if (el.textContent.trim() === 'On this page') el.textContent = 'На этой странице';
+          if (el.textContent.trim()==='On this page') el.textContent='На этой странице';
+          if (el.textContent.trim()==='Table of Contents') el.textContent='Содержание';
         });
       }
 
       /* === INIT === */
-      function init() {
-        handleNavbarScroll();
-        replaceFooter();
-        createLoginModal();
-        setupLoginButton();
-        translateUI();
-      }
-      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
-      else { init(); }
+      function init() { handleNavbarScroll(); replaceFooter(); createLoginModal(); setupLoginButton(); translateUI(); }
+      if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
       window.addEventListener('load', init);
-      setTimeout(init, 500);
-      setTimeout(init, 1500);
-
+      setTimeout(init, 500); setTimeout(init, 1500);
       var lastUrl = location.href;
       new MutationObserver(function() {
         var url = location.href;
-        if (url !== lastUrl) {
-          lastUrl = url;
-          document.documentElement.classList.add('dark');
-          setTimeout(init, 100);
-          setTimeout(init, 500);
-        }
+        if (url !== lastUrl) { lastUrl = url; document.documentElement.classList.add('dark'); setTimeout(init, 100); setTimeout(init, 500); }
       }).observe(document, { subtree: true, childList: true });
     })();
     `],
@@ -199,7 +156,6 @@ export default defineConfig({
     logo: '/prkx-favicon.png',
     siteTitle: 'БумБастик',
 
-    // 6) 404 на русском
     notFound: {
       title: 'Страница не найдена',
       quote: 'Похоже, вы зашли не туда. Но не переживайте — даже лучшие навигаторы иногда теряются.',
@@ -208,30 +164,23 @@ export default defineConfig({
       code: '404'
     },
 
-    // 6) Перевод навигации
-    docFooter: {
-      prev: 'Предыдущая страница',
-      next: 'Следующая страница'
-    },
+    docFooter: { prev: 'Предыдущая страница', next: 'Следующая страница' },
     darkModeSwitchLabel: 'Тема',
     sidebarMenuLabel: 'Меню',
     returnToTopLabel: 'Наверх',
     outlineTitle: 'На этой странице',
     lastUpdatedText: 'Обновлено',
 
-    // Sidebar для «О парках»
     sidebar: {
-      '/about/': [
-        {
-          text: 'О парках',
-          collapsed: false,
-          items: [
-            { text: 'Концепция', link: '/about/concept' },
-            { text: 'Локации', link: '/about/locations' },
-            { text: 'Партнёрам', link: '/about/partners' }
-          ]
-        }
-      ]
+      '/about/': [{
+        text: 'О парках',
+        collapsed: false,
+        items: [
+          { text: 'Концепция', link: '/about/concept' },
+          { text: 'Локации', link: '/about/locations' },
+          { text: 'Партнёрам', link: '/about/partners' }
+        ]
+      }]
     },
 
     search: {
