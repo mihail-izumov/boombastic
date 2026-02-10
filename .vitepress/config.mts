@@ -1,17 +1,15 @@
 import { defineConfig, DefaultTheme } from 'vitepress'
-import pkg from '../package.json' assert { type: 'json' }
-const { version } = pkg
 
 export default defineConfig({
   appearance: {
     initialValue: 'light' as any
   },
-  title: 'Парк за углом',
+  title: 'БумБастик',
   locales: {
     '/': {
       lang: 'ru-RU',
-      title: 'Парк за углом',
-      description: 'Умные парки для детей и их родителей',
+      title: 'БумБастик',
+      description: 'Игровые парки для детей и их родителей',
     },
   },
 
@@ -30,31 +28,31 @@ export default defineConfig({
     ['script', {}, `
     (function() {
       function createFooterContent() {
-        const links = [
+        var links = [
           { text: '↗ Контакт', href: '/contact-us' },
           { text: 'Телеграм-канал', href: 'https://t.me/runPrkx', target: '_blank' }
         ];
 
-        let html = '<hr style="border: 0; border-top: 1px solid var(--vp-c-divider); margin: 24px 0;">';
+        var html = '<hr style="border: 0; border-top: 1px solid var(--vp-c-divider); margin: 24px 0;">';
         html += '<div class="custom-footer-links"><div class="footer-row">';
-        links.slice(0, 3).forEach((link, i) => {
+        links.slice(0, 3).forEach(function(link, i) {
           if (i > 0) html += '<span class="dot-separator">•</span>';
           html += '<a href="' + link.href + '"' + (link.target ? ' target="' + link.target + '" rel="noopener noreferrer"' : '') + '>' + link.text + '</a>';
         });
         html += '</div><div class="footer-row">';
-        links.slice(3).forEach((link, i) => {
+        links.slice(3).forEach(function(link, i) {
           if (i > 0) html += '<span class="dot-separator">•</span>';
           html += '<a href="' + link.href + '">' + link.text + '</a>';
         });
         html += '</div></div>';
         html += '<div style="margin-top: 24px; text-align: center;">';
-        html += '<div style="color: var(--vp-c-text-2); font-size: 14px;">Умные парки для детей и их родителей</div>';
-        html += '<div style="color: var(--vp-c-text-2); margin-top: 4px; font-size: 14px; text-align: center;">© <a href="https://orxaos.sbs" target="_blank" rel="noopener noreferrer" style="color: var(--vp-c-text-2); text-decoration: none;">Orxaos</a> | Михаил Изюмов 2025</div>';
+        html += '<div style="color: var(--vp-c-text-2); font-size: 14px;">Игровые парки для детей и их родителей</div>';
+        html += '<div style="color: var(--vp-c-text-2); margin-top: 4px; font-size: 14px; text-align: center;">© БумБастик 2025</div>';
         return html;
       }
 
       function replaceFooter() {
-        let footer = document.querySelector('.VPFooter');
+        var footer = document.querySelector('.VPFooter');
         if (!footer) {
           footer = document.createElement('footer');
           footer.className = 'VPFooter';
@@ -75,19 +73,19 @@ export default defineConfig({
       }
 
       function updateApplyLinkTarget() {
-        const applyLinks = document.querySelectorAll('.VPSocialLink[aria-label="apply-link"]');
-        applyLinks.forEach(applyLink => {
+        var applyLinks = document.querySelectorAll('.VPSocialLink[aria-label="apply-link"]');
+        applyLinks.forEach(function(applyLink) {
           applyLink.href = '/run-prkx';
           applyLink.setAttribute('target', '_self');
           applyLink.removeAttribute('rel');
 
-          const newLink = document.createElement('a');
+          var newLink = document.createElement('a');
           newLink.href = '/run-prkx';
           newLink.className = applyLink.className;
           newLink.setAttribute('aria-label', 'apply-link');
           newLink.setAttribute('target', '_self');
 
-          Array.from(applyLink.attributes).forEach(attr => {
+          Array.from(applyLink.attributes).forEach(function(attr) {
             if (attr.name !== 'href' && attr.name !== 'target' && attr.name !== 'rel') {
               newLink.setAttribute(attr.name, attr.value);
             }
@@ -98,7 +96,7 @@ export default defineConfig({
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
           replaceFooter();
           updateApplyLinkTarget();
         });
@@ -107,25 +105,25 @@ export default defineConfig({
         updateApplyLinkTarget();
       }
 
-      window.addEventListener('load', () => {
+      window.addEventListener('load', function() {
         replaceFooter();
         updateApplyLinkTarget();
       });
-      setTimeout(() => {
+      setTimeout(function() {
         replaceFooter();
         updateApplyLinkTarget();
       }, 1000);
-      setTimeout(() => {
+      setTimeout(function() {
         replaceFooter();
         updateApplyLinkTarget();
       }, 2000);
 
-      let lastUrl = location.href;
-      new MutationObserver(() => {
-        const url = location.href;
+      var lastUrl = location.href;
+      new MutationObserver(function() {
+        var url = location.href;
         if (url !== lastUrl) {
           lastUrl = url;
-          setTimeout(() => {
+          setTimeout(function() {
             replaceFooter();
             updateApplyLinkTarget();
           }, 100);
@@ -168,7 +166,7 @@ export default defineConfig({
         justify-content: center !important;
       }
 
-      /* Кнопка "Войти" (прозрачная) */
+      /* Кнопка "Сообщество" (прозрачная) */
       .VPSocialLink[aria-label="login-link"]::after {
         content: "Сообщество";
         font-size: 14px;
@@ -187,7 +185,7 @@ export default defineConfig({
         border-color: var(--vp-c-brand);
       }
 
-      /* Кнопка "Расти с планом" (заполненная) */
+      /* Кнопка "Поддержать" (заполненная) */
       .VPSocialLink[aria-label="apply-link"]::after {
         content: "Поддержать";
         font-size: 14px;
@@ -302,25 +300,13 @@ export default defineConfig({
   cleanUrls: true,
   appearance: false,
   outDir: '.vitepress/dist',
-  description: 'Умные парки для детей и их родителей.',
+  description: 'Игровые парки для детей и их родителей.',
   themeConfig: {
     logo: '/prkx-favicon.png',
-    siteTitle: "Парк за углом",
-    
-    sidebar: {
-      '/Parks/': {
-        items: sidebarParki()
-      },
-      '/masterplan/': {
-        items: sidebarMasterplan()
-      },
-      '/about/': {
-        items: sidebarWhyPark()
-      },
-      '/culture/': {
-        items: sidebarCulture()
-      }
-    },
+    siteTitle: 'БумБастик',
+
+    // TODO: добавить sidebar для разделов БумБастик
+    sidebar: {},
 
     search: {
       provider: 'local',
@@ -346,115 +332,12 @@ export default defineConfig({
       }
     },
 
-    nav: nav(),
+    // TODO: добавить навигацию БумБастик
+    nav: [],
 
     socialLinks: [
       { icon: 'github', link: '/community', ariaLabel: 'login-link', target: '_self' },
       { icon: 'github', link: '/run-prkx', ariaLabel: 'apply-link', target: '_self' }
     ],
-
-    // footer: {
-    //   message: 'Журнал  •  Телеграм-канал  •  Поддержка  •  Условия использования  •  Контакт',
-    //   copyright: '© Модуль Роста® 2010 — 2025'
-    // },
   }
 })
-
-// Навигация с разделом "Культура"
-function nav(): DefaultTheme.NavItem[] {
-  return [
-    {
-      text: 'Парки',
-      items: [
-        { text: 'Самара, Конноармейская 6а', link: '/Parks/Samara/konnoarmeiskaya_6/overview.md' }
-      ]
-    },
-    {
-      text: 'Мастерплан',
-      items: [
-        { text: 'Обзор', link: '/masterplan/overview' },
-        { text: 'В чем план', link: '/masterplan/the-plan' },
-        { text: 'Прогресс', link: '/masterplan/roadmap' }
-      ]
-    },
-    {
-      text: 'О Нас',
-      items: [
-        { text: 'Инициатива', link: '/about/origin' },
-        { text: 'Миссия', link: '/about/mission' },
-        { text: 'Видение', link: '/about/vision' },
-        { text: 'Ценности', link: '/about/values' }
-      ]
-    },
-    {
-      text: 'Культура',
-      items: [
-        { text: 'Культура парков', link: '/culture/parks' },
-        { text: 'Примеры', link: '/culture/references' }
-      ]
-    }
-  ]
-}
-
-function sidebarParki(): DefaultTheme.SidebarItem[] {
-  return [
-    {
-      text: 'Самара, Конноармейская, 6а',
-      collapsed: false,
-      items: [
-        { text: 'Обзор проекта', link: '/Parks/Samara/konnoarmeiskaya_6/overview.md' },
-        { text: 'Прогресс по проекту', link: '/Parks/Samara/konnoarmeiskaya_6/progress.md' },
-        { text: 'Цифры и факты', link: '/Parks/Samara/konnoarmeiskaya_6/facts-and-figures.md' },
-        { text: 'СМИ о парке', link: '/Parks/Samara/konnoarmeiskaya_6/media.md' },
-        { text: 'Вопросы и ответы', link: '/Parks/Samara/konnoarmeiskaya_6/faq.md' }
-      ]
-    }
-  ]
-}
-
-function sidebarMasterplan(): DefaultTheme.SidebarItem[] {
-  return [
-    {
-      text: 'Мастерплан',
-      collapsed: false,
-      items: [
-        { text: 'Обзор', link: '/masterplan/overview' },
-        { text: 'Сегодня', link: '/masterplan/the-present' },
-        { text: 'Возможности', link: '/masterplan/the-possibility' },
-        { text: 'Решение', link: '/masterplan/the-solution' },
-        { text: 'В чем план', link: '/masterplan/the-plan' },
-        { text: 'Как мы это сделаем', link: '/masterplan/how-we-can-do-it' },
-        { text: 'Прогресс', link: '/masterplan/roadmap' }
-      ]
-    }
-  ]
-}
-
-function sidebarWhyPark(): DefaultTheme.SidebarItem[] {
-  return [
-    {
-      text: 'О нас',
-      collapsed: false,
-      items: [
-        { text: 'Инициатива', link: '/about/origin' },
-        { text: 'Миссия', link: '/about/mission' },
-        { text: 'Видение', link: '/about/vision' },
-        { text: 'Ценности', link: '/about/values' }
-      ]
-    }
-  ]
-}
-
-// Добавленная функция sidebarCulture для раздела "Культура"
-function sidebarCulture(): DefaultTheme.SidebarItem[] {
-  return [
-    {
-      text: 'Культура',
-      collapsed: false,
-      items: [
-        { text: 'Культура парков', link: '/culture/parks' },
-        { text: 'Примеры', link: '/culture/references' }
-      ]
-    }
-  ]
-}
