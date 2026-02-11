@@ -22,7 +22,7 @@
     <Transition name="preloader-fade">
       <div v-if="showPreloader" class="bb-preloader">
         <img 
-          src="/boombastic/shark-eyes-icon-electric.svg" 
+          src="/shark-eyes-icon-electric.svg" 
           alt="" 
           class="bb-preloader-eyes"
           aria-hidden="true"
