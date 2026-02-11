@@ -14,9 +14,15 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/boombastic/prkx-icon.png' }],
-    ['link', { rel: 'shortcut icon', href: '/boombastic/prkx-icon.png' }],
+    // Фавиконка — shark eyes
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/boombastic/shark-eyes-icon-electric.svg' }],
+    ['link', { rel: 'shortcut icon', href: '/boombastic/shark-eyes-icon-electric.svg' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
+
+    // Шрифты (UI-гайд v3: Montserrat, Inter, JetBrains Mono)
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@700&display=swap' }],
 
     // ═══════════════════════════════════════════════════════
     // JS: тёмная тема, модал «Войти», кнопка «Войти», перевод UI
@@ -110,8 +116,8 @@ export default defineConfig({
   description: 'Игровые парки для детей и их родителей.',
 
   themeConfig: {
-    logo: '/prkx-favicon.png',
-    siteTitle: 'БумБастик',
+    logo: '/boombastic-icon-white.svg',
+    siteTitle: false,
 
     notFound: {
       title: 'Страница не найдена',
@@ -182,4 +188,3 @@ export default defineConfig({
     ],
   }
 })
-
