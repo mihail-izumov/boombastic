@@ -14,21 +14,15 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
-    // Фавиконка — shark eyes
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/shark-eyes-icon-electric.svg' }],
-    ['link', { rel: 'shortcut icon', href: '/shark-eyes-icon-electric.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/boombastic/shark-eyes-icon-electric.svg' }],
+    ['link', { rel: 'shortcut icon', href: '/boombastic/shark-eyes-icon-electric.svg' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
 
-    // Шрифты (UI-гайд v3: Montserrat, Inter, JetBrains Mono)
+    // Шрифты: Inter (тело), Montserrat (заголовки), Space Mono (технический/сайдбар)
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@700&display=swap' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Space+Mono:wght@400;700&display=swap' }],
 
-    // ═══════════════════════════════════════════════════════
-    // JS: тёмная тема, модал «Войти», кнопка «Войти», перевод UI
-    // Навбар-скролл → Layout.vue (onMounted)
-    // Футер → BbFooter.vue (layout-bottom слот)
-    // ═══════════════════════════════════════════════════════
     ['script', {}, `
     (function() {
       document.documentElement.classList.add('dark');
@@ -175,7 +169,6 @@ export default defineConfig({
       }
     ],
 
-    /* Порядок: VK → Сообщество → Войти */
     socialLinks: [
       {
         icon: {
