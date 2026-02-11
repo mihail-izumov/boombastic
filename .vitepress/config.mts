@@ -14,61 +14,18 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
-    // 1) Исправленный путь к фавиконке
     ['link', { rel: 'icon', type: 'image/png', href: '/boombastic/prkx-icon.png' }],
     ['link', { rel: 'shortcut icon', href: '/boombastic/prkx-icon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
 
     // ═══════════════════════════════════════════════════════
-    // JS: тёмная тема, навбар, футер, модал, перевод UI
+    // JS: тёмная тема, модал «Войти», кнопка «Войти», перевод UI
+    // Навбар-скролл → Layout.vue (onMounted)
+    // Футер → BbFooter.vue (layout-bottom слот)
     // ═══════════════════════════════════════════════════════
     ['script', {}, `
     (function() {
       document.documentElement.classList.add('dark');
-
-      /* === НАВБАР: .bb-scrolled при скролле === */
-      function handleNavbarScroll() {
-        var navbar = document.querySelector('.VPNavBar');
-        if (!navbar) return;
-        function onScroll() {
-          if (window.scrollY > 10) navbar.classList.add('bb-scrolled');
-          else navbar.classList.remove('bb-scrolled');
-        }
-        window.removeEventListener('scroll', onScroll);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-      }
-
-      /* === ФУТЕР === */
-      function createFooterContent() {
-        var links = [
-          { text: 'Контакт', href: '/contact-us' },
-          { text: 'ВКонтакте', href: 'https://vk.com/boombastic_parks', target: '_blank' }
-        ];
-        var html = '<hr style="border:0;border-top:1px solid rgba(74,90,173,0.12);margin:24px 0;">';
-        html += '<div class="custom-footer-links"><div class="footer-row">';
-        links.forEach(function(link) {
-          html += '<a href="' + link.href + '"' + (link.target ? ' target="' + link.target + '" rel="noopener noreferrer"' : '') + '>' + link.text + '</a>';
-        });
-        html += '</div></div>';
-        html += '<div style="margin-top:24px;text-align:center;">';
-        html += '<div style="color:#5a68b8;font-size:14px;">Игровые парки для детей и их родителей</div>';
-        html += '<div style="color:#4a5aad;margin-top:4px;font-size:14px;">© БумБастик 2025</div>';
-        return html;
-      }
-
-      function replaceFooter() {
-        var footer = document.querySelector('.VPFooter');
-        if (!footer) { footer = document.createElement('footer'); footer.className = 'VPFooter'; document.body.appendChild(footer); }
-        footer.innerHTML = createFooterContent();
-        if (window.location.pathname !== '/') {
-          footer.style.position = 'relative'; footer.style.bottom = '70px';
-          footer.style.zIndex = '10'; footer.style.marginBottom = '-70px';
-        } else {
-          footer.style.position = ''; footer.style.bottom = '';
-          footer.style.zIndex = ''; footer.style.paddingBottom = '30px';
-        }
-      }
 
       /* === МОДАЛЬНОЕ ОКНО «Войти» === */
       function createLoginModal() {
@@ -82,7 +39,7 @@ export default defineConfig({
         var modal = document.createElement('div');
         modal.style.cssText = 'position:relative;width:90%;max-width:480px;height:80vh;max-height:700px;border-radius:16px;overflow:hidden;background:white;box-shadow:0 25px 60px rgba(0,0,0,0.5);';
         var closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '✕';
+        closeBtn.innerHTML = '\\u2715';
         closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:10;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.1);color:#333;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;';
         closeBtn.addEventListener('mouseenter', function() { this.style.background='rgba(0,0,0,0.12)'; this.style.color='#000'; });
         closeBtn.addEventListener('mouseleave', function() { this.style.background='rgba(0,0,0,0.06)'; this.style.color='#333'; });
@@ -133,7 +90,7 @@ export default defineConfig({
       }
 
       /* === INIT === */
-      function init() { handleNavbarScroll(); replaceFooter(); createLoginModal(); setupLoginButton(); translateUI(); }
+      function init() { createLoginModal(); setupLoginButton(); translateUI(); }
       if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
       else init();
       window.addEventListener('load', init);
