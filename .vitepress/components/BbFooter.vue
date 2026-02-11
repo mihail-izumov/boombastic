@@ -27,7 +27,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
   padding: 0 24px 30px;
 }
 
-/* Неоновый градиент-разделитель вместо обычной линии */
+/* Неоновый градиент-разделитель */
 .bb-footer-divider {
   border: 0;
   height: 1px;
@@ -62,7 +62,6 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 
 /* Glass bubble ссылки — база */
 .footer-row a {
-  color: white;
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 600;
   font-size: 12px;
@@ -71,60 +70,133 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
   letter-spacing: 0.08em;
   padding: 8px 20px;
   border-radius: 12px;
-  background-image:
-    linear-gradient(135deg, rgba(28, 26, 62, 0.85), rgba(34, 32, 80, 0.8)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(74, 90, 173, 0.15), rgba(255, 255, 255, 0.05));
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  border: 1px solid transparent;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
 
-/* Неоновые hover по data-neon атрибуту */
+/* ── Покой: приглушённый неон ── */
+
+/* Cyan — покой */
+.footer-row a[data-neon="cyan"] {
+  color: rgba(0, 212, 255, 0.6);
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(0,212,255,0.12), rgba(0,212,255,0.06));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+
+/* Cyan — hover: загорается */
 .footer-row a[data-neon="cyan"]:hover {
+  color: #00D4FF;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
     linear-gradient(135deg, rgba(0,212,255,0.35), rgba(0,212,255,0.15));
-  color: #00D4FF;
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
   transform: translateY(-1px);
 }
 
+/* Magenta — покой */
+.footer-row a[data-neon="magenta"] {
+  color: rgba(255, 0, 128, 0.6);
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(255,0,128,0.12), rgba(255,0,128,0.06));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+
+/* Magenta — hover */
 .footer-row a[data-neon="magenta"]:hover {
+  color: #FF0080;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
     linear-gradient(135deg, rgba(255,0,128,0.35), rgba(255,0,128,0.15));
-  color: #FF0080;
   box-shadow: 0 0 15px rgba(255, 0, 128, 0.15);
   transform: translateY(-1px);
 }
 
+/* Yellow — покой */
+.footer-row a[data-neon="yellow"] {
+  color: rgba(255, 214, 10, 0.6);
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(255,214,10,0.12), rgba(255,214,10,0.06));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+
+/* Yellow — hover */
 .footer-row a[data-neon="yellow"]:hover {
+  color: #FFD60A;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
     linear-gradient(135deg, rgba(255,214,10,0.35), rgba(255,214,10,0.15));
-  color: #FFD60A;
   box-shadow: 0 0 15px rgba(255, 214, 10, 0.15);
   transform: translateY(-1px);
 }
 
+/* Green — покой */
+.footer-row a[data-neon="green"] {
+  color: rgba(0, 255, 136, 0.6);
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(0,255,136,0.12), rgba(0,255,136,0.06));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+
+/* Green — hover */
 .footer-row a[data-neon="green"]:hover {
+  color: #00FF88;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
     linear-gradient(135deg, rgba(0,255,136,0.35), rgba(0,255,136,0.15));
-  color: #00FF88;
   box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
   transform: translateY(-1px);
 }
 
-/* Fallback если нет data-neon */
-.footer-row a:not([data-neon]):hover {
+/* Lime — покой */
+.footer-row a[data-neon="lime"] {
+  color: rgba(197, 249, 70, 0.6);
   background-image:
-    linear-gradient(135deg, rgba(28, 26, 62, 0.8), rgba(40, 38, 90, 0.75)),
-    linear-gradient(135deg, rgba(197, 249, 70, 0.3), rgba(74, 90, 173, 0.2), rgba(197, 249, 70, 0.15));
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(197,249,70,0.12), rgba(197,249,70,0.06));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+
+/* Lime — hover */
+.footer-row a[data-neon="lime"]:hover {
   color: #C5F946;
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(197,249,70,0.35), rgba(197,249,70,0.15));
+  box-shadow: 0 0 15px rgba(197, 249, 70, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Fallback */
+.footer-row a:not([data-neon]) {
+  color: rgba(240, 244, 255, 0.6);
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
+    linear-gradient(135deg, rgba(255,255,255,0.1), rgba(74,90,173,0.15), rgba(255,255,255,0.05));
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+.footer-row a:not([data-neon]):hover {
+  color: #C5F946;
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(40,38,90,0.75)),
+    linear-gradient(135deg, rgba(197,249,70,0.3), rgba(74,90,173,0.2), rgba(197,249,70,0.15));
   transform: translateY(-1px);
 }
 
