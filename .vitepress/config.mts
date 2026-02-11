@@ -15,8 +15,8 @@ export default defineConfig({
 
   head: [
     // Фавиконка — shark eyes
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/boombastic/shark-eyes-icon-electric.svg' }],
-    ['link', { rel: 'shortcut icon', href: '/boombastic/shark-eyes-icon-electric.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/shark-eyes-icon-electric.svg' }],
+    ['link', { rel: 'shortcut icon', href: '/shark-eyes-icon-electric.svg' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
 
     // Шрифты (UI-гайд v3: Montserrat, Inter, JetBrains Mono)
