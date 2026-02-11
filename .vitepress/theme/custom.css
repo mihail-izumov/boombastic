@@ -77,14 +77,13 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
   color: var(--text-primary);
 }
 
-/* Скрыть переключатель темы */
 .VPSwitchAppearance, .VPNavScreenAppearance,
 .VPNavBarExtra .appearance, .appearance-action {
   display: none !important;
 }
 
 /* ============================================================
-   ТИПОГРАФИКА (по гайду: Montserrat заголовки, Inter текст)
+   ТИПОГРАФИКА (Montserrat заголовки, Inter текст)
    ============================================================ */
 h1, h2, h3, h4, h5, h6,
 .VPHero .name,
@@ -96,13 +95,12 @@ h1, h2, h3, h4, h5, h6,
 h1 { font-weight: 900 !important; }
 h2, h3 { font-weight: 700 !important; }
 
-/* Код и цифры — JetBrains Mono */
 code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-mono) !important;
 }
 
 /* ============================================================
-   НАВБАР: GLASSMORPHISM (JS ставит .bb-scrolled)
+   НАВБАР: GLASSMORPHISM + SHARK EYES ЛОГО
    ============================================================ */
 .VPNavBar, .VPNavBar .wrapper, .VPNavBar .container,
 .VPNavBar .content-body, .VPNavBar .content {
@@ -114,23 +112,61 @@ code, .vp-code, .line-numbers {
   transition: all 0.3s ease !important;
 }
 
+/* Размытость уменьшена: blur(12px) вместо blur(24px) */
 .VPNavBar.bb-scrolled {
-  background: rgba(20, 18, 50, 0.75) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(20, 18, 50, 0.82) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
   border-bottom: 1px solid rgba(74, 90, 173, 0.15) !important;
 }
 
 .VPNavBar.has-sidebar { background: transparent !important; }
 .VPNavBar.fill { background: transparent !important; }
 .VPNavBar .divider-line { background: rgba(74, 90, 173, 0.1) !important; }
-/* Лого — SVG-логотип «БУМБАСТИК» */
+
+/* ── Shark Eyes + Лого ── */
+.VPNavBarTitle a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+}
+
+.VPNavBarTitle a::before {
+  content: '';
+  display: inline-block;
+  width: 36px;
+  height: 24px;
+  background: url('/boombastic/shark-eyes-icon-electric.svg') no-repeat center / contain;
+  margin-right: 8px;
+  flex-shrink: 0;
+  animation: eyes-breathe 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(197, 249, 70, 0.3));
+}
+
+/* «00 дышат» — пульсация свечения из UI-гайда */
+@keyframes eyes-breathe {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(197, 249, 70, 0.2));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(197, 249, 70, 0.7)) drop-shadow(0 0 20px rgba(197, 249, 70, 0.3));
+    transform: scale(1.05);
+  }
+}
+
 .VPNavBarTitle .logo {
   height: 24px !important;
   width: auto !important;
   max-width: 160px !important;
 }
+
 @media (max-width: 768px) {
+  .VPNavBarTitle a::before {
+    width: 28px;
+    height: 18px;
+    margin-right: 6px;
+  }
   .VPNavBarTitle .logo {
     height: 20px !important;
     max-width: 130px !important;
@@ -138,15 +174,25 @@ code, .vp-code, .line-numbers {
 }
 
 /* ============================================================
-   НАВИГАЦИЯ ДЕСКТОП
+   НАВИГАЦИЯ: UPPERCASE (Marathon-стиль)
    ============================================================ */
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink {
   color: var(--text-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
   transition: color 0.25s ease;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover { color: var(--accent-lime) !important; }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.active { color: var(--accent-lime) !important; }
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown { color: var(--text-primary) !important; }
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown {
+  color: var(--text-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover { color: var(--accent-lime) !important; }
 
 /* ============================================================
@@ -166,9 +212,16 @@ code, .vp-code, .line-numbers {
 }
 .VPMenuGroup .title {
   color: var(--text-muted) !important;
-  font-size: 12px !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
 }
-.VPMenuItem .text { color: var(--text-primary) !important; }
+.VPMenuItem .text {
+  color: var(--text-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-size: 13px !important;
+}
 .VPMenuItem:hover .text { color: #1a1840 !important; }
 .VPMenuItem:hover { background-color: var(--accent-lime) !important; border-radius: 6px !important; }
 .VPMenuItem .text.active, .VPMenuItem.active .text { color: var(--accent-lime) !important; }
@@ -200,13 +253,16 @@ code, .vp-code, .line-numbers {
 .VPHero .tagline a:hover { color: var(--blue-3) !important; text-decoration: underline; }
 
 /* ============================================================
-   КНОПКИ (общие + active state по гайду)
+   КНОПКИ (+ active state по гайду)
    ============================================================ */
 .VPHero .VPButton {
   background-color: var(--blue-2) !important;
   border-color: var(--blue-2) !important;
   color: var(--text-primary) !important;
   border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 700 !important;
   transition: all 0.3s ease;
 }
 .VPHero .VPButton:hover {
@@ -227,6 +283,9 @@ code, .vp-code, .line-numbers {
   color: var(--text-primary) !important;
   border: none !important;
   border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 700 !important;
   transition: all 0.3s ease !important;
 }
 .VPButton.brand:hover {
@@ -273,6 +332,9 @@ code, .vp-code, .line-numbers {
 .VPFeature .link-text {
   color: var(--text-primary) !important;
   font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-size: 13px !important;
   transition: color 0.25s ease !important;
 }
 .VPFeature .link-text .icon {
@@ -304,9 +366,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 .VPSocialLink[aria-label="login-link"]::after {
-  content: "Сообщество";
+  content: "СООБЩЕСТВО";
   font-family: var(--font-heading);
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-primary) !important;
   padding: 8px 16px;
   border-radius: 12px;
@@ -314,7 +376,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   border: 1px solid rgba(74, 90, 173, 0.2) !important;
   transition: all 0.3s ease;
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 .VPSocialLink[aria-label="login-link"]:hover::after {
   background: rgba(74, 90, 173, 0.25) !important;
@@ -323,9 +386,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 .VPSocialLink[aria-label="apply-link"]::after {
-  content: "Войти";
+  content: "ВОЙТИ";
   font-family: var(--font-heading);
-  font-size: 14px;
+  font-size: 12px;
   color: #1a1840;
   padding: 8px 16px;
   border-radius: 12px;
@@ -334,7 +397,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   animation: liquid-fluid 6s ease infinite;
   transition: all 0.3s ease;
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   border: none;
   cursor: pointer;
 }
@@ -353,14 +417,14 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   50% { background-position: 100% 50%; }
 }
 
-/* VK — большая, белая, лайм hover */
+/* VK */
 .VPSocialLinks .VPSocialLink[aria-label="vk-link"] { width: 42px !important; height: 42px !important; }
 .VPSocialLinks .VPSocialLink[aria-label="vk-link"] svg { width: 32px !important; height: 32px !important; }
 .VPSocialLinks .VPSocialLink svg { fill: var(--text-primary) !important; }
 .VPSocialLinks .VPSocialLink:hover svg { fill: var(--accent-lime) !important; }
 
 /* ============================================================
-   ДЕСКТОП
+   ДЕСКТОП РАСКЛАДКА
    ============================================================ */
 @media (min-width: 961px) {
   .VPNavBar .content { gap: 0 !important; }
@@ -386,7 +450,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 /* ============================================================
-   МОБИЛЬНОЕ МЕНЮ
+   МОБИЛЬНОЕ МЕНЮ (UPPERCASE)
    ============================================================ */
 @media (max-width: 768px) {
   .VPNavBar .VPNavBarSocialLinks { display: none !important; }
@@ -398,27 +462,28 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavScreen .VPNavScreenMenu { padding-bottom: 16px !important; }
   .VPNavScreen .VPNavScreenAppearance { display: none !important; }
 
-  /* Пункты меню — 20px, Montserrat */
   .VPNavScreen .VPNavScreenMenuLink {
     font-family: var(--font-heading) !important;
     font-size: 20px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     color: var(--text-primary) !important;
     padding: 12px 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
   }
   .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
-  /* Заголовок группы */
   .VPNavScreen .VPNavScreenMenuGroup .title {
     font-family: var(--font-heading) !important;
     font-size: 20px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     color: var(--text-primary) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .title:hover { color: var(--accent-lime) !important; }
   .VPNavScreen .VPNavScreenMenuGroup.open .title { color: var(--accent-lime) !important; }
 
-  /* Подпункты */
   .VPNavScreen .VPNavScreenMenuGroup .item a,
   .VPNavScreen .VPNavScreenMenuGroup .item .VPNavScreenMenuGroupLink,
   .VPNavScreen .VPNavScreenMenuGroupSection .item a {
@@ -426,13 +491,14 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     font-weight: 500 !important;
     color: var(--text-secondary) !important;
     padding: 8px 0 8px 16px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
   .VPNavScreen .VPNavScreenMenuGroupSection .item a:hover {
     color: var(--accent-lime) !important;
   }
 
-  /* Иконка «+» / «×» */
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-plus,
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-chevron-down,
   .VPNavScreen .VPNavScreenMenuGroup .title svg,
@@ -443,7 +509,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     width: 28px !important; height: 28px !important;
   }
 
-  /* Гамбургер — белый, hover лайм */
   .VPNavBarHamburger .container .top,
   .VPNavBarHamburger .container .middle,
   .VPNavBarHamburger .container .bottom {
@@ -457,7 +522,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     opacity: 1 !important;
   }
 
-  /* Social кнопки в мобильном меню */
   .VPNavScreen .VPNavScreenSocialLinks {
     margin: 16px !important; padding: 16px !important;
     border: 1px solid rgba(74, 90, 173, 0.12) !important;
@@ -479,12 +543,14 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     display: flex !important; align-items: center !important; justify-content: center !important;
     width: 100% !important; box-sizing: border-box !important;
     font-family: var(--font-heading) !important;
-    font-size: 20px !important; font-weight: 600 !important; border-radius: 12px !important;
+    font-size: 18px !important; font-weight: 700 !important; border-radius: 12px !important;
     padding: 18px !important; margin: 0 !important; height: 56px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
   }
 
   .VPNavScreen .VPSocialLink[aria-label="login-link"]::after {
-    content: "Сообщество" !important;
+    content: "СООБЩЕСТВО" !important;
     background: rgba(74, 90, 173, 0.15) !important;
     color: var(--text-primary) !important;
     border: 1px solid rgba(74, 90, 173, 0.2) !important;
@@ -494,7 +560,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     color: var(--accent-lime) !important;
   }
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
-    content: "Войти" !important;
+    content: "ВОЙТИ" !important;
     background-image: linear-gradient(-45deg, #c5f946, #85a931, #c5f946, #85a931);
     background-size: 400% 400%; animation: liquid-fluid 6s ease infinite;
     color: #1a1840 !important; border: none !important;
@@ -504,7 +570,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     font-weight: 700 !important;
   }
 
-  /* VK в мобильном */
   .VPNavScreen .VPSocialLink[aria-label="vk-link"] {
     width: 100% !important; height: 56px !important; justify-content: center !important;
   }
@@ -529,13 +594,16 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   border-bottom: 1px solid rgba(74, 90, 173, 0.12) !important;
 }
 
-/* Неактивные — text-primary */
-.VPSidebar .VPSidebarItem .text { color: var(--text-primary) !important; }
+.VPSidebar .VPSidebarItem .text {
+  color: var(--text-primary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-size: 13px !important;
+}
 .VPSidebar .VPSidebarItem .text:hover { color: var(--accent-lime) !important; }
 .VPSidebar .VPSidebarItem.is-active > .item > div > .text { color: var(--accent-lime) !important; }
 .VPSidebar .VPSidebarItem.is-active > .item > .indicator { background: var(--accent-lime) !important; }
 
-/* Заголовок группы — лаймовая плашка */
 .VPSidebar .VPSidebarItem.level-0 > .item {
   background: var(--accent-lime-soft) !important;
   border-radius: 8px !important;
@@ -546,7 +614,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   color: var(--accent-lime) !important;
   font-family: var(--font-heading) !important;
   font-weight: 700 !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 .VPSidebar .VPSidebarItem .caret { color: var(--accent-lime) !important; fill: var(--accent-lime) !important; }
 .VPSidebar .VPSidebarItem .caret svg,
@@ -562,38 +630,135 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .VPNavBar .divider { display: none !important; }
 
 /* ============================================================
-   ФУТЕР — glass bubbles
+   ФУТЕР — неоновые акценты
    ============================================================ */
 .VPFooter { background: transparent !important; }
-.custom-footer-links { display: flex; flex-direction: column; gap: 3px; align-items: center; }
-.footer-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
+/* Неоновый градиент-разделитель */
+.bb-footer-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--neon-cyan) 15%,
+    var(--accent-lime) 35%,
+    var(--neon-yellow) 50%,
+    var(--neon-magenta) 65%,
+    var(--neon-green) 85%,
+    transparent 100%
+  );
+  opacity: 0.4;
+  margin: 24px 0;
+}
+
+.bb-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+}
+
+.footer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Футер-ссылки — glass bubbles с неоновыми hover-цветами */
 .footer-row a {
   color: var(--text-primary) !important;
   font-family: var(--font-heading);
-  font-weight: 500 !important;
+  font-weight: 600 !important;
+  font-size: 12px;
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   padding: 8px 20px;
-  border-radius: 20px;
+  border-radius: 12px;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
-    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(74,90,173,0.2), rgba(255,255,255,0.06)) !important;
+    linear-gradient(135deg, rgba(255,255,255,0.1), rgba(74,90,173,0.15), rgba(255,255,255,0.05)) !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
   border: 1px solid transparent !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: all 0.3s ease;
-  font-size: 14px;
 }
-.footer-row a:hover {
+
+/* Каждая ссылка — свой неоновый hover */
+.footer-row a[data-neon="cyan"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(0,212,255,0.35), rgba(0,212,255,0.15)) !important;
+  color: var(--neon-cyan) !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="magenta"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(255,0,128,0.35), rgba(255,0,128,0.15)) !important;
+  color: var(--neon-magenta) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="yellow"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(255,214,10,0.35), rgba(255,214,10,0.15)) !important;
+  color: var(--neon-yellow) !important;
+  box-shadow: 0 0 15px rgba(255, 214, 10, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="green"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(0,255,136,0.35), rgba(0,255,136,0.15)) !important;
+  color: var(--neon-green) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="lime"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(197,249,70,0.35), rgba(197,249,70,0.15)) !important;
+  color: var(--accent-lime) !important;
+  box-shadow: 0 0 15px rgba(197, 249, 70, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Fallback без data-neon */
+.footer-row a:not([data-neon]):hover {
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(40,38,90,0.75)),
     linear-gradient(135deg, rgba(197,249,70,0.3), rgba(74,90,173,0.2), rgba(197,249,70,0.15)) !important;
-  background-origin: padding-box, border-box !important;
-  background-clip: padding-box, border-box !important;
   color: var(--accent-lime) !important;
   transform: translateY(-1px);
+}
+
+.bb-footer-info {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.bb-footer-tagline {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font-heading);
+  letter-spacing: 0.03em;
+}
+
+.bb-footer-copy {
+  color: var(--blue-1);
+  margin-top: 4px;
+  font-size: 13px;
+  font-family: var(--vp-font-family-mono);
 }
 
 .dot-separator { display: none !important; }
@@ -615,11 +780,14 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   background: rgba(74, 90, 173, 0.08) !important;
   color: var(--text-primary) !important;
   font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
 }
 .vp-doc td { border-color: rgba(74, 90, 173, 0.1) !important; }
 
 /* ============================================================
-   ПАГИНАЦИЯ (prev/next)
+   ПАГИНАЦИЯ
    ============================================================ */
 .pager-link .title { color: var(--accent-lime) !important; }
 .pager-link .desc { color: var(--text-secondary) !important; }
@@ -630,8 +798,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
    404
    ============================================================ */
 .NotFound { background: var(--bg-deep) !important; }
-.NotFound .code { color: var(--accent-lime) !important; }
-.NotFound .title { color: var(--text-primary) !important; }
+.NotFound .code { color: var(--accent-lime) !important; font-family: var(--vp-font-family-mono) !important; }
+.NotFound .title { color: var(--text-primary) !important; font-family: var(--font-heading) !important; text-transform: uppercase !important; }
 .NotFound .quote { color: var(--text-secondary) !important; }
 .NotFound .action .link {
   color: #1a1840 !important;
@@ -640,20 +808,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   border-radius: 12px !important;
   padding: 8px 24px !important;
   font-family: var(--font-heading) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
   transition: all 0.3s ease !important;
 }
 .NotFound .action .link:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 25px rgba(197, 249, 70, 0.25) !important;
 }
-.NotFound .action .link:active {
-  transform: scale(0.95) !important;
-}
+.NotFound .action .link:active { transform: scale(0.95) !important; }
 
-/* ============================================================
-   ПОИСК
-   ============================================================ */
+/* ПОИСК */
 .DocSearch { --docsearch-primary-color: var(--blue-1) !important; }
 
 /* ============================================================
@@ -686,7 +852,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 .lime-text { color: var(--accent-lime) !important; }
 
-/* Неоновые утилиты (для будущих компонентов) */
+/* Неоновые утилиты */
 .neon-glow-cyan { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
 .neon-glow-magenta { color: var(--neon-magenta); text-shadow: 0 0 5px var(--neon-magenta), 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta); }
 .neon-glow-yellow { color: var(--neon-yellow); text-shadow: 0 0 5px var(--neon-yellow), 0 0 10px var(--neon-yellow), 0 0 30px var(--neon-yellow); }
