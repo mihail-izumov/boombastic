@@ -100,7 +100,7 @@ code, .vp-code, .line-numbers {
 }
 
 /* ============================================================
-   НАВБАР: GLASSMORPHISM + SHARK EYES ЛОГО
+   НАВБАР: GLASSMORPHISM
    ============================================================ */
 .VPNavBar, .VPNavBar .wrapper, .VPNavBar .container,
 .VPNavBar .content-body, .VPNavBar .content {
@@ -124,37 +124,7 @@ code, .vp-code, .line-numbers {
 .VPNavBar.fill { background: transparent !important; }
 .VPNavBar .divider-line { background: rgba(74, 90, 173, 0.1) !important; }
 
-/* ── Shark Eyes + Лого ── */
-.VPNavBarTitle a {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0 !important;
-}
-
-.VPNavBarTitle a::before {
-  content: '';
-  display: inline-block;
-  width: 36px;
-  height: 24px;
-  background: url('/boombastic/shark-eyes-icon-electric.svg') no-repeat center / contain;
-  margin-right: 8px;
-  flex-shrink: 0;
-  animation: eyes-breathe 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 3px rgba(197, 249, 70, 0.3));
-}
-
-/* «00 дышат» — пульсация свечения из UI-гайда */
-@keyframes eyes-breathe {
-  0%, 100% {
-    filter: drop-shadow(0 0 2px rgba(197, 249, 70, 0.2));
-    transform: scale(1);
-  }
-  50% {
-    filter: drop-shadow(0 0 10px rgba(197, 249, 70, 0.7)) drop-shadow(0 0 20px rgba(197, 249, 70, 0.3));
-    transform: scale(1.05);
-  }
-}
-
+/* ── Лого ── */
 .VPNavBarTitle .logo {
   height: 24px !important;
   width: auto !important;
@@ -162,11 +132,6 @@ code, .vp-code, .line-numbers {
 }
 
 @media (max-width: 768px) {
-  .VPNavBarTitle a::before {
-    width: 28px;
-    height: 18px;
-    margin-right: 6px;
-  }
   .VPNavBarTitle .logo {
     height: 20px !important;
     max-width: 130px !important;
@@ -630,138 +595,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .VPNavBar .divider { display: none !important; }
 
 /* ============================================================
-   ФУТЕР — неоновые акценты
+   ФУТЕР (стили для BbFooter.vue — scoped)
    ============================================================ */
 .VPFooter { background: transparent !important; }
-
-/* Неоновый градиент-разделитель */
-.bb-footer-divider {
-  border: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--neon-cyan) 15%,
-    var(--accent-lime) 35%,
-    var(--neon-yellow) 50%,
-    var(--neon-magenta) 65%,
-    var(--neon-green) 85%,
-    transparent 100%
-  );
-  opacity: 0.4;
-  margin: 24px 0;
-}
-
-.bb-footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  align-items: center;
-}
-
-.footer-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* Футер-ссылки — glass bubbles с неоновыми hover-цветами */
-.footer-row a {
-  color: var(--text-primary) !important;
-  font-family: var(--font-heading);
-  font-weight: 600 !important;
-  font-size: 12px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 8px 20px;
-  border-radius: 12px;
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
-    linear-gradient(135deg, rgba(255,255,255,0.1), rgba(74,90,173,0.15), rgba(255,255,255,0.05)) !important;
-  background-origin: padding-box, border-box !important;
-  background-clip: padding-box, border-box !important;
-  border: 1px solid transparent !important;
-  transition: all 0.3s ease;
-}
-
-/* Каждая ссылка — свой неоновый hover */
-.footer-row a[data-neon="cyan"]:hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
-    linear-gradient(135deg, rgba(0,212,255,0.35), rgba(0,212,255,0.15)) !important;
-  color: var(--neon-cyan) !important;
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
-  transform: translateY(-1px);
-}
-
-.footer-row a[data-neon="magenta"]:hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
-    linear-gradient(135deg, rgba(255,0,128,0.35), rgba(255,0,128,0.15)) !important;
-  color: var(--neon-magenta) !important;
-  box-shadow: 0 0 15px rgba(255, 0, 128, 0.15);
-  transform: translateY(-1px);
-}
-
-.footer-row a[data-neon="yellow"]:hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
-    linear-gradient(135deg, rgba(255,214,10,0.35), rgba(255,214,10,0.15)) !important;
-  color: var(--neon-yellow) !important;
-  box-shadow: 0 0 15px rgba(255, 214, 10, 0.15);
-  transform: translateY(-1px);
-}
-
-.footer-row a[data-neon="green"]:hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
-    linear-gradient(135deg, rgba(0,255,136,0.35), rgba(0,255,136,0.15)) !important;
-  color: var(--neon-green) !important;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
-  transform: translateY(-1px);
-}
-
-.footer-row a[data-neon="lime"]:hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
-    linear-gradient(135deg, rgba(197,249,70,0.35), rgba(197,249,70,0.15)) !important;
-  color: var(--accent-lime) !important;
-  box-shadow: 0 0 15px rgba(197, 249, 70, 0.15);
-  transform: translateY(-1px);
-}
-
-/* Fallback без data-neon */
-.footer-row a:not([data-neon]):hover {
-  background-image:
-    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(40,38,90,0.75)),
-    linear-gradient(135deg, rgba(197,249,70,0.3), rgba(74,90,173,0.2), rgba(197,249,70,0.15)) !important;
-  color: var(--accent-lime) !important;
-  transform: translateY(-1px);
-}
-
-.bb-footer-info {
-  margin-top: 24px;
-  text-align: center;
-}
-
-.bb-footer-tagline {
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-family: var(--font-heading);
-  letter-spacing: 0.03em;
-}
-
-.bb-footer-copy {
-  color: var(--blue-1);
-  margin-top: 4px;
-  font-size: 13px;
-  font-family: var(--vp-font-family-mono);
-}
-
-.dot-separator { display: none !important; }
 
 /* VPNavBarExtra */
 .VPNavBarExtra .VPFlyout .VPMenu {
