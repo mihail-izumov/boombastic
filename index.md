@@ -1,5 +1,4 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
@@ -14,16 +13,31 @@ hero:
       link: /community
 
 features:
-  - title: Новый 🌲 Парк за углом
+  - icon:
+      src: /shark-eyes-icon-electric.svg
+      alt: Новый Парк за углом
+      width: 100%
+      height: 100%
+    title: Новый 🌲 Парк за углом
     details: Самара, Конноармейская, 6а
     link: /Parks/Samara/konnoarmeiskaya_6/progress
     linkText: Движение по проекту
-  - title: Мастерплан
-    details: 123
+  - icon:
+      src: /shark-eyes-icon-electric.svg
+      alt: Мастерплан
+      width: 100%
+      height: 100%
+    title: Мастерплан
+    details: Самара, Конноармейская, 6а
     link: /masterplan/overview
     linkText: В чем план
-  - title: Культура Парков
-    details: 123
+  - icon:
+      src: /shark-eyes-icon-electric.svg
+      alt: Культура Парков
+      width: 100%
+      height: 100%
+    title: Культура Парков
+    details: Самара, Конноармейская, 6а
     link: /culture/park
     linkText: Узнать Больше
 ---
