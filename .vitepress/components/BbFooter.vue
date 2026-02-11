@@ -3,8 +3,8 @@
     <hr class="bb-footer-divider" />
     <div class="bb-footer-links">
       <div class="footer-row">
-        <a href="/boombastic/contact-us">Контакт</a>
-        <a href="https://vk.com/boombastic_parks" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+        <a href="/boombastic/contact-us" data-neon="cyan">Контакт</a>
+        <a href="https://vk.com/boombastic_parks" target="_blank" rel="noopener noreferrer" data-neon="magenta">ВКонтакте</a>
       </div>
     </div>
     <div class="bb-footer-info">
@@ -27,9 +27,21 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
   padding: 0 24px 30px;
 }
 
+/* Неоновый градиент-разделитель вместо обычной линии */
 .bb-footer-divider {
   border: 0;
-  border-top: 1px solid rgba(74, 90, 173, 0.12);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #00D4FF 15%,
+    #C5F946 35%,
+    #FFD60A 50%,
+    #FF0080 65%,
+    #00FF88 85%,
+    transparent 100%
+  );
+  opacity: 0.4;
   margin: 24px 0;
 }
 
@@ -48,31 +60,70 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
   justify-content: center;
 }
 
-/* Glass bubble ссылки */
+/* Glass bubble ссылки — база */
 .footer-row a {
   color: white;
-  font-weight: 500;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   padding: 8px 20px;
-  border-radius: 20px;
+  border-radius: 12px;
   background-image:
     linear-gradient(135deg, rgba(28, 26, 62, 0.85), rgba(34, 32, 80, 0.8)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(74, 90, 173, 0.2), rgba(255, 255, 255, 0.06));
+    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(74, 90, 173, 0.15), rgba(255, 255, 255, 0.05));
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   border: 1px solid transparent;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: all 0.3s ease;
-  font-size: 14px;
 }
 
-.footer-row a:hover {
+/* Неоновые hover по data-neon атрибуту */
+.footer-row a[data-neon="cyan"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(0,212,255,0.35), rgba(0,212,255,0.15));
+  color: #00D4FF;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="magenta"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(255,0,128,0.35), rgba(255,0,128,0.15));
+  color: #FF0080;
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="yellow"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(255,214,10,0.35), rgba(255,214,10,0.15));
+  color: #FFD60A;
+  box-shadow: 0 0 15px rgba(255, 214, 10, 0.15);
+  transform: translateY(-1px);
+}
+
+.footer-row a[data-neon="green"]:hover {
+  background-image:
+    linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
+    linear-gradient(135deg, rgba(0,255,136,0.35), rgba(0,255,136,0.15));
+  color: #00FF88;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Fallback если нет data-neon */
+.footer-row a:not([data-neon]):hover {
   background-image:
     linear-gradient(135deg, rgba(28, 26, 62, 0.8), rgba(40, 38, 90, 0.75)),
     linear-gradient(135deg, rgba(197, 249, 70, 0.3), rgba(74, 90, 173, 0.2), rgba(197, 249, 70, 0.15));
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
   color: #C5F946;
   transform: translateY(-1px);
 }
@@ -83,14 +134,17 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 .bb-footer-tagline {
-  color: #5a68b8;
-  font-size: 14px;
+  color: #7A8BA8;
+  font-size: 13px;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  letter-spacing: 0.03em;
 }
 
 .bb-footer-copy {
   color: #4a5aad;
   margin-top: 4px;
-  font-size: 14px;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 @media (max-width: 768px) {
