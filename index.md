@@ -16,8 +16,8 @@ features:
   - icon:
       src: /shark-eyes-icon-electric.svg
       alt: Новый Парк за углом
-      width: 50%
-      height: 50%
+      width: 100%
+      height: 100%
     title: Новый 🌲 Парк за углом
     details: Самара, Конноармейская, 6а
     link: /Parks/Samara/konnoarmeiskaya_6/progress
