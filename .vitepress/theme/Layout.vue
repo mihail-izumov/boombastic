@@ -16,10 +16,24 @@
   
   <!-- Модальное окно -->
   <SignalModalButton />
+
+  <!-- Прелоадер: shark eyes при переходе между страницами -->
+  <Teleport to="body">
+    <Transition name="preloader-fade">
+      <div v-if="showPreloader" class="bb-preloader">
+        <img 
+          src="/boombastic/shark-eyes-icon-electric.svg" 
+          alt="" 
+          class="bb-preloader-eyes"
+          aria-hidden="true"
+        />
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
-import { computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useData, useRouter } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import NotificationSlider from './NotificationSlider.vue'
@@ -41,6 +55,10 @@ watch(shouldShowBanner, (newVal) => {
     document.body.classList.toggle('has-banner', newVal)
   }
 }, { immediate: true })
+
+// ── Прелоадер ──
+const showPreloader = ref(false)
+let preloaderTimeout = null
 
 // ── Навбар: glassmorphism при скролле ──
 let onScroll = null
@@ -64,7 +82,6 @@ onMounted(() => {
   setupMobileSignalButton()
 
   const observer = new MutationObserver(() => {
-    // Переинжектим shark eyes если VitePress пересоздал навбар
     injectSharkEyes()
     if (window.innerWidth <= 768) {
       setupMobileSignalButton()
@@ -72,8 +89,22 @@ onMounted(() => {
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
+  // ── Прелоадер при смене маршрута ──
+  router.onBeforeRouteChange = () => {
+    showPreloader.value = true
+    // Подстраховка: убрать через 1.5s если что-то застряло
+    clearTimeout(preloaderTimeout)
+    preloaderTimeout = setTimeout(() => { showPreloader.value = false }, 1500)
+  }
+
   router.onAfterRouteChanged = () => {
+    // Даём контенту отрисоваться, потом убираем прелоадер
     nextTick(() => {
+      setTimeout(() => {
+        showPreloader.value = false
+        clearTimeout(preloaderTimeout)
+      }, 300)
+
       const nb = document.querySelector('.VPNavBar')
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
@@ -88,23 +119,34 @@ onUnmounted(() => {
   if (onScroll) {
     window.removeEventListener('scroll', onScroll)
   }
+  clearTimeout(preloaderTimeout)
 })
 
 // ── Shark Eyes: вставляем SVG-иконку перед логотипом ──
 function injectSharkEyes() {
   if (typeof document === 'undefined') return
 
+  // Десктоп навбар
   const titleLink = document.querySelector('.VPNavBarTitle a')
-  if (!titleLink || titleLink.querySelector('.shark-eyes')) return
+  if (titleLink && !titleLink.querySelector('.shark-eyes')) {
+    const eyes = document.createElement('img')
+    eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
+    eyes.alt = ''
+    eyes.className = 'shark-eyes'
+    eyes.setAttribute('aria-hidden', 'true')
+    titleLink.insertBefore(eyes, titleLink.firstChild)
+  }
 
-  const eyes = document.createElement('img')
-  eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
-  eyes.alt = ''
-  eyes.className = 'shark-eyes'
-  eyes.setAttribute('aria-hidden', 'true')
-
-  // Вставляем перед первым дочерним элементом (логотипом)
-  titleLink.insertBefore(eyes, titleLink.firstChild)
+  // Сайдбар лого (на страницах с sidebar)
+  const sidebarTitle = document.querySelector('.VPSidebar .VPNavBarTitle a')
+  if (sidebarTitle && !sidebarTitle.querySelector('.shark-eyes')) {
+    const eyes2 = document.createElement('img')
+    eyes2.src = '/boombastic/shark-eyes-icon-electric.svg'
+    eyes2.alt = ''
+    eyes2.className = 'shark-eyes'
+    eyes2.setAttribute('aria-hidden', 'true')
+    sidebarTitle.insertBefore(eyes2, sidebarTitle.firstChild)
+  }
 }
 
 // ── Мобильная кнопка «Сигнал» ──
@@ -178,16 +220,16 @@ body.has-banner .VPDoc {
   border-radius: 5px;
 }
 
-/* ── Shark Eyes иконка ── */
+/* ── Shark Eyes иконка (одинаковый размер везде) ── */
 .VPNavBarTitle a {
   display: flex !important;
   align-items: center !important;
 }
 
 .shark-eyes {
-  width: 36px;
-  height: 24px;
-  margin-right: 8px;
+  width: 32px;
+  height: 22px;
+  margin-right: 6px;
   flex-shrink: 0;
   object-fit: contain;
   animation: eyes-breathe 4s ease-in-out infinite;
@@ -206,11 +248,59 @@ body.has-banner .VPDoc {
   }
 }
 
+/* ── Прелоадер: вход в игру ── */
+.bb-preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  background: rgba(28, 26, 62, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bb-preloader-eyes {
+  width: 80px;
+  height: 54px;
+  object-fit: contain;
+  animation: preloader-pulse 0.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 15px rgba(197, 249, 70, 0.6))
+         drop-shadow(0 0 30px rgba(197, 249, 70, 0.3));
+}
+
+@keyframes preloader-pulse {
+  0% {
+    transform: scale(0.9);
+    filter: drop-shadow(0 0 10px rgba(197, 249, 70, 0.4))
+           drop-shadow(0 0 20px rgba(197, 249, 70, 0.2));
+  }
+  100% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 25px rgba(197, 249, 70, 0.8))
+           drop-shadow(0 0 50px rgba(197, 249, 70, 0.4));
+  }
+}
+
+.preloader-fade-enter-active { transition: opacity 0.15s ease; }
+.preloader-fade-leave-active { transition: opacity 0.3s ease; }
+.preloader-fade-enter-from,
+.preloader-fade-leave-to { opacity: 0; }
+
 @media (max-width: 768px) {
   .shark-eyes {
-    width: 28px;
+    width: 26px;
     height: 18px;
-    margin-right: 6px;
+    margin-right: 5px;
+  }
+
+  .bb-preloader-eyes {
+    width: 60px;
+    height: 40px;
   }
 
   .notification-container {
