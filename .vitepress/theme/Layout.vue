@@ -57,10 +57,15 @@ onMounted(() => {
     onScroll()
   }
 
+  // ── Shark Eyes рядом с лого ──
+  injectSharkEyes()
+
   // ── Мобильная кнопка «Отправить Сигнал» ──
   setupMobileSignalButton()
 
   const observer = new MutationObserver(() => {
+    // Переинжектим shark eyes если VitePress пересоздал навбар
+    injectSharkEyes()
     if (window.innerWidth <= 768) {
       setupMobileSignalButton()
     }
@@ -71,6 +76,7 @@ onMounted(() => {
     nextTick(() => {
       const nb = document.querySelector('.VPNavBar')
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
+      injectSharkEyes()
     })
     if (window.innerWidth <= 768) {
       setTimeout(setupMobileSignalButton, 300)
@@ -83,6 +89,23 @@ onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
   }
 })
+
+// ── Shark Eyes: вставляем SVG-иконку перед логотипом ──
+function injectSharkEyes() {
+  if (typeof document === 'undefined') return
+
+  const titleLink = document.querySelector('.VPNavBarTitle a')
+  if (!titleLink || titleLink.querySelector('.shark-eyes')) return
+
+  const eyes = document.createElement('img')
+  eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
+  eyes.alt = ''
+  eyes.className = 'shark-eyes'
+  eyes.setAttribute('aria-hidden', 'true')
+
+  // Вставляем перед первым дочерним элементом (логотипом)
+  titleLink.insertBefore(eyes, titleLink.firstChild)
+}
 
 // ── Мобильная кнопка «Сигнал» ──
 function setupMobileSignalButton() {
@@ -155,7 +178,41 @@ body.has-banner .VPDoc {
   border-radius: 5px;
 }
 
+/* ── Shark Eyes иконка ── */
+.VPNavBarTitle a {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.shark-eyes {
+  width: 36px;
+  height: 24px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  object-fit: contain;
+  animation: eyes-breathe 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(197, 249, 70, 0.3));
+}
+
+@keyframes eyes-breathe {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(197, 249, 70, 0.2));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(197, 249, 70, 0.7))
+           drop-shadow(0 0 20px rgba(197, 249, 70, 0.3));
+    transform: scale(1.05);
+  }
+}
+
 @media (max-width: 768px) {
+  .shark-eyes {
+    width: 28px;
+    height: 18px;
+    margin-right: 6px;
+  }
+
   .notification-container {
     max-width: 100%;
     margin: 12px 0 36px 0;
