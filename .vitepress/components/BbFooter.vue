@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="bb-footer-info">
-      <div class="bb-footer-tagline">Игровые парки для детей и их родителей</div>
-      <div class="bb-footer-copy">© БумБастик 2025</div>
+      <div class="bb-footer-tagline">Сделано игроками для игроков</div>
+      <div class="bb-footer-copy">© БумБастик 2026</div>
     </div>
   </footer>
 </template>
