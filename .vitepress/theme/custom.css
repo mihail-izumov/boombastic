@@ -124,7 +124,18 @@ code, .vp-code, .line-numbers {
 .VPNavBar.has-sidebar { background: transparent !important; }
 .VPNavBar.fill { background: transparent !important; }
 .VPNavBar .divider-line { background: rgba(74, 90, 173, 0.1) !important; }
-.VPNavBarTitle .logo { height: 32px !important; width: auto !important; }
+/* Лого — SVG-логотип «БУМБАСТИК» */
+.VPNavBarTitle .logo {
+  height: 24px !important;
+  width: auto !important;
+  max-width: 160px !important;
+}
+@media (max-width: 768px) {
+  .VPNavBarTitle .logo {
+    height: 20px !important;
+    max-width: 130px !important;
+  }
+}
 
 /* ============================================================
    НАВИГАЦИЯ ДЕСКТОП
