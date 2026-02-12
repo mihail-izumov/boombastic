@@ -1,33 +1,40 @@
 <template>
-  <DefaultLayout>
-    <template #doc-before>
-      <div v-if="shouldShowBanner" class="notification-container">
-        <NotificationSlider v-if="frontmatter.notification === 'brew'" />
-        <NotificationsClients v-if="frontmatter.notification === 'clients'" />
-        <GeneralNotification v-else />
-      </div>
-    </template>
+  <!-- B00M homepage — свой layout без VitePress обёртки -->
+  <div v-if="isBoomHome">
+    <HomePage />
+  </div>
 
-    <template #layout-bottom>
-      <BbFooter />
-    </template>
-  </DefaultLayout>
-  
-  <SignalModalButton />
+  <!-- Все остальные страницы — без изменений -->
+  <template v-else>
+    <DefaultLayout>
+      <template #doc-before>
+        <div v-if="shouldShowBanner" class="notification-container">
+          <NotificationSlider v-if="frontmatter.notification === 'brew'" />
+          <NotificationsClients v-if="frontmatter.notification === 'clients'" />
+          <GeneralNotification v-else />
+        </div>
+      </template>
 
-  <!-- Прелоадер: shark eyes при переходе -->
-  <Teleport to="body">
-    <Transition name="preloader-fade">
-      <div v-if="showPreloader" class="bb-preloader">
-        <img 
-          src="/shark-eyes-icon-electric.svg" 
-          alt="" 
-          class="bb-preloader-eyes"
-          aria-hidden="true"
-        />
-      </div>
-    </Transition>
-  </Teleport>
+      <template #layout-bottom>
+        <BbFooter />
+      </template>
+    </DefaultLayout>
+    
+    <SignalModalButton />
+
+    <Teleport to="body">
+      <Transition name="preloader-fade">
+        <div v-if="showPreloader" class="bb-preloader">
+          <img 
+            src="/shark-eyes-icon-electric.svg" 
+            alt="" 
+            class="bb-preloader-eyes"
+            aria-hidden="true"
+          />
+        </div>
+      </Transition>
+    </Teleport>
+  </template>
 </template>
 
 <script setup>
@@ -40,9 +47,15 @@ import NotificationsClients from './NotificationsClients.vue'
 import SignalModalButton from '../components/SignalModalButton.vue'
 import BbFooter from '../components/BbFooter.vue'
 
+// ── НОВОЕ: импорт HomePage ──
+import HomePage from './components/HomePage.vue'
+
 const DefaultLayout = DefaultTheme.Layout
 const { frontmatter } = useData()
 const router = useRouter()
+
+// ── НОВОЕ: проверка layout ──
+const isBoomHome = computed(() => frontmatter.value.layout === 'boom-home')
 
 const shouldShowBanner = computed(() => 
   ['brew', 'general', 'clients'].includes(frontmatter.value?.notification)
@@ -54,7 +67,6 @@ watch(shouldShowBanner, (newVal) => {
   }
 }, { immediate: true })
 
-// ── Прелоадер с минимальным временем показа ──
 const showPreloader = ref(false)
 let preloaderTimeout = null
 let preloaderStart = 0
@@ -83,12 +95,10 @@ onMounted(() => {
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
-  // Прелоадер: показываем минимум PRELOADER_MIN_MS
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
     preloaderStart = Date.now()
     clearTimeout(preloaderTimeout)
-    // Подстраховка
     preloaderTimeout = setTimeout(() => { showPreloader.value = false }, 2000)
   }
 
@@ -200,7 +210,6 @@ body.has-banner .VPDoc {
   border-radius: 5px;
 }
 
-/* ── Shark Eyes иконка ── */
 .VPNavBarTitle a {
   display: flex !important;
   align-items: center !important;
@@ -228,74 +237,39 @@ body.has-banner .VPDoc {
   }
 }
 
-/* ── Прелоадер ── */
 .bb-preloader {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   z-index: 9998;
   background: #1c1a3e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
 }
 
 .bb-preloader-eyes {
-  width: 72px;
-  height: 48px;
-  object-fit: contain;
+  width: 72px; height: 48px; object-fit: contain;
   animation: preloader-pulse 0.5s ease-in-out infinite alternate;
 }
 
 @keyframes preloader-pulse {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
+  0% { transform: scale(0.92); opacity: 0.7; }
+  100% { transform: scale(1.08); opacity: 1; }
 }
 
-/* Fade: быстро появляется, плавно уходит */
 .preloader-fade-enter-active { transition: opacity 0.1s ease; }
 .preloader-fade-leave-active { transition: opacity 0.35s ease; }
 .preloader-fade-enter-from,
 .preloader-fade-leave-to { opacity: 0; }
 
 @media (max-width: 768px) {
-  .shark-eyes {
-    width: 24px;
-    height: 16px;
-    margin-right: 4px;
-  }
-
-  .bb-preloader-eyes {
-    width: 56px;
-    height: 38px;
-  }
-
-  .notification-container {
-    max-width: 100%;
-    margin: 12px 0 36px 0;
-    height: 72px;
-  }
+  .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
+  .bb-preloader-eyes { width: 56px; height: 38px; }
+  .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
-
-  .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after {
-    pointer-events: none !important;
-  }
+  .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after { pointer-events: none !important; }
 }
 
 @media (max-width: 960px) and (min-width: 769px) {
-  .notification-container {
-    max-width: calc(100% - 24px);
-    margin: 14px 12px 42px 12px;
-    height: 58px;
-  }
+  .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
 }
 </style>
