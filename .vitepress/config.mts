@@ -104,7 +104,7 @@ export default defineConfig({
     `],
   ],
 
-  base: '/boombastic/',
+  base: '/',
   cleanUrls: true,
   outDir: '.vitepress/dist',
   description: 'Игровые парки для детей и их родителей.',
