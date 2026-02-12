@@ -1,5 +1,7 @@
 ---
-layout: boom-home
+layout: page
 title: b00m.fun — Аркадные парки БумБастик
 description: Аркадные парки нового уровня в Самаре. Автоматы, призы, B00M!-карты.
 ---
+
+<HomePage />
