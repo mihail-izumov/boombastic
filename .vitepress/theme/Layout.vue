@@ -48,7 +48,7 @@ import SignalModalButton from '../components/SignalModalButton.vue'
 import BbFooter from '../components/BbFooter.vue'
 
 // ── НОВОЕ: импорт HomePage ──
-import HomePage from './components/HomePage.vue'
+import HomePage from '../components/HomePage.vue'
 
 const DefaultLayout = DefaultTheme.Layout
 const { frontmatter } = useData()
