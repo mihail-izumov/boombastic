@@ -1,14 +1,13 @@
 <script setup>
 import { useData } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
-import HomePage from './HomePage.vue'
 
-const { frontmatter } = useData()
-
-const VPLayout = DefaultTheme.Layout
+const { frontmatter, page } = useData()
 </script>
 
 <template>
-  <HomePage v-if="frontmatter.layout === 'boom-home'" />
-  <VPLayout v-else />
+  <div style="background: red; color: white; padding: 40px; font-size: 20px; min-height: 100vh">
+    <p>LAYOUT РАБОТАЕТ!</p>
+    <p>frontmatter.layout = "{{ frontmatter.layout }}"</p>
+    <p>page.relativePath = "{{ page.relativePath }}"</p>
+  </div>
 </template>
