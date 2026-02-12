@@ -4,6 +4,6 @@ import HomeLayout from './components/HomeLayout.vue'
 import './boom-styles.css'
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout: HomeLayout,
 }
