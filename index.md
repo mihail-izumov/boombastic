@@ -1,6 +1,6 @@
 ---
-layout: boom-home
-hero:
-  name: "ТЕСТ"
-  text: "Если видишь это — тема работает"
+layout: home
+boomHome: true
+title: b00m.fun — Аркадные парки БумБастик
+description: Аркадные парки нового уровня в Самаре. Автоматы, призы, B00M!-карты.
 ---
