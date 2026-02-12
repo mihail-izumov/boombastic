@@ -1,40 +1,39 @@
 <template>
-  <!-- B00M homepage — свой layout без VitePress обёртки -->
-  <div v-if="isBoomHome">
-    <HomePage />
-  </div>
+  <DefaultLayout>
+    <!-- B00M homepage: вставляем через слот home-hero-before -->
+    <template #home-hero-before>
+      <HomePage v-if="isBoomHome" />
+    </template>
 
-  <!-- Все остальные страницы — без изменений -->
-  <template v-else>
-    <DefaultLayout>
-      <template #doc-before>
-        <div v-if="shouldShowBanner" class="notification-container">
-          <NotificationSlider v-if="frontmatter.notification === 'brew'" />
-          <NotificationsClients v-if="frontmatter.notification === 'clients'" />
-          <GeneralNotification v-else />
-        </div>
-      </template>
+    <!-- Обычные страницы: баннер -->
+    <template #doc-before>
+      <div v-if="shouldShowBanner && !isBoomHome" class="notification-container">
+        <NotificationSlider v-if="frontmatter.notification === 'brew'" />
+        <NotificationsClients v-if="frontmatter.notification === 'clients'" />
+        <GeneralNotification v-else />
+      </div>
+    </template>
 
-      <template #layout-bottom>
-        <BbFooter />
-      </template>
-    </DefaultLayout>
-    
-    <SignalModalButton />
+    <template #layout-bottom>
+      <BbFooter />
+    </template>
+  </DefaultLayout>
+  
+  <SignalModalButton v-if="!isBoomHome" />
 
-    <Teleport to="body">
-      <Transition name="preloader-fade">
-        <div v-if="showPreloader" class="bb-preloader">
-          <img 
-            src="/shark-eyes-icon-electric.svg" 
-            alt="" 
-            class="bb-preloader-eyes"
-            aria-hidden="true"
-          />
-        </div>
-      </Transition>
-    </Teleport>
-  </template>
+  <!-- Прелоадер -->
+  <Teleport to="body">
+    <Transition name="preloader-fade">
+      <div v-if="showPreloader" class="bb-preloader">
+        <img 
+          src="/shark-eyes-icon-electric.svg" 
+          alt="" 
+          class="bb-preloader-eyes"
+          aria-hidden="true"
+        />
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
@@ -46,16 +45,14 @@ import GeneralNotification from './GeneralNotification.vue'
 import NotificationsClients from './NotificationsClients.vue'  
 import SignalModalButton from '../components/SignalModalButton.vue'
 import BbFooter from '../components/BbFooter.vue'
-
-// ── НОВОЕ: импорт HomePage ──
 import HomePage from '../components/HomePage.vue'
 
 const DefaultLayout = DefaultTheme.Layout
 const { frontmatter } = useData()
 const router = useRouter()
 
-// ── НОВОЕ: проверка layout ──
-const isBoomHome = computed(() => frontmatter.value.layout === 'boom-home')
+// ── B00M Home: определяем по флагу в frontmatter ──
+const isBoomHome = computed(() => frontmatter.value.boomHome === true)
 
 const shouldShowBanner = computed(() => 
   ['brew', 'general', 'clients'].includes(frontmatter.value?.notification)
@@ -64,6 +61,13 @@ const shouldShowBanner = computed(() =>
 watch(shouldShowBanner, (newVal) => {
   if (typeof document !== 'undefined') {
     document.body.classList.toggle('has-banner', newVal)
+  }
+}, { immediate: true })
+
+// ── Добавляем/убираем класс для CSS-скрытия дефолтного контента ──
+watch(isBoomHome, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.classList.toggle('boom-home-active', val)
   }
 }, { immediate: true })
 
@@ -183,6 +187,21 @@ function setupMobileSignalButton() {
 </script>
 
 <style>
+/* ── Скрываем дефолтный VitePress home-контент когда наша страница активна ── */
+body.boom-home-active .VPHome .VPHomeHero .container {
+  display: none !important;
+}
+body.boom-home-active .VPHome .VPHomeFeatures {
+  display: none !important;
+}
+body.boom-home-active .VPHome {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+body.boom-home-active .VPContent.is-home {
+  padding: 0 !important;
+}
+
 .notification-container {
   max-width: 688px;
   width: 100%;
