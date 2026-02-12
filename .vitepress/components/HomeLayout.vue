@@ -1,16 +1,17 @@
 <script setup>
+import { computed } from 'vue'
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import HomePage from './HomePage.vue'
 
 const { frontmatter } = useData()
+const isHome = computed(() => frontmatter.value.layout === 'boom-home')
+
+// Получаем компонент Layout из дефолтной темы
+const DefaultLayout = DefaultTheme.Layout
 </script>
 
 <template>
-  <!-- Если в index.md стоит layout: boom-home → наша страница -->
-  <div v-if="frontmatter.layout === 'boom-home'" class="boom-home-layout">
-    <HomePage />
-  </div>
-  <!-- Иначе — стандартный VitePress (для других страниц) -->
-  <DefaultTheme.Layout v-else />
+  <HomePage v-if="isHome" />
+  <DefaultLayout v-else />
 </template>
