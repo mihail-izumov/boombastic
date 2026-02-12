@@ -1,0 +1,141 @@
+/* ══════════════════════════════════════
+   B00M.FUN — CSS Variables & Keyframes
+   ══════════════════════════════════════ */
+
+:root {
+  /* Фоны */
+  --bg-deep: #1c1a3e;
+  --bg-card: #222050;
+  --bg-night: #0D1421;
+  --bg-black: #0A0A0A;
+
+  /* Лайм — главный акцент */
+  --lime: #C5F946;
+  --lime-dim: #85a931;
+  --lime-soft: rgba(197, 249, 70, 0.15);
+
+  /* Неоны */
+  --cyan: #00D4FF;
+  --magenta: #FF0080;
+  --yellow: #FFD60A;
+  --orange: #FF6B00;
+  --green: #00FF88;
+
+  /* Синие (структурные) */
+  --blue-1: #4a5aad;
+  --blue-2: #3d47a0;
+  --blue-3: #6a78c8;
+
+  /* Текст */
+  --text-pri: #F0F4FF;
+  --text-sec: #7A8BA8;
+
+  /* Шрифты */
+  --font-head: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ── Layout ── */
+.boom-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.boom-section {
+  padding: 80px 0;
+}
+
+.boom-page {
+  background: var(--bg-deep);
+  min-height: 100vh;
+  color: var(--text-pri);
+  overflow-x: hidden;
+}
+
+/* ── Neon Line ── */
+.neon-line {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.neon-line-inner {
+  height: 1px;
+  opacity: 0.3;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--cyan) 15%,
+    var(--lime) 35%,
+    var(--yellow) 50%,
+    var(--magenta) 65%,
+    var(--green) 85%,
+    transparent
+  );
+}
+
+/* ── Scrollbar Hide ── */
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ── Keyframes ── */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+@keyframes boomRing {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+@keyframes phoneBreathe {
+  0%, 100% {
+    border-color: rgba(255, 0, 128, 0.15);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 20px rgba(255,0,128,0.03);
+  }
+  50% {
+    border-color: rgba(255, 0, 128, 0.45);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 60px rgba(255,0,128,0.18);
+  }
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 3px var(--green); }
+  50% { box-shadow: 0 0 14px var(--green), 0 0 24px rgba(0,255,136,0.4); }
+}
+@keyframes ticketGlow {
+  0%, 100% { border-color: rgba(255,0,128,0.12); box-shadow: none; }
+  50% { border-color: rgba(255,0,128,0.45); box-shadow: 0 0 20px rgba(255,0,128,0.18), inset 0 0 14px rgba(255,0,128,0.1); }
+}
+@keyframes bonusGlow {
+  0%, 100% { border-color: rgba(0,212,255,0.12); box-shadow: none; }
+  50% { border-color: rgba(0,212,255,0.4); box-shadow: 0 0 20px rgba(0,212,255,0.15), inset 0 0 14px rgba(0,212,255,0.08); }
+}
+@keyframes progressPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(255,0,128,0.3); }
+  50% { box-shadow: 0 0 24px rgba(255,0,128,0.8), 0 0 48px rgba(255,0,128,0.25); }
+}
+@keyframes progressStripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 0; }
+}
+@keyframes statusShine {
+  0%, 100% { text-shadow: 0 0 4px rgba(255,214,10,0.3); }
+  50% { text-shadow: 0 0 14px rgba(255,214,10,0.9), 0 0 28px rgba(255,214,10,0.4); }
+}
+
+/* ── Force dark mode on VitePress ── */
+.dark .VPContent,
+.dark .VPDoc {
+  background: var(--bg-deep) !important;
+}
+
+/* ── Hide default VitePress elements on home page ── */
+.boom-home-layout .VPNav,
+.boom-home-layout .VPSidebar,
+.boom-home-layout .VPFooter,
+.boom-home-layout .VPDoc {
+  display: none !important;
+}
