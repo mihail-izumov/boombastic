@@ -4,8 +4,8 @@ import ParkCard from './ParkCard.vue'
 
 const cards = [
   { id: 1, title: 'Парки рядом', desc: '3 локации в Самаре с атмосферой нео-аркады', link: 'НАЙТИ ПАРК', color: '#00D4FF', badge: '3 ПАРКА', icon: 'atom' },
-  { id: 2, title: 'Автоматы и игры', desc: 'Аэрохоккей, гонки, баскетбол и кран-машины', link: 'ВСЕ АВТОМАТЫ', color: '#FF0080', badge: '400+ АРКАД', icon: 'joystick' },
-  { id: 3, title: 'Призы на выбор', desc: 'От брелоков до Razer — заработай своё', link: 'КАТАЛОГ ПРИЗОВ', color: '#FFD60A', badge: '800+ ПРИЗОВ', icon: 'gem' },
+  { id: 2, title: 'Автоматы и игры', desc: 'Аэрохоккей, гонки, баскетбол и кран-машины', link: 'ВСЕ АВТОМАТЫ', color: '#FF0080', badge: '400+АРКАД', icon: 'joystick' },
+  { id: 3, title: 'Призы на выбор', desc: 'От брелоков до Razer — заработай своё', link: 'КАТАЛОГ ПРИЗОВ', color: '#FFD60A', badge: '800+ПРИЗОВ', icon: 'gem' },
 ]
 </script>
 
@@ -22,6 +22,7 @@ const cards = [
       <div class="boom-slider" style="display: flex; flex-direction: row; flex-wrap: nowrap; gap: 20px; overflow-x: auto; padding: 8px 0 16px">
         <ParkCard v-for="card in cards" :key="card.id" :card="card" :index="card.id - 1" />
       </div>
+      <div class="swipe-hint"><span class="swipe-hint-hand">👆</span> листай</div>
     </div>
   </section>
 </template>

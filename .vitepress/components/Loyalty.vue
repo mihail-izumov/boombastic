@@ -11,12 +11,18 @@ function rgba(hex, a) {
 }
 
 const levels = [
-  { name: 'СТАНДАРТ', color: '#7a7aad', borderC: 'rgba(122,122,173,0.3)', gradient: 'linear-gradient(165deg,#2a2a50,#201e40)', desc: 'Новый гость', perks: ['B00M!-карта бесплатно', 'Базовые призы', 'Копи тикеты'] },
-  { name: 'СЕРЕБРО', color: '#00D4FF', borderC: 'rgba(0,212,255,0.3)', gradient: 'linear-gradient(165deg,#1a2a4a,#101e38)', desc: 'Система заметила', perks: ['+10% к тикетам', 'Ранний доступ к призам', 'Бонусные заряды'] },
-  { name: 'ЗОЛОТО', color: '#FFD60A', borderC: 'rgba(255,214,10,0.3)', gradient: 'linear-gradient(165deg,#2a2510,#1e1c0a)', desc: 'Оба глаза на тебе', perks: ['+25% к тикетам', 'VIP-доступ', 'Эксклюзивные призы'] },
+  { name: 'СТАНДАРТ', color: '#C5F946', borderC: 'rgba(197,249,70,0.3)', gradient: 'linear-gradient(165deg,#222840,#1c2235)', desc: 'Новый гость', perks: ['B00M!-карта бесплатно', 'Базовые призы', 'Копи тикеты'], hasBtn: true },
+  { name: 'СЕРЕБРО', color: '#00D4FF', borderC: 'rgba(0,212,255,0.3)', gradient: 'linear-gradient(165deg,#1a2a4a,#101e38)', desc: 'Система заметила', perks: ['+10% к тикетам', 'Ранний доступ к призам', 'Бонусные заряды'], hasBtn: false },
+  { name: 'ЗОЛОТО', color: '#FF0080', borderC: 'rgba(255,0,128,0.3)', gradient: 'linear-gradient(165deg,#2a1a2a,#1e0e1e)', desc: 'Оба глаза на тебе', perks: ['+25% к тикетам', 'VIP-доступ', 'Эксклюзивные призы'], hasBtn: false },
 ]
 
 const hoveredCard = ref(-1)
+
+function openModal() {
+  if (typeof window !== 'undefined' && window.openLoginModal) {
+    window.openLoginModal()
+  }
+}
 </script>
 
 <template>
@@ -36,41 +42,63 @@ const hoveredCard = ref(-1)
 
     <div class="boom-wrap">
       <div class="loyalty-grid">
-        <div
-          v-for="(lvl, i) in levels"
-          :key="i"
-          class="loyalty-card boom-card-hover"
-          @mouseenter="hoveredCard = i"
-          @mouseleave="hoveredCard = -1"
-          :style="{
-            borderRadius: '14px',
-            position: 'relative', overflow: 'hidden',
-            border: `1.5px solid ${hoveredCard === i ? lvl.color : lvl.borderC}`,
-            background: lvl.gradient,
-            opacity: visible ? 1 : 0,
-            boxShadow: hoveredCard === i ? `0 10px 30px ${rgba(lvl.color, 0.12)}` : 'none',
-            transition: `transform 0.4s ease ${i * 0.1}s, opacity 0.5s ease ${i * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
-          }"
-        >
-          <div :style="{ padding: '24px 22px 16px', textAlign: 'center', borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`, position: 'relative' }">
-            <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hoveredCard === i ? 0.07 : 0.03, transition: 'opacity 0.3s' }">
-              <defs><pattern :id="'lg' + i" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" :stroke="lvl.color" stroke-width="0.4" /></pattern></defs>
-              <rect width="100%" height="100%" :fill="'url(#lg' + i + ')'" />
-            </svg>
-            <div :style="{ display: 'inline-block', padding: '6px 24px', borderRadius: '5px', background: `linear-gradient(180deg, ${rgba(lvl.color, 0.2)}, ${rgba(lvl.color, 0.05)})`, border: `1px solid ${rgba(lvl.color, 0.3)}`, position: 'relative' }">
-              <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: lvl.color, letterSpacing: '0.1em' }">{{ lvl.name }}</span>
+        <template v-for="(lvl, i) in levels" :key="i">
+          <!-- Card -->
+          <div
+            class="loyalty-card boom-card-hover"
+            @mouseenter="hoveredCard = i"
+            @mouseleave="hoveredCard = -1"
+            :style="{
+              borderRadius: '14px', position: 'relative', overflow: 'hidden',
+              border: `1.5px solid ${hoveredCard === i ? lvl.color : lvl.borderC}`,
+              background: lvl.gradient,
+              opacity: visible ? 1 : 0,
+              boxShadow: hoveredCard === i ? `0 10px 30px ${rgba(lvl.color, 0.12)}` : 'none',
+              transition: `transform 0.4s ease ${i * 0.1}s, opacity 0.5s ease ${i * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
+            }"
+          >
+            <!-- Header -->
+            <div :style="{ padding: '24px 22px 16px', textAlign: 'center', borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`, position: 'relative' }">
+              <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hoveredCard === i ? 0.07 : 0.03, transition: 'opacity 0.3s' }">
+                <defs><pattern :id="'lg' + i" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" :stroke="lvl.color" stroke-width="0.4" /></pattern></defs>
+                <rect width="100%" height="100%" :fill="'url(#lg' + i + ')'" />
+              </svg>
+              <div :style="{ display: 'inline-block', padding: '6px 24px', borderRadius: '5px', background: `linear-gradient(180deg, ${rgba(lvl.color, 0.2)}, ${rgba(lvl.color, 0.05)})`, border: `1px solid ${rgba(lvl.color, 0.3)}`, position: 'relative' }">
+                <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: lvl.color, letterSpacing: '0.1em' }">{{ lvl.name }}</span>
+              </div>
+              <div :style="{ fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600, color: 'var(--text-pri)', marginTop: '10px', position: 'relative' }">{{ lvl.desc }}</div>
             </div>
-            <div :style="{ fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600, color: lvl.name === 'ЗОЛОТО' ? '#FFD60A' : 'var(--text-pri)', marginTop: '10px', position: 'relative' }">{{ lvl.desc }}</div>
-          </div>
-          <div style="padding: 16px 22px 22px">
-            <div v-for="(p, j) in lvl.perks" :key="j" :style="{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: j < lvl.perks.length - 1 ? '10px' : '18px' }">
-              <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
-              <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-pri)">{{ p }}</span>
+            <!-- Perks -->
+            <div style="padding: 16px 22px 22px">
+              <div v-for="(p, j) in lvl.perks" :key="j" :style="{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: j < lvl.perks.length - 1 ? '10px' : '18px' }">
+                <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
+                <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-pri)">{{ p }}</span>
+              </div>
+              <!-- Button only for СТАНДАРТ -->
+              <div v-if="lvl.hasBtn"
+                @click="openModal"
+                :style="{
+                  padding: '9px 0', borderRadius: '7px', textAlign: 'center',
+                  border: `1px solid ${rgba(lvl.color, hoveredCard === i ? 0.5 : 0.25)}`,
+                  background: rgba(lvl.color, hoveredCard === i ? 0.12 : 0.05),
+                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  color: lvl.color, letterSpacing: '0.04em', transition: 'all 0.3s', cursor: 'pointer',
+                }"
+              >Получить карту</div>
+              <!-- Locked indicator for СЕРЕБРО and ЗОЛОТО -->
+              <div v-else :style="{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', color: rgba(lvl.color, 0.4), letterSpacing: '0.08em' }">
+                Накопительная система
+              </div>
             </div>
-            <div :style="{ padding: '9px 0', borderRadius: '7px', textAlign: 'center', border: `1px solid ${rgba(lvl.color, hoveredCard === i ? 0.5 : 0.25)}`, background: rgba(lvl.color, hoveredCard === i ? 0.12 : 0.05), fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: lvl.color, letterSpacing: '0.04em', transition: 'all 0.3s', cursor: 'pointer' }">Получить карту</div>
           </div>
-        </div>
+
+          <!-- Arrow between cards (desktop only) -->
+          <div v-if="i < 2" class="loyalty-arrow" :style="{ opacity: visible ? 0.5 : 0, transition: `opacity 0.5s ease ${0.3 + i * 0.1}s` }">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--text-sec)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        </template>
       </div>
+      <div class="swipe-hint"><span class="swipe-hint-hand">👆</span> листай</div>
     </div>
   </section>
 </template>
@@ -78,13 +106,13 @@ const hoveredCard = ref(-1)
 <style scoped>
 .loyalty-grid {
   display: flex;
-  gap: 20px;
+  gap: 12px;
   justify-content: center;
+  align-items: center;
   padding: 8px 0 16px;
 }
-.loyalty-card {
-  flex: 0 0 280px;
-}
+.loyalty-card { flex: 0 0 270px; }
+.loyalty-arrow { flex-shrink: 0; }
 
 @media (max-width: 900px) {
   .loyalty-grid {
@@ -92,10 +120,13 @@ const hoveredCard = ref(-1)
     overflow-x: auto;
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 90, 173, 0.4) transparent;
   }
-  .loyalty-grid::-webkit-scrollbar { display: none; }
+  .loyalty-grid::-webkit-scrollbar { height: 4px; }
+  .loyalty-grid::-webkit-scrollbar-track { background: transparent; }
+  .loyalty-grid::-webkit-scrollbar-thumb { background: rgba(74, 90, 173, 0.4); border-radius: 2px; }
   .loyalty-card { flex-shrink: 0; }
+  .loyalty-arrow { display: none; }
 }
 </style>

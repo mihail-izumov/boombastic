@@ -22,20 +22,10 @@ const steps = [
         </template>
       </SectionHeader>
 
-      <!-- 2-column layout -->
       <div class="howto-layout">
-        <!-- Left: Steps -->
+        <!-- Steps -->
         <div class="howto-steps">
-          <div
-            v-for="(s, i) in steps"
-            :key="i"
-            class="step-row"
-            :style="{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'none' : 'translateY(12px)',
-              transition: `all 0.5s cubic-bezier(0.23,1,0.32,1) ${0.1 + i * 0.1}s`,
-            }"
-          >
+          <div v-for="(s, i) in steps" :key="i" class="step-row" :style="{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(12px)', transition: `all 0.5s cubic-bezier(0.23,1,0.32,1) ${0.1 + i * 0.1}s` }">
             <div class="step-left">
               <div class="step-circle" :style="{ borderColor: s.color }">
                 <svg v-if="i === 0" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ color: s.color }"><path d="M13.5 8h-3"/><path d="m15 2-1 2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3"/><path d="M16.899 22A5 5 0 0 0 7.1 22"/><path d="m9 2 3 6"/><circle cx="12" cy="15" r="3"/></svg>
@@ -54,58 +44,25 @@ const steps = [
           </div>
         </div>
 
-        <!-- Right: Result card with beveled corners -->
-        <div
-          class="result-card"
-          @mouseenter="resultHover = true"
-          @mouseleave="resultHover = false"
-          :style="{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'none' : 'translateY(16px)',
-            transition: 'all 0.6s cubic-bezier(0.23,1,0.32,1) 0.4s',
-          }"
-        >
-          <!-- Gradient border (outer) -->
+        <!-- Result card -->
+        <div class="result-card" @mouseenter="resultHover = true" @mouseleave="resultHover = false" :style="{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(16px)', transition: 'all 0.6s cubic-bezier(0.23,1,0.32,1) 0.4s' }">
           <div class="result-border" :class="{ hovered: resultHover }">
-            <!-- Inner card -->
             <div class="result-inner">
-              <!-- Grid pattern -->
+              <!-- Grid only -->
               <svg class="result-grid" width="100%" height="100%">
-                <defs>
-                  <pattern id="resultGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-                    <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#C5F946" stroke-width="0.4" />
-                  </pattern>
-                </defs>
+                <defs><pattern id="resultGrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M 32 0 L 0 0 0 32" fill="none" stroke="#C5F946" stroke-width="0.4" /></pattern></defs>
                 <rect width="100%" height="100%" fill="url(#resultGrid)" />
               </svg>
-
-              <!-- Trophy watermark -->
-              <svg class="result-watermark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 14.66v1.63a2 2 0 0 1-.98 1.7A5 5 0 0 0 7 21.98"/>
-                <path d="M14 14.66v1.63a2 2 0 0 0 .98 1.7A5 5 0 0 1 17 21.98"/>
-                <path d="M18 9h1.5a1 1 0 0 0 0-5H18"/>
-                <path d="M4 22h16"/>
-                <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/>
-                <path d="M6 9H4.5a1 1 0 0 1 0-5H6"/>
-              </svg>
-
-              <!-- Content -->
               <div class="result-content">
-                <div class="result-badge">РЕЗУЛЬТАТ</div>
-                <div class="result-count">800+</div>
+                <div class="result-badge">[ РЕЗУЛЬТАТ ]</div>
+                <div class="result-count">250+</div>
                 <div class="result-label">призов на выбор</div>
                 <div class="result-desc">От брелоков до колонок и мышек Razer</div>
-
-                <!-- CTA с beveled corners -->
-                <div class="result-cta" :class="{ hovered: resultHover }">
-                  <span>К призам</span>
+                <button class="result-cta" :class="{ hovered: resultHover }">
+                  <span>К ПРИЗАМ</span>
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </div>
+                </button>
               </div>
-
-              <!-- Corner marks -->
-              <div class="corner-tl" />
-              <div class="corner-br" />
             </div>
           </div>
         </div>
@@ -115,185 +72,52 @@ const steps = [
 </template>
 
 <style scoped>
-/* ── 2-column layout ── */
-.howto-layout {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.howto-steps {
-  flex: 1;
-  min-width: 280px;
-}
-
-/* ── Steps ── */
+.howto-layout { display: flex; gap: 40px; align-items: center; max-width: 800px; margin: 0 auto; }
+.howto-steps { flex: 1; min-width: 280px; }
 .step-row { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 4px; }
 .step-left { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
-.step-circle {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid; background: var(--bg-deep);
-  display: flex; align-items: center; justify-content: center; z-index: 2;
-}
+.step-circle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid; background: var(--bg-deep); display: flex; align-items: center; justify-content: center; z-index: 2; }
 .step-connector { width: 2px; height: 24px; border-radius: 2px; opacity: 0.4; }
 .step-text { padding-top: 8px; min-width: 0; }
 
-/* ── Result card ── */
-.result-card {
-  flex: 0 0 260px;
-}
-
-/* Beveled border container */
+/* Result card */
+.result-card { flex: 0 0 260px; }
 .result-border {
-  position: relative;
-  clip-path: polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px);
-  padding: 1.5px;
-  background: linear-gradient(135deg, rgba(197,249,70,0.25), rgba(74,90,173,0.2), rgba(197,249,70,0.1));
+  position: relative; padding: 1.5px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(197,249,70,0.2), rgba(74,90,173,0.15), rgba(197,249,70,0.08));
   transition: all 0.4s;
 }
-.result-border.hovered {
-  background: linear-gradient(135deg, rgba(197,249,70,0.5), rgba(74,90,173,0.3), rgba(197,249,70,0.25));
-}
-
+.result-border.hovered { background: linear-gradient(135deg, rgba(197,249,70,0.45), rgba(74,90,173,0.25), rgba(197,249,70,0.2)); }
 .result-inner {
-  clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px);
+  border-radius: 11px;
   background: linear-gradient(165deg, rgba(34,32,80,0.95), rgba(28,26,62,0.98));
-  position: relative;
-  overflow: hidden;
-  padding: 28px 24px 24px;
+  position: relative; overflow: hidden; padding: 28px 24px 24px;
 }
+.result-grid { position: absolute; inset: 0; opacity: 0.06; pointer-events: none; }
+.result-border.hovered .result-grid { opacity: 0.1; }
+.result-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.result-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--lime); opacity: 0.7; margin-bottom: 8px; }
+.result-count { font-family: var(--font-mono); font-size: 48px; font-weight: 700; color: var(--lime); line-height: 1; margin-bottom: 4px; }
+.result-label { font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text-pri); margin-bottom: 8px; }
+.result-desc { font-family: var(--font-body); font-size: 12px; color: var(--text-sec); line-height: 1.4; margin-bottom: 20px; }
 
-/* Grid pattern */
-.result-grid {
-  position: absolute; inset: 0;
-  opacity: 0.06;
-  pointer-events: none;
-}
-.result-border.hovered + .result-inner .result-grid,
-.result-border.hovered .result-grid {
-  opacity: 0.1;
-}
-
-/* Trophy watermark */
-.result-watermark {
-  position: absolute;
-  right: -10px; bottom: -10px;
-  width: 120px; height: 120px;
-  color: var(--lime);
-  opacity: 0.06;
-  pointer-events: none;
-  transition: opacity 0.4s;
-}
-.result-border.hovered .result-watermark {
-  opacity: 0.12;
-}
-
-/* Content */
-.result-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.result-badge {
-  font-family: var(--font-mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--lime);
-  opacity: 0.6;
-  margin-bottom: 8px;
-}
-.result-count {
-  font-family: var(--font-mono);
-  font-size: 48px; font-weight: 700;
-  color: var(--lime);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.result-label {
-  font-family: var(--font-head);
-  font-size: 16px; font-weight: 700;
-  color: var(--text-pri);
-  margin-bottom: 8px;
-}
-.result-desc {
-  font-family: var(--font-body);
-  font-size: 12px;
-  color: var(--text-sec);
-  line-height: 1.4;
-  margin-bottom: 20px;
-}
-
-/* CTA with beveled corners */
+/* CTA — full border, no clip-path */
 .result-cta {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 24px;
-  clip-path: polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px);
-  background: rgba(197,249,70,0.1);
-  border: none;
-  font-family: var(--font-mono);
-  font-size: 12px; font-weight: 700;
-  color: var(--lime);
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-}
-.result-cta::before {
-  content: '';
-  position: absolute; inset: 0;
-  clip-path: polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px);
+  padding: 10px 24px; border-radius: 8px;
+  background: rgba(197,249,70,0.08);
   border: 1.5px solid rgba(197,249,70,0.3);
-  pointer-events: none;
-  transition: border-color 0.3s;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  color: var(--lime); letter-spacing: 0.06em; cursor: pointer; transition: all 0.3s;
 }
-.result-cta.hovered,
-.result-cta:hover {
-  background: var(--lime);
-  color: #1a1840;
-}
-.result-cta.hovered::before,
-.result-cta:hover::before {
-  border-color: var(--lime);
+.result-cta.hovered, .result-cta:hover {
+  background: var(--lime); color: #1a1840; border-color: var(--lime);
 }
 
-/* Corner marks */
-.corner-tl {
-  position: absolute; top: 8px; left: 8px;
-  width: 14px; height: 14px;
-  border-left: 2px solid var(--lime);
-  border-top: 2px solid var(--lime);
-  opacity: 0.15;
-  transition: opacity 0.3s;
-}
-.corner-br {
-  position: absolute; bottom: 8px; right: 8px;
-  width: 14px; height: 14px;
-  border-right: 2px solid var(--lime);
-  border-bottom: 2px solid var(--lime);
-  opacity: 0.15;
-  transition: opacity 0.3s;
-}
-.result-border.hovered .corner-tl,
-.result-border.hovered .corner-br {
-  opacity: 0.4;
-}
-
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
-  .howto-layout {
-    flex-direction: column;
-    gap: 28px;
-    align-items: stretch;
-  }
-  .howto-steps { min-width: 0; }
-  .result-card {
-    flex: none;
-    max-width: 320px;
-    margin: 0 auto;
-  }
+  .howto-layout { flex-direction: column; gap: 28px; align-items: center; }
+  .howto-steps { min-width: 0; max-width: 400px; }
+  .result-card { flex: none; width: 100%; max-width: 320px; }
 }
 </style>
