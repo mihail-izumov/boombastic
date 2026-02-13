@@ -814,7 +814,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .neon-glow-lime { color: var(--accent-lime); text-shadow: 0 0 5px var(--accent-lime), 0 0 10px var(--accent-lime), 0 0 20px var(--accent-lime); }
 
 /* ============================================================
-   BOOM GRID SYSTEM v2
+   BOOM GRID SYSTEM v3
    Заменить ВЕСЬ предыдущий блок «BOOM GRID SYSTEM» в custom.css
    ============================================================ */
 
@@ -856,13 +856,59 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   overflow-y: visible;
   padding: 8px 0 16px;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 .boom-slider > * { flex-shrink: 0 !important; }
+
+/* Скрыть скроллбар на десктопе */
 .boom-slider::-webkit-scrollbar { display: none; }
 .boom-slider { scrollbar-width: none; -ms-overflow-style: none; }
 
+/* Мобильный скроллбар — светло-синий */
+@media (max-width: 768px) {
+  .boom-slider {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 90, 173, 0.4) transparent;
+  }
+  .boom-slider::-webkit-scrollbar { display: block; height: 4px; }
+  .boom-slider::-webkit-scrollbar-track { background: transparent; }
+  .boom-slider::-webkit-scrollbar-thumb { background: rgba(74, 90, 173, 0.4); border-radius: 2px; }
+}
+
 .hide-scroll::-webkit-scrollbar { display: none; }
 .hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ── Swipe hint для мобильных слайдеров ── */
+.swipe-hint {
+  display: none;
+}
+@media (max-width: 768px) {
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 0;
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: rgba(122, 139, 168, 0.6);
+    animation: swipeHintFade 4s ease forwards;
+    pointer-events: none;
+  }
+  .swipe-hint-hand {
+    display: inline-block;
+    animation: swipeHand 1.5s ease-in-out 3;
+    font-size: 16px;
+  }
+}
+@keyframes swipeHand {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+@keyframes swipeHintFade {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 /* ── Hover-карточки ── */
 @media (hover: hover) {
@@ -879,8 +925,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .boom-wrap { padding: 0 16px; }
 }
 
-
-
 /* ── Keyframes ── */
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
@@ -890,16 +934,10 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   50%{border-color:rgba(255,0,128,0.45);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 60px rgba(255,0,128,0.18)}
 }
 @keyframes dotPulse{0%,100%{box-shadow:0 0 3px #00FF88}50%{box-shadow:0 0 14px #00FF88,0 0 24px rgba(0,255,136,0.4)}}
-@keyframes ticketGlow{
-  0%,100%{border-color:rgba(255,0,128,0.12);box-shadow:none}
-  50%{border-color:rgba(255,0,128,0.45);box-shadow:0 0 20px rgba(255,0,128,0.18),inset 0 0 14px rgba(255,0,128,0.1)}
-}
-@keyframes bonusGlow{
-  0%,100%{border-color:rgba(0,212,255,0.12);box-shadow:none}
-  50%{border-color:rgba(0,212,255,0.4);box-shadow:0 0 20px rgba(0,212,255,0.15),inset 0 0 14px rgba(0,212,255,0.08)}
-}
+@keyframes ticketGlow{0%,100%{border-color:rgba(255,0,128,0.12);box-shadow:none}50%{border-color:rgba(255,0,128,0.45);box-shadow:0 0 20px rgba(255,0,128,0.18),inset 0 0 14px rgba(255,0,128,0.1)}}
+@keyframes bonusGlow{0%,100%{border-color:rgba(0,212,255,0.12);box-shadow:none}50%{border-color:rgba(0,212,255,0.4);box-shadow:0 0 20px rgba(0,212,255,0.15),inset 0 0 14px rgba(0,212,255,0.08)}}
 @keyframes progressPulse{0%,100%{box-shadow:0 0 6px rgba(255,0,128,0.3)}50%{box-shadow:0 0 24px rgba(255,0,128,0.8),0 0 48px rgba(255,0,128,0.25)}}
-@keyframes progressStripes{0%{background-position:0 0}100%{background-position:20px 0}}
+@keyframes progressStripes{0%{background-position:0 0}100%{background-position:12px 0}}
 @keyframes statusShine{0%,100%{text-shadow:0 0 4px rgba(255,214,10,0.3)}50%{text-shadow:0 0 14px rgba(255,214,10,0.9),0 0 28px rgba(255,214,10,0.4)}}
 
 /* ── NeonLine ── */
