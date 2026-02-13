@@ -35,18 +35,15 @@ const hoveredCard = ref(-1)
     </div>
 
     <div class="boom-wrap">
-      <div
-        class="boom-slider"
-        style="display: flex; flex-direction: row; flex-wrap: nowrap; gap: 20px; overflow-x: auto; padding: 8px 0 16px"
-      >
+      <div class="loyalty-grid">
         <div
           v-for="(lvl, i) in levels"
           :key="i"
-          class="boom-card-hover"
+          class="loyalty-card boom-card-hover"
           @mouseenter="hoveredCard = i"
           @mouseleave="hoveredCard = -1"
           :style="{
-            flex: '0 0 280px', minWidth: '250px', borderRadius: '14px',
+            borderRadius: '14px',
             position: 'relative', overflow: 'hidden',
             border: `1.5px solid ${hoveredCard === i ? lvl.color : lvl.borderC}`,
             background: lvl.gradient,
@@ -79,3 +76,35 @@ const hoveredCard = ref(-1)
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Десктоп: обычный flex по центру, НЕ слайдер */
+.loyalty-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 8px 0 16px;
+}
+.loyalty-card {
+  flex: 0 0 280px;
+  min-width: 250px;
+}
+
+/* Мобилка: горизонтальный скролл */
+@media (max-width: 768px) {
+  .loyalty-grid {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .loyalty-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .loyalty-card {
+    flex-shrink: 0;
+  }
+}
+</style>
