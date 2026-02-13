@@ -19,7 +19,7 @@ const cards = [
       </SectionHeader>
     </div>
     <div class="boom-wrap">
-      <div class="hide-scroll" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px">
+      <div class="boom-slider">
         <ParkCard v-for="card in cards" :key="card.id" :card="card" :index="card.id - 1" />
       </div>
     </div>

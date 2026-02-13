@@ -35,10 +35,11 @@ const hoveredCard = ref(-1)
     </div>
 
     <div class="boom-wrap">
-      <div class="hide-scroll" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px">
+      <div class="boom-slider">
         <div
           v-for="(lvl, i) in levels"
           :key="i"
+          class="boom-card-hover"
           @mouseenter="hoveredCard = i"
           @mouseleave="hoveredCard = -1"
           :style="{
@@ -46,37 +47,21 @@ const hoveredCard = ref(-1)
             position: 'relative', overflow: 'hidden',
             border: `1.5px solid ${hoveredCard === i ? lvl.color : lvl.borderC}`,
             background: lvl.gradient,
-            transform: visible ? (hoveredCard === i ? 'translateY(-4px)' : 'none') : 'translateY(20px)',
             opacity: visible ? 1 : 0,
             boxShadow: hoveredCard === i ? `0 10px 30px ${rgba(lvl.color, 0.12)}` : 'none',
             transition: `transform 0.4s ease ${i * 0.1}s, opacity 0.5s ease ${i * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
           }"
         >
           <!-- Header -->
-          <div :style="{
-            padding: '24px 22px 16px', textAlign: 'center',
-            borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`,
-            position: 'relative',
-          }">
-            <!-- Grid pattern -->
+          <div :style="{ padding: '24px 22px 16px', textAlign: 'center', borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`, position: 'relative' }">
             <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hoveredCard === i ? 0.07 : 0.03, transition: 'opacity 0.3s' }">
               <defs><pattern :id="'lg' + i" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" :stroke="lvl.color" stroke-width="0.4" /></pattern></defs>
               <rect width="100%" height="100%" :fill="'url(#lg' + i + ')'" />
             </svg>
-            <!-- Name badge -->
-            <div :style="{
-              display: 'inline-block', padding: '6px 24px', borderRadius: '5px',
-              background: `linear-gradient(180deg, ${rgba(lvl.color, 0.2)}, ${rgba(lvl.color, 0.05)})`,
-              border: `1px solid ${rgba(lvl.color, 0.3)}`,
-              position: 'relative',
-            }">
+            <div :style="{ display: 'inline-block', padding: '6px 24px', borderRadius: '5px', background: `linear-gradient(180deg, ${rgba(lvl.color, 0.2)}, ${rgba(lvl.color, 0.05)})`, border: `1px solid ${rgba(lvl.color, 0.3)}`, position: 'relative' }">
               <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: lvl.color, letterSpacing: '0.1em' }">{{ lvl.name }}</span>
             </div>
-            <div :style="{
-              fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600,
-              color: lvl.name === 'ЗОЛОТО' ? '#FFD60A' : 'var(--text-pri)',
-              marginTop: '10px', position: 'relative',
-            }">{{ lvl.desc }}</div>
+            <div :style="{ fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600, color: lvl.name === 'ЗОЛОТО' ? '#FFD60A' : 'var(--text-pri)', marginTop: '10px', position: 'relative' }">{{ lvl.desc }}</div>
           </div>
           <!-- Perks -->
           <div style="padding: 16px 22px 22px">
@@ -84,15 +69,7 @@ const hoveredCard = ref(-1)
               <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
               <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-pri)">{{ p }}</span>
             </div>
-            <!-- CTA -->
-            <div :style="{
-              padding: '9px 0', borderRadius: '7px', textAlign: 'center',
-              border: `1px solid ${rgba(lvl.color, hoveredCard === i ? 0.5 : 0.25)}`,
-              background: rgba(lvl.color, hoveredCard === i ? 0.12 : 0.05),
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-              color: lvl.color, letterSpacing: '0.04em',
-              transition: 'all 0.3s', cursor: 'pointer',
-            }">Получить карту</div>
+            <div :style="{ padding: '9px 0', borderRadius: '7px', textAlign: 'center', border: `1px solid ${rgba(lvl.color, hoveredCard === i ? 0.5 : 0.25)}`, background: rgba(lvl.color, hoveredCard === i ? 0.12 : 0.05), fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: lvl.color, letterSpacing: '0.04em', transition: 'all 0.3s', cursor: 'pointer' }">Получить карту</div>
           </div>
         </div>
       </div>

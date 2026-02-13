@@ -29,7 +29,7 @@ const items = [
         </template>
       </SectionHeader>
 
-      <div style="max-width: 680px">
+      <div class="boom-content-narrow">
         <div
           v-for="(item, i) in items"
           :key="i"
@@ -40,7 +40,6 @@ const items = [
             transition: `all 0.4s ease ${i * 0.05}s`,
           }"
         >
-          <!-- Question -->
           <button
             @click="toggle(i)"
             :style="{
@@ -67,7 +66,6 @@ const items = [
                 textAlign: 'left', transition: 'color 0.25s',
               }">{{ item.q }}</span>
             </div>
-            <!-- Plus/X icon -->
             <div :style="{
               width: '34px', height: '34px', flexShrink: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -83,7 +81,6 @@ const items = [
               </svg>
             </div>
           </button>
-          <!-- Answer -->
           <Transition name="faq">
             <div v-if="openIdx === i" style="overflow: hidden">
               <div :style="{

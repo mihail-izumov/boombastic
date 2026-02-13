@@ -58,7 +58,6 @@ const hoverLink = ref(false)
         }"
       >
         {{ linkText }}
-        <!-- arrowDash icon -->
         <span :style="{ display: 'inline-flex', transition: 'all 0.3s', transform: hoverLink ? 'translateX(3px)' : 'none' }">
           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 9a1 1 0 0 0 1-1V5.061a1 1 0 0 1 1.811-.75l6.836 6.836a1.207 1.207 0 0 1 0 1.707l-6.836 6.835a1 1 0 0 1-1.811-.75V16a1 1 0 0 0-1-1H9a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z"/><path d="M4 9v6"/></svg>
         </span>

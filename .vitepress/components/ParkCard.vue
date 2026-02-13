@@ -21,13 +21,13 @@ const c = computed(() => props.card.color)
 <template>
   <div
     ref="elRef"
+    class="boom-card-hover"
     @mouseenter="hovered = true"
     @mouseleave="hovered = false"
     :style="{
       flex: '0 0 320px', minWidth: '280px', position: 'relative', borderRadius: '12px', cursor: 'pointer',
-      transform: visible ? (hovered ? 'translateY(-6px)' : 'none') : 'translateY(24px)',
       opacity: visible ? 1 : 0,
-      transition: 'transform 0.4s ease, opacity 0.5s ease',
+      transition: 'transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s',
       display: 'flex', flexDirection: 'column',
     }"
   >
@@ -49,33 +49,14 @@ const c = computed(() => props.card.color)
         position: 'relative', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center',
         borderBottom: `1px solid ${rgba(c, 0.12)}`,
       }">
-        <!-- Grid pattern -->
         <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hovered ? 0.25 : 0.12, transition: 'opacity 0.4s' }">
-          <defs>
-            <pattern :id="'cg' + card.id" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" :stroke="c" stroke-width="0.6" />
-            </pattern>
-          </defs>
+          <defs><pattern :id="'cg' + card.id" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" :stroke="c" stroke-width="0.6" /></pattern></defs>
           <rect width="100%" height="100%" :fill="'url(#cg' + card.id + ')'" />
         </svg>
-
-        <!-- Glow -->
-        <div :style="{
-          position: 'absolute', width: '180px', height: '180px', borderRadius: '50%',
-          background: `radial-gradient(circle, ${rgba(c, hovered ? 0.16 : 0.06)} 0%, transparent 70%)`,
-          transition: 'all 0.5s', transform: hovered ? 'scale(1.3)' : 'none',
-        }" />
+        <div :style="{ position: 'absolute', width: '180px', height: '180px', borderRadius: '50%', background: `radial-gradient(circle, ${rgba(c, hovered ? 0.16 : 0.06)} 0%, transparent 70%)`, transition: 'all 0.5s', transform: hovered ? 'scale(1.3)' : 'none' }" />
 
         <!-- Badge with icon -->
-        <div :style="{
-          position: 'absolute', top: '10px', right: '10px',
-          display: 'flex', alignItems: 'center', gap: '5px',
-          padding: '5px 14px', borderRadius: '5px',
-          background: rgba(c, 0.12), border: `1px solid ${rgba(c, 0.3)}`,
-          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-          letterSpacing: '0.08em', color: c,
-        }">
-          <!-- badgeIcon: grid for parks, joystick for games, sparkle for prizes -->
+        <div :style="{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center', gap: '5px', padding: '5px 14px', borderRadius: '5px', background: rgba(c, 0.12), border: `1px solid ${rgba(c, 0.3)}`, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', color: c }">
           <span :style="{ display: 'inline-flex', color: c }">
             <svg v-if="card.icon === 'atom'" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
             <svg v-else-if="card.icon === 'joystick'" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 17a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/><circle cx="12" cy="6" r="3"/><path d="M12 15V9"/></svg>

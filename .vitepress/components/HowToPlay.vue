@@ -21,7 +21,7 @@ const steps = [
         </template>
       </SectionHeader>
 
-      <div style="max-width: 620px">
+      <div class="boom-content-narrow">
         <!-- Steps -->
         <div
           v-for="(s, i) in steps"
@@ -34,28 +34,19 @@ const steps = [
             transition: `all 0.5s cubic-bezier(0.23,1,0.32,1) ${0.1 + i * 0.1}s`,
           }"
         >
-          <!-- Circle + connector -->
           <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center">
             <div :style="{
               width: '52px', height: '52px', borderRadius: '50%',
               background: `linear-gradient(165deg, color-mix(in srgb, ${s.color} 20%, transparent), var(--bg-deep))`,
               border: `2px solid ${s.color}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              zIndex: 2,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2,
             }">
-              <!-- Icons inline -->
               <svg v-if="i === 0" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ color: s.color }"><path d="M13.5 8h-3"/><path d="m15 2-1 2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3"/><path d="M16.899 22A5 5 0 0 0 7.1 22"/><path d="m9 2 3 6"/><circle cx="12" cy="15" r="3"/></svg>
               <svg v-if="i === 1" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ color: s.color }"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
               <svg v-if="i === 2" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ color: s.color }"><path d="M21 17a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2Z"/><path d="M6 15v-2"/><path d="M12 15V9"/><circle cx="12" cy="6" r="3"/></svg>
             </div>
-            <!-- Connector line -->
-            <div v-if="i < 2" :style="{
-              width: '3px', height: '28px', borderRadius: '2px',
-              background: `linear-gradient(180deg, ${s.color}, ${steps[i+1].color})`,
-              opacity: 0.4,
-            }" />
+            <div v-if="i < 2" :style="{ width: '3px', height: '28px', borderRadius: '2px', background: `linear-gradient(180deg, ${s.color}, ${steps[i+1].color})`, opacity: 0.4 }" />
           </div>
-          <!-- Text -->
           <div style="padding-top: 6px">
             <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 3px">
               <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: s.color, fontWeight: 700, opacity: 0.6 }">{{ s.num }}</span>
