@@ -841,9 +841,10 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 /* ── Обёртка: единый max-width + центрирование ── */
 .boom-wrap {
-  max-width: 1080px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 /* ── Центрирование узкого контента (FAQ, HowToPlay) ── */
@@ -852,23 +853,27 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   margin: 0 auto;
 }
 
-/* ── Flex-центрирование (Cabinet, и подобные) ── */
+/* ── Flex-центрирование (Cabinet) ── */
 .boom-flex-center {
   display: flex;
   gap: 44px;
   align-items: center;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* ── Слайдер-контейнер ──
-   padding-top  — запас сверху для hover translateY (карточки не обрезаются)
-   scroll-snap  — плавный свайп по карточкам на мобилке
+   КЛЮЧЕВОЕ: flex-wrap: nowrap — карточки ВСЕГДА в ряд,
+   при нехватке места — горизонтальный скролл.
+   padding-top — запас для hover translateY.
    ─────────────────────────────────────────── */
 .boom-slider {
-  display: flex;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  flex-direction: row !important;
   gap: 20px;
   overflow-x: auto;
+  overflow-y: visible;
   padding: 8px 0 16px;
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
@@ -876,6 +881,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 .boom-slider > * {
   scroll-snap-align: start;
+  flex-shrink: 0 !important;
 }
 
 /* Скрыть скроллбар */
@@ -892,10 +898,16 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   -ms-overflow-style: none;
 }
 
-/* ── Hover-карточки: безопасные для тач-устройств ──
-   На тач-устройствах отключаем translateY при hover,
-   чтобы не конфликтовало со свайпом.
-   ─────────────────────────────────────────── */
+/* ── Hover-карточки: безопасные для тач-устройств ── */
+@media (hover: hover) {
+  .boom-card-hover {
+    transition: transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s;
+  }
+  .boom-card-hover:hover {
+    transform: translateY(-6px);
+  }
+}
+
 @media (hover: none) {
   .boom-card-hover {
     transform: none !important;
@@ -990,12 +1002,19 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 /* ── Неоновый разделитель (NeonLine компонент) ── */
 .neon-line {
-  max-width: 1080px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 .neon-line-inner {
   height: 1px;
   opacity: 0.3;
   background: var(--neon-gradient);
+}
+
+@media (max-width: 768px) {
+  .neon-line {
+    padding: 0 16px;
+  }
 }
