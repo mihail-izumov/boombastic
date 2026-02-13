@@ -879,29 +879,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .boom-wrap { padding: 0 16px; }
 }
 
-/* ── HERO: мобильный фикс — убираем дырку слева ── */
-@media (max-width: 768px) {
-  .VPHero .container {
-    padding: 0 16px !important;
-    text-align: center !important;
-  }
-  .VPHero .main {
-    text-align: center !important;
-    align-items: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  .VPHero .name,
-  .VPHero .text,
-  .VPHero .tagline {
-    text-align: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .VPHero .actions {
-    justify-content: center !important;
-  }
-}
+
 
 /* ── Keyframes ── */
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
