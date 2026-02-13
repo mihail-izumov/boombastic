@@ -814,8 +814,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .neon-glow-lime { color: var(--accent-lime); text-shadow: 0 0 5px var(--accent-lime), 0 0 10px var(--accent-lime), 0 0 20px var(--accent-lime); }
 
 /* ============================================================
-   BOOM GRID SYSTEM — ОБНОВЛЕНИЕ
-   Заменить предыдущий блок BOOM GRID SYSTEM в custom.css
+   BOOM GRID SYSTEM v2
+   Заменить ВЕСЬ предыдущий блок «BOOM GRID SYSTEM» в custom.css
    ============================================================ */
 
 :root {
@@ -846,7 +846,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   margin: 0 auto;
 }
 
-/* ── Слайдер — БЕЗ scroll-snap (он вызывает проскакивание) ── */
+/* ── Слайдер ── */
 .boom-slider {
   display: flex !important;
   flex-direction: row !important;
@@ -857,9 +857,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   padding: 8px 0 16px;
   -webkit-overflow-scrolling: touch;
 }
-.boom-slider > * {
-  flex-shrink: 0 !important;
-}
+.boom-slider > * { flex-shrink: 0 !important; }
 .boom-slider::-webkit-scrollbar { display: none; }
 .boom-slider { scrollbar-width: none; -ms-overflow-style: none; }
 
@@ -879,6 +877,30 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 @media (max-width: 768px) {
   .boom-section { padding: 48px 0; }
   .boom-wrap { padding: 0 16px; }
+}
+
+/* ── HERO: мобильный фикс — убираем дырку слева ── */
+@media (max-width: 768px) {
+  .VPHero .container {
+    padding: 0 16px !important;
+    text-align: center !important;
+  }
+  .VPHero .main {
+    text-align: center !important;
+    align-items: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .VPHero .name,
+  .VPHero .text,
+  .VPHero .tagline {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .VPHero .actions {
+    justify-content: center !important;
+  }
 }
 
 /* ── Keyframes ── */
