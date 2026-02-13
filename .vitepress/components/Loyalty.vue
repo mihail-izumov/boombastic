@@ -52,7 +52,6 @@ const hoveredCard = ref(-1)
             transition: `transform 0.4s ease ${i * 0.1}s, opacity 0.5s ease ${i * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
           }"
         >
-          <!-- Header -->
           <div :style="{ padding: '24px 22px 16px', textAlign: 'center', borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`, position: 'relative' }">
             <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hoveredCard === i ? 0.07 : 0.03, transition: 'opacity 0.3s' }">
               <defs><pattern :id="'lg' + i" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" :stroke="lvl.color" stroke-width="0.4" /></pattern></defs>
@@ -63,7 +62,6 @@ const hoveredCard = ref(-1)
             </div>
             <div :style="{ fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600, color: lvl.name === 'ЗОЛОТО' ? '#FFD60A' : 'var(--text-pri)', marginTop: '10px', position: 'relative' }">{{ lvl.desc }}</div>
           </div>
-          <!-- Perks -->
           <div style="padding: 16px 22px 22px">
             <div v-for="(p, j) in lvl.perks" :key="j" :style="{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: j < lvl.perks.length - 1 ? '10px' : '18px' }">
               <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
@@ -78,7 +76,6 @@ const hoveredCard = ref(-1)
 </template>
 
 <style scoped>
-/* Десктоп: обычный flex по центру, НЕ слайдер */
 .loyalty-grid {
   display: flex;
   gap: 20px;
@@ -87,11 +84,9 @@ const hoveredCard = ref(-1)
 }
 .loyalty-card {
   flex: 0 0 280px;
-  min-width: 250px;
 }
 
-/* Мобилка: горизонтальный скролл */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .loyalty-grid {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -100,11 +95,7 @@ const hoveredCard = ref(-1)
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  .loyalty-grid::-webkit-scrollbar {
-    display: none;
-  }
-  .loyalty-card {
-    flex-shrink: 0;
-  }
+  .loyalty-grid::-webkit-scrollbar { display: none; }
+  .loyalty-card { flex-shrink: 0; }
 }
 </style>

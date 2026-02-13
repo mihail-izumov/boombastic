@@ -22,7 +22,7 @@ const feats = [
       </SectionHeader>
     </div>
     <div class="boom-wrap" :style="{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(24px)', transition: 'all 0.6s cubic-bezier(0.23,1,0.32,1) 0.1s' }">
-      <div class="cabinet-layout">
+      <div class="cabinet-row">
         <!-- Phone -->
         <div class="phone-mockup">
           <div style="height: 12px" />
@@ -37,10 +37,7 @@ const feats = [
               </div>
               <div>
                 <div style="font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--text-pri)">Артём К.</div>
-                <div style="display: flex; align-items: center; gap: 4px; margin-top: 1px">
-                  <div class="status-dot" />
-                  <span class="status-text">ЗОЛОТОЙ</span>
-                </div>
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 1px"><div class="status-dot" /><span class="status-text">ЗОЛОТОЙ</span></div>
               </div>
             </div>
             <div style="font-family: var(--font-body); font-size: 10px; color: #fff; margin-bottom: 6px; font-weight: 600">Баланс: <span style="font-family: var(--font-mono); font-weight: 700">1 200 ₽</span></div>
@@ -68,15 +65,13 @@ const feats = [
           <div style="padding: 8px 0; display: flex; justify-content: center; border-top: 1px solid rgba(255,0,128,0.1)"><div style="width: 90px; height: 3px; border-radius: 2px; background: rgba(255,0,128,0.25)" /></div>
         </div>
 
-        <!-- Features -->
-        <div class="cabinet-features">
-          <div style="margin-bottom: 24px">
-            <div v-for="(f, i) in feats" :key="i" style="display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start">
-              <span style="flex-shrink: 0; margin-top: 4px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--lime)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v8"/><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/><path d="M8 12h8"/></svg></span>
-              <div>
-                <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text-pri); margin-bottom: 3px">{{ f.title }}</div>
-                <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-sec); line-height: 1.4">{{ f.sub }}</div>
-              </div>
+        <!-- Features text -->
+        <div class="cabinet-text">
+          <div v-for="(f, i) in feats" :key="i" style="display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start">
+            <span style="flex-shrink: 0; margin-top: 4px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--lime)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v8"/><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/><path d="M8 12h8"/></svg></span>
+            <div>
+              <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text-pri); margin-bottom: 3px">{{ f.title }}</div>
+              <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-sec); line-height: 1.4">{{ f.sub }}</div>
             </div>
           </div>
           <CutBtn label="Войти в кабинет" lime compact />
@@ -87,37 +82,27 @@ const feats = [
 </template>
 
 <style scoped>
-/* Раскладка: рядом на десктопе, столбиком на мобилке */
-.cabinet-layout {
+.cabinet-row {
   display: flex;
   gap: 44px;
   align-items: center;
+  justify-content: center;
+  max-width: 700px;
+  margin: 0 auto;
 }
-.cabinet-features {
-  flex: 1;
-  min-width: 240px;
-}
+.cabinet-text { flex: 1; min-width: 220px; }
+
 @media (max-width: 768px) {
-  .cabinet-layout {
+  .cabinet-row {
     flex-direction: column;
     align-items: center;
     gap: 32px;
   }
+  .cabinet-text { text-align: left; }
 }
 
-.phone-mockup {
-  width: 256px; height: 500px; border-radius: 20px;
-  background: linear-gradient(165deg, #1a1840, var(--bg-night));
-  border: 2px solid rgba(255,0,128,0.2);
-  animation: phoneBreathe 2.5s ease-in-out infinite;
-  position: relative; overflow: hidden; flex-shrink: 0;
-  display: flex; flex-direction: column;
-}
-.phone-card {
-  margin: 6px 12px; padding: 12px; border-radius: 10px;
-  background: linear-gradient(135deg, rgba(34,32,80,0.8), rgba(28,26,62,0.85));
-  border: 1px solid rgba(255,0,128,0.1); position: relative; z-index: 1;
-}
+.phone-mockup { width: 256px; height: 500px; border-radius: 20px; background: linear-gradient(165deg, #1a1840, var(--bg-night)); border: 2px solid rgba(255,0,128,0.2); animation: phoneBreathe 2.5s ease-in-out infinite; position: relative; overflow: hidden; flex-shrink: 0; display: flex; flex-direction: column; }
+.phone-card { margin: 6px 12px; padding: 12px; border-radius: 10px; background: linear-gradient(135deg, rgba(34,32,80,0.8), rgba(28,26,62,0.85)); border: 1px solid rgba(255,0,128,0.1); position: relative; z-index: 1; }
 .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: dotPulse 1.5s ease-in-out infinite; }
 .status-text { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: var(--yellow); letter-spacing: 0.06em; animation: statusShine 2s ease-in-out infinite; }
 .stat-ticket { flex: 1; padding: 7px 8px; border-radius: 7px; background: rgba(255,0,128,0.08); border: 1px solid rgba(255,0,128,0.12); animation: ticketGlow 2.5s ease-in-out infinite; }
