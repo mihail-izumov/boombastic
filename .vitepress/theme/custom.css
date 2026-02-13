@@ -814,12 +814,10 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .neon-glow-lime { color: var(--accent-lime); text-shadow: 0 0 5px var(--accent-lime), 0 0 10px var(--accent-lime), 0 0 20px var(--accent-lime); }
 
 /* ============================================================
-   BOOM GRID SYSTEM
-   Единая сетка для кастомных компонентов главной страницы.
-   НЕ затрагивает стандартные VitePress-страницы (.VPDoc).
+   BOOM GRID SYSTEM — ОБНОВЛЕНИЕ
+   Заменить предыдущий блок BOOM GRID SYSTEM в custom.css
    ============================================================ */
 
-/* ── Шорткаты переменных для Vue-компонентов ── */
 :root {
   --lime:       var(--accent-lime);
   --lime-dim:   var(--accent-lime-dim);
@@ -834,12 +832,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   --font-body:  var(--vp-font-family-base);
 }
 
-/* ── Секция: вертикальные отступы ── */
-.boom-section {
-  padding: 80px 0;
-}
+.boom-section { padding: 80px 0; }
 
-/* ── Обёртка: единый max-width + центрирование ── */
 .boom-wrap {
   max-width: 960px;
   margin: 0 auto;
@@ -847,174 +841,68 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   box-sizing: border-box;
 }
 
-/* ── Центрирование узкого контента (FAQ, HowToPlay) ── */
 .boom-content-narrow {
   max-width: 680px;
   margin: 0 auto;
 }
 
-/* ── Flex-центрирование (Cabinet) ── */
-.boom-flex-center {
-  display: flex;
-  gap: 44px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* ── Слайдер-контейнер ──
-   КЛЮЧЕВОЕ: flex-wrap: nowrap — карточки ВСЕГДА в ряд,
-   при нехватке места — горизонтальный скролл.
-   padding-top — запас для hover translateY.
-   ─────────────────────────────────────────── */
+/* ── Слайдер — БЕЗ scroll-snap (он вызывает проскакивание) ── */
 .boom-slider {
   display: flex !important;
-  flex-wrap: nowrap !important;
   flex-direction: row !important;
+  flex-wrap: nowrap !important;
   gap: 20px;
   overflow-x: auto;
   overflow-y: visible;
   padding: 8px 0 16px;
-  scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
 }
-
 .boom-slider > * {
-  scroll-snap-align: start;
   flex-shrink: 0 !important;
 }
-
-/* Скрыть скроллбар */
 .boom-slider::-webkit-scrollbar { display: none; }
-.boom-slider {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+.boom-slider { scrollbar-width: none; -ms-overflow-style: none; }
 
-/* Старый класс тоже скрываем (для совместимости) */
 .hide-scroll::-webkit-scrollbar { display: none; }
-.hide-scroll {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+.hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 
-/* ── Hover-карточки: безопасные для тач-устройств ── */
+/* ── Hover-карточки ── */
 @media (hover: hover) {
-  .boom-card-hover {
-    transition: transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s;
-  }
-  .boom-card-hover:hover {
-    transform: translateY(-6px);
-  }
+  .boom-card-hover { transition: transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s; }
+  .boom-card-hover:hover { transform: translateY(-6px); }
 }
-
 @media (hover: none) {
-  .boom-card-hover {
-    transform: none !important;
-  }
+  .boom-card-hover { transform: none !important; }
 }
 
-/* ── Адаптивные отступы ── */
+/* ── Мобильные отступы ── */
 @media (max-width: 768px) {
-  .boom-section {
-    padding: 48px 0;
-  }
-  .boom-wrap {
-    padding: 0 16px;
-  }
-  .boom-flex-center {
-    gap: 24px;
-    justify-content: center;
-  }
+  .boom-section { padding: 48px 0; }
+  .boom-wrap { padding: 0 16px; }
 }
 
-/* ============================================================
-   KEYFRAMES для Vue-компонентов
-   (перенесены из React GlobalStyles)
-   ============================================================ */
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+/* ── Keyframes ── */
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes boomRing{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
+@keyframes phoneBreathe{
+  0%,100%{border-color:rgba(255,0,128,0.15);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 20px rgba(255,0,128,0.03)}
+  50%{border-color:rgba(255,0,128,0.45);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 60px rgba(255,0,128,0.18)}
 }
+@keyframes dotPulse{0%,100%{box-shadow:0 0 3px #00FF88}50%{box-shadow:0 0 14px #00FF88,0 0 24px rgba(0,255,136,0.4)}}
+@keyframes ticketGlow{
+  0%,100%{border-color:rgba(255,0,128,0.12);box-shadow:none}
+  50%{border-color:rgba(255,0,128,0.45);box-shadow:0 0 20px rgba(255,0,128,0.18),inset 0 0 14px rgba(255,0,128,0.1)}
+}
+@keyframes bonusGlow{
+  0%,100%{border-color:rgba(0,212,255,0.12);box-shadow:none}
+  50%{border-color:rgba(0,212,255,0.4);box-shadow:0 0 20px rgba(0,212,255,0.15),inset 0 0 14px rgba(0,212,255,0.08)}
+}
+@keyframes progressPulse{0%,100%{box-shadow:0 0 6px rgba(255,0,128,0.3)}50%{box-shadow:0 0 24px rgba(255,0,128,0.8),0 0 48px rgba(255,0,128,0.25)}}
+@keyframes progressStripes{0%{background-position:0 0}100%{background-position:20px 0}}
+@keyframes statusShine{0%,100%{text-shadow:0 0 4px rgba(255,214,10,0.3)}50%{text-shadow:0 0 14px rgba(255,214,10,0.9),0 0 28px rgba(255,214,10,0.4)}}
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(5px); }
-}
-
-@keyframes boomRing {
-  0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-}
-
-@keyframes phoneBreathe {
-  0%, 100% {
-    border-color: rgba(255, 0, 128, 0.15);
-    box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 20px rgba(255,0,128,0.03);
-  }
-  50% {
-    border-color: rgba(255, 0, 128, 0.45);
-    box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 60px rgba(255,0,128,0.18);
-  }
-}
-
-@keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 3px #00FF88; }
-  50%      { box-shadow: 0 0 14px #00FF88, 0 0 24px rgba(0,255,136,0.4); }
-}
-
-@keyframes ticketGlow {
-  0%, 100% {
-    border-color: rgba(255, 0, 128, 0.12);
-    box-shadow: none;
-  }
-  50% {
-    border-color: rgba(255, 0, 128, 0.45);
-    box-shadow: 0 0 20px rgba(255,0,128,0.18), inset 0 0 14px rgba(255,0,128,0.1);
-  }
-}
-
-@keyframes bonusGlow {
-  0%, 100% {
-    border-color: rgba(0, 212, 255, 0.12);
-    box-shadow: none;
-  }
-  50% {
-    border-color: rgba(0, 212, 255, 0.4);
-    box-shadow: 0 0 20px rgba(0,212,255,0.15), inset 0 0 14px rgba(0,212,255,0.08);
-  }
-}
-
-@keyframes progressPulse {
-  0%, 100% { box-shadow: 0 0 6px rgba(255,0,128,0.3); }
-  50%      { box-shadow: 0 0 24px rgba(255,0,128,0.8), 0 0 48px rgba(255,0,128,0.25); }
-}
-
-@keyframes progressStripes {
-  0%   { background-position: 0 0; }
-  100% { background-position: 20px 0; }
-}
-
-@keyframes statusShine {
-  0%, 100% { text-shadow: 0 0 4px rgba(255,214,10,0.3); }
-  50%      { text-shadow: 0 0 14px rgba(255,214,10,0.9), 0 0 28px rgba(255,214,10,0.4); }
-}
-
-/* ── Неоновый разделитель (NeonLine компонент) ── */
-.neon-line {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 24px;
-  box-sizing: border-box;
-}
-.neon-line-inner {
-  height: 1px;
-  opacity: 0.3;
-  background: var(--neon-gradient);
-}
-
-@media (max-width: 768px) {
-  .neon-line {
-    padding: 0 16px;
-  }
-}
+/* ── NeonLine ── */
+.neon-line { max-width: 960px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+.neon-line-inner { height: 1px; opacity: 0.3; background: var(--neon-gradient); }
+@media (max-width: 768px) { .neon-line { padding: 0 16px; } }
