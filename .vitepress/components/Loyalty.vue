@@ -11,17 +11,15 @@ function rgba(hex, a) {
 }
 
 const levels = [
-  { name: 'СТАНДАРТ', color: '#C5F946', borderC: 'rgba(197,249,70,0.3)', gradient: 'linear-gradient(165deg,#222840,#1c2235)', desc: 'Новый гость', perks: ['B00M!-карта бесплатно', 'Базовые призы', 'Копи тикеты'], hasBtn: true },
-  { name: 'СЕРЕБРО', color: '#00D4FF', borderC: 'rgba(0,212,255,0.3)', gradient: 'linear-gradient(165deg,#1a2a4a,#101e38)', desc: 'Система заметила', perks: ['+10% к тикетам', 'Ранний доступ к призам', 'Бонусные заряды'], hasBtn: false },
-  { name: 'ЗОЛОТО', color: '#FF0080', borderC: 'rgba(255,0,128,0.3)', gradient: 'linear-gradient(165deg,#2a1a2a,#1e0e1e)', desc: 'Оба глаза на тебе', perks: ['+25% к тикетам', 'VIP-доступ', 'Эксклюзивные призы'], hasBtn: false },
+  { name: 'СТАНДАРТ', color: '#C5F946', borderC: 'rgba(197,249,70,0.3)', gradient: 'linear-gradient(165deg,#222840,#1c2235)', desc: 'Новый гость', perks: ['B00M!-карта бесплатно', 'Базовые призы', 'Копи тикеты'], hasBtn: true, lockText: '' },
+  { name: 'СЕРЕБРО', color: '#00D4FF', borderC: 'rgba(0,212,255,0.3)', gradient: 'linear-gradient(165deg,#1a2a4a,#101e38)', desc: 'Система заметила', perks: ['+10% к тикетам', 'Ранний доступ к призам', 'Бонусные заряды'], hasBtn: false, lockText: 'Играй → откроется' },
+  { name: 'ЗОЛОТО', color: '#FF0080', borderC: 'rgba(255,0,128,0.3)', gradient: 'linear-gradient(165deg,#2a1a2a,#1e0e1e)', desc: 'Оба глаза на тебе', perks: ['+25% к тикетам', 'VIP-доступ', 'Эксклюзивные призы'], hasBtn: false, lockText: 'Играй → откроется' },
 ]
 
 const hoveredCard = ref(-1)
 
 function openModal() {
-  if (typeof window !== 'undefined' && window.openLoginModal) {
-    window.openLoginModal()
-  }
+  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
 }
 </script>
 
@@ -74,7 +72,7 @@ function openModal() {
                 <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
                 <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-pri)">{{ p }}</span>
               </div>
-              <!-- Button only for СТАНДАРТ -->
+              <!-- СТАНДАРТ → button -->
               <div v-if="lvl.hasBtn"
                 @click="openModal"
                 :style="{
@@ -85,9 +83,15 @@ function openModal() {
                   color: lvl.color, letterSpacing: '0.04em', transition: 'all 0.3s', cursor: 'pointer',
                 }"
               >Получить карту</div>
-              <!-- Locked indicator for СЕРЕБРО and ЗОЛОТО -->
-              <div v-else :style="{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', color: rgba(lvl.color, 0.4), letterSpacing: '0.08em' }">
-                Накопительная система
+              <!-- СЕРЕБРО/ЗОЛОТО → locked indicator -->
+              <div v-else :style="{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                padding: '9px 0', borderRadius: '7px',
+                border: `1px dashed ${rgba(lvl.color, 0.2)}`,
+                background: rgba(lvl.color, 0.03),
+              }">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" :stroke="lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ opacity: 0.5 }"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: lvl.color, letterSpacing: '0.04em', opacity: 0.6 }">{{ lvl.lockText }}</span>
               </div>
             </div>
           </div>
@@ -98,7 +102,6 @@ function openModal() {
           </div>
         </template>
       </div>
-      <div class="swipe-hint"><span class="swipe-hint-hand">👆</span> листай</div>
     </div>
   </section>
 </template>
@@ -120,13 +123,11 @@ function openModal() {
     overflow-x: auto;
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(74, 90, 173, 0.4) transparent;
+    padding-right: 0;
   }
-  .loyalty-grid::-webkit-scrollbar { height: 4px; }
-  .loyalty-grid::-webkit-scrollbar-track { background: transparent; }
-  .loyalty-grid::-webkit-scrollbar-thumb { background: rgba(74, 90, 173, 0.4); border-radius: 2px; }
-  .loyalty-card { flex-shrink: 0; }
+  .loyalty-grid::-webkit-scrollbar { display: none; }
+  .loyalty-grid { scrollbar-width: none; }
+  .loyalty-card { flex: 0 0 78vw !important; min-width: 240px !important; max-width: 280px !important; }
   .loyalty-arrow { display: none; }
 }
 </style>

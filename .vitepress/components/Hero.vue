@@ -17,6 +17,12 @@ const lockedArr = Array(7).fill(false)
 function scrollToParks() {
   document.getElementById('parks')?.scrollIntoView({ behavior: 'smooth' })
 }
+function openLogin() {
+  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
+}
+function openGameMode() {
+  if (typeof window !== 'undefined' && window.openGameModeModal) window.openGameModeModal()
+}
 
 onMounted(() => {
   initTimeout = setTimeout(() => {
@@ -58,7 +64,7 @@ onUnmounted(() => {
     </svg>
     <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, var(--bg-deep) 100%)" />
 
-    <h1 :style="{ fontSize: 'clamp(36px, 9vw, 68px)', lineHeight: 1, margin: '0 0 20px', opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(20px)', transition: 'all 0.7s cubic-bezier(0.23,1,0.32,1) 0.15s', position: 'relative', fontFamily: 'var(--font-mono)', fontWeight: 700 }">
+    <h1 :style="{ fontSize: 'clamp(36px, 9vw, 68px)', lineHeight: 1, margin: '0 0 16px', opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(20px)', transition: 'all 0.7s cubic-bezier(0.23,1,0.32,1) 0.15s', position: 'relative', fontFamily: 'var(--font-mono)', fontWeight: 700 }">
       <span style="position: relative; display: inline-block">
         <span style="color: var(--yellow); text-shadow: 0 0 20px rgba(255,214,10,0.6), 0 0 60px rgba(255,214,10,0.2)">Б</span>
         <span v-for="(c, i) in chars" :key="i" :style="{ display: 'inline-block', minWidth: '0.55em', textAlign: 'center', color: locked[i] ? 'var(--lime)' : 'rgba(133,169,49,0.5)', textShadow: locked[i] ? '0 0 20px rgba(197,249,70,0.7), 0 0 50px rgba(197,249,70,0.3)' : '0 0 8px rgba(197,249,70,0.3)', transition: locked[i] ? 'color 0.3s, text-shadow 0.3s' : 'none', transform: exploded ? `scale(1.2) translateY(${(i % 2 ? -1 : 1) * 4}px)` : 'none' }">{{ c }}</span>
@@ -73,14 +79,14 @@ onUnmounted(() => {
     </p>
 
     <div :style="{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center', opacity: visible ? 1 : 0, transition: 'all 0.7s ease 0.45s', position: 'relative' }">
-      <CutBtn label="Войти" primary />
-      <CutBtn label="Игровой режим" cyan />
+      <CutBtn label="Войти" primary :onClick="openLogin" />
+      <CutBtn label="Игровой режим" cyan :onClick="openGameMode" />
     </div>
 
     <div class="hero-start" @click="scrollToParks" @mouseenter="startHover = true" @mouseleave="startHover = false" :style="{ opacity: visible ? 0.8 : 0, transition: 'opacity 0.5s ease 1s' }">
-      <div :style="{ padding: '10px 28px 14px', border: `1.5px solid ${startHover ? 'var(--magenta)' : 'rgba(255,0,128,0.4)'}`, borderRadius: '6px', background: startHover ? 'rgba(255,0,128,0.12)' : 'transparent', transition: 'all 0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }">
-        <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--magenta); letter-spacing: 0.15em">СТАРТ</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L7 10M7 10L2 6M7 10L12 6" stroke="var(--magenta)" stroke-width="1.5" stroke-linecap="round" /></svg>
+      <div :style="{ padding: '8px 24px 10px', border: `1.5px solid ${startHover ? 'var(--magenta)' : 'rgba(255,0,128,0.4)'}`, borderRadius: '6px', background: startHover ? 'rgba(255,0,128,0.12)' : 'transparent', transition: 'all 0.3s', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }">
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--magenta); letter-spacing: 0.15em">СТАРТ</span>
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 2L7 10M7 10L2 6M7 10L12 6" stroke="var(--magenta)" stroke-width="1.5" stroke-linecap="round" /></svg>
       </div>
     </div>
   </section>
@@ -90,19 +96,24 @@ onUnmounted(() => {
 .hero-section {
   position: relative; min-height: 100vh; min-height: 100dvh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 120px 24px 80px; overflow: hidden;
+  text-align: center; padding: 100px 24px 70px; overflow: hidden;
 }
 .hero-subtitle {
-  font-family: var(--font-head); font-size: clamp(22px, 4vw, 34px); font-weight: 600;
-  color: #fff; margin: 0 0 40px; max-width: 560px; line-height: 1.3;
+  font-family: var(--font-head); font-size: clamp(20px, 4vw, 34px); font-weight: 600;
+  color: #fff; margin: 0 0 36px; max-width: 560px; line-height: 1.3;
 }
 .hero-start {
-  position: absolute; bottom: 28px; cursor: pointer;
+  position: absolute; bottom: 20px; cursor: pointer;
   animation: float 2s ease-in-out infinite;
 }
+
 @media (max-width: 768px) {
-  .hero-section { padding: 60px 16px 80px; }
-  .hero-subtitle { font-size: clamp(18px, 5vw, 26px); margin: 0 0 32px; }
-  .hero-start { bottom: 16px; }
+  .hero-section { padding: 56px 16px 64px; }
+  .hero-subtitle { font-size: clamp(17px, 5vw, 24px); margin: 0 0 28px; }
+  .hero-start { bottom: 12px; }
+}
+@media (max-height: 680px) {
+  .hero-section { padding: 48px 16px 56px; }
+  .hero-subtitle { margin: 0 0 20px; }
 }
 </style>

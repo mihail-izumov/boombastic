@@ -19,10 +19,9 @@ const cards = [
       </SectionHeader>
     </div>
     <div class="boom-wrap">
-      <div class="boom-slider" style="display: flex; flex-direction: row; flex-wrap: nowrap; gap: 20px; overflow-x: auto; padding: 8px 0 16px">
+      <div class="boom-slider">
         <ParkCard v-for="card in cards" :key="card.id" :card="card" :index="card.id - 1" />
       </div>
-      <div class="swipe-hint"><span class="swipe-hint-hand">👆</span> листай</div>
     </div>
   </section>
 </template>

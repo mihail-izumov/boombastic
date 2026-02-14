@@ -27,16 +27,12 @@ function toggle(i) { openIdx.value = openIdx.value === i ? -1 : i }
         </template>
       </SectionHeader>
 
-      <div class="boom-content-narrow">
+      <!-- Narrow FAQ: 680px max, forced via inline + class -->
+      <div style="max-width: 680px; margin: 0 auto">
         <div
           v-for="(item, i) in items"
           :key="i"
-          :style="{
-            marginBottom: '8px',
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'none' : 'translateY(10px)',
-            transition: `all 0.4s ease ${i * 0.05}s`,
-          }"
+          :style="{ marginBottom: '8px', opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(10px)', transition: `all 0.4s ease ${i * 0.05}s` }"
         >
           <button class="faq-q" :class="{ open: openIdx === i }" @click="toggle(i)">
             <div style="display: flex; align-items: center; gap: 10px">
@@ -75,7 +71,7 @@ function toggle(i) { openIdx.value = openIdx.value === i ? -1 : i }
 .faq-num {
   font-family: var(--font-mono); font-size: 10px; font-weight: 700;
   color: #9AA0C0; background: rgba(90,100,180,0.3);
-  padding: 3px 7px; border-radius: 3px; transition: all 0.25s;
+  padding: 3px 7px; border-radius: 3px; transition: all 0.25s; flex-shrink: 0;
 }
 .faq-num.open { color: var(--bg-deep); background: var(--lime); }
 .faq-text {

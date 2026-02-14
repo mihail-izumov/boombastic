@@ -23,7 +23,6 @@ const steps = [
       </SectionHeader>
 
       <div class="howto-layout">
-        <!-- Steps -->
         <div class="howto-steps">
           <div v-for="(s, i) in steps" :key="i" class="step-row" :style="{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(12px)', transition: `all 0.5s cubic-bezier(0.23,1,0.32,1) ${0.1 + i * 0.1}s` }">
             <div class="step-left">
@@ -44,11 +43,9 @@ const steps = [
           </div>
         </div>
 
-        <!-- Result card -->
         <div class="result-card" @mouseenter="resultHover = true" @mouseleave="resultHover = false" :style="{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(16px)', transition: 'all 0.6s cubic-bezier(0.23,1,0.32,1) 0.4s' }">
           <div class="result-border" :class="{ hovered: resultHover }">
             <div class="result-inner">
-              <!-- Grid only -->
               <svg class="result-grid" width="100%" height="100%">
                 <defs><pattern id="resultGrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M 32 0 L 0 0 0 32" fill="none" stroke="#C5F946" stroke-width="0.4" /></pattern></defs>
                 <rect width="100%" height="100%" fill="url(#resultGrid)" />
@@ -79,8 +76,6 @@ const steps = [
 .step-circle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid; background: var(--bg-deep); display: flex; align-items: center; justify-content: center; z-index: 2; }
 .step-connector { width: 2px; height: 24px; border-radius: 2px; opacity: 0.4; }
 .step-text { padding-top: 8px; min-width: 0; }
-
-/* Result card */
 .result-card { flex: 0 0 260px; }
 .result-border {
   position: relative; padding: 1.5px; border-radius: 12px;
@@ -100,8 +95,6 @@ const steps = [
 .result-count { font-family: var(--font-mono); font-size: 48px; font-weight: 700; color: var(--lime); line-height: 1; margin-bottom: 4px; }
 .result-label { font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text-pri); margin-bottom: 8px; }
 .result-desc { font-family: var(--font-body); font-size: 12px; color: var(--text-sec); line-height: 1.4; margin-bottom: 20px; }
-
-/* CTA — full border, no clip-path */
 .result-cta {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 10px 24px; border-radius: 8px;
@@ -113,8 +106,6 @@ const steps = [
 .result-cta.hovered, .result-cta:hover {
   background: var(--lime); color: #1a1840; border-color: var(--lime);
 }
-
-/* Mobile */
 @media (max-width: 768px) {
   .howto-layout { flex-direction: column; gap: 28px; align-items: center; }
   .howto-steps { min-width: 0; max-width: 400px; }
