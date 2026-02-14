@@ -18,7 +18,6 @@ const parks = [
     hours: '10:00 – 22:00',
     machines: 131,
     mapUrl: 'https://yandex.ru/maps/org/bumbastik/206862982241/',
-    motto: 'ГРОХОТ И АЗАРТ',
     topMachines: ['Big Bass Wheel', 'Funky Box', 'Treasure Quest'],
     nearby: ['Todes', 'Joki Joya', 'КИНО-5D', 'MIR VR'],
     tagColor: '#FF0080',
@@ -36,7 +35,6 @@ const parks = [
     hours: '10:00 – 22:00',
     machines: 134,
     mapUrl: 'https://yandex.ru/maps/org/bumbastik/1733659584/',
-    motto: 'ВОЛНА УДАЧИ',
     topMachines: ['Big Bass Wheel', 'Funky Box', 'Small Bass Wheel'],
     nearby: ['Аквапарк', 'Отель', 'Фудкорт'],
     tagColor: '#C5F946',
@@ -48,13 +46,12 @@ const parks = [
   },
   {
     id: 'mari',
-    name: 'ТРК MARI',
+    name: 'MARI',
     city: 'msk',
     address: 'ул. Поречная, 10, этаж 5',
     hours: '10:00 – 22:00',
     machines: 183,
     mapUrl: 'https://yandex.ru/maps/org/bumbastik/85769777303/',
-    motto: 'КОРОЛЕВСКИЙ РАЗМАХ',
     topMachines: ['Funky Box', 'Treasure Quest', 'Big Bass Wheel'],
     nearby: ['Кинотеатр', 'Фудкорт', 'Каток'],
     tagColor: '#FFD60A',
@@ -106,7 +103,7 @@ function closeModal() {
       <h1 class="parks-title">
         Аркадные <span class="parks-title-accent">арены</span>
       </h1>
-      <p class="parks-subtitle">3 парка · 448 автоматов · 2 города</p>
+      <p class="parks-subtitle">3 парка · 448 автоматов</p>
 
       <!-- City Tabs -->
       <div class="parks-tabs">
@@ -141,19 +138,20 @@ function closeModal() {
               <h3 class="park-card-name">{{ park.name }}</h3>
               <div class="park-card-desc">{{ park.shortDesc }}</div>
             </div>
-            <div class="park-card-machines" :style="{ color: park.accent }">{{ park.machines }}</div>
-          </div>
-          <div class="park-card-badge-wrap">
-            <span class="park-badge" :style="{ color: park.tagColor, background: park.tagColor + '18', borderColor: park.tagColor + '25' }">
-              {{ park.motto }}
-            </span>
+            <div class="park-card-right">
+              <div class="park-card-machines" :style="{ color: park.accent }">{{ park.machines }}</div>
+              <span class="park-badge" :style="{ color: park.tagColor, background: park.tagColor + '18', borderColor: park.tagColor + '25' }">АППАРАТЫ</span>
+            </div>
           </div>
         </div>
 
         <!-- Card Content -->
         <div class="park-card-body">
           <!-- Top Machines -->
-          <div class="park-top-label">🔥 Топ за {{ dayOfWeek }}, {{ dateStr }}</div>
+          <div class="park-top-label">
+            <svg class="park-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
+            Топ за {{ dayOfWeek }}, {{ dateStr }}
+          </div>
           <div class="park-top-list">
             <div
               v-for="(m, j) in park.topMachines"
@@ -173,7 +171,8 @@ function closeModal() {
               Подробнее
             </button>
             <button class="park-btn-secondary">
-              Автоматы →
+              Автоматы
+              <svg class="park-icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
           </div>
         </div>
@@ -206,12 +205,12 @@ function closeModal() {
             <div class="park-modal-glow" :style="{ '--accent': modalPark.accent }"></div>
             <div class="park-modal-header-bottom">
               <div>
-                <span class="park-badge" :style="{ color: modalPark.tagColor, background: modalPark.tagColor + '18', borderColor: modalPark.tagColor + '25' }">
-                  {{ modalPark.motto }}
-                </span>
                 <h2 class="park-modal-name">{{ modalPark.name }}</h2>
               </div>
-              <div class="park-modal-machines">{{ modalPark.machines }}</div>
+              <div class="park-modal-right">
+                <div class="park-modal-machines">{{ modalPark.machines }}</div>
+                <span class="park-badge" :style="{ color: modalPark.tagColor, background: modalPark.tagColor + '18', borderColor: modalPark.tagColor + '25' }">АППАРАТЫ</span>
+              </div>
             </div>
           </div>
 
@@ -221,7 +220,10 @@ function closeModal() {
             <div class="park-modal-nearby">Рядом: {{ modalPark.nearby.join(' · ') }}</div>
 
             <!-- Top machines -->
-            <div class="park-top-label" style="margin-top: 16px;">🔥 Топ автоматов</div>
+            <div class="park-top-label" style="margin-top: 16px;">
+              <svg class="park-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
+              Топ автоматов
+            </div>
             <div class="park-top-list">
               <div
                 v-for="(m, j) in modalPark.topMachines"
@@ -238,18 +240,21 @@ function closeModal() {
             <!-- Info + CTAs block -->
             <div class="park-modal-info-block">
               <div class="park-modal-info-card">
-                <span class="park-modal-info-icon">📍</span>
+                <svg class="park-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
                 <div class="park-modal-info-text">{{ modalPark.address }}</div>
               </div>
               <div class="park-modal-info-card">
-                <span class="park-modal-info-icon">🕐</span>
+                <svg class="park-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><path d="M22 12a10 10 0 1 0-11 9.95"/><path d="m22 16-5.5 5.5L14 19"/></svg>
                 <div>
                   <div class="park-modal-info-text">{{ modalPark.hours }}</div>
                   <div class="park-modal-info-sub">ежедневно</div>
                 </div>
               </div>
               <div class="park-modal-ctas">
-                <button class="park-modal-btn-accent" :style="{ background: modalPark.accent }">Автоматы →</button>
+                <button class="park-modal-btn-accent" :style="{ background: modalPark.accent }">
+                  Автоматы
+                  <svg class="park-icon-btn-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
                 <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route">Маршрут</a>
               </div>
             </div>
@@ -263,7 +268,7 @@ function closeModal() {
 
 <style scoped>
 /* ═══════════════════════════════════════
-   PAGE — uses vars from boom-styles.css
+   PAGE
    ═══════════════════════════════════════ */
 .parks-page {
   min-height: 100vh;
@@ -271,6 +276,36 @@ function closeModal() {
   color: var(--text-pri, #F0F4FF);
   font-family: var(--font-body, 'Inter', sans-serif);
   padding-bottom: 20px;
+}
+
+/* ═══════════════════════════════════════
+   SVG ICONS
+   ═══════════════════════════════════════ */
+.park-icon-sm {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  vertical-align: -1px;
+}
+
+.park-icon-btn {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.park-icon-btn-dark {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #1a1840;
+}
+
+.park-icon-info {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #7A8BA8;
 }
 
 /* ═══════════════════════════════════════
@@ -421,9 +456,7 @@ function closeModal() {
   transition: opacity 0.4s ease;
 }
 
-.park-card:hover .park-card-glow {
-  opacity: 1.4;
-}
+.park-card:hover .park-card-glow { opacity: 1.4; }
 
 .park-card-glow-bottom {
   position: absolute;
@@ -443,9 +476,7 @@ function closeModal() {
   align-items: flex-start;
 }
 
-.park-card-header-left {
-  flex: 1;
-}
+.park-card-header-left { flex: 1; }
 
 .park-card-name {
   font-family: 'Inter', sans-serif;
@@ -460,11 +491,20 @@ function closeModal() {
 
 .park-card-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
   color: #7A8BA8;
   margin-top: 5px;
   line-height: 1.3;
-  opacity: 0.8;
+}
+
+.park-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: 12px;
 }
 
 .park-card-machines {
@@ -472,14 +512,6 @@ function closeModal() {
   font-size: 30px;
   font-weight: 700;
   line-height: 1;
-  flex-shrink: 0;
-  margin-left: 12px;
-}
-
-.park-card-badge-wrap {
-  position: absolute;
-  bottom: 12px; left: 20px;
-  z-index: 1;
 }
 
 /* Badge */
@@ -492,6 +524,7 @@ function closeModal() {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border: 1px solid;
+  white-space: nowrap;
 }
 
 /* Card Body */
@@ -507,6 +540,10 @@ function closeModal() {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .park-top-list {
@@ -525,9 +562,7 @@ function closeModal() {
   border: 1px solid transparent;
 }
 
-.park-top-item.first {
-  padding: 6px 10px;
-}
+.park-top-item.first { padding: 6px 10px; }
 
 .park-top-num {
   font-family: 'Space Mono', monospace;
@@ -588,6 +623,9 @@ function closeModal() {
   font-size: 13px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .park-btn-secondary:hover {
@@ -718,7 +756,7 @@ function closeModal() {
 
 /* Modal Header */
 .park-modal-header {
-  height: 120px;
+  height: 100px;
   position: relative;
   overflow: hidden;
   border-radius: 16px 16px 0 0;
@@ -761,9 +799,16 @@ function closeModal() {
   font-weight: 700;
   font-size: 22px;
   color: #F0F4FF;
-  margin: 6px 0 0;
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+}
+
+.park-modal-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
 }
 
 .park-modal-machines {
@@ -815,11 +860,6 @@ function closeModal() {
   margin-bottom: 8px;
 }
 
-.park-modal-info-icon {
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
 .park-modal-info-text {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
@@ -849,7 +889,17 @@ function closeModal() {
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.park-modal-btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  filter: brightness(1.1);
 }
 
 .park-modal-btn-accent:active { transform: scale(0.96); }
@@ -867,12 +917,13 @@ function closeModal() {
   text-decoration: none;
   display: flex;
   align-items: center;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .park-modal-btn-route:hover {
   background: rgba(0,212,255,0.08);
   border-color: #00D4FF;
+  transform: translateY(-2px);
 }
 
 /* ═══════════════════════════════════════
@@ -908,7 +959,7 @@ function closeModal() {
   .parks-grid { padding: 20px 16px; }
   .park-card { max-width: 100%; }
   .park-card-ctas { flex-direction: column; }
-  .park-btn-primary, .park-btn-secondary { width: 100%; text-align: center; }
+  .park-btn-primary, .park-btn-secondary { width: 100%; text-align: center; justify-content: center; }
   .park-modal-ctas { flex-direction: column; }
   .park-modal-btn-accent, .park-modal-btn-route { width: 100%; justify-content: center; text-align: center; }
 }
