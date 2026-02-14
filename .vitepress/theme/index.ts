@@ -9,6 +9,7 @@ import './boom-styles.css'   // ← НОВОЕ: стили для HomePage
 
 import Layout from './Layout.vue'
 import ShareButton from '../components/ShareButton.vue'
+import ParksPage from '../components/ParksPage.vue'
 
 export default {
   extends: DefaultTheme,
@@ -25,6 +26,7 @@ export default {
 
   enhanceApp({ app, router }) {
     app.component('ShareButton', ShareButton)
+    app.component('ParksPage', ParksPage)
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
       let transitioning = false
