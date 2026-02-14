@@ -18,7 +18,6 @@ export default defineConfig({
     ['link', { rel: 'shortcut icon', href: '/shark-eyes-icon-electric.svg' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
 
-    // Шрифты: Inter (тело), Montserrat (заголовки), Space Mono (технический/сайдбар)
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Space+Mono:wght@400;700&display=swap' }],
@@ -59,15 +58,76 @@ export default defineConfig({
         var m = document.getElementById('bb-login-modal');
         if (m) { m.style.display='none'; document.body.style.overflow=''; }
       }
-      document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeLoginModal(); });
 
-      /* === КНОПКА «Войти» === */
-      function setupLoginButton() {
+      /* === МОДАЛЬНОЕ ОКНО «Игровой режим» === */
+      function createGameModeModal() {
+        if (document.getElementById('bb-gamemode-modal')) return;
+        var overlay = document.createElement('div');
+        overlay.id = 'bb-gamemode-modal';
+        overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;align-items:center;justify-content:center;';
+        var backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,30,0.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;';
+        backdrop.addEventListener('click', function() { closeGameModeModal(); });
+        var modal = document.createElement('div');
+        modal.style.cssText = 'position:relative;width:90%;max-width:400px;border-radius:16px;overflow:hidden;background:linear-gradient(165deg,#222050,#1c1a3e);border:1.5px solid rgba(0,212,255,0.25);box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 40px rgba(0,212,255,0.08);padding:36px 28px 32px;';
+        var closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '\\u2715';
+        closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:10;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;';
+        closeBtn.addEventListener('mouseenter', function() { this.style.background='rgba(255,255,255,0.12)'; this.style.color='#fff'; });
+        closeBtn.addEventListener('mouseleave', function() { this.style.background='rgba(255,255,255,0.06)'; this.style.color='rgba(255,255,255,0.5)'; });
+        closeBtn.addEventListener('click', function() { closeGameModeModal(); });
+        var title = document.createElement('div');
+        title.textContent = 'ИГРОВОЙ РЕЖИМ';
+        title.style.cssText = "font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#00D4FF;letter-spacing:0.12em;text-align:center;margin-bottom:8px;";
+        var subtitle = document.createElement('div');
+        subtitle.textContent = 'Выбери действие';
+        subtitle.style.cssText = "font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:#F0F4FF;text-align:center;margin-bottom:28px;";
+        var btns = document.createElement('div');
+        btns.style.cssText = 'display:flex;flex-direction:column;gap:12px;';
+        function makeBtn(label, color) {
+          var b = document.createElement('button');
+          b.textContent = label;
+          b.style.cssText = "width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid " + color + "40;background:" + color + "0d;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:" + color + ";cursor:pointer;transition:all 0.25s;text-align:center;";
+          b.addEventListener('mouseenter', function() { this.style.background=color+'22'; this.style.borderColor=color+'80'; });
+          b.addEventListener('mouseleave', function() { this.style.background=color+'0d'; this.style.borderColor=color+'40'; });
+          return b;
+        }
+        btns.appendChild(makeBtn('Кнопка 1', '#C5F946'));
+        btns.appendChild(makeBtn('Кнопка 2', '#00D4FF'));
+        btns.appendChild(makeBtn('Кнопка 3', '#FF0080'));
+        modal.appendChild(closeBtn);
+        modal.appendChild(title);
+        modal.appendChild(subtitle);
+        modal.appendChild(btns);
+        overlay.appendChild(backdrop); overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+      }
+      window.openGameModeModal = function() {
+        var m = document.getElementById('bb-gamemode-modal');
+        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; }
+      };
+      function closeGameModeModal() {
+        var m = document.getElementById('bb-gamemode-modal');
+        if (m) { m.style.display='none'; document.body.style.overflow=''; }
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key==='Escape') { closeLoginModal(); closeGameModeModal(); }
+      });
+
+      /* === КНОПКИ НАВИГАЦИИ === */
+      function setupNavButtons() {
         document.querySelectorAll('.VPSocialLink[aria-label="apply-link"]').forEach(function(btn) {
           if (btn.dataset.loginReady) return;
           btn.dataset.loginReady = 'true';
           btn.removeAttribute('href'); btn.style.cursor = 'pointer';
           btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.openLoginModal(); });
+        });
+        document.querySelectorAll('.VPSocialLink[aria-label="gamemode-link"]').forEach(function(btn) {
+          if (btn.dataset.gamemodeReady) return;
+          btn.dataset.gamemodeReady = 'true';
+          btn.removeAttribute('href'); btn.style.cursor = 'pointer';
+          btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.openGameModeModal(); });
         });
       }
 
@@ -90,7 +150,7 @@ export default defineConfig({
       }
 
       /* === INIT === */
-      function init() { createLoginModal(); setupLoginButton(); translateUI(); }
+      function init() { createLoginModal(); createGameModeModal(); setupNavButtons(); translateUI(); }
       if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
       else init();
       window.addEventListener('load', init);
@@ -160,11 +220,11 @@ export default defineConfig({
     nav: [
       { text: 'Парки', link: '/parks' },
       {
-        text: 'О парках',
+        text: 'Empty',
         items: [
-          { text: 'Концепция', link: '/about/concept' },
-          { text: 'Локации', link: '/about/locations' },
-          { text: 'Партнёрам', link: '/about/partners' }
+          { text: 'Empty1', link: '/about/concept' },
+          { text: 'Empty2', link: '/about/concept' },
+          { text: 'Empty3', link: '/about/concept' }
         ]
       }
     ],
@@ -179,6 +239,7 @@ export default defineConfig({
       },
       { icon: 'github', link: '/community', ariaLabel: 'login-link' },
       { icon: 'github', link: '#', ariaLabel: 'apply-link' },
+      { icon: 'github', link: '#', ariaLabel: 'gamemode-link' },
     ],
   }
 })
