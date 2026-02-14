@@ -158,7 +158,7 @@ export default defineConfig({
     },
 
     nav: [
-      { text: 'Контакт', link: '/contact-us' },
+      { text: 'Парки', link: '/parks' },
       {
         text: 'О парках',
         items: [
