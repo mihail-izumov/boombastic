@@ -229,8 +229,8 @@ export default defineConfig({
       }
     ],
 
-    /* ПРАВКА 8: VK ссылка bumbastik_spb */
-    /* ПРАВКА 5: gamemode-link вместо login-link */
+    /* [ПРАВКА 8] VK ссылка изменена на bumbastik_spb
+       [ПРАВКА 5] Убран login-link, порядок: vk, gamemode, apply */
     socialLinks: [
       {
         icon: {
