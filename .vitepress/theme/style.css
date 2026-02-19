@@ -213,8 +213,8 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  transition: all 0.25s ease !important;
-  padding: 2px 8px !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+  padding: 4px 10px !important;
   border-radius: 0 !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
@@ -230,7 +230,7 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 2px 8px !important;
+  padding: 4px 10px !important;
   border-radius: 0 !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover {
@@ -248,9 +248,10 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 2px 8px !important;
+  padding: 4px 10px !important;
   border-radius: 0 !important;
-  transition: all 0.25s ease !important;
+  /* Только цвет и фон, без анимации размеров */
+  transition: background 0.2s ease, color 0.2s ease !important;
 }
 .VPNavBar .VPNavBarMenu .VPFlyout button:hover {
   color: #1a1840 !important;
@@ -261,9 +262,9 @@ code, .vp-code, .line-numbers {
   font-weight: 600 !important;
 }
 
-/* [ПРАВКА 2] Сдвигаем выпадающее меню вниз — сразу под навбаром */
+/* Выпадающее меню — сразу под кнопкой */
 .VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
-  top: calc(100% + 16px) !important;
+  top: calc(100% + 4px) !important;
   margin-top: 0 !important;
 }
 
@@ -290,20 +291,25 @@ code, .vp-code, .line-numbers {
 
 /* Пункты: ЯРКИЙ белый текст */
 .VPMenu .VPMenuItem,
-.VPFlyout .VPMenuItem {
+.VPFlyout .VPMenuItem,
+.VPMenu .VPMenuLink,
+.VPFlyout .VPMenuLink {
   padding: 6px 12px !important;
   border-radius: 6px !important;
-  transition: all 0.2s ease !important;
+  transition: background 0.2s ease !important;
 }
 
 .VPMenu .VPMenuItem .text,
 .VPFlyout .VPMenuItem .text,
 .VPMenu .VPMenuLink .text,
-.VPFlyout .VPMenuLink .text {
+.VPFlyout .VPMenuLink .text,
+.VPMenu .VPMenuLink a span,
+.VPFlyout .VPMenuLink a span {
   color: #ffffff !important;
   font-family: var(--vp-font-family-base) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
+  transition: color 0.2s ease !important;
 }
 
 /* Hover: лаймовая плашка + тёмный текст */
@@ -316,14 +322,20 @@ code, .vp-code, .line-numbers {
 .VPMenu .VPMenuItem:hover .text,
 .VPFlyout .VPMenuItem:hover .text,
 .VPMenu .VPMenuLink:hover .text,
-.VPFlyout .VPMenuLink:hover .text {
+.VPFlyout .VPMenuLink:hover .text,
+.VPMenu .VPMenuLink:hover a span,
+.VPFlyout .VPMenuLink:hover a span {
   color: #1a1840 !important;
 }
 
 /* Активный пункт — лаймовый текст */
 .VPMenuItem .text.active,
 .VPMenuItem.active .text,
-.VPMenuLink.active .text {
+.VPMenuLink.active .text,
+.VPMenuLink a.active,
+.VPMenuLink a.active span,
+.VPLink.link.active,
+.VPLink.link.active span {
   color: var(--accent-lime) !important;
   font-weight: 700 !important;
 }

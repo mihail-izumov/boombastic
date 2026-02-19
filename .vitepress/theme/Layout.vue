@@ -312,28 +312,49 @@ function setupMobileNavButtons() {
 }
 
 /* ═══ [2] Активная страница в выпадающем меню — лаймовая ═══ */
-.VPMenu .VPMenuLink.active .text,
-.VPFlyout .VPMenuLink.active .text,
-.VPMenu .VPMenuItem.active .text,
-.VPFlyout .VPMenuItem.active .text,
-.VPMenu a.active .text,
-.VPFlyout a.active .text {
+.VPMenuLink a.active,
+.VPMenuLink a.active span,
+.VPLink.link.active,
+.VPLink.link.active span,
+.VPMenu .VPMenuLink a.active span,
+.VPFlyout .VPMenuLink a.active span {
   color: #C5F946 !important;
   font-weight: 700 !important;
 }
 
-/* ═══ [3] Empty на активной странице: при hover текст тёмный ═══ */
-.VPNavBar .VPNavBarMenu .VPFlyout button:hover,
-.VPNavBar .VPNavBarMenu .VPFlyout button:hover .text,
-.VPNavBar .VPNavBarMenu .VPFlyout.active button:hover,
-.VPNavBar .VPNavBarMenu .VPFlyout.active button:hover .text {
-  color: #1a1840 !important;
-  background: #C5F946 !important;
+/* ═══ [3] Кнопка Empty: фиксированный размер, без дёргания ═══ */
+.VPNavBar .VPNavBarMenu .VPFlyout > button,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button {
+  padding: 4px 10px !important;
+  border-radius: 0 !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+  /* Фиксируем размеры */
+  min-width: auto !important;
+  box-sizing: border-box !important;
 }
 
-/* Empty в активном состоянии (когда на странице из этой группы) */
-.VPNavBar .VPNavBarMenu .VPFlyout.active button .text {
+/* Empty в обычном состоянии */
+.VPNavBar .VPNavBarMenu .VPFlyout > button .text,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button .text {
+  color: #F0F4FF !important;
+}
+
+/* Empty когда на активной странице из группы */
+.VPNavBar .VPNavBarMenu .VPFlyout.active > button .text,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup.active > button .text {
   color: #C5F946 !important;
+}
+
+/* Empty при hover: лаймовый фон, тёмный текст */
+.VPNavBar .VPNavBarMenu .VPFlyout > button:hover,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button:hover {
+  background: #C5F946 !important;
+}
+.VPNavBar .VPNavBarMenu .VPFlyout > button:hover .text,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button:hover .text,
+.VPNavBar .VPNavBarMenu .VPFlyout.active > button:hover .text,
+.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup.active > button:hover .text {
+  color: #1a1840 !important;
 }
 
 /* ═══ [3] ДЕСКТОП: Кнопки навигации +20% ═══ */
