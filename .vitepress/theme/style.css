@@ -99,6 +99,12 @@ h1, h2, h3, h4, h5, h6,
   font-family: var(--font-heading) !important;
 }
 
+/* [ПРАВКА 1] Hero "Б0000000М!" — моноширинный шрифт */
+.hero-section h1,
+.boom-page .hero-section h1 {
+  font-family: 'Space Mono', monospace !important;
+}
+
 h1 { font-weight: 900 !important; }
 h2, h3 { font-weight: 700 !important; }
 
@@ -208,8 +214,8 @@ code, .vp-code, .line-numbers {
   font-weight: 600 !important;
   font-size: 14px !important;
   transition: all 0.25s ease !important;
-  padding: 4px 12px !important;
-  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
   color: #1a1840 !important;
@@ -224,10 +230,35 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover {
   color: #1a1840 !important;
   background: var(--accent-lime) !important;
+}
+
+/* Flyout (dropdown) выравнивание */
+.VPNavBar .VPNavBarMenu .VPFlyout {
+  display: flex !important;
+  align-items: center !important;
+}
+.VPNavBar .VPNavBarMenu .VPFlyout button {
+  color: var(--text-primary) !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  transition: all 0.25s ease !important;
+}
+.VPNavBar .VPNavBarMenu .VPFlyout button:hover {
+  color: #1a1840 !important;
+  background: var(--accent-lime) !important;
+}
+.VPNavBar .VPNavBarMenu .VPFlyout button .text {
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 
 /* ============================================================
@@ -428,7 +459,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   width: 36px !important; height: 36px !important;
 }
 .VPSocialLinks .VPSocialLink[aria-label="vk-link"] svg {
-  width: 28px !important; height: 28px !important;
+  width: 39px !important; height: 39px !important;
 }
 .VPSocialLinks .VPSocialLink svg { fill: var(--text-primary) !important; }
 .VPSocialLinks .VPSocialLink:hover svg { fill: var(--accent-lime) !important; }
@@ -483,7 +514,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 /* ============================================================
-   ДЕСКТОП РАСКЛАДКА — [ПРАВКА 6] отступы 20px
+   ДЕСКТОП РАСКЛАДКА — [ПРАВКА 6] отступы
    ============================================================ */
 @media (min-width: 961px) {
   .VPNavBar .content { gap: 0 !important; }
@@ -491,9 +522,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavBarSocialLinks {
     min-width: auto !important;
     justify-content: flex-end !important;
-    gap: 20px !important;
+    gap: 16px !important;
     margin-left: 0 !important;
-    margin-right: 20px !important;
     flex-shrink: 0 !important;
   }
   .VPSocialLink:not(:last-child) { margin-right: 0 !important; }
@@ -524,17 +554,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
   .VPNavScreen .VPNavScreenMenuLink {
     font-family: var(--vp-font-family-base) !important;
-    font-size: 20px !important;
-    font-weight: 700 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
     color: var(--text-primary) !important;
     padding: 12px 0 !important;
   }
   .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
+  /* [ПРАВКА 7] Empty группа - одинаковый размер и цвета как в десктопе */
   .VPNavScreen .VPNavScreenMenuGroup .title {
     font-family: var(--vp-font-family-base) !important;
-    font-size: 20px !important;
-    font-weight: 700 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
     color: var(--text-primary) !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .title:hover { color: var(--accent-lime) !important; }
