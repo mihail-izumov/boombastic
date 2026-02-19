@@ -208,14 +208,16 @@ code, .vp-code, .line-numbers {
 /* ============================================================
    НАВИГАЦИЯ: лаймовая плашка при hover
    ============================================================ */
+/* [FIX 1] Кнопки навбара - не выходят за контейнер */
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink {
   color: var(--text-primary) !important;
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
   transition: background 0.2s ease, color 0.2s ease !important;
-  padding: 4px 10px !important;
+  padding: 2px 8px !important;
   border-radius: 0 !important;
+  line-height: 1.4 !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
   color: #1a1840 !important;
@@ -230,12 +232,8 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 4px 10px !important;
+  padding: 2px 8px !important;
   border-radius: 0 !important;
-}
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover {
-  color: #1a1840 !important;
-  background: var(--accent-lime) !important;
 }
 
 /* Flyout (dropdown) выравнивание */
@@ -243,29 +241,40 @@ code, .vp-code, .line-numbers {
   display: flex !important;
   align-items: center !important;
 }
-.VPNavBar .VPNavBarMenu .VPFlyout button {
+.VPNavBar .VPNavBarMenu .VPFlyout > button {
   color: var(--text-primary) !important;
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 4px 10px !important;
+  padding: 2px 8px !important;
   border-radius: 0 !important;
-  /* Только цвет и фон, без анимации размеров */
+  line-height: 1.4 !important;
   transition: background 0.2s ease, color 0.2s ease !important;
 }
-.VPNavBar .VPNavBarMenu .VPFlyout button:hover {
+.VPNavBar .VPNavBarMenu .VPFlyout > button:hover {
   color: #1a1840 !important;
   background: var(--accent-lime) !important;
 }
-.VPNavBar .VPNavBarMenu .VPFlyout button .text {
+.VPNavBar .VPNavBarMenu .VPFlyout > button .text {
   font-size: 14px !important;
   font-weight: 600 !important;
 }
+/* Empty когда на активной странице */
+.VPNavBar .VPNavBarMenu .VPFlyout.active > button .text {
+  color: var(--accent-lime) !important;
+}
+.VPNavBar .VPNavBarMenu .VPFlyout.active > button:hover .text {
+  color: #1a1840 !important;
+}
 
-/* Выпадающее меню — сразу под кнопкой */
-.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
-  top: calc(100% + 4px) !important;
-  margin-top: 0 !important;
+/* [FIX 2] Выпадающее меню — под навбаром */
+.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu,
+.VPFlyout .VPMenu {
+  position: absolute !important;
+  top: 100% !important;
+  margin-top: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
 
 /* ============================================================
@@ -289,13 +298,23 @@ code, .vp-code, .line-numbers {
   letter-spacing: 0.08em !important;
 }
 
-/* Пункты: ЯРКИЙ белый текст */
+/* [FIX 3,4] Пункты меню: белый текст, без двойной рамки */
 .VPMenu .VPMenuItem,
 .VPFlyout .VPMenuItem,
 .VPMenu .VPMenuLink,
 .VPFlyout .VPMenuLink {
-  padding: 6px 12px !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.VPMenu .VPMenuLink a,
+.VPFlyout .VPMenuLink a {
+  display: block !important;
+  padding: 8px 16px !important;
   border-radius: 6px !important;
+  border: none !important;
   transition: background 0.2s ease !important;
 }
 
@@ -313,28 +332,17 @@ code, .vp-code, .line-numbers {
 }
 
 /* Hover: лаймовая плашка + тёмный текст */
-.VPMenu .VPMenuItem:hover,
-.VPFlyout .VPMenuItem:hover,
-.VPMenu .VPMenuLink:hover,
-.VPFlyout .VPMenuLink:hover {
+.VPMenu .VPMenuLink a:hover,
+.VPFlyout .VPMenuLink a:hover {
   background-color: var(--accent-lime) !important;
 }
-.VPMenu .VPMenuItem:hover .text,
-.VPFlyout .VPMenuItem:hover .text,
-.VPMenu .VPMenuLink:hover .text,
-.VPFlyout .VPMenuLink:hover .text,
-.VPMenu .VPMenuLink:hover a span,
-.VPFlyout .VPMenuLink:hover a span {
+.VPMenu .VPMenuLink a:hover span,
+.VPFlyout .VPMenuLink a:hover span {
   color: #1a1840 !important;
 }
 
-/* Активный пункт — лаймовый текст */
-.VPMenuItem .text.active,
-.VPMenuItem.active .text,
-.VPMenuLink.active .text,
-.VPMenuLink a.active,
+/* [FIX 5] Активный пункт — лаймовый текст */
 .VPMenuLink a.active span,
-.VPLink.link.active,
 .VPLink.link.active span {
   color: var(--accent-lime) !important;
   font-weight: 700 !important;
@@ -610,14 +618,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     color: var(--accent-lime) !important;
   }
 
+  /* [FIX 8] "+" и "×" в мобильном меню увеличены */
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-plus,
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-chevron-down,
   .VPNavScreen .VPNavScreenMenuGroup .title svg,
   .VPNavScreen .VPNavScreenMenuGroup .title::after {
-    width: 28px !important; height: 28px !important; font-size: 28px !important;
+    width: 36px !important; height: 36px !important; font-size: 36px !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup button .text-icon {
-    width: 28px !important; height: 28px !important;
+    width: 36px !important; height: 36px !important;
+  }
+  .VPNavScreen .VPNavScreenMenuGroup button .text-icon svg {
+    width: 24px !important; height: 24px !important;
   }
 
   .VPNavBarHamburger .container .top,
@@ -630,6 +642,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavBarHamburger:hover .container .middle,
   .VPNavBarHamburger:hover .container .bottom {
     background-color: var(--accent-lime) !important;
+  }
+
+  /* [FIX 6] VPLocalNav под главной навигацией */
+  .VPLocalNav {
+    top: 64px !important;
+    position: sticky !important;
+    z-index: 50 !important;
+  }
+  
+  /* Отступ для контента на страницах с сайдбаром */
+  .has-sidebar .VPContent {
+    padding-top: 0 !important;
   }
 
   .VPNavScreen .VPNavScreenSocialLinks {
@@ -685,6 +709,61 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
   .footer-row { flex-direction: column !important; gap: 8px !important; }
   .dot-separator { display: none !important; }
+}
+
+/* ============================================================
+   [FIX 9] VPNavBarExtra — меню "..." между мобильной и десктопной версией
+   ============================================================ */
+.VPNavBarExtra {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.VPNavBarExtra .VPFlyout .VPMenu {
+  background: rgba(22, 20, 52, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(74, 90, 173, 0.3) !important;
+  padding: 16px !important;
+}
+
+/* Контейнер внутри "..." */
+.VPNavBarExtra .VPMenu .items {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  align-items: center !important;
+}
+
+/* VK иконка внутри "..." */
+.VPNavBarExtra .VPSocialLink[aria-label="vk-link"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin-bottom: 8px !important;
+}
+.VPNavBarExtra .VPSocialLink[aria-label="vk-link"] svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Кнопки внутри "..." */
+.VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"],
+.VPNavBarExtra .VPSocialLink[aria-label="apply-link"] {
+  width: 100% !important;
+  margin: 4px 0 !important;
+}
+
+.VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"]::after,
+.VPNavBarExtra .VPSocialLink[aria-label="apply-link"]::after {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 140px !important;
+  padding: 10px 16px !important;
+  font-size: 14px !important;
 }
 
 /* ============================================================

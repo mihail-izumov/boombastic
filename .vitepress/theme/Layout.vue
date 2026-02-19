@@ -276,39 +276,43 @@ function setupMobileNavButtons() {
     color: #C5F946 !important;
   }
   
-  /* [4] Мобильная навигация: закреплена при скролле с blur */
+  /* [FIX 7] Мобильная навигация: закреплена при скролле с blur — ВЕЗДЕ */
   .VPNavBar {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 100 !important;
-  }
-  
-  .VPNavBar.bb-scrolled {
     background: rgba(20, 18, 50, 0.85) !important;
     backdrop-filter: blur(12px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
   }
   
-  /* Отступ для контента под fixed навбаром */
+  /* [FIX 6] VPLocalNav под главной навигацией */
+  .VPLocalNav {
+    position: sticky !important;
+    top: 64px !important;
+    z-index: 50 !important;
+    margin-top: 64px !important;
+  }
+  
+  /* Отступ для контента */
   .VPContent {
     padding-top: 64px !important;
   }
+  
+  /* На главной без двойного отступа */
   body.boom-home-active .VPContent {
     padding-top: 0 !important;
   }
   body.boom-home-active .boom-page {
     padding-top: 64px !important;
   }
-}
-
-/* ═══ [1] ДЕСКТОП: Выпадающее меню ниже (не перекрывает Empty) ═══ */
-.VPFlyout .VPMenu,
-.VPNavBar .VPFlyout .VPMenu,
-.VPNavBarMenu .VPFlyout .VPMenu {
-  top: calc(100% + 4px) !important;
-  margin-top: 0 !important;
+  
+  /* На страницах с сайдбаром отступ уже через VPLocalNav */
+  .has-sidebar .VPContent {
+    padding-top: 0 !important;
+  }
 }
 
 /* ═══ [2] Активная страница в выпадающем меню — лаймовая ═══ */
@@ -320,17 +324,6 @@ function setupMobileNavButtons() {
 .VPFlyout .VPMenuLink a.active span {
   color: #C5F946 !important;
   font-weight: 700 !important;
-}
-
-/* ═══ [3] Кнопка Empty: фиксированный размер, без дёргания ═══ */
-.VPNavBar .VPNavBarMenu .VPFlyout > button,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button {
-  padding: 4px 10px !important;
-  border-radius: 0 !important;
-  transition: background 0.2s ease, color 0.2s ease !important;
-  /* Фиксируем размеры */
-  min-width: auto !important;
-  box-sizing: border-box !important;
 }
 
 /* Empty в обычном состоянии */
