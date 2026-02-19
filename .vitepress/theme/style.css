@@ -261,9 +261,10 @@ code, .vp-code, .line-numbers {
   font-weight: 600 !important;
 }
 
-/* [ПРАВКА 2] Сдвигаем выпадающее меню вниз */
+/* [ПРАВКА 2] Сдвигаем выпадающее меню вниз — сразу под навбаром */
 .VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
-  top: calc(100% + 8px) !important;
+  top: calc(100% + 16px) !important;
+  margin-top: 0 !important;
 }
 
 /* ============================================================
@@ -469,13 +470,13 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .VPSocialLinks .VPSocialLink svg { fill: var(--text-primary) !important; }
 .VPSocialLinks .VPSocialLink:hover svg { fill: var(--accent-lime) !important; }
 
-/* [FIX 6] Кнопка «Игровой режим» — Inter, единообразно */
+/* [FIX 6] Кнопка «Игровой режим» — Inter, +20% размер */
 .VPSocialLink[aria-label="gamemode-link"]::after {
   content: "Игровой режим";
   font-family: var(--vp-font-family-base);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-primary) !important;
-  padding: 6px 14px;
+  padding: 8px 18px;
   border-radius: 10px;
   background: rgba(74, 90, 173, 0.15) !important;
   border: 1px solid rgba(74, 90, 173, 0.2) !important;
@@ -492,9 +493,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .VPSocialLink[aria-label="apply-link"]::after {
   content: "Войти";
   font-family: var(--vp-font-family-base);
-  font-size: 13px;
+  font-size: 15px;
   color: #1a1840;
-  padding: 6px 14px;
+  padding: 8px 18px;
   border-radius: 10px;
   background-image: linear-gradient(-45deg, #c5f946, #85a931, #c5f946, #85a931);
   background-size: 400% 400%;
@@ -567,17 +568,22 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
   /* [ПРАВКА 7] Empty группа - одинаковый размер и цвета как в десктопе */
-  .VPNavScreen .VPNavScreenMenuGroup .title {
+  .VPNavScreen .VPNavScreenMenuGroup .title,
+  .VPNavScreen .VPNavScreenMenuGroup .title .text,
+  .VPNavScreen .VPNavScreenMenuGroup button .text {
     font-family: var(--vp-font-family-base) !important;
     font-size: 18px !important;
     font-weight: 600 !important;
-    color: var(--text-primary) !important;
+    color: var(--accent-lime) !important;
   }
-  .VPNavScreen .VPNavScreenMenuGroup .title:hover { color: var(--accent-lime) !important; }
-  .VPNavScreen .VPNavScreenMenuGroup.open .title { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup .title:hover,
+  .VPNavScreen .VPNavScreenMenuGroup .title:hover .text { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup.open .title,
+  .VPNavScreen .VPNavScreenMenuGroup.open .title .text { color: var(--accent-lime) !important; }
   
-  /* Empty закрытый - белый текст */
-  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title { color: var(--text-primary) !important; }
+  /* Empty закрытый - лаймовый текст */
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title,
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title .text { color: var(--accent-lime) !important; }
 
   .VPNavScreen .VPNavScreenMenuGroup .item a,
   .VPNavScreen .VPNavScreenMenuGroup .item .VPNavScreenMenuGroupLink,

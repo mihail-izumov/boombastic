@@ -92,13 +92,13 @@ onMounted(() => {
 
   injectSharkEyes()
   setupMobileSignalButton()
-  setupMobileNavButtons() // [ПРАВКА 4] Добавлено
+  setupMobileNavButtons()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
     if (window.innerWidth <= 768) {
       setupMobileSignalButton()
-      setupMobileNavButtons() // [ПРАВКА 4] Добавлено
+      setupMobileNavButtons()
     }
   })
   observer.observe(document.body, { childList: true, subtree: true })
@@ -126,7 +126,7 @@ onMounted(() => {
     })
     if (window.innerWidth <= 768) {
       setTimeout(setupMobileSignalButton, 300)
-      setTimeout(setupMobileNavButtons, 300) // [ПРАВКА 4] Добавлено
+      setTimeout(setupMobileNavButtons, 300)
     }
   }
 })
@@ -190,7 +190,7 @@ function setupMobileSignalButton() {
   })
 }
 
-// [ПРАВКА 4] Мобильные кнопки "Войти" и "Игровой режим"
+// Мобильные кнопки "Войти" и "Игровой режим"
 function setupMobileNavButtons() {
   if (typeof window === 'undefined' || window.innerWidth > 768) return
 
@@ -206,7 +206,6 @@ function setupMobileNavButtons() {
       e.preventDefault()
       e.stopPropagation()
       
-      // Закрываем мобильное меню
       const navScreen = document.querySelector('.VPNavScreen')
       if (navScreen) navScreen.classList.remove('open')
       document.body.classList.remove('overflow-hidden')
@@ -232,7 +231,6 @@ function setupMobileNavButtons() {
       e.preventDefault()
       e.stopPropagation()
       
-      // Закрываем мобильное меню
       const navScreen = document.querySelector('.VPNavScreen')
       if (navScreen) navScreen.classList.remove('open')
       document.body.classList.remove('overflow-hidden')
@@ -249,7 +247,65 @@ function setupMobileNavButtons() {
 </script>
 
 <style>
-/* ── Скрываем дефолтный VitePress home-контент когда наша страница активна ── */
+/* ══════════════════════════════════════════════════════════════════
+   КРИТИЧЕСКИЕ ПЕРЕОПРЕДЕЛЕНИЯ — максимальный приоритет
+   Эти стили в Layout.vue имеют приоритет над внешними CSS файлами
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ═══ [1] МОБИЛЬНОЕ МЕНЮ: Empty 18px лаймовый ═══ */
+@media (max-width: 768px) {
+  .VPNavScreen .VPNavScreenMenuGroup button,
+  .VPNavScreen .VPNavScreenMenuGroup button .text,
+  .VPNavScreen .VPNavScreenMenuGroup > button,
+  .VPNavScreen .VPNavScreenMenuGroup > button > .text,
+  .VPNavScreen .VPNavScreenMenuGroup > button > span.text {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #C5F946 !important;
+  }
+  
+  /* Подпункты Empty1, Empty2, Empty3 - белые */
+  .VPNavScreen .VPNavScreenMenuGroup .item a,
+  .VPNavScreen .VPNavScreenMenuGroup .items .item a {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #F0F4FF !important;
+  }
+  .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
+  .VPNavScreen .VPNavScreenMenuGroup .items .item a:hover {
+    color: #C5F946 !important;
+  }
+}
+
+/* ═══ [2] ДЕСКТОП: Выпадающее меню ниже ═══ */
+.VPFlyout .VPMenu,
+.VPNavBar .VPFlyout .VPMenu,
+.VPNavBarMenu .VPFlyout .VPMenu {
+  top: 100% !important;
+  margin-top: 12px !important;
+}
+
+/* ═══ [3] ДЕСКТОП: Кнопки навигации +20% ═══ */
+.VPSocialLink[aria-label="gamemode-link"]::after {
+  font-size: 15px !important;
+  padding: 8px 18px !important;
+}
+.VPSocialLink[aria-label="apply-link"]::after {
+  font-size: 15px !important;
+  padding: 8px 18px !important;
+}
+
+/* ═══ [4] Hero "Б0000000М!" — моноширинный шрифт ═══ */
+.hero-section h1,
+.boom-page .hero-section h1 {
+  font-family: 'Space Mono', monospace !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   БАЗОВЫЕ СТИЛИ (оригинальные)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Скрываем дефолтный VitePress home-контент */
 body.boom-home-active .VPHome .VPHomeHero .container {
   display: none !important;
 }
@@ -296,7 +352,7 @@ body.has-banner .VPDoc {
   align-items: center !important;
 }
 
-/* [ПРАВКА 2] Shark Eyes увеличены на 20% (28→34, 18→22) */
+/* Shark Eyes +20% */
 .shark-eyes {
   width: 34px;
   height: 22px;
@@ -343,7 +399,6 @@ body.has-banner .VPDoc {
 .preloader-fade-leave-to { opacity: 0; }
 
 @media (max-width: 768px) {
-  /* [ПРАВКА 2] Shark Eyes на мобильном тоже +20% (24→29, 16→19) */
   .shark-eyes { width: 29px; height: 19px; margin-right: 5px; }
   .bb-preloader-eyes { width: 56px; height: 38px; }
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
