@@ -223,8 +223,8 @@ export default defineConfig({
         text: 'Empty',
         items: [
           { text: 'Empty1', link: '/about/concept' },
-          { text: 'Empty2', link: '/about/concept' },
-          { text: 'Empty3', link: '/about/concept' }
+          { text: 'Empty2', link: '/about/locations' },
+          { text: 'Empty3', link: '/about/partners' }
         ]
       }
     ],
