@@ -93,10 +93,27 @@ onMounted(() => {
   injectSharkEyes()
   setupMobileSignalButton()
   setupMobileNavButtons()
+  
+  // Скрываем VPLocalNav когда открыто мобильное меню
+  const navScreenObserver = new MutationObserver(() => {
+    const navScreen = document.querySelector('.VPNavScreen')
+    const localNav = document.querySelector('.VPLocalNav')
+    if (navScreen && localNav) {
+      if (navScreen.classList.contains('open')) {
+        localNav.style.display = 'none'
+      } else {
+        localNav.style.display = ''
+      }
+    }
+  })
+  const navScreen = document.querySelector('.VPNavScreen')
+  if (navScreen) {
+    navScreenObserver.observe(navScreen, { attributes: true, attributeFilter: ['class'] })
+  }
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 960) {
       setupMobileSignalButton()
       setupMobileNavButtons()
     }
@@ -124,7 +141,7 @@ onMounted(() => {
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
     })
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 960) {
       setTimeout(setupMobileSignalButton, 300)
       setTimeout(setupMobileNavButtons, 300)
     }
@@ -253,7 +270,7 @@ function setupMobileNavButtons() {
    ══════════════════════════════════════════════════════════════════ */
 
 /* ═══ [1] МОБИЛЬНОЕ МЕНЮ: Empty 18px лаймовый ═══ */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .VPNavScreen .VPNavScreenMenuGroup button,
   .VPNavScreen .VPNavScreenMenuGroup button .text,
   .VPNavScreen .VPNavScreenMenuGroup > button,
@@ -313,6 +330,16 @@ function setupMobileNavButtons() {
   .has-sidebar .VPContent {
     padding-top: 0 !important;
   }
+  
+  /* Скрыть VPLocalNav когда открыто мобильное меню */
+  body:has(.VPNavScreen.open) .VPLocalNav {
+    display: none !important;
+  }
+  
+  /* Скрыть "..." в мобильной версии */
+  .VPNavBarExtra {
+    display: none !important;
+  }
 }
 
 /* ═══ [2] Активная страница в выпадающем меню — лаймовая ═══ */
@@ -324,6 +351,14 @@ function setupMobileNavButtons() {
 .VPFlyout .VPMenuLink a.active span {
   color: #C5F946 !important;
   font-weight: 700 !important;
+}
+
+/* Активная ссылка при hover — тёмный текст на лаймовом фоне */
+.VPMenuLink a.active:hover,
+.VPMenuLink a.active:hover span,
+.VPMenu .VPMenuLink a.active:hover span,
+.VPFlyout .VPMenuLink a.active:hover span {
+  color: #1a1840 !important;
 }
 
 /* Empty в обычном состоянии */
