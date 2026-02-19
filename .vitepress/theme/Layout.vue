@@ -275,14 +275,65 @@ function setupMobileNavButtons() {
   .VPNavScreen .VPNavScreenMenuGroup .items .item a:hover {
     color: #C5F946 !important;
   }
+  
+  /* [4] Мобильная навигация: закреплена при скролле с blur */
+  .VPNavBar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+  }
+  
+  .VPNavBar.bb-scrolled {
+    background: rgba(20, 18, 50, 0.85) !important;
+    backdrop-filter: blur(12px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  }
+  
+  /* Отступ для контента под fixed навбаром */
+  .VPContent {
+    padding-top: 64px !important;
+  }
+  body.boom-home-active .VPContent {
+    padding-top: 0 !important;
+  }
+  body.boom-home-active .boom-page {
+    padding-top: 64px !important;
+  }
 }
 
-/* ═══ [2] ДЕСКТОП: Выпадающее меню ниже ═══ */
+/* ═══ [1] ДЕСКТОП: Выпадающее меню ниже (не перекрывает Empty) ═══ */
 .VPFlyout .VPMenu,
 .VPNavBar .VPFlyout .VPMenu,
 .VPNavBarMenu .VPFlyout .VPMenu {
-  top: 100% !important;
-  margin-top: 12px !important;
+  top: calc(100% + 4px) !important;
+  margin-top: 0 !important;
+}
+
+/* ═══ [2] Активная страница в выпадающем меню — лаймовая ═══ */
+.VPMenu .VPMenuLink.active .text,
+.VPFlyout .VPMenuLink.active .text,
+.VPMenu .VPMenuItem.active .text,
+.VPFlyout .VPMenuItem.active .text,
+.VPMenu a.active .text,
+.VPFlyout a.active .text {
+  color: #C5F946 !important;
+  font-weight: 700 !important;
+}
+
+/* ═══ [3] Empty на активной странице: при hover текст тёмный ═══ */
+.VPNavBar .VPNavBarMenu .VPFlyout button:hover,
+.VPNavBar .VPNavBarMenu .VPFlyout button:hover .text,
+.VPNavBar .VPNavBarMenu .VPFlyout.active button:hover,
+.VPNavBar .VPNavBarMenu .VPFlyout.active button:hover .text {
+  color: #1a1840 !important;
+  background: #C5F946 !important;
+}
+
+/* Empty в активном состоянии (когда на странице из этой группы) */
+.VPNavBar .VPNavBarMenu .VPFlyout.active button .text {
+  color: #C5F946 !important;
 }
 
 /* ═══ [3] ДЕСКТОП: Кнопки навигации +20% ═══ */
