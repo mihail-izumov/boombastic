@@ -92,6 +92,24 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
 }
 
 /* ============================================================
+   [ПРАВКА 1, 2] SHARK EYES
+   ============================================================ */
+.shark-eyes {
+  width: 34px !important;
+  height: 22px !important;
+  margin-right: 6px;
+  flex-shrink: 0;
+  display: inline-block !important;
+  visibility: visible !important;
+  animation: eyes-breathe 4s ease-in-out infinite;
+}
+
+@keyframes eyes-breathe {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(197, 249, 70, 0.3)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 8px rgba(197, 249, 70, 0.6)); transform: scale(1.03); }
+}
+
+/* ============================================================
    НАВБАР: GLASSMORPHISM
    ============================================================ */
 .VPNavBar,
@@ -120,7 +138,19 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
 }
 
 .VPNavBar .divider-line { background: rgba(74, 90, 173, 0.1) !important; }
-.VPNavBarTitle .logo { height: 32px !important; width: auto !important; }
+
+/* [ПРАВКА 2] Логотип уменьшен до высоты shark eyes */
+.VPNavBarTitle .logo { height: 22px !important; width: auto !important; }
+
+/* [ПРАВКА 3] Обводка поиска в пассивном состоянии */
+.VPNavBarSearchButton {
+  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+.VPNavBarSearchButton:hover {
+  border-color: rgba(0, 212, 255, 0.6) !important;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2) !important;
+}
 
 /* ============================================================
    НАВИГАЦИЯ ДЕСКТОП
@@ -132,17 +162,20 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover { color: var(--bb-lime) !important; }
 
 /* ============================================================
-   ВЫПАДАЮЩЕЕ МЕНЮ
+   [ПРАВКА 7] ВЫПАДАЮЩЕЕ МЕНЮ
    ============================================================ */
 .VPMenu, .VPFlyout .VPMenu, .VPNavBarExtra .VPFlyout .VPMenu {
-  background: rgba(35, 33, 75, 0.95) !important;
+  /* Фон светлее */
+  background: rgba(50, 47, 95, 0.98) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: none !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
 }
-.VPMenuGroup .title { color: rgba(255, 255, 255, 0.3) !important; font-size: 12px !important; }
+/* Название группы - лаймовый */
+.VPMenuGroup .title { color: var(--bb-lime) !important; font-size: 12px !important; }
 .VPMenuItem .text { color: rgba(255, 255, 255, 0.9) !important; }
+/* Hover - лаймовый фон */
 .VPMenuItem:hover { background-color: var(--bb-lime) !important; border-radius: 6px !important; }
 .VPMenuItem:hover .text { color: #1a1840 !important; }
 .VPMenuItem .text.active, .VPMenuItem.active .text { color: var(--bb-lime) !important; }
@@ -230,18 +263,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
   justify-content: center !important; flex-shrink: 0 !important;
 }
 
-/* «Сообщество» */
-.VPSocialLink[aria-label="login-link"]::after {
-  content: "Сообщество"; font-size: 14px; color: rgba(255,255,255,0.85) !important;
+/* [ПРАВКА 5] «Игровой режим» (было «Сообщество» с login-link) */
+.VPSocialLink[aria-label="gamemode-link"]::after {
+  content: "Игровой режим"; font-size: 14px; color: rgba(255,255,255,0.85) !important;
   padding: 8px 16px; border-radius: 12px;
   background: rgba(74, 90, 173, 0.15) !important;
   border: 1px solid rgba(74, 90, 173, 0.2) !important;
   transition: all 0.3s ease; white-space: nowrap; font-weight: 600;
 }
-.VPSocialLink[aria-label="login-link"]:hover::after {
-  background: rgba(74, 90, 173, 0.25) !important;
-  color: var(--bb-lime) !important;
-  border-color: rgba(197, 249, 70, 0.15) !important;
+.VPSocialLink[aria-label="gamemode-link"]:hover::after {
+  background: var(--bb-lime) !important;
+  color: #1a1840 !important;
+  border-color: var(--bb-lime) !important;
 }
 
 /* «Войти» */
@@ -269,22 +302,22 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
 .VPSocialLinks .VPSocialLink:hover svg { fill: var(--bb-lime) !important; }
 
 /* ============================================================
-   ДЕСКТОП LAYOUT
+   [ПРАВКА 6] ДЕСКТОП LAYOUT - отступы 20px
    ============================================================ */
 @media (min-width: 961px) {
   .VPNavBar .content { gap: 0 !important; }
   .VPNavBarMenu { margin-right: 0 !important; }
   .VPNavBarSocialLinks {
     min-width: auto !important; justify-content: flex-end !important;
-    gap: 16px !important; margin-left: 0 !important; flex-shrink: 0 !important;
+    gap: 20px !important; margin-right: 20px !important; margin-left: 0 !important; flex-shrink: 0 !important;
   }
-  .VPSocialLink:not(:last-child) { margin-right: 4px !important; }
+  .VPSocialLink:not(:last-child) { margin-right: 0 !important; }
 }
 
 @media (max-width: 960px) and (min-width: 769px) {
   .VPNavBar .content { gap: 0 !important; }
   .VPNavBarMenu { margin-right: 0 !important; }
-  .VPNavBarSocialLinks { margin-left: 4px !important; gap: 12px !important; flex-shrink: 0 !important; }
+  .VPNavBarSocialLinks { margin-left: 4px !important; gap: 20px !important; margin-right: 20px !important; flex-shrink: 0 !important; }
 }
 
 /* ============================================================
@@ -292,6 +325,13 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
    ============================================================ */
 @media (max-width: 768px) {
   .VPNavBar .VPNavBarSocialLinks { display: none !important; }
+
+  /* [ПРАВКА 2] Shark Eyes на мобильном */
+  .shark-eyes {
+    width: 29px !important;
+    height: 19px !important;
+  }
+  .VPNavBarTitle .logo { height: 19px !important; }
 
   .VPNavScreen { overflow-y: auto !important; background: var(--bb-bg) !important; }
   .VPNavScreen .VPNavScreenMenu { padding-bottom: 16px !important; }
@@ -352,7 +392,8 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
   }
   .VPNavScreen .VPSocialLink:hover { background: transparent !important; }
 
-  .VPNavScreen .VPSocialLink[aria-label="login-link"]::after,
+  /* [ПРАВКА 5] Мобильная кнопка "Игровой режим" */
+  .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after,
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
     display: flex !important; align-items: center !important; justify-content: center !important;
     width: 100% !important; box-sizing: border-box !important;
@@ -360,14 +401,14 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
     padding: 18px !important; margin: 0 !important; height: 56px !important;
   }
 
-  .VPNavScreen .VPSocialLink[aria-label="login-link"]::after {
-    content: "Сообщество" !important;
+  .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after {
+    content: "Игровой режим" !important;
     background: rgba(74, 90, 173, 0.15) !important;
     color: rgba(255,255,255,0.85) !important;
     border: 1px solid rgba(74, 90, 173, 0.2) !important;
   }
-  .VPNavScreen .VPSocialLink[aria-label="login-link"]:hover::after {
-    background: rgba(74, 90, 173, 0.25) !important; color: var(--bb-lime) !important;
+  .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]:hover::after {
+    background: var(--bb-lime) !important; color: #1a1840 !important;
   }
 
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
