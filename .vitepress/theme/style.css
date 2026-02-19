@@ -214,8 +214,8 @@ code, .vp-code, .line-numbers {
   font-weight: 600 !important;
   font-size: 14px !important;
   transition: all 0.25s ease !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  border-radius: 0 !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
   color: #1a1840 !important;
@@ -230,8 +230,8 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  border-radius: 0 !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover {
   color: #1a1840 !important;
@@ -248,8 +248,8 @@ code, .vp-code, .line-numbers {
   font-family: var(--vp-font-family-base) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  border-radius: 0 !important;
   transition: all 0.25s ease !important;
 }
 .VPNavBar .VPNavBarMenu .VPFlyout button:hover {
@@ -259,6 +259,11 @@ code, .vp-code, .line-numbers {
 .VPNavBar .VPNavBarMenu .VPFlyout button .text {
   font-size: 14px !important;
   font-weight: 600 !important;
+}
+
+/* [ПРАВКА 2] Сдвигаем выпадающее меню вниз */
+.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
+  top: calc(100% + 8px) !important;
 }
 
 /* ============================================================
@@ -570,13 +575,16 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   }
   .VPNavScreen .VPNavScreenMenuGroup .title:hover { color: var(--accent-lime) !important; }
   .VPNavScreen .VPNavScreenMenuGroup.open .title { color: var(--accent-lime) !important; }
+  
+  /* Empty закрытый - белый текст */
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title { color: var(--text-primary) !important; }
 
   .VPNavScreen .VPNavScreenMenuGroup .item a,
   .VPNavScreen .VPNavScreenMenuGroup .item .VPNavScreenMenuGroupLink,
   .VPNavScreen .VPNavScreenMenuGroupSection .item a {
     font-size: 18px !important;
-    font-weight: 500 !important;
-    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
     padding: 8px 0 8px 16px !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
