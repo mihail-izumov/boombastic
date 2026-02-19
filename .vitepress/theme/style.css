@@ -1,89 +1,88 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   БумБастик — style.css (ЕДИНЫЙ файл стилей)
-   Muted Deep Blue (#1c1a3e) + Lime (#C5F946) accent
+   БумБастик — custom.css
+   UI-гайд v3: «Нео-аркада» (Arcade Brutalism)
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ============================================================
-   CSS-ПЕРЕМЕННЫЕ (единственное место определения)
+   ШРИФТЫ — единая система
+   Inter: всё (тело, навигация, кнопки)
+   Montserrat: только Hero-заголовки
+   Space Mono: сайдбар, технические элементы
    ============================================================ */
 :root {
-  /* Палитра проекта */
-  --bb-bg: #1c1a3e;
-  --bb-bg-card: #222050;
-  --bb-blue-1: #4a5aad;
-  --bb-blue-2: #3d47a0;
-  --bb-blue-3: #6a78c8;
-  --bb-lime: #C5F946;
-  --bb-lime-dim: #85a931;
-
-  /* VitePress brand */
-  --vp-c-brand-1: var(--bb-blue-1);
-  --vp-c-brand-2: var(--bb-lime);
-  --vp-c-brand-3: var(--bb-blue-2);
-  --vp-c-brand-soft: rgba(74, 90, 173, 0.14);
-
-  /* VitePress defaults */
-  --vp-c-default-1: var(--vp-c-gray-1);
-  --vp-c-default-2: var(--vp-c-gray-2);
-  --vp-c-default-3: var(--vp-c-gray-3);
-  --vp-c-default-soft: var(--vp-c-gray-soft);
-
-  /* Backgrounds */
-  --vp-c-bg: var(--bb-bg);
-  --vp-c-bg-alt: #19173a;
-  --vp-c-bg-elv: var(--bb-bg-card);
-  --vp-c-bg-mute: rgba(74, 90, 173, 0.06);
-  --vp-c-bg-soft: rgba(74, 90, 173, 0.06);
-  --vp-c-divider: rgba(74, 90, 173, 0.15);
-  --vp-c-gutter: rgba(74, 90, 173, 0.08);
-  --vp-c-text-2: rgba(255, 255, 255, 0.45);
-
-  /* Кнопки */
-  --vp-button-brand-border: transparent;
-  --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--bb-blue-2);
-  --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: #1a1840;
-  --vp-button-brand-hover-bg: var(--bb-lime);
-  --vp-button-brand-active-border: transparent;
-  --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--bb-blue-1);
-
-  /* Hero */
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #4a5aad 30%, #6b4dba 70%);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #4a5aad 50%, #6b4dba 50%);
-  --vp-home-hero-image-filter: blur(44px);
-
-  /* Tip / Warning / Danger */
-  --vp-c-tip-1: var(--bb-blue-1);
-  --vp-c-tip-2: var(--bb-lime);
-  --vp-c-tip-3: var(--bb-blue-2);
-  --vp-c-tip-soft: var(--vp-c-brand-soft);
-  --vp-c-warning-1: var(--vp-c-yellow-1);
-  --vp-c-warning-2: var(--vp-c-yellow-2);
-  --vp-c-warning-3: var(--vp-c-yellow-3);
-  --vp-c-warning-soft: var(--vp-c-yellow-soft);
-  --vp-c-danger-1: var(--vp-c-red-1);
-  --vp-c-danger-2: var(--vp-c-red-2);
-  --vp-c-danger-3: var(--vp-c-red-3);
-  --vp-c-danger-soft: var(--vp-c-red-soft);
-
-  /* Custom blocks */
-  --vp-custom-block-tip-border: transparent;
-  --vp-custom-block-tip-text: var(--vp-c-text-1);
-  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+  --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vp-font-family-mono: 'Space Mono', 'JetBrains Mono', monospace;
+  --font-heading: 'Montserrat', 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 }
 
-@media (min-width: 640px) { :root { --vp-home-hero-image-filter: blur(56px); } }
-@media (min-width: 960px) { :root { --vp-home-hero-image-filter: blur(68px); } }
+/* ============================================================
+   ЦВЕТА
+   ============================================================ */
+:root {
+  --bg-deep:        #1c1a3e;
+  --bg-card:        #222050;
+  --bg-night:       #0D1421;
+  --bg-black:       #0A0A0A;
+
+  --accent-lime:      #C5F946;
+  --accent-lime-dim:  #85a931;
+  --accent-lime-soft: rgba(197, 249, 70, 0.15);
+
+  --neon-cyan:      #00D4FF;
+  --neon-magenta:   #FF0080;
+  --neon-yellow:    #FFD60A;
+  --neon-orange:    #FF6B00;
+  --neon-green:     #00FF88;
+
+  --blue-1:  #4a5aad;
+  --blue-2:  #3d47a0;
+  --blue-3:  #6a78c8;
+
+  --text-primary:   #F0F4FF;
+  --text-secondary: #7A8BA8;
+  --text-muted:     rgba(255, 255, 255, 0.45);
+
+  --status-start:   #6B6B7C;
+  --status-razgon:  #00D4FF;
+  --status-vzryv:   #FF0080;
+  --status-00:      #FFD60A;
+
+  /* Неоновый градиент для разделителей */
+  --neon-gradient: linear-gradient(
+    90deg,
+    transparent 0%,
+    #00D4FF 15%,
+    #C5F946 35%,
+    #FFD60A 50%,
+    #FF0080 65%,
+    #00FF88 85%,
+    transparent 100%
+  );
+
+  --vp-c-brand-1: var(--blue-1);
+  --vp-c-brand-2: var(--accent-lime);
+  --vp-c-brand-3: var(--blue-2);
+  --vp-c-brand-soft: rgba(74, 90, 173, 0.14);
+
+  --vp-c-bg:      var(--bg-deep);
+  --vp-c-bg-alt:  #19173a;
+  --vp-c-bg-elv:  var(--bg-card);
+  --vp-c-bg-mute: rgba(74, 90, 173, 0.06);
+  --vp-c-bg-soft: rgba(74, 90, 173, 0.06);
+
+  --vp-c-divider: rgba(74, 90, 173, 0.15);
+  --vp-c-gutter:  rgba(74, 90, 173, 0.08);
+  --vp-c-text-1:  var(--text-primary);
+  --vp-c-text-2:  var(--text-secondary);
+}
 
 /* ============================================================
-   ГЛОБАЛЬНЫЙ ФОН
+   ГЛОБАЛЬНЫЕ
    ============================================================ */
 html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
-  background-color: var(--bb-bg) !important;
+  background-color: var(--bg-deep) !important;
+  color: var(--text-primary);
 }
 
 .VPSwitchAppearance, .VPNavScreenAppearance,
@@ -92,31 +91,66 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
 }
 
 /* ============================================================
-   [ПРАВКА 1, 2] SHARK EYES
+   ТИПОГРАФИКА — единообразие
    ============================================================ */
-.shark-eyes {
-  width: 34px !important;
-  height: 22px !important;
-  margin-right: 6px;
-  flex-shrink: 0;
-  display: inline-block !important;
-  visibility: visible !important;
-  animation: eyes-breathe 4s ease-in-out infinite;
+h1, h2, h3, h4, h5, h6,
+.VPHero .name,
+.VPHero .text {
+  font-family: var(--font-heading) !important;
 }
 
-@keyframes eyes-breathe {
-  0%, 100% { filter: drop-shadow(0 0 2px rgba(197, 249, 70, 0.3)); transform: scale(1); }
-  50% { filter: drop-shadow(0 0 8px rgba(197, 249, 70, 0.6)); transform: scale(1.03); }
+h1 { font-weight: 900 !important; }
+h2, h3 { font-weight: 700 !important; }
+
+/* Feature titles — Inter bold, не Montserrat */
+.VPFeature .title {
+  font-family: var(--vp-font-family-base) !important;
 }
+
+code, .vp-code, .line-numbers {
+  font-family: var(--vp-font-family-mono) !important;
+}
+
+/* ============================================================
+   [FIX 4] РАЗДЕЛИТЕЛИ — неоновый градиент везде
+   ============================================================ */
+/* Горизонтальные разделители в контенте */
+.vp-doc hr {
+  border: none !important;
+  height: 1px !important;
+  background: var(--neon-gradient) !important;
+  opacity: 0.35;
+  margin: 24px 0 !important;
+}
+
+/* Разделитель между контентом и пагинацией */
+.VPDoc .content-container > .content > div:last-child::after {
+  display: none;
+}
+
+/* Пагинация — верхняя граница */
+.pager-link {
+  border-color: transparent !important;
+  background-image:
+    linear-gradient(var(--bg-deep), var(--bg-deep)),
+    linear-gradient(135deg, rgba(0,212,255,0.2), rgba(197,249,70,0.2), rgba(255,0,128,0.2)) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  border: 1px solid transparent !important;
+}
+.pager-link:hover {
+  background-image:
+    linear-gradient(var(--bg-deep), var(--bg-deep)),
+    linear-gradient(135deg, rgba(0,212,255,0.4), rgba(197,249,70,0.4), rgba(255,0,128,0.4)) !important;
+}
+.pager-link .title { color: var(--accent-lime) !important; }
+.pager-link .desc { color: var(--text-secondary) !important; }
 
 /* ============================================================
    НАВБАР: GLASSMORPHISM
    ============================================================ */
-.VPNavBar,
-.VPNavBar .wrapper,
-.VPNavBar .container,
-.VPNavBar .content-body,
-.VPNavBar .content {
+.VPNavBar, .VPNavBar .wrapper, .VPNavBar .container,
+.VPNavBar .content-body, .VPNavBar .content {
   background: transparent !important;
 }
 
@@ -126,59 +160,136 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
 }
 
 .VPNavBar.bb-scrolled {
-  background: rgba(20, 18, 50, 0.75) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(20, 18, 50, 0.82) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
   border-bottom: 1px solid rgba(74, 90, 173, 0.15) !important;
 }
 
-.VPNavBar.has-sidebar,
-.VPNavBar.fill {
-  background: transparent !important;
-}
-
+.VPNavBar.has-sidebar { background: transparent !important; }
+.VPNavBar.fill { background: transparent !important; }
 .VPNavBar .divider-line { background: rgba(74, 90, 173, 0.1) !important; }
 
-/* [ПРАВКА 2] Логотип уменьшен до высоты shark eyes */
-.VPNavBarTitle .logo { height: 22px !important; width: auto !important; }
+/* ── [FIX 3] Лого: равно высоте shark eyes (22px) ── */
+.VPNavBarTitle .logo {
+  height: 22px !important;
+  width: auto !important;
+  max-width: 140px !important;
+}
+.has-sidebar .VPNavBarTitle .logo {
+  height: 22px !important;
+  max-width: 140px !important;
+}
 
-/* [ПРАВКА 3] Обводка поиска в пассивном состоянии */
+/* ============================================================
+   [FIX 8] ПОИСК: циановая рамка — ЯРКАЯ
+   ============================================================ */
 .VPNavBarSearchButton {
-  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  border: 1px solid rgba(0, 212, 255, 0.5) !important;
+  background: rgba(74, 90, 173, 0.1) !important;
+  border-radius: 8px !important;
   transition: all 0.3s ease !important;
 }
 .VPNavBarSearchButton:hover {
-  border-color: rgba(0, 212, 255, 0.6) !important;
-  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2) !important;
+  border-color: rgba(0, 212, 255, 0.8) !important;
+  background: rgba(74, 90, 173, 0.18) !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2) !important;
+}
+.VPNavBarSearchButton .vpi-search {
+  color: var(--neon-cyan) !important;
 }
 
 /* ============================================================
-   НАВИГАЦИЯ ДЕСКТОП
+   НАВИГАЦИЯ: лаймовая плашка при hover
    ============================================================ */
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink { color: rgba(255, 255, 255, 0.85) !important; }
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.active { color: var(--bb-lime) !important; }
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown { color: rgba(255, 255, 255, 0.85) !important; }
-.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover { color: var(--bb-lime) !important; }
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink {
+  color: var(--text-primary) !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: all 0.25s ease !important;
+  padding: 4px 12px !important;
+  border-radius: 8px !important;
+}
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
+  color: #1a1840 !important;
+  background: var(--accent-lime) !important;
+}
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.active {
+  color: var(--accent-lime) !important;
+}
+
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown {
+  color: var(--text-primary) !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+.VPNavBar .VPNavBarMenu .VPNavBarMenuLink.has-dropdown:hover {
+  color: #1a1840 !important;
+  background: var(--accent-lime) !important;
+}
 
 /* ============================================================
-   [ПРАВКА 7] ВЫПАДАЮЩЕЕ МЕНЮ
+   [FIX 5] ВЫПАДАЮЩЕЕ МЕНЮ — [ПРАВКА 7] светлый фон, лаймовые заголовки
    ============================================================ */
-.VPMenu, .VPFlyout .VPMenu, .VPNavBarExtra .VPFlyout .VPMenu {
-  /* Фон светлее */
-  background: rgba(50, 47, 95, 0.98) !important;
+.VPMenu,
+.VPFlyout .VPMenu {
+  background: rgba(55, 52, 100, 0.98) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  border: none !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(74, 90, 173, 0.4) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
 }
-/* Название группы - лаймовый */
-.VPMenuGroup .title { color: var(--bb-lime) !important; font-size: 12px !important; }
-.VPMenuItem .text { color: rgba(255, 255, 255, 0.9) !important; }
-/* Hover - лаймовый фон */
-.VPMenuItem:hover { background-color: var(--bb-lime) !important; border-radius: 6px !important; }
-.VPMenuItem:hover .text { color: #1a1840 !important; }
-.VPMenuItem .text.active, .VPMenuItem.active .text { color: var(--bb-lime) !important; }
+
+/* Название группы — ЛАЙМОВЫЙ */
+.VPMenuGroup .title {
+  color: var(--accent-lime) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* Пункты: ЯРКИЙ белый текст */
+.VPMenu .VPMenuItem,
+.VPFlyout .VPMenuItem {
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.VPMenu .VPMenuItem .text,
+.VPFlyout .VPMenuItem .text,
+.VPMenu .VPMenuLink .text,
+.VPFlyout .VPMenuLink .text {
+  color: #ffffff !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+/* Hover: лаймовая плашка + тёмный текст */
+.VPMenu .VPMenuItem:hover,
+.VPFlyout .VPMenuItem:hover,
+.VPMenu .VPMenuLink:hover,
+.VPFlyout .VPMenuLink:hover {
+  background-color: var(--accent-lime) !important;
+}
+.VPMenu .VPMenuItem:hover .text,
+.VPFlyout .VPMenuItem:hover .text,
+.VPMenu .VPMenuLink:hover .text,
+.VPFlyout .VPMenuLink:hover .text {
+  color: #1a1840 !important;
+}
+
+/* Активный пункт — лаймовый текст */
+.VPMenuItem .text.active,
+.VPMenuItem.active .text,
+.VPMenuLink.active .text {
+  color: var(--accent-lime) !important;
+  font-weight: 700 !important;
+}
 
 /* ============================================================
    HERO
@@ -198,35 +309,73 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
   background: linear-gradient(120deg, #5a6ac0 30%, #7b5dca 70%) !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
+  font-weight: 900 !important;
 }
-.VPHero .name, .VPHero .text, .VPHero .tagline { color: white !important; }
-.VPHero .tagline a { color: var(--bb-lime) !important; text-decoration: none; }
-.VPHero .tagline a:hover { color: var(--bb-blue-3) !important; text-decoration: underline; }
+.VPHero .name, .VPHero .text, .VPHero .tagline {
+  color: var(--text-primary) !important;
+}
+.VPHero .tagline a { color: var(--accent-lime) !important; text-decoration: none; }
+.VPHero .tagline a:hover { color: var(--blue-3) !important; text-decoration: underline; }
 
-/* Кнопки Hero и Brand */
-.VPHero .VPButton, .VPButton.brand {
-  background: var(--bb-blue-2) !important;
-  color: rgba(255, 255, 255, 0.9) !important;
+/* ============================================================
+   КНОПКИ — Inter bold (единообразно с навигацией)
+   ============================================================ */
+.VPHero .VPButton {
+  background-color: var(--blue-2) !important;
+  border-color: var(--blue-2) !important;
+  color: var(--text-primary) !important;
+  border-radius: 12px !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 700 !important;
+  transition: all 0.3s ease;
+}
+.VPHero .VPButton:hover {
+  background-color: var(--accent-lime) !important;
+  border-color: var(--accent-lime) !important;
+  color: #1a1840 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(197, 249, 70, 0.2);
+}
+.VPHero .VPButton:active {
+  transform: scale(0.95) !important;
+  box-shadow: none !important;
+  transition: transform 0.1s ease !important;
+}
+
+.VPButton.brand {
+  background: var(--blue-2) !important;
+  color: var(--text-primary) !important;
   border: none !important;
+  border-radius: 12px !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 700 !important;
   transition: all 0.3s ease !important;
 }
-.VPHero .VPButton:hover, .VPButton.brand:hover {
-  background: var(--bb-lime) !important; color: #1a1840 !important;
+.VPButton.brand:hover {
+  background: var(--accent-lime) !important;
+  color: #1a1840 !important;
+  box-shadow: 0 8px 25px rgba(197, 249, 70, 0.35) !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(197, 249, 70, 0.3) !important;
+}
+.VPButton.brand:active {
+  transform: scale(0.95) !important;
+  box-shadow: none !important;
 }
 
-/* ============================================================
-   ССЫЛКИ В КОНТЕНТЕ
-   ============================================================ */
+/* ССЫЛКИ */
 .VPContent a {
-  color: var(--bb-lime); text-decoration: none;
-  border-bottom: 1px solid transparent; transition: all 0.3s ease;
+  color: var(--accent-lime);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.25s ease;
 }
-.VPContent a:hover { color: var(--bb-blue-3); border-bottom-color: var(--bb-blue-3); }
+.VPContent a:hover {
+  color: var(--blue-3);
+  border-bottom-color: var(--blue-3);
+}
 
 /* ============================================================
-   КАРТОЧКИ: Glassmorphism Border
+   КАРТОЧКИ: видимые белые ссылки + Glassmorphism
    ============================================================ */
 .VPFeature {
   border: 1px solid transparent !important;
@@ -237,10 +386,21 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
   background-clip: padding-box, border-box !important;
   transition: all 0.35s ease !important;
 }
-.VPFeature .title { color: var(--bb-lime) !important; }
-.VPFeature .details { color: rgba(255,255,255,0.6) !important; }
-.VPFeature .link-text { color: white !important; font-weight: 600 !important; transition: color 0.25s ease !important; }
-.VPFeature .link-text .icon { fill: white !important; transition: fill 0.25s ease !important; }
+.VPFeature .title {
+  color: var(--accent-lime) !important;
+  font-weight: 700 !important;
+}
+.VPFeature .details { color: var(--text-secondary) !important; }
+.VPFeature .link-text {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: color 0.25s ease !important;
+}
+.VPFeature .link-text .icon {
+  fill: var(--text-primary) !important;
+  transition: fill 0.25s ease !important;
+}
 
 a.VPFeature.link:hover {
   background-image:
@@ -248,13 +408,14 @@ a.VPFeature.link:hover {
     linear-gradient(145deg, rgba(197,249,70,0.35), rgba(74,90,173,0.25), rgba(197,249,70,0.15)) !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
-  transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
-a.VPFeature.link:hover .title, a.VPFeature.link:hover .link-text { color: var(--bb-lime) !important; }
-a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
+a.VPFeature.link:hover .link-text { color: var(--accent-lime) !important; }
+a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 /* ============================================================
-   SOCIAL LINKS
+   SOCIAL LINKS: VK → Сообщество → Войти
    ============================================================ */
 .VPSocialLink .vpi-social-github { display: none !important; }
 .VPSocialLink {
@@ -263,53 +424,77 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
   justify-content: center !important; flex-shrink: 0 !important;
 }
 
-/* [ПРАВКА 5] «Игровой режим» (было «Сообщество» с login-link) */
+.VPSocialLinks .VPSocialLink[aria-label="vk-link"] {
+  width: 36px !important; height: 36px !important;
+}
+.VPSocialLinks .VPSocialLink[aria-label="vk-link"] svg {
+  width: 28px !important; height: 28px !important;
+}
+.VPSocialLinks .VPSocialLink svg { fill: var(--text-primary) !important; }
+.VPSocialLinks .VPSocialLink:hover svg { fill: var(--accent-lime) !important; }
+
+/* [FIX 6] Кнопка «Игровой режим» — Inter, единообразно */
 .VPSocialLink[aria-label="gamemode-link"]::after {
-  content: "Игровой режим"; font-size: 14px; color: rgba(255,255,255,0.85) !important;
-  padding: 8px 16px; border-radius: 12px;
+  content: "Игровой режим";
+  font-family: var(--vp-font-family-base);
+  font-size: 13px;
+  color: var(--text-primary) !important;
+  padding: 6px 14px;
+  border-radius: 10px;
   background: rgba(74, 90, 173, 0.15) !important;
   border: 1px solid rgba(74, 90, 173, 0.2) !important;
-  transition: all 0.3s ease; white-space: nowrap; font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-weight: 600;
 }
 .VPSocialLink[aria-label="gamemode-link"]:hover::after {
-  background: var(--bb-lime) !important;
+  background: var(--accent-lime) !important;
   color: #1a1840 !important;
-  border-color: var(--bb-lime) !important;
+  border-color: var(--accent-lime) !important;
 }
 
-/* «Войти» */
 .VPSocialLink[aria-label="apply-link"]::after {
-  content: "Войти"; font-size: 14px; color: #1a1840;
-  padding: 8px 16px; border-radius: 12px;
+  content: "Войти";
+  font-family: var(--vp-font-family-base);
+  font-size: 13px;
+  color: #1a1840;
+  padding: 6px 14px;
+  border-radius: 10px;
   background-image: linear-gradient(-45deg, #c5f946, #85a931, #c5f946, #85a931);
-  background-size: 400% 400%; animation: liquid-fluid 6s ease infinite;
-  transition: all 0.3s ease; white-space: nowrap; font-weight: 600;
-  border: none; cursor: pointer;
+  background-size: 400% 400%;
+  animation: liquid-fluid 6s ease infinite;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
 }
 .VPSocialLink[aria-label="apply-link"]:hover::after {
   background-image: linear-gradient(-45deg, #85a931, #c5f946, #85a931, #c5f946);
-  color: #1a1840; transform: translateY(-2px);
+  transform: translateY(-2px);
 }
+.VPSocialLink[aria-label="apply-link"]:active::after {
+  transform: scale(0.95);
+}
+
 @keyframes liquid-fluid {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
 
-/* VK */
-.VPSocialLinks .VPSocialLink[aria-label="vk-link"] { width: 42px !important; height: 42px !important; }
-.VPSocialLinks .VPSocialLink[aria-label="vk-link"] svg { width: 32px !important; height: 32px !important; }
-.VPSocialLinks .VPSocialLink svg { fill: white !important; }
-.VPSocialLinks .VPSocialLink:hover svg { fill: var(--bb-lime) !important; }
-
 /* ============================================================
-   [ПРАВКА 6] ДЕСКТОП LAYOUT - отступы 20px
+   ДЕСКТОП РАСКЛАДКА — [ПРАВКА 6] отступы 20px
    ============================================================ */
 @media (min-width: 961px) {
   .VPNavBar .content { gap: 0 !important; }
   .VPNavBarMenu { margin-right: 0 !important; }
   .VPNavBarSocialLinks {
-    min-width: auto !important; justify-content: flex-end !important;
-    gap: 20px !important; margin-right: 20px !important; margin-left: 0 !important; flex-shrink: 0 !important;
+    min-width: auto !important;
+    justify-content: flex-end !important;
+    gap: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 20px !important;
+    flex-shrink: 0 !important;
   }
   .VPSocialLink:not(:last-child) { margin-right: 0 !important; }
 }
@@ -317,7 +502,11 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
 @media (max-width: 960px) and (min-width: 769px) {
   .VPNavBar .content { gap: 0 !important; }
   .VPNavBarMenu { margin-right: 0 !important; }
-  .VPNavBarSocialLinks { margin-left: 4px !important; gap: 20px !important; margin-right: 20px !important; flex-shrink: 0 !important; }
+  .VPNavBarSocialLinks {
+    margin-left: 4px !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
 }
 
 /* ============================================================
@@ -326,91 +515,100 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
 @media (max-width: 768px) {
   .VPNavBar .VPNavBarSocialLinks { display: none !important; }
 
-  /* [ПРАВКА 2] Shark Eyes на мобильном */
-  .shark-eyes {
-    width: 29px !important;
-    height: 19px !important;
+  .VPNavScreen {
+    overflow-y: auto !important;
+    background: var(--bg-deep) !important;
   }
-  .VPNavBarTitle .logo { height: 19px !important; }
-
-  .VPNavScreen { overflow-y: auto !important; background: var(--bb-bg) !important; }
   .VPNavScreen .VPNavScreenMenu { padding-bottom: 16px !important; }
   .VPNavScreen .VPNavScreenAppearance { display: none !important; }
 
   .VPNavScreen .VPNavScreenMenuLink {
-    font-size: 20px !important; font-weight: 600 !important;
-    color: white !important; padding: 12px 0 !important;
+    font-family: var(--vp-font-family-base) !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    padding: 12px 0 !important;
   }
-  .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--bb-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
   .VPNavScreen .VPNavScreenMenuGroup .title {
-    font-size: 20px !important; font-weight: 600 !important; color: white !important;
+    font-family: var(--vp-font-family-base) !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
   }
-  .VPNavScreen .VPNavScreenMenuGroup .title:hover,
-  .VPNavScreen .VPNavScreenMenuGroup.open .title { color: var(--bb-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup .title:hover { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup.open .title { color: var(--accent-lime) !important; }
 
   .VPNavScreen .VPNavScreenMenuGroup .item a,
   .VPNavScreen .VPNavScreenMenuGroup .item .VPNavScreenMenuGroupLink,
   .VPNavScreen .VPNavScreenMenuGroupSection .item a {
-    font-size: 18px !important; font-weight: 500 !important;
-    color: rgba(255,255,255,0.75) !important; padding: 8px 0 8px 16px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: var(--text-secondary) !important;
+    padding: 8px 0 8px 16px !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
-  .VPNavScreen .VPNavScreenMenuGroupSection .item a:hover { color: var(--bb-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroupSection .item a:hover {
+    color: var(--accent-lime) !important;
+  }
 
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-plus,
   .VPNavScreen .VPNavScreenMenuGroup .title .vpi-chevron-down,
   .VPNavScreen .VPNavScreenMenuGroup .title svg,
-  .VPNavScreen .VPNavScreenMenuGroup .title::after,
-  .VPNavScreen .VPNavScreenMenuGroup button .text-icon {
+  .VPNavScreen .VPNavScreenMenuGroup .title::after {
     width: 28px !important; height: 28px !important; font-size: 28px !important;
+  }
+  .VPNavScreen .VPNavScreenMenuGroup button .text-icon {
+    width: 28px !important; height: 28px !important;
   }
 
   .VPNavBarHamburger .container .top,
   .VPNavBarHamburger .container .middle,
   .VPNavBarHamburger .container .bottom {
-    background-color: white !important; opacity: 1 !important;
+    background-color: var(--text-primary) !important;
+    opacity: 1 !important;
   }
   .VPNavBarHamburger:hover .container .top,
   .VPNavBarHamburger:hover .container .middle,
   .VPNavBarHamburger:hover .container .bottom {
-    background-color: var(--bb-lime) !important; opacity: 1 !important;
+    background-color: var(--accent-lime) !important;
   }
 
   .VPNavScreen .VPNavScreenSocialLinks {
     margin: 16px !important; padding: 16px !important;
     border: 1px solid rgba(74, 90, 173, 0.12) !important;
-    border-radius: 8px !important; background: rgba(74, 90, 173, 0.05) !important;
-    display: flex !important; flex-direction: column !important;
-    gap: 12px !important; align-items: center !important;
+    border-radius: 8px !important;
+    background: rgba(74, 90, 173, 0.05) !important;
+    display: flex !important; flex-direction: column !important; gap: 12px !important;
+    align-items: center !important;
   }
-
   .VPNavScreen .VPSocialLink {
     display: flex !important; align-items: center !important; justify-content: center !important;
     padding: 0 !important; background: transparent !important;
-    border: none !important; text-decoration: none !important; width: 100% !important;
+    border: none !important; width: 100% !important;
   }
   .VPNavScreen .VPSocialLink:hover { background: transparent !important; }
 
-  /* [ПРАВКА 5] Мобильная кнопка "Игровой режим" */
   .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after,
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
     display: flex !important; align-items: center !important; justify-content: center !important;
     width: 100% !important; box-sizing: border-box !important;
-    font-size: 20px !important; font-weight: 600 !important; border-radius: 12px !important;
+    font-family: var(--vp-font-family-base) !important;
+    font-size: 18px !important; font-weight: 700 !important; border-radius: 12px !important;
     padding: 18px !important; margin: 0 !important; height: 56px !important;
   }
 
   .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after {
     content: "Игровой режим" !important;
     background: rgba(74, 90, 173, 0.15) !important;
-    color: rgba(255,255,255,0.85) !important;
+    color: var(--text-primary) !important;
     border: 1px solid rgba(74, 90, 173, 0.2) !important;
   }
   .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]:hover::after {
-    background: var(--bb-lime) !important; color: #1a1840 !important;
+    background: var(--accent-lime) !important;
+    color: #1a1840 !important;
   }
-
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
     content: "Войти" !important;
     background-image: linear-gradient(-45deg, #c5f946, #85a931, #c5f946, #85a931);
@@ -419,94 +617,167 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
   }
   .VPNavScreen .VPSocialLink[aria-label="apply-link"]:hover::after {
     background-image: linear-gradient(-45deg, #85a931, #c5f946, #85a931, #c5f946);
-    font-weight: 700 !important;
   }
 
   .VPNavScreen .VPSocialLink[aria-label="vk-link"] {
     width: 100% !important; height: 56px !important; justify-content: center !important;
   }
-  .VPNavScreen .VPSocialLink[aria-label="vk-link"] svg { width: 36px !important; height: 36px !important; }
+  .VPNavScreen .VPSocialLink[aria-label="vk-link"] svg {
+    width: 36px !important; height: 36px !important;
+  }
+
+  .footer-row { flex-direction: column !important; gap: 8px !important; }
+  .dot-separator { display: none !important; }
 }
 
 /* ============================================================
-   SIDEBAR
+   [FIX 1] SIDEBAR: Marathon-стиль + Space Mono
    ============================================================ */
 .VPSidebar {
   background: rgba(28, 26, 62, 0.95) !important;
-  border-right: 1px solid rgba(74, 90, 173, 0.1) !important;
+  /* Правый border убран — заменён на неоновый градиент (вертикальный) */
+  border-right: none !important;
+  position: relative;
 }
+
+/* Неоновая вертикальная полоска вместо border-right */
+.VPSidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  /* Не доходит до самого низа — не перекрывает футер */
+  height: calc(100% - 80px);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.3) 15%,
+    rgba(197, 249, 70, 0.3) 40%,
+    rgba(255, 0, 128, 0.25) 65%,
+    rgba(0, 255, 136, 0.2) 85%,
+    transparent 100%
+  );
+}
+
 .VPSidebar .nav { border-top: none !important; padding-top: 0 !important; }
+
 .VPLocalNav {
-  background: var(--bb-bg) !important;
+  background: var(--bg-deep) !important;
   border-bottom: 1px solid rgba(74, 90, 173, 0.12) !important;
 }
 
-.VPSidebar .VPSidebarItem .text { color: rgba(255,255,255,0.85) !important; }
-.VPSidebar .VPSidebarItem .text:hover { color: var(--bb-lime) !important; }
-.VPSidebar .VPSidebarItem.is-active > .item > div > .text { color: var(--bb-lime) !important; }
-.VPSidebar .VPSidebarItem.is-active > .item > .indicator { background: var(--bb-lime) !important; }
-
+/* Заголовок группы: Space Mono + лаймовый фон */
 .VPSidebar .VPSidebarItem.level-0 > .item {
-  background: rgba(197, 249, 70, 0.12) !important; border-radius: 8px !important;
-  padding: 8px 12px !important; margin-bottom: 4px !important;
+  background: var(--accent-lime) !important;
+  border-radius: 4px !important;
+  padding: 6px 10px !important;
+  margin-bottom: 8px !important;
 }
 .VPSidebar .VPSidebarItem.level-0 > .item .text {
-  color: var(--bb-lime) !important; font-weight: 700 !important; font-size: 15px !important;
+  color: #1a1840 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
 }
-.VPSidebar .VPSidebarItem .caret { color: var(--bb-lime) !important; fill: var(--bb-lime) !important; }
+
+/* Пункты: Space Mono, Marathon-стиль */
+.VPSidebar .VPSidebarItem .text {
+  color: var(--text-primary) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+  transition: all 0.2s ease !important;
+}
+
+.VPSidebar .VPSidebarItem .text:hover {
+  color: #1a1840 !important;
+  background: var(--accent-lime) !important;
+  border-radius: 3px !important;
+  padding: 1px 6px !important;
+  margin: -1px -6px !important;
+}
+
+/* Активный пункт: лаймовый текст */
+.VPSidebar .VPSidebarItem.is-active > .item > div > .text {
+  color: var(--accent-lime) !important;
+  font-weight: 700 !important;
+}
+
+/* Индикатор активного пункта: циан */
+.VPSidebar .VPSidebarItem.is-active > .item > .indicator {
+  background: var(--neon-cyan) !important;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+/* Стрелки */
+.VPSidebar .VPSidebarItem .caret { color: var(--accent-lime) !important; fill: var(--accent-lime) !important; }
 .VPSidebar .VPSidebarItem .caret svg,
-.VPSidebar .VPSidebarItem .caret-icon {
-  width: 20px !important; height: 20px !important; color: var(--bb-lime) !important;
-}
+.VPSidebar .VPSidebarItem .caret-icon { width: 18px !important; height: 18px !important; color: var(--accent-lime) !important; }
 
 /* OUTLINE */
-.VPDocOutlineItem a { color: rgba(255,255,255,0.5) !important; }
-.VPDocOutlineItem a:hover, .VPDocOutlineItem a.active { color: var(--bb-lime) !important; }
+.VPDocOutlineItem a { color: var(--text-muted) !important; font-family: var(--font-mono) !important; font-size: 12px !important; }
+.VPDocOutlineItem a:hover { color: var(--accent-lime) !important; }
+.VPDocOutlineItem a.active { color: var(--neon-cyan) !important; }
 
-/* ============================================================
-   РАЗДЕЛИТЕЛИ
-   ============================================================ */
+/* Разделители навбара */
 .VPNavBarSocialLinks::before, .VPNavBarSocialLinks .divider,
-.VPNavBar .divider, .dot-separator { display: none !important; }
+.VPNavBar .divider { display: none !important; }
 
 /* ============================================================
-   ФУТЕР (скрываем дефолтный — используем Vue-компонент)
+   ФУТЕР
    ============================================================ */
-.VPFooter { display: none !important; }
+.VPFooter { background: transparent !important; }
+
+.VPNavBarExtra .VPFlyout .VPMenu {
+  background: rgba(22, 20, 52, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(74, 90, 173, 0.3) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
+}
 
 /* ============================================================
    ТАБЛИЦЫ
    ============================================================ */
 .vp-doc table { border-color: rgba(74, 90, 173, 0.15) !important; }
 .vp-doc tr { border-color: rgba(74, 90, 173, 0.1) !important; }
-.vp-doc th { background: rgba(74, 90, 173, 0.08) !important; color: white !important; }
+.vp-doc th {
+  background: rgba(74, 90, 173, 0.08) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--vp-font-family-base);
+  font-size: 13px;
+}
 .vp-doc td { border-color: rgba(74, 90, 173, 0.1) !important; }
-
-/* ============================================================
-   ПАГИНАЦИЯ
-   ============================================================ */
-.pager-link .title { color: var(--bb-lime) !important; }
-.pager-link .desc { color: rgba(255,255,255,0.5) !important; }
-.pager-link { border-color: rgba(74, 90, 173, 0.15) !important; }
-.pager-link:hover { border-color: rgba(197, 249, 70, 0.25) !important; }
 
 /* ============================================================
    404
    ============================================================ */
-.NotFound { background: var(--bb-bg) !important; }
-.NotFound .code { color: var(--bb-lime) !important; }
-.NotFound .title { color: white !important; }
-.NotFound .quote { color: rgba(255,255,255,0.5) !important; }
+.NotFound { background: var(--bg-deep) !important; }
+.NotFound .code { color: var(--accent-lime) !important; font-family: var(--vp-font-family-mono) !important; }
+.NotFound .title { color: var(--text-primary) !important; font-family: var(--font-heading) !important; }
+.NotFound .quote { color: var(--text-secondary) !important; }
 .NotFound .action .link {
-  color: #1a1840 !important; background: var(--bb-lime) !important;
-  border: none !important; border-radius: 12px !important;
-  padding: 8px 24px !important; font-weight: 600 !important;
+  color: #1a1840 !important;
+  background: var(--accent-lime) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 8px 24px !important;
+  font-family: var(--vp-font-family-base) !important;
+  font-weight: 700 !important;
   transition: all 0.3s ease !important;
 }
 .NotFound .action .link:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 25px rgba(197, 249, 70, 0.25) !important;
 }
+.NotFound .action .link:active { transform: scale(0.95) !important; }
+
+/* ПОИСК */
+.DocSearch { --docsearch-primary-color: var(--blue-1) !important; }
 
 /* ============================================================
    ЦЕНТРИРОВАНИЕ
@@ -524,25 +795,122 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--bb-lime) !important; }
    УТИЛИТЫ
    ============================================================ */
 .signal-badge {
-  display: inline-block; padding: 2px 12px; border-radius: 16px;
-  background: #1e1b4b; border: 1px solid var(--bb-lime); color: var(--bb-lime);
-  font-weight: 500; font-size: 0.875em; cursor: default;
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 16px;
+  background: var(--bg-night);
+  border: 1px solid var(--accent-lime);
+  color: var(--accent-lime);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.875em;
+  cursor: default;
 }
-.lime-text { color: var(--bb-lime) !important; }
-.vp-doc { position: relative; padding-bottom: 120px; }
-.DocSearch { --docsearch-primary-color: var(--bb-blue-1) !important; }
+
+.lime-text { color: var(--accent-lime) !important; }
+
+.neon-glow-cyan { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
+.neon-glow-magenta { color: var(--neon-magenta); text-shadow: 0 0 5px var(--neon-magenta), 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta); }
+.neon-glow-yellow { color: var(--neon-yellow); text-shadow: 0 0 5px var(--neon-yellow), 0 0 10px var(--neon-yellow), 0 0 30px var(--neon-yellow); }
+.neon-glow-lime { color: var(--accent-lime); text-shadow: 0 0 5px var(--accent-lime), 0 0 10px var(--accent-lime), 0 0 20px var(--accent-lime); }
 
 /* ============================================================
-   VIEW TRANSITIONS
+   BOOM GRID SYSTEM v4
+   Заменить ВЕСЬ предыдущий блок «BOOM GRID SYSTEM» в custom.css
    ============================================================ */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.3s;
-  animation-timing-function: ease;
+
+:root {
+  --lime:       var(--accent-lime);
+  --lime-dim:   var(--accent-lime-dim);
+  --cyan:       var(--neon-cyan);
+  --magenta:    var(--neon-magenta);
+  --yellow:     var(--neon-yellow);
+  --orange:     var(--neon-orange);
+  --green:      var(--neon-green);
+  --text-pri:   var(--text-primary);
+  --text-sec:   var(--text-secondary);
+  --font-head:  var(--font-heading);
+  --font-body:  var(--vp-font-family-base);
 }
 
-::view-transition-old(root) { animation-name: bb-fade-out; }
-::view-transition-new(root) { animation-name: bb-fade-in; }
+.boom-section { padding: 80px 0; }
 
-@keyframes bb-fade-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes bb-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.boom-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* FAQ и другие узкие блоки */
+.boom-content-narrow {
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ── Слайдер ── */
+.boom-slider {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 8px 0 16px;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+.boom-slider > * { flex-shrink: 0 !important; }
+
+/* Скроллбар скрыт везде */
+.boom-slider::-webkit-scrollbar { display: none; }
+.boom-slider { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Мобилка: карточки уже чтобы видны были края следующей */
+@media (max-width: 768px) {
+  .boom-slider > * {
+    flex: 0 0 82vw !important;
+    min-width: 260px !important;
+    max-width: 320px !important;
+  }
+}
+
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ── Hover-карточки ── */
+@media (hover: hover) {
+  .boom-card-hover { transition: transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s; }
+  .boom-card-hover:hover { transform: translateY(-6px); }
+}
+@media (hover: none) {
+  .boom-card-hover { transform: none !important; }
+}
+
+/* ── Мобильные отступы ── */
+@media (max-width: 768px) {
+  .boom-section { padding: 48px 0; }
+  .boom-wrap { padding: 0 16px; }
+}
+
+/* ── Keyframes ── */
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes boomRing{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
+@keyframes phoneBreathe{
+  0%,100%{border-color:rgba(255,0,128,0.15);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 20px rgba(255,0,128,0.03)}
+  50%{border-color:rgba(255,0,128,0.45);box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 60px rgba(255,0,128,0.18)}
+}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 3px #00FF88}50%{box-shadow:0 0 14px #00FF88,0 0 24px rgba(0,255,136,0.4)}}
+@keyframes ticketGlow{0%,100%{border-color:rgba(255,0,128,0.12);box-shadow:none}50%{border-color:rgba(255,0,128,0.45);box-shadow:0 0 20px rgba(255,0,128,0.18),inset 0 0 14px rgba(255,0,128,0.1)}}
+@keyframes bonusGlow{0%,100%{border-color:rgba(0,212,255,0.12);box-shadow:none}50%{border-color:rgba(0,212,255,0.4);box-shadow:0 0 20px rgba(0,212,255,0.15),inset 0 0 14px rgba(0,212,255,0.08)}}
+@keyframes progressPulse{0%,100%{box-shadow:0 0 6px rgba(255,0,128,0.3)}50%{box-shadow:0 0 24px rgba(255,0,128,0.8),0 0 48px rgba(255,0,128,0.25)}}
+/* Slower stripes: 2s instead of 0.6s */
+@keyframes progressStripes{0%{background-position:0 0}100%{background-position:20px 0}}
+@keyframes statusShine{0%,100%{text-shadow:0 0 4px rgba(255,214,10,0.3)}50%{text-shadow:0 0 14px rgba(255,214,10,0.9),0 0 28px rgba(255,214,10,0.4)}}
+
+/* ── NeonLine ── */
+.neon-line { max-width: 960px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+.neon-line-inner { height: 1px; opacity: 0.3; background: var(--neon-gradient); }
+@media (max-width: 768px) { .neon-line { padding: 0 16px; } }
