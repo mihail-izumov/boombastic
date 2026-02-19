@@ -91,11 +91,11 @@ onMounted(() => {
   }
 
   injectSharkEyes()
-  setupMobileSignalButton()
+  setupMobileButtons()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
-    if (window.innerWidth <= 768) setupMobileSignalButton()
+    if (window.innerWidth <= 768) setupMobileButtons()
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
@@ -121,7 +121,7 @@ onMounted(() => {
       injectSharkEyes()
     })
     if (window.innerWidth <= 768) {
-      setTimeout(setupMobileSignalButton, 300)
+      setTimeout(setupMobileButtons, 300)
     }
   }
 })
@@ -131,12 +131,13 @@ onUnmounted(() => {
   clearTimeout(preloaderTimeout)
 })
 
+// [FIX 1] Исправлен путь - убран /boombastic/
 function injectSharkEyes() {
   if (typeof document === 'undefined') return
   const titleLink = document.querySelector('.VPNavBarTitle a')
   if (titleLink && !titleLink.querySelector('.shark-eyes')) {
     const eyes = document.createElement('img')
-    eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
+    eyes.src = '/shark-eyes-icon-electric.svg'
     eyes.alt = ''
     eyes.className = 'shark-eyes'
     eyes.setAttribute('aria-hidden', 'true')
@@ -144,16 +145,18 @@ function injectSharkEyes() {
   }
 }
 
-function setupMobileSignalButton() {
-  if (typeof window === 'undefined' || window.innerWidth > 768) return
-  if (!window.openSignalModal) return
-
-  const signalLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="signal-link"]')
-  signalLinks.forEach((link) => {
-    if (link.dataset.signalProcessed) return
-    link.dataset.signalProcessed = 'true'
+// [FIX 4] Настройка мобильных кнопок - обе работают с модальными окнами
+function setupMobileButtons() {
+  if (typeof window === 'undefined') return
+  
+  // Кнопка "Войти" (apply-link)
+  const applyLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="apply-link"]')
+  applyLinks.forEach((link) => {
+    if (link.dataset.applyProcessed) return
+    link.dataset.applyProcessed = 'true'
     link.removeAttribute('href')
     link.style.position = 'relative'
+    link.style.cursor = 'pointer'
 
     const overlay = document.createElement('button')
     overlay.style.cssText = `
@@ -161,28 +164,60 @@ function setupMobileSignalButton() {
       background: transparent; border: none; cursor: pointer; z-index: 100;
       -webkit-tap-highlight-color: transparent;
     `
-    overlay.setAttribute('aria-label', 'Отправить Сигнал')
+    overlay.setAttribute('aria-label', 'Войти')
 
     overlay.addEventListener('click', (e) => {
       e.preventDefault()
       e.stopPropagation()
       e.stopImmediatePropagation()
-
-      const navScreen = document.querySelector('.VPNavScreen')
-      if (navScreen) navScreen.classList.remove('open')
-      document.body.classList.remove('overflow-hidden')
-
-      const menuButton = document.querySelector('.VPNavBarHamburger button')
-      if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
-
+      closeMobileMenu()
       setTimeout(() => {
-        if (window.openSignalModal) window.openSignalModal()
+        if (window.openLoginModal) window.openLoginModal()
       }, 100)
     })
 
     overlay.addEventListener('touchstart', () => {}, { passive: true })
     link.appendChild(overlay)
   })
+  
+  // [FIX 5] Кнопка "Игровой режим" (gamemode-link)
+  const gamemodeLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="gamemode-link"]')
+  gamemodeLinks.forEach((link) => {
+    if (link.dataset.gamemodeProcessed) return
+    link.dataset.gamemodeProcessed = 'true'
+    link.removeAttribute('href')
+    link.style.position = 'relative'
+    link.style.cursor = 'pointer'
+
+    const overlay = document.createElement('button')
+    overlay.style.cssText = `
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: transparent; border: none; cursor: pointer; z-index: 100;
+      -webkit-tap-highlight-color: transparent;
+    `
+    overlay.setAttribute('aria-label', 'Игровой режим')
+
+    overlay.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+      closeMobileMenu()
+      setTimeout(() => {
+        if (window.openGameModeModal) window.openGameModeModal()
+      }, 100)
+    })
+
+    overlay.addEventListener('touchstart', () => {}, { passive: true })
+    link.appendChild(overlay)
+  })
+}
+
+function closeMobileMenu() {
+  const navScreen = document.querySelector('.VPNavScreen')
+  if (navScreen) navScreen.classList.remove('open')
+  document.body.classList.remove('overflow-hidden')
+  const menuButton = document.querySelector('.VPNavBarHamburger button')
+  if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
 }
 </script>
 
@@ -235,9 +270,9 @@ body.has-banner .VPDoc {
 }
 
 .shark-eyes {
-  width: 28px;
-  height: 18px;
-  margin-right: 5px;
+  width: 34px;
+  height: 22px;
+  margin-right: 6px;
   flex-shrink: 0;
   object-fit: contain;
   animation: eyes-breathe 4s ease-in-out infinite;
@@ -280,11 +315,14 @@ body.has-banner .VPDoc {
 .preloader-fade-leave-to { opacity: 0; }
 
 @media (max-width: 768px) {
-  .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
+  .shark-eyes { width: 29px; height: 19px; margin-right: 5px; }
   .bb-preloader-eyes { width: 56px; height: 38px; }
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
-  .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after { pointer-events: none !important; }
+  .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after,
+  .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after { 
+    pointer-events: none !important; 
+  }
 }
 
 @media (max-width: 960px) and (min-width: 769px) {
