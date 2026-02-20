@@ -102,7 +102,7 @@ function closeModal() {
       <!-- Заголовок как вход в портал -->
       <div class="parks-title">
         <span class="parks-title-line1">Аркадные</span>
-        <span class="parks-title-line2">арены</span>
+        <span class="parks-title-line2">парки</span>
       </div>
       <p class="parks-subtitle">3 парка · 448 машин</p>
 
@@ -144,13 +144,15 @@ function closeModal() {
           <!-- Описание — в цвете акцента, крупнее -->
           <div class="park-card-desc" :style="{ color: park.accent }">{{ park.shortDesc }}</div>
           
-          <!-- Бейдж с машинами + кнопка смотреть -->
+          <!-- Бейдж с машинами + кнопка АРЕНЫ -->
           <div class="park-card-stat-row" :style="{ '--chip-color': park.accent }">
             <span class="park-card-stat-number">{{ park.machines }}</span>
             <span class="park-card-stat-label">машин</span>
             <a href="/machines" class="park-card-stat-btn">
-              <span class="park-card-stat-btn-arrow">→</span>
-              <span class="park-card-stat-btn-text">смотреть</span>
+              <span class="park-card-stat-btn-bracket">[</span>
+              <svg class="park-card-stat-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 17-5-5 5-5"/><path d="m4 17 5-5-5-5"/></svg>
+              <span class="park-card-stat-btn-text">арены</span>
+              <span class="park-card-stat-btn-bracket">]</span>
             </a>
           </div>
 
@@ -545,55 +547,56 @@ function closeModal() {
   opacity: 0.85;
 }
 
-/* Кнопка в стиле Marathon [ → смотреть ] */
+/* Кнопка в стиле Marathon [ ⟷ АРЕНЫ ] */
 .park-card-stat-btn {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 0;
-  text-decoration: none;
+  gap: 6px;
+  text-decoration: none !important;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--chip-color);
-  opacity: 0.7;
+  color: var(--chip-color) !important;
   transition: all 0.2s ease;
 }
 
-.park-card-stat-btn::before {
-  content: '[';
-  margin-right: 4px;
+.park-card-stat-btn-bracket {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
 }
 
-.park-card-stat-btn::after {
-  content: ']';
-  margin-left: 4px;
-}
-
-.park-card-stat-btn-arrow {
-  margin-right: 6px;
+.park-card-stat-btn-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
   transition: transform 0.2s ease;
 }
 
 .park-card-stat-btn-text {
-  padding: 2px 6px;
-  border-radius: 3px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: transparent;
   transition: all 0.2s ease;
 }
 
 .park-card-stat-btn:hover {
+  color: var(--chip-color) !important;
+}
+
+.park-card-stat-btn:hover .park-card-stat-btn-bracket {
   opacity: 1;
 }
 
-.park-card-stat-btn:hover .park-card-stat-btn-arrow {
-  transform: translateX(2px);
+.park-card-stat-btn:hover .park-card-stat-btn-icon {
+  transform: scaleX(1.2);
 }
 
 .park-card-stat-btn:hover .park-card-stat-btn-text {
   background: var(--chip-color);
-  color: #1a1840;
+  color: #1a1840 !important;
 }
 
 /* Top Machines */
@@ -769,6 +772,25 @@ function closeModal() {
   border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px color-mix(in srgb, var(--accent) 5%, transparent);
   animation: slideUp 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 40%, transparent) transparent;
+}
+
+.park-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.park-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.park-modal::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 3px;
+}
+
+.park-modal::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 .park-modal-close {
@@ -778,9 +800,9 @@ function closeModal() {
   z-index: 10;
   width: 32px; height: 32px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   background: rgba(0,0,0,0.4);
-  color: #7A8BA8;
+  color: color-mix(in srgb, var(--accent) 50%, #7A8BA8);
   font-size: 14px;
   cursor: pointer;
   display: flex;
@@ -791,8 +813,9 @@ function closeModal() {
 }
 
 .park-modal-close:hover {
-  background: rgba(255,255,255,0.12);
-  color: #F0F4FF;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 /* ═══════════════════════════════════════
@@ -1055,9 +1078,12 @@ function closeModal() {
   .park-card { max-width: 100%; }
   .park-card-name { font-size: 22px; letter-spacing: 1.5px; }
   .park-card-desc { font-size: 14px; }
-  .park-card-stat-row { padding: 8px 12px; flex-wrap: wrap; }
-  .park-card-stat-row .park-card-stat-number { font-size: 24px; }
-  .park-card-stat-btn { margin-left: 0; margin-top: 8px; width: 100%; justify-content: center; }
+  .park-card-stat-row { padding: 8px 12px; }
+  .park-card-stat-row .park-card-stat-number { font-size: 22px; }
+  .park-card-stat-row .park-card-stat-label { font-size: 10px; }
+  .park-card-stat-btn { font-size: 10px; }
+  .park-card-stat-btn-icon { width: 12px; height: 12px; }
+  .park-card-stat-btn-text { padding: 2px 6px; }
   .park-modal-name { font-size: 24px; letter-spacing: 2px; }
   .park-modal-stat-bar .park-modal-stat-number { font-size: 28px; }
   .park-modal-ctas { flex-direction: column; }
