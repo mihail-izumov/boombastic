@@ -626,23 +626,40 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   }
   .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
-  /* [ПРАВКА 7] Empty группа - одинаковый размер и цвета как в десктопе */
+  /* [ПРАВКА 7] Empty группа - лаймовый цвет */
   .VPNavScreen .VPNavScreenMenuGroup .title,
   .VPNavScreen .VPNavScreenMenuGroup .title .text,
-  .VPNavScreen .VPNavScreenMenuGroup button .text {
+  .VPNavScreen .VPNavScreenMenuGroup button,
+  .VPNavScreen .VPNavScreenMenuGroup button .text,
+  .VPNavScreen .VPNavScreenMenuGroup > button,
+  .VPNavScreen .VPNavScreenMenuGroup > button > .text {
     font-family: var(--vp-font-family-base) !important;
     font-size: 18px !important;
     font-weight: 600 !important;
-    color: var(--accent-lime) !important;
+    color: #C5F946 !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .title:hover,
-  .VPNavScreen .VPNavScreenMenuGroup .title:hover .text { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup .title:hover .text,
+  .VPNavScreen .VPNavScreenMenuGroup button:hover,
+  .VPNavScreen .VPNavScreenMenuGroup button:hover .text { 
+    color: #C5F946 !important; 
+  }
   .VPNavScreen .VPNavScreenMenuGroup.open .title,
-  .VPNavScreen .VPNavScreenMenuGroup.open .title .text { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup.open .title .text,
+  .VPNavScreen .VPNavScreenMenuGroup.open button,
+  .VPNavScreen .VPNavScreenMenuGroup.open button .text { 
+    color: #C5F946 !important; 
+  }
   
-  /* Empty закрытый - лаймовый текст */
+  /* Empty закрытый - тоже лаймовый текст */
   .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title,
-  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title .text { color: var(--accent-lime) !important; }
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) .title .text,
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) button,
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) button .text,
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) > button,
+  .VPNavScreen .VPNavScreenMenuGroup:not(.open) > button > .text { 
+    color: #C5F946 !important; 
+  }
 
   .VPNavScreen .VPNavScreenMenuGroup .item a,
   .VPNavScreen .VPNavScreenMenuGroup .item .VPNavScreenMenuGroupLink,
@@ -682,9 +699,47 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavBarHamburger:hover .container .bottom {
     background-color: var(--accent-lime) !important;
   }
+  
+  /* Убираем синюю рамку с кнопки гамбургера/закрытия */
+  .VPNavBarHamburger,
+  .VPNavBarHamburger.active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  .VPNavBarHamburger:focus,
+  .VPNavBarHamburger:focus-visible,
+  .VPNavBarHamburger.active:focus,
+  .VPNavBarHamburger.active:focus-visible {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .VPNavBarHamburger button,
+  .VPNavBarHamburger.active button {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .VPNavBarHamburger button:focus,
+  .VPNavBarHamburger button:focus-visible {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  /* Убираем рамку через универсальный селектор */
+  .VPNavBarHamburger *,
+  .VPNavBarHamburger *:focus,
+  .VPNavBarHamburger *:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
-  /* [FIX 6] VPLocalNav — скрыть на страницах с sidebar (она не нужна и перекрывает навигацию) */
-  .has-sidebar .VPLocalNav {
+  /* [FIX 6] VPLocalNav — скрыть на страницах с sidebar */
+  .has-sidebar .VPLocalNav,
+  html.has-sidebar .VPLocalNav,
+  body.has-sidebar .VPLocalNav {
     display: none !important;
   }
   
@@ -695,12 +750,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   }
   
   /* Скрыть VPLocalNav когда открыто мобильное меню */
-  body:has(.VPNavScreen.open) .VPLocalNav {
+  body:has(.VPNavScreen.open) .VPLocalNav,
+  html:has(.VPNavScreen.open) .VPLocalNav {
     display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
   
   /* VPNavScreen должен быть выше VPLocalNav */
   .VPNavScreen {
+    z-index: 200 !important;
+  }
+  .VPNavScreen.open {
     z-index: 200 !important;
   }
   
@@ -780,12 +841,15 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   left: auto !important;
   transform: none !important;
   margin-top: 8px !important;
+  margin-right: 8px !important;
   background: rgba(22, 20, 52, 0.98) !important;
   backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(74, 90, 173, 0.3) !important;
   padding: 16px !important;
   min-width: 180px !important;
+  max-width: calc(100vw - 32px) !important;
   z-index: 100 !important;
+  border-radius: 8px !important;
 }
 
 /* Контейнер внутри "..." */
@@ -824,9 +888,11 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  min-width: 140px !important;
-  padding: 10px 16px !important;
-  font-size: 14px !important;
+  min-width: auto !important;
+  max-width: 100% !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  white-space: nowrap !important;
 }
 
 /* ============================================================
