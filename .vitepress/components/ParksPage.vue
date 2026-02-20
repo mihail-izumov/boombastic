@@ -552,8 +552,8 @@ function closeModal() {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+  gap: 5px;
+  padding: 2px 5px;
   text-decoration: none !important;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -563,6 +563,15 @@ function closeModal() {
   color: var(--chip-color) !important;
   background: transparent;
   transition: all 0.15s ease;
+}
+
+/* Убираем подчеркивание от VitePress */
+.park-card-stat-btn:hover,
+.park-card-stat-btn:focus,
+.park-card-stat-btn:active {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 .park-card-stat-btn-bracket {
