@@ -4,58 +4,6 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ============================================================
-   ГЛОБАЛЬНЫЕ ИСПРАВЛЕНИЯ ГОРИЗОНТАЛЬНОГО СКРОЛЛА
-   ============================================================ */
-html {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-}
-
-body {
-  overflow-x: hidden !important;
-  max-width: 100% !important;
-}
-
-/* VitePress контейнеры */
-.VPDoc,
-.VPContent,
-.VPPage,
-.VPHome,
-.container,
-.content-container,
-main {
-  overflow-x: hidden !important;
-  max-width: 100% !important;
-}
-
-/* Отключение scale-анимаций на мобильных (вызывают overflow) */
-@media (max-width: 768px) {
-  .park-card:hover,
-  .park-card:active,
-  .VPFeature:hover,
-  .card:hover,
-  .card-glass:hover,
-  .card-tron:hover,
-  .topup-row:hover {
-    transform: translateY(-2px) !important;
-    /* scale убран — он вызывает горизонтальный скролл */
-  }
-}
-
-/* Защита flex/grid элементов от переполнения */
-.flex-container,
-[class*="flex"],
-[class*="grid"] {
-  min-width: 0;
-}
-
-/* Изображения не выходят за границы */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ============================================================
    ШРИФТЫ — единая система
    Inter: всё (тело, навигация, кнопки)
    Montserrat: только Hero-заголовки
@@ -269,9 +217,8 @@ code, .vp-code, .line-numbers {
 /* ============================================================
    НАВИГАЦИЯ: лаймовая плашка при hover
    ============================================================ */
-/* [FIX 1] Кнопки навбара - не выходят за контейнер */
+/* [FIX 1] Кнопки навбара - стили без переопределения display */
 .VPNavBar .VPNavBarMenu {
-  display: flex !important;
   align-items: center !important;
   height: 100% !important;
 }
@@ -286,7 +233,6 @@ code, .vp-code, .line-numbers {
   border-radius: 0 !important;
   line-height: 1.4 !important;
   height: auto !important;
-  display: flex !important;
   align-items: center !important;
 }
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink:hover {
@@ -308,7 +254,6 @@ code, .vp-code, .line-numbers {
 
 /* Flyout (dropdown) выравнивание */
 .VPNavBar .VPNavBarMenu .VPFlyout {
-  display: flex !important;
   align-items: center !important;
   position: relative !important;
   height: 100% !important;
@@ -323,7 +268,6 @@ code, .vp-code, .line-numbers {
   line-height: 1.4 !important;
   transition: background 0.2s ease, color 0.2s ease !important;
   height: auto !important;
-  display: flex !important;
   align-items: center !important;
 }
 .VPNavBar .VPNavBarMenu .VPFlyout > button:hover {
@@ -343,10 +287,9 @@ code, .vp-code, .line-numbers {
 }
 
 /* [FIX 2] Выпадающее меню — под навбаром, выровнено по левому краю кнопки */
+/* НЕ применяем к VPNavBarExtra - у него своё позиционирование */
 .VPNavBar .VPNavBarMenu .VPFlyout .VPMenu,
-.VPNavBarMenu .VPFlyout .VPMenu,
-.VPFlyout .VPMenu,
-.VPMenu {
+.VPNavBarMenu .VPFlyout .VPMenu {
   position: absolute !important;
   top: 100% !important;
   margin-top: 8px !important;
@@ -823,69 +766,67 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 /* ============================================================
    [FIX 9] VPNavBarExtra — меню "..." (показывается когда элементы не помещаются)
+   НЕ переопределяем display - пусть VitePress управляет видимостью
    ============================================================ */
-/* Стили для десктопа когда часть элементов уходит в "..." */
-@media (min-width: 961px) {
-  .VPNavBarExtra {
-    display: flex !important;
-    align-items: center !important;
-  }
+.VPNavBarExtra {
+  align-items: center !important;
+}
 
-  /* Dropdown в "..." — выравнивание по ПРАВОМУ краю (чтобы не выходил за экран) */
-  .VPNavBarExtra .VPFlyout .VPMenu {
-    position: absolute !important;
-    top: 100% !important;
-    right: 0 !important;
-    left: auto !important;
-    transform: none !important;
-    margin-top: 8px !important;
-    background: rgba(22, 20, 52, 0.98) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(74, 90, 173, 0.3) !important;
-    padding: 16px !important;
-    min-width: 180px !important;
-  }
+/* Dropdown в "..." — выравнивание по ПРАВОМУ краю (чтобы не выходил за экран) */
+.VPNavBarExtra .VPFlyout .VPMenu {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: none !important;
+  margin-top: 8px !important;
+  background: rgba(22, 20, 52, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(74, 90, 173, 0.3) !important;
+  padding: 16px !important;
+  min-width: 180px !important;
+  z-index: 100 !important;
+}
 
-  /* Контейнер внутри "..." */
-  .VPNavBarExtra .VPMenu .group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
-    align-items: center !important;
-    padding: 8px 0 !important;
-  }
+/* Контейнер внутри "..." */
+.VPNavBarExtra .VPMenu .group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 8px 0 !important;
+}
 
-  /* VK иконка внутри "..." — по центру */
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 48px !important;
-    margin-bottom: 12px !important;
-  }
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] svg {
-    width: 36px !important;
-    height: 36px !important;
-  }
+/* VK иконка внутри "..." — по центру */
+.VPNavBarExtra .VPSocialLink[aria-label="vk-link"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 48px !important;
+  margin-bottom: 12px !important;
+}
+.VPNavBarExtra .VPSocialLink[aria-label="vk-link"] svg {
+  width: 36px !important;
+  height: 36px !important;
+}
 
-  /* Кнопки внутри "..." */
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"],
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"] {
-    width: 100% !important;
-    margin: 4px 0 !important;
-  }
+/* Кнопки внутри "..." */
+.VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"],
+.VPNavBarExtra .VPSocialLink[aria-label="apply-link"] {
+  width: 100% !important;
+  margin: 4px 0 !important;
+}
 
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"]::after,
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"]::after {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    min-width: 140px !important;
-    padding: 10px 16px !important;
-    font-size: 14px !important;
-  }
+.VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"]::after,
+.VPNavBarExtra .VPSocialLink[aria-label="apply-link"]::after {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 140px !important;
+  padding: 10px 16px !important;
+  font-size: 14px !important;
 }
 
 /* ============================================================
@@ -990,13 +931,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
    ФУТЕР
    ============================================================ */
 .VPFooter { background: transparent !important; }
-
-.VPNavBarExtra .VPFlyout .VPMenu {
-  background: rgba(22, 20, 52, 0.98) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(74, 90, 173, 0.3) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
 
 /* ============================================================
    ТАБЛИЦЫ
