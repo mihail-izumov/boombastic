@@ -219,6 +219,7 @@ export default defineConfig({
 
     nav: [
       { text: 'Парки', link: '/parks' },
+      { text: 'Зарядка', link: '/charge' },
       {
         text: 'Empty',
         items: [
