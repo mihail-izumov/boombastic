@@ -25,18 +25,12 @@
   <Teleport to="body">
     <Transition name="preloader-fade">
       <div v-if="showPreloader" class="bb-preloader">
-        <svg 
+        <img 
+          src="https://b00m.fun/shark-eyes-icon-electric.svg" 
+          alt="" 
           class="bb-preloader-eyes"
-          viewBox="0 0 48 22" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-        >
-          <ellipse cx="12" cy="11" rx="10" ry="9" fill="#C5F946"/>
-          <ellipse cx="36" cy="11" rx="10" ry="9" fill="#C5F946"/>
-          <ellipse cx="14" cy="11" rx="4" ry="5" fill="#1c1a3e"/>
-          <ellipse cx="38" cy="11" rx="4" ry="5" fill="#1c1a3e"/>
-        </svg>
+        />
       </div>
     </Transition>
   </Teleport>
@@ -146,16 +140,11 @@ function injectSharkEyes() {
   if (typeof document === 'undefined') return
   const titleLink = document.querySelector('.VPNavBarTitle a')
   if (titleLink && !titleLink.querySelector('.shark-eyes')) {
-    const eyes = document.createElement('span')
+    const eyes = document.createElement('img')
+    eyes.src = 'https://b00m.fun/shark-eyes-icon-electric.svg'
+    eyes.alt = ''
     eyes.className = 'shark-eyes'
     eyes.setAttribute('aria-hidden', 'true')
-    // Inline SVG - глаза акулы
-    eyes.innerHTML = `<svg viewBox="0 0 48 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="12" cy="11" rx="10" ry="9" fill="#C5F946"/>
-      <ellipse cx="36" cy="11" rx="10" ry="9" fill="#C5F946"/>
-      <ellipse cx="14" cy="11" rx="4" ry="5" fill="#1c1a3e"/>
-      <ellipse cx="38" cy="11" rx="4" ry="5" fill="#1c1a3e"/>
-    </svg>`
     titleLink.insertBefore(eyes, titleLink.firstChild)
   }
 }
@@ -302,18 +291,13 @@ body.has-banner .VPDoc {
 }
 
 .shark-eyes {
-  display: inline-flex;
-  align-items: center;
   width: 28px;
   height: 18px;
   margin-right: 5px;
   flex-shrink: 0;
+  object-fit: contain;
   animation: eyes-breathe 4s ease-in-out infinite;
   filter: drop-shadow(0 0 3px rgba(197, 249, 70, 0.3));
-}
-.shark-eyes svg {
-  width: 100%;
-  height: 100%;
 }
 
 @keyframes eyes-breathe {
@@ -337,7 +321,7 @@ body.has-banner .VPDoc {
 }
 
 .bb-preloader-eyes {
-  width: 72px; height: 48px;
+  width: 72px; height: 48px; object-fit: contain;
   animation: preloader-pulse 0.5s ease-in-out infinite alternate;
 }
 
@@ -357,10 +341,6 @@ body.has-banner .VPDoc {
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
   .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after { pointer-events: none !important; }
-}
-
-@media (max-width: 960px) {
-  .shark-eyes { width: 26px; height: 17px; }
 }
 
 @media (max-width: 960px) and (min-width: 769px) {
