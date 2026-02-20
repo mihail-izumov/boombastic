@@ -99,9 +99,9 @@ onMounted(() => {
     injectSharkEyes()
     setupDropdownPosition()
     hideLocalNavWhenMenuOpen()
-    if (window.innerWidth <= 1024) setupMobileSignalButton()
+    if (window.innerWidth <= 960) setupMobileSignalButton()
   })
-  observer.observe(document.body, { childList: true, subtree: true, attributes: true })
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] })
 
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
@@ -125,7 +125,7 @@ onMounted(() => {
       injectSharkEyes()
       setupDropdownPosition()
     })
-    if (window.innerWidth <= 1024) {
+    if (window.innerWidth <= 960) {
       setTimeout(setupMobileSignalButton, 300)
     }
   }
@@ -192,7 +192,7 @@ function setupMobileSignalButton() {
 
 // Принудительное позиционирование dropdown по левому краю кнопки
 function setupDropdownPosition() {
-  if (typeof window === 'undefined' || window.innerWidth <= 1024) return
+  if (typeof window === 'undefined' || window.innerWidth <= 768) return
   
   const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
   
@@ -221,7 +221,7 @@ function setupDropdownPosition() {
   })
 }
 
-// Скрываем VPLocalNav когда открыто мобильное меню
+// Скрываем VPLocalNav когда открыто мобильное меню (fallback для :has())
 function hideLocalNavWhenMenuOpen() {
   if (typeof window === 'undefined') return
   
@@ -232,14 +232,11 @@ function hideLocalNavWhenMenuOpen() {
   
   if (navScreen && navScreen.classList.contains('open')) {
     localNav.style.display = 'none'
-    localNav.style.visibility = 'hidden'
   } else {
     // Восстанавливаем только если не на странице с sidebar
-    const hasSidebar = document.body.classList.contains('has-sidebar') || 
-                       document.querySelector('.has-sidebar')
+    const hasSidebar = document.documentElement.classList.contains('has-sidebar')
     if (!hasSidebar) {
       localNav.style.display = ''
-      localNav.style.visibility = ''
     }
   }
 }
