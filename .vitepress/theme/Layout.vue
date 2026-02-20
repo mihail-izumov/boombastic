@@ -94,12 +94,30 @@ onMounted(() => {
   setupMobileSignalButton()
   setupDropdownPosition()
   hideLocalNavWhenMenuOpen()
+  
+  // Слушаем клик на гамбургер для скрытия VPLocalNav
+  const hamburger = document.querySelector('.VPNavBarHamburger')
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      setTimeout(hideLocalNavWhenMenuOpen, 50)
+    })
+  }
 
-  const observer = new MutationObserver(() => {
+  const observer = new MutationObserver((mutations) => {
     injectSharkEyes()
     setupDropdownPosition()
     hideLocalNavWhenMenuOpen()
     if (window.innerWidth <= 960) setupMobileSignalButton()
+    
+    // Проверяем изменения класса VPNavScreen
+    mutations.forEach(mutation => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const target = mutation.target
+        if (target.classList && target.classList.contains('VPNavScreen')) {
+          hideLocalNavWhenMenuOpen()
+        }
+      }
+    })
   })
   observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] })
 
@@ -190,54 +208,89 @@ function setupMobileSignalButton() {
   })
 }
 
-// Принудительное позиционирование dropdown по левому краю кнопки
+// Принудительное позиционирование dropdown - не выходит за экран
 function setupDropdownPosition() {
   if (typeof window === 'undefined' || window.innerWidth <= 768) return
   
-  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
+  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout, .VPNavBarExtra .VPFlyout')
   
   flyouts.forEach((flyout) => {
-    if (flyout.dataset.dropdownFixed) return
-    flyout.dataset.dropdownFixed = 'true'
-    
     const menu = flyout.querySelector('.VPMenu')
     if (!menu) return
     
-    // Применяем inline стили для максимального приоритета
+    // Применяем inline стили при открытии
     const applyPosition = () => {
+      // Сначала сбрасываем стили чтобы получить реальные размеры
       menu.style.cssText = `
-        position: absolute !important;
-        top: 100% !important;
-        left: 0 !important;
-        right: auto !important;
-        transform: none !important;
-        margin-top: 8px !important;
+        position: absolute;
+        top: 100%;
+        margin-top: 8px;
+        visibility: hidden;
       `
+      
+      const flyoutRect = flyout.getBoundingClientRect()
+      const menuWidth = menu.offsetWidth || 200
+      const viewportWidth = window.innerWidth
+      const rightEdge = flyoutRect.left + menuWidth
+      
+      // Если выходит за правый край - выравниваем по правому краю кнопки
+      if (rightEdge > viewportWidth - 16) {
+        menu.style.cssText = `
+          position: absolute !important;
+          top: 100% !important;
+          right: 0 !important;
+          left: auto !important;
+          transform: none !important;
+          margin-top: 8px !important;
+          max-width: calc(100vw - 32px) !important;
+          visibility: visible;
+        `
+      } else {
+        menu.style.cssText = `
+          position: absolute !important;
+          top: 100% !important;
+          left: 0 !important;
+          right: auto !important;
+          transform: none !important;
+          margin-top: 8px !important;
+          max-width: calc(100vw - 32px) !important;
+          visibility: visible;
+        `
+      }
     }
     
-    // Применяем сразу и при hover
-    applyPosition()
+    // Применяем при hover
     flyout.addEventListener('mouseenter', applyPosition)
+    flyout.addEventListener('click', () => setTimeout(applyPosition, 10))
   })
 }
 
-// Скрываем VPLocalNav когда открыто мобильное меню (fallback для :has())
+// Скрываем VPLocalNav когда открыто мобильное меню или на страницах с sidebar
 function hideLocalNavWhenMenuOpen() {
   if (typeof window === 'undefined') return
   
   const navScreen = document.querySelector('.VPNavScreen')
   const localNav = document.querySelector('.VPLocalNav')
+  const hasSidebar = document.documentElement.classList.contains('has-sidebar') ||
+                     document.body.classList.contains('has-sidebar') ||
+                     document.querySelector('.has-sidebar')
   
   if (!localNav) return
   
+  // Всегда скрываем на страницах с sidebar
+  if (hasSidebar) {
+    localNav.style.display = 'none'
+    localNav.style.visibility = 'hidden'
+    return
+  }
+  
+  // Скрываем когда открыто мобильное меню
   if (navScreen && navScreen.classList.contains('open')) {
     localNav.style.display = 'none'
+    localNav.style.visibility = 'hidden'
   } else {
-    // Восстанавливаем только если не на странице с sidebar
-    const hasSidebar = document.documentElement.classList.contains('has-sidebar')
-    if (!hasSidebar) {
-      localNav.style.display = ''
-    }
+    localNav.style.display = ''
+    localNav.style.visibility = ''
   }
 }
 </script>
