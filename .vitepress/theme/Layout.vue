@@ -188,28 +188,34 @@ function setupMobileSignalButton() {
   })
 }
 
-// Позиционирование dropdown меню по левому краю кнопки
+// Принудительное позиционирование dropdown по левому краю кнопки
 function setupDropdownPosition() {
   if (typeof window === 'undefined' || window.innerWidth <= 768) return
   
   const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
   
   flyouts.forEach((flyout) => {
-    // Не добавляем обработчик повторно
-    if (flyout.dataset.dropdownPositioned) return
-    flyout.dataset.dropdownPositioned = 'true'
+    if (flyout.dataset.dropdownFixed) return
+    flyout.dataset.dropdownFixed = 'true'
     
-    const button = flyout.querySelector('button')
     const menu = flyout.querySelector('.VPMenu')
+    if (!menu) return
     
-    if (!button || !menu) return
+    // Применяем inline стили для максимального приоритета
+    const applyPosition = () => {
+      menu.style.cssText = `
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+        margin-top: 8px !important;
+      `
+    }
     
-    // Применяем стили сразу
-    menu.style.position = 'absolute'
-    menu.style.left = '0'
-    menu.style.right = 'auto'
-    menu.style.transform = 'none'
-    menu.style.top = 'calc(100% + 8px)'
+    // Применяем сразу и при hover
+    applyPosition()
+    flyout.addEventListener('mouseenter', applyPosition)
   })
 }
 </script>
@@ -318,19 +324,5 @@ body.has-banner .VPDoc {
 @media (max-width: 960px) and (min-width: 769px) {
   .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
-}
-
-/* ═══ DROPDOWN: выравнивание по левому краю кнопки ═══ */
-.VPNavBar .VPNavBarMenu .VPFlyout {
-  position: relative !important;
-}
-
-.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
-  position: absolute !important;
-  top: calc(100% + 8px) !important;
-  left: 0 !important;
-  right: auto !important;
-  transform: none !important;
-  margin-top: 0 !important;
 }
 </style>
