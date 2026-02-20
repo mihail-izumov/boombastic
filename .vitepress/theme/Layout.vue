@@ -95,24 +95,39 @@ onMounted(() => {
   setupMobileNavButtons()
   
   // Скрываем VPLocalNav когда открыто мобильное меню
-  const navScreenObserver = new MutationObserver(() => {
+  function hideLocalNavWhenMenuOpen() {
     const navScreen = document.querySelector('.VPNavScreen')
     const localNav = document.querySelector('.VPLocalNav')
-    if (navScreen && localNav) {
-      if (navScreen.classList.contains('open')) {
+    if (localNav) {
+      if (navScreen && navScreen.classList.contains('open')) {
         localNav.style.display = 'none'
       } else {
         localNav.style.display = ''
       }
     }
-  })
-  const navScreen = document.querySelector('.VPNavScreen')
-  if (navScreen) {
-    navScreenObserver.observe(navScreen, { attributes: true, attributeFilter: ['class'] })
   }
+  
+  // Начальная проверка
+  hideLocalNavWhenMenuOpen()
+  
+  // Наблюдатель за изменениями
+  const navScreenObserver = new MutationObserver(hideLocalNavWhenMenuOpen)
+  
+  // Ждём появления navScreen
+  const waitForNavScreen = setInterval(() => {
+    const navScreen = document.querySelector('.VPNavScreen')
+    if (navScreen) {
+      clearInterval(waitForNavScreen)
+      navScreenObserver.observe(navScreen, { attributes: true, attributeFilter: ['class'] })
+    }
+  }, 100)
+  
+  // Очистка через 5 секунд если не найден
+  setTimeout(() => clearInterval(waitForNavScreen), 5000)
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
+    hideLocalNavWhenMenuOpen()
     if (window.innerWidth <= 960) {
       setupMobileSignalButton()
       setupMobileNavButtons()
@@ -329,16 +344,6 @@ function setupMobileNavButtons() {
   /* На страницах с сайдбаром отступ уже через VPLocalNav */
   .has-sidebar .VPContent {
     padding-top: 0 !important;
-  }
-  
-  /* Скрыть VPLocalNav когда открыто мобильное меню */
-  body:has(.VPNavScreen.open) .VPLocalNav {
-    display: none !important;
-  }
-  
-  /* Скрыть "..." в мобильной версии */
-  .VPNavBarExtra {
-    display: none !important;
   }
 }
 

@@ -90,6 +90,15 @@ html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
   display: none !important;
 }
 
+/* ГЛОБАЛЬНО: Скрыть VPNavBarExtra (три точки) везде */
+.VPNavBarExtra {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
 /* ============================================================
    ТИПОГРАФИКА — единообразие
    ============================================================ */
@@ -268,15 +277,15 @@ code, .vp-code, .line-numbers {
   color: #1a1840 !important;
 }
 
-/* [FIX 2] Выпадающее меню — под навбаром, выровнено по левому краю кнопки */
+/* [FIX 2] Выпадающее меню — строго под навбаром */
 .VPNavBar .VPNavBarMenu .VPFlyout .VPMenu,
 .VPFlyout .VPMenu {
   position: absolute !important;
-  top: 100% !important;
-  margin-top: 4px !important;
-  left: 0 !important;
+  top: calc(100% + 8px) !important;
+  margin-top: 0 !important;
+  left: 50% !important;
   right: auto !important;
-  transform: none !important;
+  transform: translateX(-50%) !important;
 }
 
 /* ============================================================
@@ -585,6 +594,11 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   }
   .VPNavScreen .VPNavScreenMenu { padding-bottom: 16px !important; }
   .VPNavScreen .VPNavScreenAppearance { display: none !important; }
+  
+  /* Скрыть VPLocalNav внутри мобильного меню если он там появляется */
+  .VPNavScreen .VPLocalNav {
+    display: none !important;
+  }
 
   .VPNavScreen .VPNavScreenMenuLink {
     font-family: var(--vp-font-family-base) !important;
@@ -652,16 +666,18 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     background-color: var(--accent-lime) !important;
   }
 
-  /* Скрыть "..." в мобильной версии */
-  .VPNavBarExtra {
-    display: none !important;
-  }
-
   /* [FIX 6] VPLocalNav — скрыть когда открыто мобильное меню */
   .VPLocalNav {
     position: sticky !important;
     top: 64px !important;
     z-index: 50 !important;
+  }
+  
+  /* Скрыть VPLocalNav когда открыто мобильное меню */
+  body:has(.VPNavScreen.open) .VPLocalNav,
+  .VPNavScreen.open ~ .VPLocalNav {
+    display: none !important;
+    visibility: hidden !important;
   }
   
   /* Скрыть VPLocalNav когда открыто мобильное меню */
@@ -727,72 +743,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
   .footer-row { flex-direction: column !important; gap: 8px !important; }
   .dot-separator { display: none !important; }
-}
-
-/* ============================================================
-   [FIX 9] VPNavBarExtra — меню "..." (только для промежуточных размеров)
-   ============================================================ */
-/* Скрыть "..." в мобильной версии (до 960px) */
-@media (max-width: 960px) {
-  .VPNavBarExtra {
-    display: none !important;
-  }
-}
-
-/* Стили для десктопа когда часть элементов уходит в "..." */
-@media (min-width: 961px) {
-  .VPNavBarExtra {
-    display: flex !important;
-    align-items: center !important;
-  }
-
-  .VPNavBarExtra .VPFlyout .VPMenu {
-    background: rgba(22, 20, 52, 0.98) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(74, 90, 173, 0.3) !important;
-    padding: 16px !important;
-    min-width: 180px !important;
-  }
-
-  /* Контейнер внутри "..." */
-  .VPNavBarExtra .VPMenu .group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    align-items: center !important;
-  }
-
-  /* VK иконка внутри "..." */
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    margin-bottom: 8px !important;
-  }
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] svg {
-    width: 32px !important;
-    height: 32px !important;
-  }
-
-  /* Кнопки внутри "..." */
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"],
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"] {
-    width: 100% !important;
-    margin: 4px 0 !important;
-  }
-
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"]::after,
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"]::after {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    min-width: 140px !important;
-    padding: 10px 16px !important;
-    font-size: 14px !important;
-  }
 }
 
 /* ============================================================
