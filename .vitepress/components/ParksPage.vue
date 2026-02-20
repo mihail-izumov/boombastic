@@ -527,6 +527,8 @@ function closeModal() {
   background: color-mix(in srgb, var(--chip-color) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--chip-color) 20%, transparent);
   margin-bottom: 16px;
+  min-height: 52px;
+  box-sizing: border-box;
 }
 
 .park-card-stat-row .park-card-stat-number {
@@ -554,6 +556,7 @@ function closeModal() {
   align-items: center;
   gap: 5px;
   padding: 2px 5px;
+  height: 24px;
   text-decoration: none !important;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -562,16 +565,23 @@ function closeModal() {
   letter-spacing: 1px;
   color: var(--chip-color) !important;
   background: transparent;
-  transition: all 0.15s ease;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 /* Убираем подчеркивание от VitePress */
 .park-card-stat-btn:hover,
 .park-card-stat-btn:focus,
-.park-card-stat-btn:active {
+.park-card-stat-btn:active,
+.park-card-stat-btn:visited {
   text-decoration: none !important;
+  border: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
 .park-card-stat-btn-bracket {
