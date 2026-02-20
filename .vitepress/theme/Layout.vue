@@ -325,4 +325,30 @@ body.has-banner .VPDoc {
   .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
 }
+
+/* ═══ [FIX 2] DROPDOWN: принудительное выравнивание ═══ */
+.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+  margin-top: 8px !important;
+}
+
+/* ═══ [FIX 3,4] Убираем двойные рамки в dropdown ═══ */
+.VPMenu .VPMenuLink a,
+.VPFlyout .VPMenuLink a {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.VPMenu .VPMenuLink a:hover,
+.VPFlyout .VPMenuLink a:hover,
+.VPMenu .VPMenuLink a:focus,
+.VPFlyout .VPMenuLink a:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
 </style>
