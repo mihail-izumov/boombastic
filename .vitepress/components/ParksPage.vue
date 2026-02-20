@@ -129,25 +129,27 @@ function closeModal() {
         class="park-card"
         :style="{ '--accent': park.accent, '--glow1': park.glowColor1, '--glow2': park.glowColor2, '--delay': i * 0.12 + 's' }"
       >
-        <!-- Card Header — NFS-стиль: название слева, статистика справа внизу -->
+        <!-- Card Header — геймерский стиль -->
         <div class="park-card-header">
           <div class="park-card-grid"></div>
           <div class="park-card-glow"></div>
-          <div class="park-card-glow-bottom"></div>
-          <!-- Название и описание — слева вверху -->
+          <!-- Название парка — большое, в цвете акцента -->
           <div class="park-card-title-block">
-            <h3 class="park-card-name">{{ park.name }}</h3>
-            <div class="park-card-desc">{{ park.shortDesc }}</div>
-          </div>
-          <!-- Счётчик как плашка-характеристика -->
-          <div class="park-card-stat-chip" :style="{ '--chip-color': park.accent }">
-            <span class="park-card-stat-number">{{ park.machines }}</span>
-            <span class="park-card-stat-label">машин</span>
+            <h3 class="park-card-name" :style="{ color: park.accent }">{{ park.name }}</h3>
           </div>
         </div>
 
         <!-- Card Content -->
         <div class="park-card-body">
+          <!-- Описание -->
+          <div class="park-card-desc">{{ park.shortDesc }}</div>
+          
+          <!-- Бейдж с машинами — под описанием -->
+          <div class="park-card-stat-row" :style="{ '--chip-color': park.accent }">
+            <span class="park-card-stat-number">{{ park.machines }}</span>
+            <span class="park-card-stat-label">машин</span>
+          </div>
+
           <!-- Top Machines -->
           <div class="park-top-label">
             <svg class="park-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
@@ -200,25 +202,22 @@ function closeModal() {
           <!-- Close -->
           <button class="park-modal-close" @click="closeModal">✕</button>
 
-          <!-- Modal Header — название слева внизу, статистика справа -->
+          <!-- Modal Header — геймерский стиль -->
           <div class="park-modal-header">
             <div class="park-modal-grid"></div>
             <div class="park-modal-glow" :style="{ '--accent': modalPark.accent }"></div>
-            <!-- Статистика как плашка — справа вверху -->
-            <div class="park-modal-stat-chip" :style="{ '--chip-color': modalPark.accent }">
-              <span class="park-modal-stat-number">{{ modalPark.machines }}</span>
-              <span class="park-modal-stat-label">машин</span>
-            </div>
-            <!-- Название — слева внизу -->
-            <div class="park-modal-title-block">
-              <h2 class="park-modal-name">{{ modalPark.name }}</h2>
-            </div>
-            <!-- Fade внизу header -->
-            <div class="park-modal-header-fade"></div>
+            <!-- Название парка — большое, в цвете акцента -->
+            <h2 class="park-modal-name" :style="{ color: modalPark.accent }">{{ modalPark.name }}</h2>
           </div>
 
           <!-- Modal Body -->
           <div class="park-modal-body">
+            <!-- Бейдж с машинами — на всю ширину, яркий -->
+            <div class="park-modal-stat-bar" :style="{ '--bar-color': modalPark.accent }">
+              <span class="park-modal-stat-number">{{ modalPark.machines }}</span>
+              <span class="park-modal-stat-label">машин</span>
+            </div>
+
             <p class="park-modal-desc">{{ modalPark.fullDesc }}</p>
             <div class="park-modal-nearby">Рядом: {{ modalPark.nearby.join(' · ') }}</div>
 
@@ -450,13 +449,16 @@ function closeModal() {
 }
 
 /* ═══════════════════════════════════════
-   CARD HEADER — NFS-стиль
+   CARD HEADER — геймерский стиль
    ═══════════════════════════════════════ */
 .park-card-header {
-  height: 100px;
+  height: 80px;
   position: relative;
   overflow: hidden;
   background: #1c1a3e;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .park-card-grid {
@@ -481,81 +483,66 @@ function closeModal() {
 
 .park-card:hover .park-card-glow { opacity: 1.4; }
 
-.park-card-glow-bottom {
-  position: absolute;
-  bottom: -20px; left: 50%;
-  transform: translateX(-50%);
-  width: 200px; height: 40px;
-  background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
-  filter: blur(12px);
-}
-
-/* Название и описание — слева вверху */
+/* Название парка — большое, в цвете акцента */
 .park-card-title-block {
-  position: absolute;
-  top: 14px;
-  left: 18px;
-  right: 90px; /* оставляем место для статистики справа */
+  position: relative;
   z-index: 1;
 }
 
 .park-card-name {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: #F0F4FF;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 30px currentColor;
 }
 
+/* Card Body */
+.park-card-body {
+  padding: 16px 20px 18px;
+}
+
+/* Описание */
 .park-card-desc {
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: #7A8BA8;
-  margin-top: 5px;
-  line-height: 1.3;
+  line-height: 1.4;
+  margin-bottom: 12px;
 }
 
-/* Статистика — плашка справа внизу */
-.park-card-stat-chip {
-  position: absolute;
-  bottom: 10px;
-  right: 14px;
-  z-index: 1;
+/* Бейдж с машинами — строка под описанием */
+.park-card-stat-row {
   display: flex;
   align-items: baseline;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 8px;
+  padding: 10px 14px;
   border-radius: 8px;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid color-mix(in srgb, var(--chip-color) 25%, transparent);
-  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--chip-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chip-color) 20%, transparent);
+  margin-bottom: 16px;
 }
 
-.park-card-stat-number {
+.park-card-stat-row .park-card-stat-number {
   font-family: 'Space Mono', monospace;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   line-height: 1;
   color: var(--chip-color);
 }
 
-.park-card-stat-label {
+.park-card-stat-row .park-card-stat-label {
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--chip-color);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0.8;
-}
-
-/* Card Body */
-.park-card-body {
-  padding: 14px 20px 18px;
+  letter-spacing: 1px;
+  opacity: 0.85;
 }
 
 /* Top Machines */
@@ -758,15 +745,14 @@ function closeModal() {
 }
 
 .park-modal-close {
-  position: sticky;
+  position: absolute;
   top: 12px;
-  float: right;
-  margin-right: 12px;
+  right: 12px;
   z-index: 10;
-  width: 30px; height: 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.06);
+  width: 32px; height: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.4);
   color: #7A8BA8;
   font-size: 14px;
   cursor: pointer;
@@ -783,23 +769,29 @@ function closeModal() {
 }
 
 /* ═══════════════════════════════════════
-   MODAL HEADER — NFS-стиль
+   MODAL HEADER — геймерский стиль
    ═══════════════════════════════════════ */
 .park-modal-header {
-  height: 130px;
+  height: 100px;
   position: relative;
   overflow: hidden;
   border-radius: 16px 16px 0 0;
   background: #0D1421;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
 }
 
-/* Грид на всю ширину */
+/* Грид на всю ширину — без отступов */
 .park-modal-grid {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-image:
-    linear-gradient(color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: 0 0;
   pointer-events: none;
@@ -809,81 +801,59 @@ function closeModal() {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px; height: 140px;
+  width: 350px; height: 150px;
   background: radial-gradient(ellipse,
-    color-mix(in srgb, var(--accent) 18%, transparent),
-    color-mix(in srgb, var(--accent) 7%, transparent),
+    color-mix(in srgb, var(--accent) 20%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent),
     transparent 65%);
-  filter: blur(20px);
+  filter: blur(25px);
 }
 
-/* Fade-переход внизу header */
-.park-modal-header-fade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, #0D1421);
-  pointer-events: none;
-}
-
-/* Статистика — плашка справа вверху */
-.park-modal-stat-chip {
-  position: absolute;
-  top: 16px;
-  right: 50px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: rgba(0,0,0,0.5);
-  border: 1px solid color-mix(in srgb, var(--chip-color) 30%, transparent);
-  backdrop-filter: blur(10px);
-}
-
-.park-modal-stat-number {
-  font-family: 'Space Mono', monospace;
-  font-size: 38px;
-  font-weight: 700;
-  color: var(--chip-color);
-  line-height: 1;
-}
-
-.park-modal-stat-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--chip-color);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.85;
-}
-
-/* Название — слева внизу */
-.park-modal-title-block {
-  position: absolute;
-  bottom: 20px;
-  left: 24px;
-  z-index: 2;
-}
-
+/* Название парка — большое, в цвете акцента */
 .park-modal-name {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  color: #F0F4FF;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 3px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 40px currentColor;
 }
 
 /* Modal Body */
 .park-modal-body {
   padding: 20px 24px 24px;
+}
+
+/* Бейдж с машинами — строка на всю ширину */
+.park-modal-stat-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bar-color) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bar-color) 25%, transparent);
+  margin-bottom: 16px;
+}
+
+.park-modal-stat-bar .park-modal-stat-number {
+  font-family: 'Space Mono', monospace;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bar-color);
+}
+
+.park-modal-stat-bar .park-modal-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bar-color);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .park-modal-desc {
@@ -1054,14 +1024,14 @@ function closeModal() {
   .parks-title-line2 { font-size: clamp(28px, 8vw, 40px); }
   .parks-grid { padding: 20px 16px; }
   .park-card { max-width: 100%; }
+  .park-card-name { font-size: 22px; letter-spacing: 1.5px; }
+  .park-card-stat-row { padding: 8px 12px; }
+  .park-card-stat-row .park-card-stat-number { font-size: 24px; }
   .park-card-ctas { flex-direction: column; }
   .park-btn-primary, .park-btn-secondary { width: 100%; text-align: center; justify-content: center; }
-  .park-card-stat-chip { bottom: 8px; right: 12px; padding: 5px 10px; }
-  .park-card-stat-number { font-size: 22px; }
-  .park-card-stat-label { font-size: 10px; }
+  .park-modal-name { font-size: 24px; letter-spacing: 2px; }
+  .park-modal-stat-bar .park-modal-stat-number { font-size: 28px; }
   .park-modal-ctas { flex-direction: column; }
   .park-modal-btn-accent, .park-modal-btn-route { width: 100%; justify-content: center; text-align: center; }
-  .park-modal-stat-chip { right: 44px; padding: 6px 12px; }
-  .park-modal-stat-number { font-size: 32px; }
 }
 </style>
