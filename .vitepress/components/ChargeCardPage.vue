@@ -111,7 +111,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+60%</span></div>
                   <div class="row-price">
                     <span class="price-value">5 000</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+50%</span></div>
                   <div class="row-price">
                     <span class="price-value">3 000</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -146,7 +146,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+40%</span></div>
                   <div class="row-price">
                     <span class="price-value">2 000</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -163,7 +163,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+35%</span></div>
                   <div class="row-price">
                     <span class="price-value">1 500</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -180,7 +180,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+30%</span></div>
                   <div class="row-price">
                     <span class="price-value">1 000</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -197,7 +197,7 @@ onUnmounted(() => {
                   <div class="row-percent"><span class="percent-value">+25%</span></div>
                   <div class="row-price">
                     <span class="price-value">500</span>
-                    <svg class="icon-ruble" viewBox="-64 0 512 512"><path d="M239.36 320C324.48 320 384 260.542 384 175.071S324.48 32 239.36 32H76c-6.627 0-12 5.373-12 12v206.632H12c-6.627 0-12 5.373-12 12V308c0 6.627 5.373 12 12 12h52v32H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v52c0 6.627 5.373 12 12 12h58.56c6.627 0 12-5.373 12-12v-52H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12H146.56v-32h92.8zm-92.8-219.252h78.72c46.72 0 74.88 29.11 74.88 74.323 0 45.832-28.16 75.561-76.16 75.561h-77.44V100.748z"/></svg>
+                    <span class="price-currency">₽</span>
                   </div>
                 </div>
               </div>
@@ -449,8 +449,9 @@ onUnmounted(() => {
       
       <div class="welcome-bonus">
         <svg class="welcome-bonus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 9v6"/><path d="M12.543 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.605"/>
-          <path d="M22 14v-4"/><path d="M7 12h6"/><path d="M7.606 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.606"/>
+          <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/>
+          <path d="M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"/>
+          <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/>
         </svg>
         <span class="welcome-bonus-text"><strong>+500</strong> бонусов при регистрации</span>
       </div>
@@ -492,69 +493,34 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* ═══════════════════════════════════════
+   ГЛОБАЛЬНЫЕ НАСТРОЙКИ
+   ═══════════════════════════════════════ */
 .topup-page {
   padding: 40px 20px 60px;
   max-width: 1200px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
-.icon-ruble {
-  width: 12px;
-  height: 12px;
-  fill: currentColor;
-  vertical-align: middle;
-}
-
-.circle-bar {
-  display: flex;
-  gap: 3px;
-  justify-content: center;
-}
-
-.circle {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  position: relative;
-  background: transparent;
-  border: 2px solid rgba(197, 249, 70, 0.3);
-}
-
-.circle.full {
-  background: var(--accent-lime);
-  border-color: var(--accent-lime);
-  box-shadow: 0 0 6px rgba(197, 249, 70, 0.4);
-}
-
-.circle.half {
-  background: linear-gradient(90deg, var(--accent-lime) 50%, transparent 50%);
-  border-color: var(--accent-lime);
-}
-
-.circle.quarter {
-  background: linear-gradient(90deg, var(--accent-lime) 25%, transparent 25%);
-  border-color: rgba(197, 249, 70, 0.5);
-}
-
-.circle.three-quarter {
-  background: linear-gradient(90deg, var(--accent-lime) 75%, transparent 75%);
-  border-color: var(--accent-lime);
-}
-
+/* ═══════════════════════════════════════
+   ЗАГОЛОВОК
+   ═══════════════════════════════════════ */
 .page-header {
   text-align: center;
   margin-bottom: 24px;
 }
 
 .title {
-  display: block;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   margin: 0 0 12px;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .title-accent {
-  display: block;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: clamp(36px, 8vw, 52px);
@@ -565,14 +531,12 @@ onUnmounted(() => {
 }
 
 .title-main {
-  display: block;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: clamp(28px, 6vw, 42px);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-primary);
-  margin-top: 4px;
 }
 
 .subtitle {
@@ -582,6 +546,9 @@ onUnmounted(() => {
   margin: 0;
 }
 
+/* ═══════════════════════════════════════
+   ВАЛЮТЫ
+   ═══════════════════════════════════════ */
 .currency-explainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -647,6 +614,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .currency-name {
@@ -676,6 +644,9 @@ onUnmounted(() => {
   color: var(--text-primary);
 }
 
+/* ═══════════════════════════════════════
+   БАННЕР ПРИЗОВ
+   ═══════════════════════════════════════ */
 .prizes-banner {
   display: flex;
   align-items: center;
@@ -692,6 +663,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 
 .prizes-icon {
@@ -702,6 +674,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .prizes-icon svg {
@@ -715,6 +688,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .prizes-title {
@@ -748,6 +722,7 @@ onUnmounted(() => {
   border-radius: 8px;
   transition: all 0.15s ease;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .prizes-link:hover {
@@ -755,6 +730,9 @@ onUnmounted(() => {
   color: var(--bg-night);
 }
 
+/* ═══════════════════════════════════════
+   ОСНОВНОЙ ГРИД
+   ═══════════════════════════════════════ */
 .content-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -769,6 +747,9 @@ onUnmounted(() => {
   }
 }
 
+/* ═══════════════════════════════════════
+   СЕКЦИЯ ЗАРЯДОВ
+   ═══════════════════════════════════════ */
 .section-header {
   display: flex;
   align-items: center;
@@ -832,26 +813,34 @@ onUnmounted(() => {
   100% { bottom: 110%; opacity: 0; }
 }
 
+/* ═══════════════════════════════════════
+   ТАБЛИЦА ЗАРЯДОВ — БЕЗ OVERFLOW
+   ═══════════════════════════════════════ */
 .topup-table {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .topup-row {
   position: relative;
-  padding: 14px 18px;
+  padding: 14px 16px;
   background: var(--bg-card);
   border-radius: 12px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
-.topup-row:hover {
-  transform: translateY(-2px) scale(1.01);
-  border-color: rgba(255, 255, 255, 0.15);
+/* Hover ТОЛЬКО на десктопе, БЕЗ scale */
+@media (min-width: 769px) {
+  .topup-row:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
 }
 
 .topup-row.tier-max {
@@ -883,9 +872,55 @@ onUnmounted(() => {
   border-color: var(--neon-cyan);
 }
 
-/* Бейджи внутри строки */
+/* Контент строки — flex с правильным сжатием */
+.row-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.row-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.charges-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.tier-max .charges-value { color: var(--accent-lime); }
+.tier-best .charges-value { color: var(--neon-magenta); }
+.tier-medium .charges-value { color: var(--neon-cyan); }
+
+.charges-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+/* Правая часть — бейдж + процент + цена ВНУТРИ */
+.row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Бейджи ВНУТРИ строки */
 .row-badge {
-  padding: 5px 10px;
+  padding: 4px 8px;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   font-weight: 700;
@@ -905,49 +940,9 @@ onUnmounted(() => {
   color: white;
 }
 
-.row-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.row-left {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.charges-value {
-  font-family: 'Space Mono', monospace;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1;
-}
-
-.tier-max .charges-value { color: var(--accent-lime); }
-.tier-best .charges-value { color: var(--neon-magenta); }
-.tier-medium .charges-value { color: var(--neon-cyan); }
-
-.charges-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-secondary);
-}
-
-.row-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .row-percent {
-  width: 60px;
-  padding: 5px 0;
+  min-width: 48px;
+  padding: 4px 8px;
   background: rgba(0, 255, 136, 0.12);
   border-radius: 6px;
   border: 1px solid rgba(0, 255, 136, 0.2);
@@ -956,30 +951,33 @@ onUnmounted(() => {
 
 .percent-value {
   font-family: 'Space Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--neon-green);
 }
 
 .row-price {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 75px;
+  align-items: baseline;
+  gap: 2px;
+  min-width: 55px;
   justify-content: flex-end;
 }
 
 .price-value {
   font-family: 'Space Mono', monospace;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
 }
 
-.row-price .icon-ruble {
-  fill: var(--text-secondary);
+.price-currency {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
+/* Примечание */
 .card-note {
   display: flex;
   align-items: center;
@@ -1009,6 +1007,9 @@ onUnmounted(() => {
   color: var(--text-primary);
 }
 
+/* ═══════════════════════════════════════
+   ТУРБО БЛОК
+   ═══════════════════════════════════════ */
 .turbo-block {
   background: linear-gradient(135deg, rgba(255, 0, 128, 0.12), rgba(255, 0, 128, 0.04));
   border-radius: 16px;
@@ -1028,6 +1029,7 @@ onUnmounted(() => {
   justify-content: center;
   gap: 12px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .turbo-badge {
@@ -1057,7 +1059,7 @@ onUnmounted(() => {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .turbo-price-value {
@@ -1088,8 +1090,10 @@ onUnmounted(() => {
   color: var(--text-primary);
 }
 
+/* Сравнительная таблица */
 .turbo-comparison {
   padding: 16px 20px;
+  overflow-x: hidden;
 }
 
 .comparison-subtitle {
@@ -1111,9 +1115,9 @@ onUnmounted(() => {
 
 .comparison-header {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 60px;
+  grid-template-columns: 65px 1fr 1fr 45px;
   background: rgba(0, 0, 0, 0.3);
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   font-weight: 700;
@@ -1124,11 +1128,11 @@ onUnmounted(() => {
 
 .comparison-row {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 60px;
-  padding: 10px 14px;
+  grid-template-columns: 65px 1fr 1fr 45px;
+  padding: 8px 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
   font-family: 'Space Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-primary);
   align-items: center;
 }
@@ -1150,6 +1154,46 @@ onUnmounted(() => {
   font-weight: 700;
 }
 
+/* Кружки прогресса */
+.circle-bar {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+
+.circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(197, 249, 70, 0.3);
+  flex-shrink: 0;
+}
+
+.circle.full {
+  background: var(--accent-lime);
+  border-color: var(--accent-lime);
+  box-shadow: 0 0 6px rgba(197, 249, 70, 0.4);
+}
+
+.circle.half {
+  background: linear-gradient(90deg, var(--accent-lime) 50%, transparent 50%);
+  border-color: var(--accent-lime);
+}
+
+.circle.quarter {
+  background: linear-gradient(90deg, var(--accent-lime) 25%, transparent 25%);
+  border-color: rgba(197, 249, 70, 0.5);
+}
+
+.circle.three-quarter {
+  background: linear-gradient(90deg, var(--accent-lime) 75%, transparent 75%);
+  border-color: var(--accent-lime);
+}
+
+/* ═══════════════════════════════════════
+   CTA СЕКЦИЯ
+   ═══════════════════════════════════════ */
 .cta-section {
   padding: 32px 24px;
   background: linear-gradient(135deg, rgba(197, 249, 70, 0.08), rgba(0, 212, 255, 0.05));
@@ -1250,6 +1294,9 @@ onUnmounted(() => {
   border-color: var(--accent-lime);
 }
 
+/* ═══════════════════════════════════════
+   БАННЕР БАЛАНСА
+   ═══════════════════════════════════════ */
 .balance-banner {
   display: flex;
   align-items: center;
@@ -1265,6 +1312,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 
 .balance-icon {
@@ -1275,6 +1323,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .balance-icon svg {
@@ -1288,6 +1337,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .balance-title {
@@ -1322,6 +1372,7 @@ onUnmounted(() => {
   transition: all 0.15s ease;
   white-space: nowrap;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .balance-btn:hover {
@@ -1329,6 +1380,9 @@ onUnmounted(() => {
   color: var(--bg-night);
 }
 
+/* ═══════════════════════════════════════
+   МОДАЛЬНОЕ ОКНО
+   ═══════════════════════════════════════ */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -1399,54 +1453,244 @@ onUnmounted(() => {
   border: none;
 }
 
-/* ========== MOBILE ========== */
+/* ═══════════════════════════════════════
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+   ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .topup-page { padding: 24px 16px 40px; }
-  .currency-explainer { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
-  .currency-item { padding: 12px 14px; }
-  .prizes-banner { flex-direction: column; text-align: center; padding: 16px; gap: 14px; }
-  .prizes-content { flex-direction: column; gap: 10px; }
-  .prizes-link { width: 100%; justify-content: center; }
-  .topup-container { flex-direction: column; }
-  .charge-bar-vertical { width: 100%; height: 12px; order: -1; margin-bottom: 12px; }
-  .charge-fill { background: linear-gradient(to right, var(--text-secondary) 0%, var(--neon-cyan) 30%, var(--neon-magenta) 65%, var(--accent-lime) 100%); }
-  .charge-pulse { width: 50px; height: 100%; bottom: 0; left: -10%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7)); animation: pulse-right 1.4s ease-in-out infinite; }
-  @keyframes pulse-right { 0% { left: -10%; opacity: 0.9; } 100% { left: 110%; opacity: 0; } }
-  .topup-row { padding: 12px 14px; }
-  .charges-value { font-size: 20px; }
-  .charges-label { font-size: 9px; }
-  .row-badge { font-size: 8px; padding: 4px 8px; }
-  .row-percent { width: 50px; padding: 4px 0; }
-  .percent-value { font-size: 11px; }
-  .price-value { font-size: 15px; }
-  .card-note { padding: 10px 14px; }
-  .turbo-header { padding: 16px 18px; }
-  .turbo-price-value { font-size: 40px; }
-  .turbo-badge-row { flex-direction: column; gap: 8px; }
-  .turbo-comparison { padding: 14px 16px; }
-  .comparison-header, .comparison-row { grid-template-columns: 55px 1fr 1fr 45px; font-size: 10px; padding: 8px 10px; }
-  .comparison-header { font-size: 8px; }
-  .circle { width: 10px; height: 10px; border-width: 1.5px; }
-  .circle-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; width: fit-content; margin: 0 auto; }
-  .cta-section { padding: 24px 18px; }
-  .cta-title { font-size: 20px; }
-  .welcome-bonus { padding: 10px 16px; }
-  .welcome-bonus-text { font-size: 12px; }
-  .welcome-bonus-text strong { font-size: 14px; }
-  .cta-buttons { flex-direction: column; }
-  .cta-btn { width: 100%; padding: 14px 20px; }
-  .balance-banner { flex-direction: column; text-align: center; padding: 16px; gap: 14px; }
-  .balance-content { flex-direction: column; gap: 10px; }
-  .balance-btn { width: 100%; justify-content: center; padding: 12px 16px; }
+  .topup-page {
+    padding: 24px 16px 40px;
+  }
+
+  .currency-explainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .currency-item {
+    padding: 12px 14px;
+  }
+
+  .prizes-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .prizes-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prizes-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .topup-container {
+    flex-direction: column;
+  }
+
+  .charge-bar-vertical {
+    width: 100%;
+    height: 12px;
+    order: -1;
+    margin-bottom: 12px;
+  }
+
+  .charge-fill {
+    background: linear-gradient(to right, var(--text-secondary) 0%, var(--neon-cyan) 30%, var(--neon-magenta) 65%, var(--accent-lime) 100%);
+  }
+
+  .charge-pulse {
+    width: 50px;
+    height: 100%;
+    bottom: 0;
+    left: -10%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7));
+    animation: pulse-right 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-right {
+    0% { left: -10%; opacity: 0.9; }
+    100% { left: 110%; opacity: 0; }
+  }
+
+  .topup-row {
+    padding: 12px 14px;
+  }
+
+  /* Мобильный hover отключён */
+  .topup-row:hover {
+    transform: none;
+  }
+
+  .charges-value {
+    font-size: 18px;
+  }
+
+  .charges-label {
+    font-size: 9px;
+  }
+
+  .row-badge {
+    font-size: 7px;
+    padding: 3px 5px;
+  }
+
+  .row-percent {
+    min-width: 42px;
+    padding: 3px 5px;
+  }
+
+  .percent-value {
+    font-size: 10px;
+  }
+
+  .row-price {
+    min-width: 50px;
+  }
+
+  .price-value {
+    font-size: 14px;
+  }
+
+  .price-currency {
+    font-size: 10px;
+  }
+
+  .card-note {
+    padding: 10px 14px;
+  }
+
+  .turbo-header {
+    padding: 16px 18px;
+  }
+
+  .turbo-badge-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .turbo-price-value {
+    font-size: 40px;
+  }
+
+  .turbo-comparison {
+    padding: 14px 12px;
+  }
+
+  .comparison-header,
+  .comparison-row {
+    grid-template-columns: 50px 1fr 1fr 38px;
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .comparison-header {
+    font-size: 7px;
+  }
+
+  .circle {
+    width: 8px;
+    height: 8px;
+    border-width: 1.5px;
+  }
+
+  .circle-bar {
+    gap: 1px;
+  }
+
+  .cta-section {
+    padding: 24px 18px;
+  }
+
+  .cta-title {
+    font-size: 20px;
+  }
+
+  .welcome-bonus {
+    padding: 10px 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .welcome-bonus-text {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .welcome-bonus-text strong {
+    font-size: 14px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  .balance-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .balance-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .balance-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+  }
 }
 
 @media (max-width: 380px) {
-  .charges-value { font-size: 18px; }
-  .row-badge { font-size: 7px; padding: 3px 6px; }
-  .row-percent { width: 45px; }
-  .price-value { font-size: 14px; }
-  .comparison-header, .comparison-row { grid-template-columns: 50px 1fr 1fr 40px; font-size: 9px; padding: 6px 8px; }
-  .circle { width: 8px; height: 8px; }
-  .circle-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; width: fit-content; margin: 0 auto; }
+  .charges-value {
+    font-size: 16px;
+  }
+
+  .row-badge {
+    font-size: 6px;
+    padding: 2px 4px;
+  }
+
+  .row-percent {
+    min-width: 38px;
+    padding: 2px 4px;
+  }
+
+  .percent-value {
+    font-size: 9px;
+  }
+
+  .price-value {
+    font-size: 13px;
+  }
+
+  .row-price {
+    min-width: 45px;
+  }
+
+  .comparison-header,
+  .comparison-row {
+    grid-template-columns: 45px 1fr 1fr 35px;
+    font-size: 9px;
+    padding: 5px 6px;
+  }
+
+  .circle {
+    width: 6px;
+    height: 6px;
+    border-width: 1px;
+  }
 }
 </style>
