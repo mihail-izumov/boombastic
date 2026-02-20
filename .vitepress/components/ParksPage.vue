@@ -100,9 +100,10 @@ function closeModal() {
     <!-- Header -->
     <div class="parks-header">
       <div class="parks-breadcrumb">b00m.fun / парки</div>
-      <h1 class="parks-title">
+      <!-- DIV вместо H1 чтобы обойти скрытие VitePress -->
+      <div class="parks-title">
         Аркадные <span class="parks-title-accent">арены</span>
-      </h1>
+      </div>
       <p class="parks-subtitle">3 парка · 448 автоматов</p>
 
       <!-- City Tabs -->
@@ -128,16 +129,20 @@ function closeModal() {
         class="park-card"
         :style="{ '--accent': park.accent, '--glow1': park.glowColor1, '--glow2': park.glowColor2, '--delay': i * 0.12 + 's' }"
       >
-        <!-- Card Header (без счётчика справа) -->
+        <!-- Card Header — NFS-стиль: название слева, статистика справа внизу -->
         <div class="park-card-header">
           <div class="park-card-grid"></div>
           <div class="park-card-glow"></div>
           <div class="park-card-glow-bottom"></div>
-          <div class="park-card-header-content">
-            <div class="park-card-header-left">
-              <h3 class="park-card-name">{{ park.name }}</h3>
-              <div class="park-card-desc">{{ park.shortDesc }}</div>
-            </div>
+          <!-- Название и описание — слева вверху -->
+          <div class="park-card-title-block">
+            <h3 class="park-card-name">{{ park.name }}</h3>
+            <div class="park-card-desc">{{ park.shortDesc }}</div>
+          </div>
+          <!-- Счётчик — справа внизу как ключевая статистика трассы -->
+          <div class="park-card-stats">
+            <div class="park-card-stat-number" :style="{ color: park.accent }">{{ park.machines }}</div>
+            <div class="park-card-stat-label">аппаратов</div>
           </div>
         </div>
 
@@ -161,7 +166,7 @@ function closeModal() {
             </div>
           </div>
 
-          <!-- CTAs + счётчик внизу -->
+          <!-- CTAs — БЕЗ счётчика -->
           <div class="park-card-ctas">
             <button class="park-btn-primary" :style="{ '--accent': park.accent }" @click="openModal(park)">
               Подробнее
@@ -170,11 +175,6 @@ function closeModal() {
               Автоматы
               <svg class="park-icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
-            <!-- Счётчик аппаратов внизу справа -->
-            <div class="park-card-count">
-              <span class="park-card-machines" :style="{ color: park.accent }">{{ park.machines }}</span>
-              <span class="park-card-count-label">авт.</span>
-            </div>
           </div>
         </div>
       </div>
@@ -200,18 +200,18 @@ function closeModal() {
           <!-- Close -->
           <button class="park-modal-close" @click="closeModal">✕</button>
 
-          <!-- Modal Header -->
+          <!-- Modal Header — название слева внизу, статистика справа -->
           <div class="park-modal-header">
             <div class="park-modal-grid" :style="{ '--accent': modalPark.accent }"></div>
             <div class="park-modal-glow" :style="{ '--accent': modalPark.accent }"></div>
-            <div class="park-modal-header-bottom">
-              <div>
-                <h2 class="park-modal-name">{{ modalPark.name }}</h2>
-              </div>
-              <div class="park-modal-right">
-                <div class="park-modal-machines">{{ modalPark.machines }}</div>
-                <span class="park-badge" :style="{ color: modalPark.tagColor, background: modalPark.tagColor + '18', borderColor: modalPark.tagColor + '25' }">АППАРАТОВ</span>
-              </div>
+            <!-- Статистика — справа вверху -->
+            <div class="park-modal-stats">
+              <div class="park-modal-stat-number">{{ modalPark.machines }}</div>
+              <span class="park-badge" :style="{ color: modalPark.tagColor, background: modalPark.tagColor + '18', borderColor: modalPark.tagColor + '25' }">аппаратов</span>
+            </div>
+            <!-- Название — слева внизу -->
+            <div class="park-modal-title-block">
+              <h2 class="park-modal-name">{{ modalPark.name }}</h2>
             </div>
           </div>
 
@@ -240,13 +240,13 @@ function closeModal() {
 
             <!-- Info + CTAs block -->
             <div class="park-modal-info-block">
-              <!-- Адрес - КЛИКАБЕЛЬНЫЙ -->
+              <!-- Адрес — КЛИКАБЕЛЬНЫЙ со стрелкой -->
               <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-info-card park-modal-info-link">
                 <svg class="park-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
                 <div class="park-modal-info-text">{{ modalPark.address }}</div>
                 <svg class="park-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
               </a>
-              <!-- Время работы - компактный межстрочный -->
+              <!-- Время работы -->
               <div class="park-modal-info-card">
                 <svg class="park-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><path d="M22 12a10 10 0 1 0-11 9.95"/><path d="m22 16-5.5 5.5L14 19"/></svg>
                 <div class="park-modal-info-time">
@@ -343,14 +343,14 @@ function closeModal() {
   margin-bottom: 10px;
 }
 
+/* DIV вместо H1 — обходим скрытие VitePress */
 .parks-title {
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 900 !important;
-  font-size: clamp(28px, 5vw, 44px) !important;
-  color: #F0F4FF !important;
-  margin: 0 !important;
-  line-height: 1.1 !important;
-  display: block !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 44px);
+  color: #F0F4FF;
+  margin: 0;
+  line-height: 1.1;
 }
 
 .parks-title-accent {
@@ -444,9 +444,11 @@ function closeModal() {
   box-shadow: 0 10px 35px rgba(0,0,0,0.4), 0 0 25px color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
-/* Card Header - БЕЗ счётчика справа */
+/* ═══════════════════════════════════════
+   CARD HEADER — NFS-стиль
+   ═══════════════════════════════════════ */
 .park-card-header {
-  height: 90px;
+  height: 100px;
   position: relative;
   overflow: hidden;
   background: #1c1a3e;
@@ -483,13 +485,14 @@ function closeModal() {
   filter: blur(12px);
 }
 
-.park-card-header-content {
+/* Название и описание — слева вверху */
+.park-card-title-block {
   position: absolute;
-  top: 16px; left: 20px; right: 20px;
+  top: 14px;
+  left: 18px;
+  right: 90px; /* оставляем место для статистики справа */
   z-index: 1;
 }
-
-.park-card-header-left { flex: 1; }
 
 .park-card-name {
   font-family: 'Inter', sans-serif;
@@ -509,6 +512,31 @@ function closeModal() {
   color: #7A8BA8;
   margin-top: 5px;
   line-height: 1.3;
+}
+
+/* Статистика — справа внизу (NFS-стиль) */
+.park-card-stats {
+  position: absolute;
+  bottom: 10px;
+  right: 18px;
+  z-index: 1;
+  text-align: right;
+}
+
+.park-card-stat-number {
+  font-family: 'Space Mono', monospace;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.park-card-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: #7A8BA8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
 }
 
 /* Badge */
@@ -581,11 +609,12 @@ function closeModal() {
   color: #F0F4FF;
 }
 
-/* Card CTAs - со счётчиком справа */
+/* ═══════════════════════════════════════
+   CARD CTAs — БЕЗ счётчика
+   ═══════════════════════════════════════ */
 .park-card-ctas {
   display: flex;
   gap: 8px;
-  align-items: center;
 }
 
 .park-btn-primary {
@@ -632,30 +661,6 @@ function closeModal() {
 }
 
 .park-btn-secondary:active { transform: scale(0.96); }
-
-/* Счётчик аппаратов внизу справа */
-.park-card-count {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-left: auto;
-  padding-left: 12px;
-}
-
-.park-card-machines {
-  font-family: 'Space Mono', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.park-card-count-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  color: #7A8BA8;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
 
 /* ═══════════════════════════════════════
    VK SECTION
@@ -776,9 +781,11 @@ function closeModal() {
   color: #F0F4FF;
 }
 
-/* Modal Header */
+/* ═══════════════════════════════════════
+   MODAL HEADER — NFS-стиль
+   ═══════════════════════════════════════ */
 .park-modal-header {
-  height: 100px;
+  height: 120px;
   position: relative;
   overflow: hidden;
   border-radius: 16px 16px 0 0;
@@ -807,13 +814,29 @@ function closeModal() {
   filter: blur(20px);
 }
 
-.park-modal-header-bottom {
+/* Статистика — справа вверху */
+.park-modal-stats {
   position: absolute;
-  bottom: 16px; left: 24px; right: 24px;
+  top: 16px;
+  right: 50px; /* оставляем место для крестика */
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  text-align: right;
+}
+
+.park-modal-stat-number {
+  font-family: 'Space Mono', monospace;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* Название — слева внизу */
+.park-modal-title-block {
+  position: absolute;
+  bottom: 16px;
+  left: 24px;
+  z-index: 1;
 }
 
 .park-modal-name {
@@ -824,21 +847,6 @@ function closeModal() {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-}
-
-.park-modal-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
-}
-
-.park-modal-machines {
-  font-family: 'Space Mono', monospace;
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--accent);
-  line-height: 1;
 }
 
 /* Modal Body */
@@ -915,7 +923,7 @@ function closeModal() {
   transition: color 0.2s ease;
 }
 
-/* Время работы - компактный межстрочный */
+/* Время работы — компактный межстрочный */
 .park-modal-info-time {
   line-height: 1.15;
 }
@@ -1012,10 +1020,10 @@ function closeModal() {
   .parks-header { padding-top: 32px; }
   .parks-grid { padding: 20px 16px; }
   .park-card { max-width: 100%; }
-  .park-card-ctas { flex-wrap: wrap; }
-  .park-btn-primary { flex: 1 1 auto; min-width: 100px; }
-  .park-btn-secondary { flex: 1 1 auto; min-width: 100px; justify-content: center; }
-  .park-card-count { padding-left: 8px; }
+  .park-card-ctas { flex-direction: column; }
+  .park-btn-primary, .park-btn-secondary { width: 100%; text-align: center; justify-content: center; }
+  .park-card-stats { bottom: 8px; right: 14px; }
+  .park-card-stat-number { font-size: 28px; }
   .park-modal-ctas { flex-direction: column; }
   .park-modal-btn-accent, .park-modal-btn-route { width: 100%; justify-content: center; text-align: center; }
 }
