@@ -92,46 +92,12 @@ onMounted(() => {
 
   injectSharkEyes()
   setupMobileSignalButton()
-  setupMobileNavButtons()
-  
-  // Скрываем VPLocalNav когда открыто мобильное меню
-  function hideLocalNavWhenMenuOpen() {
-    const navScreen = document.querySelector('.VPNavScreen')
-    const localNav = document.querySelector('.VPLocalNav')
-    if (localNav) {
-      if (navScreen && navScreen.classList.contains('open')) {
-        localNav.style.display = 'none'
-      } else {
-        localNav.style.display = ''
-      }
-    }
-  }
-  
-  // Начальная проверка
-  hideLocalNavWhenMenuOpen()
-  
-  // Наблюдатель за изменениями
-  const navScreenObserver = new MutationObserver(hideLocalNavWhenMenuOpen)
-  
-  // Ждём появления navScreen
-  const waitForNavScreen = setInterval(() => {
-    const navScreen = document.querySelector('.VPNavScreen')
-    if (navScreen) {
-      clearInterval(waitForNavScreen)
-      navScreenObserver.observe(navScreen, { attributes: true, attributeFilter: ['class'] })
-    }
-  }, 100)
-  
-  // Очистка через 5 секунд если не найден
-  setTimeout(() => clearInterval(waitForNavScreen), 5000)
+  setupDropdownPosition()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
-    hideLocalNavWhenMenuOpen()
-    if (window.innerWidth <= 960) {
-      setupMobileSignalButton()
-      setupMobileNavButtons()
-    }
+    setupDropdownPosition()
+    if (window.innerWidth <= 768) setupMobileSignalButton()
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
@@ -155,10 +121,10 @@ onMounted(() => {
       const nb = document.querySelector('.VPNavBar')
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
+      setupDropdownPosition()
     })
-    if (window.innerWidth <= 960) {
+    if (window.innerWidth <= 768) {
       setTimeout(setupMobileSignalButton, 300)
-      setTimeout(setupMobileNavButtons, 300)
     }
   }
 })
@@ -173,7 +139,7 @@ function injectSharkEyes() {
   const titleLink = document.querySelector('.VPNavBarTitle a')
   if (titleLink && !titleLink.querySelector('.shark-eyes')) {
     const eyes = document.createElement('img')
-    eyes.src = '/shark-eyes-icon-electric.svg'
+    eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
     eyes.alt = ''
     eyes.className = 'shark-eyes'
     eyes.setAttribute('aria-hidden', 'true')
@@ -222,195 +188,34 @@ function setupMobileSignalButton() {
   })
 }
 
-// Мобильные кнопки "Войти" и "Игровой режим"
-function setupMobileNavButtons() {
-  if (typeof window === 'undefined' || window.innerWidth > 768) return
-
-  // Кнопка "Войти" (apply-link)
-  document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="apply-link"]').forEach((link) => {
-    if (link.dataset.loginProcessed) return
-    link.dataset.loginProcessed = 'true'
-    link.removeAttribute('href')
-    link.style.position = 'relative'
-    link.style.cursor = 'pointer'
-
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      
-      const navScreen = document.querySelector('.VPNavScreen')
-      if (navScreen) navScreen.classList.remove('open')
-      document.body.classList.remove('overflow-hidden')
-      
-      const menuButton = document.querySelector('.VPNavBarHamburger button')
-      if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
-
-      setTimeout(() => {
-        if (window.openLoginModal) window.openLoginModal()
-      }, 150)
-    })
-  })
-
-  // Кнопка "Игровой режим" (gamemode-link)
-  document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="gamemode-link"]').forEach((link) => {
-    if (link.dataset.gamemodeProcessed) return
-    link.dataset.gamemodeProcessed = 'true'
-    link.removeAttribute('href')
-    link.style.position = 'relative'
-    link.style.cursor = 'pointer'
-
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      
-      const navScreen = document.querySelector('.VPNavScreen')
-      if (navScreen) navScreen.classList.remove('open')
-      document.body.classList.remove('overflow-hidden')
-      
-      const menuButton = document.querySelector('.VPNavBarHamburger button')
-      if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
-
-      setTimeout(() => {
-        if (window.openGameModeModal) window.openGameModeModal()
-      }, 150)
-    })
+// Позиционирование dropdown меню по левому краю кнопки
+function setupDropdownPosition() {
+  if (typeof window === 'undefined' || window.innerWidth <= 768) return
+  
+  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
+  
+  flyouts.forEach((flyout) => {
+    // Не добавляем обработчик повторно
+    if (flyout.dataset.dropdownPositioned) return
+    flyout.dataset.dropdownPositioned = 'true'
+    
+    const button = flyout.querySelector('button')
+    const menu = flyout.querySelector('.VPMenu')
+    
+    if (!button || !menu) return
+    
+    // Применяем стили сразу
+    menu.style.position = 'absolute'
+    menu.style.left = '0'
+    menu.style.right = 'auto'
+    menu.style.transform = 'none'
+    menu.style.top = 'calc(100% + 8px)'
   })
 }
 </script>
 
 <style>
-/* ══════════════════════════════════════════════════════════════════
-   КРИТИЧЕСКИЕ ПЕРЕОПРЕДЕЛЕНИЯ — максимальный приоритет
-   Эти стили в Layout.vue имеют приоритет над внешними CSS файлами
-   ══════════════════════════════════════════════════════════════════ */
-
-/* ═══ [1] МОБИЛЬНОЕ МЕНЮ: Empty 18px лаймовый ═══ */
-@media (max-width: 960px) {
-  .VPNavScreen .VPNavScreenMenuGroup button,
-  .VPNavScreen .VPNavScreenMenuGroup button .text,
-  .VPNavScreen .VPNavScreenMenuGroup > button,
-  .VPNavScreen .VPNavScreenMenuGroup > button > .text,
-  .VPNavScreen .VPNavScreenMenuGroup > button > span.text {
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    color: #C5F946 !important;
-  }
-  
-  /* Подпункты Empty1, Empty2, Empty3 - белые */
-  .VPNavScreen .VPNavScreenMenuGroup .item a,
-  .VPNavScreen .VPNavScreenMenuGroup .items .item a {
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    color: #F0F4FF !important;
-  }
-  .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
-  .VPNavScreen .VPNavScreenMenuGroup .items .item a:hover {
-    color: #C5F946 !important;
-  }
-  
-  /* [FIX 7] Мобильная навигация: закреплена при скролле с blur — ВЕЗДЕ */
-  .VPNavBar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 100 !important;
-    background: rgba(20, 18, 50, 0.85) !important;
-    backdrop-filter: blur(12px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
-  }
-  
-  /* [FIX 6] VPLocalNav под главной навигацией */
-  .VPLocalNav {
-    position: sticky !important;
-    top: 64px !important;
-    z-index: 50 !important;
-    margin-top: 64px !important;
-  }
-  
-  /* Отступ для контента */
-  .VPContent {
-    padding-top: 64px !important;
-  }
-  
-  /* На главной без двойного отступа */
-  body.boom-home-active .VPContent {
-    padding-top: 0 !important;
-  }
-  body.boom-home-active .boom-page {
-    padding-top: 64px !important;
-  }
-  
-  /* На страницах с сайдбаром отступ уже через VPLocalNav */
-  .has-sidebar .VPContent {
-    padding-top: 0 !important;
-  }
-}
-
-/* ═══ [2] Активная страница в выпадающем меню — лаймовая ═══ */
-.VPMenuLink a.active,
-.VPMenuLink a.active span,
-.VPLink.link.active,
-.VPLink.link.active span,
-.VPMenu .VPMenuLink a.active span,
-.VPFlyout .VPMenuLink a.active span {
-  color: #C5F946 !important;
-  font-weight: 700 !important;
-}
-
-/* Активная ссылка при hover — тёмный текст на лаймовом фоне */
-.VPMenuLink a.active:hover,
-.VPMenuLink a.active:hover span,
-.VPMenu .VPMenuLink a.active:hover span,
-.VPFlyout .VPMenuLink a.active:hover span {
-  color: #1a1840 !important;
-}
-
-/* Empty в обычном состоянии */
-.VPNavBar .VPNavBarMenu .VPFlyout > button .text,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button .text {
-  color: #F0F4FF !important;
-}
-
-/* Empty когда на активной странице из группы */
-.VPNavBar .VPNavBarMenu .VPFlyout.active > button .text,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup.active > button .text {
-  color: #C5F946 !important;
-}
-
-/* Empty при hover: лаймовый фон, тёмный текст */
-.VPNavBar .VPNavBarMenu .VPFlyout > button:hover,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button:hover {
-  background: #C5F946 !important;
-}
-.VPNavBar .VPNavBarMenu .VPFlyout > button:hover .text,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup > button:hover .text,
-.VPNavBar .VPNavBarMenu .VPFlyout.active > button:hover .text,
-.VPNavBar .VPNavBarMenu .VPNavBarMenuGroup.active > button:hover .text {
-  color: #1a1840 !important;
-}
-
-/* ═══ [3] ДЕСКТОП: Кнопки навигации +20% ═══ */
-.VPSocialLink[aria-label="gamemode-link"]::after {
-  font-size: 15px !important;
-  padding: 8px 18px !important;
-}
-.VPSocialLink[aria-label="apply-link"]::after {
-  font-size: 15px !important;
-  padding: 8px 18px !important;
-}
-
-/* ═══ [4] Hero "Б0000000М!" — моноширинный шрифт ═══ */
-.hero-section h1,
-.boom-page .hero-section h1 {
-  font-family: 'Space Mono', monospace !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════
-   БАЗОВЫЕ СТИЛИ (оригинальные)
-   ══════════════════════════════════════════════════════════════════ */
-
-/* Скрываем дефолтный VitePress home-контент */
+/* ── Скрываем дефолтный VitePress home-контент когда наша страница активна ── */
 body.boom-home-active .VPHome .VPHomeHero .container {
   display: none !important;
 }
@@ -457,11 +262,10 @@ body.has-banner .VPDoc {
   align-items: center !important;
 }
 
-/* Shark Eyes +20% */
 .shark-eyes {
-  width: 34px;
-  height: 22px;
-  margin-right: 6px;
+  width: 28px;
+  height: 18px;
+  margin-right: 5px;
   flex-shrink: 0;
   object-fit: contain;
   animation: eyes-breathe 4s ease-in-out infinite;
@@ -504,7 +308,7 @@ body.has-banner .VPDoc {
 .preloader-fade-leave-to { opacity: 0; }
 
 @media (max-width: 768px) {
-  .shark-eyes { width: 29px; height: 19px; margin-right: 5px; }
+  .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
   .bb-preloader-eyes { width: 56px; height: 38px; }
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
@@ -514,5 +318,19 @@ body.has-banner .VPDoc {
 @media (max-width: 960px) and (min-width: 769px) {
   .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
+}
+
+/* ═══ DROPDOWN: выравнивание по левому краю кнопки ═══ */
+.VPNavBar .VPNavBarMenu .VPFlyout {
+  position: relative !important;
+}
+
+.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+  margin-top: 0 !important;
 }
 </style>
