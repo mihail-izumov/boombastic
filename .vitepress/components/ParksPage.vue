@@ -258,9 +258,9 @@ function closeModal() {
                 </div>
               </div>
               <div class="park-modal-ctas">
-                <button class="park-modal-btn-accent" :style="{ background: modalPark.accent }">
-                  Автоматы
-                  <svg class="park-icon-btn-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <button class="park-modal-btn-accent" :style="{ '--btn-color': modalPark.accent }">
+                  <span class="park-modal-btn-text">Арены</span>
+                  <svg class="park-modal-btn-chevrons" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 17-5-5 5-5"/><path d="m4 17 5-5-5-5"/></svg>
                 </button>
                 <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route">Маршрут</a>
               </div>
@@ -553,6 +553,7 @@ function closeModal() {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: 4px 8px;
   text-decoration: none !important;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -560,43 +561,53 @@ function closeModal() {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--chip-color) !important;
-  transition: all 0.2s ease;
+  background: transparent;
+  transition: all 0.15s ease;
 }
 
 .park-card-stat-btn-bracket {
   opacity: 0.5;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.15s ease;
 }
 
 .park-card-stat-btn-icon {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.15s ease;
+}
+
+/* Иконка как 2 части для анимации разъезда */
+.park-card-stat-btn-icon path:first-child {
+  transition: transform 0.15s ease;
+}
+
+.park-card-stat-btn-icon path:last-child {
+  transition: transform 0.15s ease;
 }
 
 .park-card-stat-btn-text {
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: transparent;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
+/* Hover — весь блок выделяется прямоугольником */
 .park-card-stat-btn:hover {
-  color: var(--chip-color) !important;
+  background: var(--chip-color);
+  color: #1a1840 !important;
 }
 
 .park-card-stat-btn:hover .park-card-stat-btn-bracket {
   opacity: 1;
+  color: #1a1840;
 }
 
 .park-card-stat-btn:hover .park-card-stat-btn-icon {
-  transform: scaleX(1.2);
+  color: #1a1840;
+  transform: scaleX(1.3);
 }
 
 .park-card-stat-btn:hover .park-card-stat-btn-text {
-  background: var(--chip-color);
-  color: #1a1840 !important;
+  color: #1a1840;
 }
 
 /* Top Machines */
@@ -1000,6 +1011,7 @@ function closeModal() {
   padding: 13px 20px;
   border-radius: 10px;
   border: none;
+  background: var(--btn-color);
   color: #1a1840;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
@@ -1009,13 +1021,38 @@ function closeModal() {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+}
+
+.park-modal-btn-text {
+  transition: transform 0.2s ease;
+}
+
+.park-modal-btn-chevrons {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.park-modal-btn-chevrons path:first-child {
+  transition: transform 0.2s ease;
+  transform-origin: center;
+}
+
+.park-modal-btn-chevrons path:last-child {
+  transition: transform 0.2s ease;
+  transform-origin: center;
 }
 
 .park-modal-btn-accent:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--btn-color) 35%, transparent);
   filter: brightness(1.1);
+}
+
+.park-modal-btn-accent:hover .park-modal-btn-chevrons {
+  transform: scaleX(1.35);
 }
 
 .park-modal-btn-accent:active { transform: scale(0.96); }
