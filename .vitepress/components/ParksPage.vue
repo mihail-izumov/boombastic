@@ -174,10 +174,10 @@ function closeModal() {
             </div>
           </div>
 
-          <!-- CTA — только Подробнее -->
+          <!-- CTA — в цвете парка -->
           <div class="park-card-ctas">
-            <button class="park-btn-primary" :style="{ '--accent': park.accent }" @click="openModal(park)">
-              Подробнее
+            <button class="park-btn-primary" :style="{ '--accent': park.accent, borderColor: park.accent + '40', color: park.accent }" @click="openModal(park)">
+              ХАРАКТЕРИСТИКИ
             </button>
           </div>
         </div>
@@ -244,7 +244,7 @@ function closeModal() {
             <!-- Info + CTAs block -->
             <div class="park-modal-info-block">
               <!-- Адрес — КЛИКАБЕЛЬНЫЙ со стрелкой -->
-              <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-info-card park-modal-info-link">
+              <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-info-card park-modal-info-link" :style="{ '--link-color': modalPark.accent }">
                 <svg class="park-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
                 <div class="park-modal-info-text">{{ modalPark.address }}</div>
                 <svg class="park-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
@@ -262,7 +262,7 @@ function closeModal() {
                   <span class="park-modal-btn-text">Арены</span>
                   <svg class="park-modal-btn-chevrons" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 17-5-5 5-5"/><path d="m4 17 5-5-5-5"/></svg>
                 </button>
-                <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route">Маршрут</a>
+                <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route" :style="{ '--btn-color': modalPark.accent, borderColor: modalPark.accent + '40', color: modalPark.accent }">Маршрут</a>
               </div>
             </div>
           </div>
@@ -692,20 +692,21 @@ function closeModal() {
   flex: 1;
   padding: 12px 20px;
   border-radius: 10px;
-  border: none;
-  background: #3d47a0;
-  color: #F0F4FF;
-  font-family: 'Inter', sans-serif;
+  border: 1px solid;
+  background: transparent;
+  font-family: 'Space Mono', monospace;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .park-btn-primary:hover {
   background: var(--accent);
-  color: #1a1840;
-  box-shadow: 0 4px 15px color-mix(in srgb, var(--accent) 40%, transparent);
+  color: #1a1840 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .park-btn-primary:active { transform: scale(0.96); }
@@ -979,24 +980,25 @@ function closeModal() {
 .park-modal-info-link {
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none !important;
 }
 
 .park-modal-info-link:hover {
-  background: rgba(0,212,255,0.06);
-  border-color: rgba(0,212,255,0.2);
+  background: color-mix(in srgb, var(--link-color) 8%, transparent);
+  border-color: color-mix(in srgb, var(--link-color) 25%, transparent);
 }
 
 .park-modal-info-link:hover .park-icon-info {
-  color: #00D4FF;
+  color: var(--link-color);
 }
 
 .park-modal-info-link:hover .park-icon-arrow {
   opacity: 1;
-  color: #00D4FF;
+  color: var(--link-color);
 }
 
 .park-modal-info-link:hover .park-modal-info-text {
-  color: #00D4FF;
+  color: var(--link-color);
 }
 
 .park-modal-info-text {
@@ -1079,23 +1081,24 @@ function closeModal() {
 .park-modal-btn-route {
   padding: 13px 20px;
   border-radius: 10px;
-  border: 1px solid rgba(0,212,255,0.3);
+  border: 1px solid;
   background: transparent;
-  color: #00D4FF;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: none !important;
   display: flex;
   align-items: center;
   transition: all 0.25s ease;
 }
 
 .park-modal-btn-route:hover {
-  background: rgba(0,212,255,0.08);
-  border-color: #00D4FF;
+  background: var(--btn-color);
+  color: #1a1840 !important;
+  border-color: var(--btn-color) !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--btn-color) 35%, transparent);
 }
 
 /* ═══════════════════════════════════════
