@@ -344,12 +344,13 @@ function closeModal() {
 }
 
 .parks-title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 900;
-  font-size: clamp(28px, 5vw, 44px);
-  color: #F0F4FF;
-  margin: 0;
-  line-height: 1.1;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(28px, 5vw, 44px) !important;
+  color: #F0F4FF !important;
+  margin: 0 !important;
+  line-height: 1.1 !important;
+  display: block !important;
 }
 
 .parks-title-accent {
