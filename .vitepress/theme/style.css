@@ -4,6 +4,58 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ============================================================
+   ГЛОБАЛЬНЫЕ ИСПРАВЛЕНИЯ ГОРИЗОНТАЛЬНОГО СКРОЛЛА
+   ============================================================ */
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* VitePress контейнеры */
+.VPDoc,
+.VPContent,
+.VPPage,
+.VPHome,
+.container,
+.content-container,
+main {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Отключение scale-анимаций на мобильных (вызывают overflow) */
+@media (max-width: 768px) {
+  .park-card:hover,
+  .park-card:active,
+  .VPFeature:hover,
+  .card:hover,
+  .card-glass:hover,
+  .card-tron:hover,
+  .topup-row:hover {
+    transform: translateY(-2px) !important;
+    /* scale убран — он вызывает горизонтальный скролл */
+  }
+}
+
+/* Защита flex/grid элементов от переполнения */
+.flex-container,
+[class*="flex"],
+[class*="grid"] {
+  min-width: 0;
+}
+
+/* Изображения не выходят за границы */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
    ШРИФТЫ — единая система
    Inter: всё (тело, навигация, кнопки)
    Montserrat: только Hero-заголовки
