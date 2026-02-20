@@ -141,13 +141,17 @@ function closeModal() {
 
         <!-- Card Content -->
         <div class="park-card-body">
-          <!-- Описание -->
-          <div class="park-card-desc">{{ park.shortDesc }}</div>
+          <!-- Описание — в цвете акцента, крупнее -->
+          <div class="park-card-desc" :style="{ color: park.accent }">{{ park.shortDesc }}</div>
           
-          <!-- Бейдж с машинами — под описанием -->
+          <!-- Бейдж с машинами + кнопка смотреть -->
           <div class="park-card-stat-row" :style="{ '--chip-color': park.accent }">
             <span class="park-card-stat-number">{{ park.machines }}</span>
             <span class="park-card-stat-label">машин</span>
+            <a href="/machines" class="park-card-stat-btn">
+              <span class="park-card-stat-btn-arrow">→</span>
+              <span class="park-card-stat-btn-text">смотреть</span>
+            </a>
           </div>
 
           <!-- Top Machines -->
@@ -168,14 +172,10 @@ function closeModal() {
             </div>
           </div>
 
-          <!-- CTAs — БЕЗ счётчика -->
+          <!-- CTA — только Подробнее -->
           <div class="park-card-ctas">
             <button class="park-btn-primary" :style="{ '--accent': park.accent }" @click="openModal(park)">
               Подробнее
-            </button>
-            <button class="park-btn-secondary">
-              Автоматы
-              <svg class="park-icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
           </div>
         </div>
@@ -505,20 +505,20 @@ function closeModal() {
   padding: 16px 20px 18px;
 }
 
-/* Описание */
+/* Описание — крупное, в цвете акцента */
 .park-card-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: #7A8BA8;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.4;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  opacity: 0.9;
 }
 
-/* Бейдж с машинами — строка под описанием */
+/* Бейдж с машинами + кнопка */
 .park-card-stat-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   padding: 10px 14px;
   border-radius: 8px;
@@ -543,6 +543,57 @@ function closeModal() {
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0.85;
+}
+
+/* Кнопка в стиле Marathon [ → смотреть ] */
+.park-card-stat-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--chip-color);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.park-card-stat-btn::before {
+  content: '[';
+  margin-right: 4px;
+}
+
+.park-card-stat-btn::after {
+  content: ']';
+  margin-left: 4px;
+}
+
+.park-card-stat-btn-arrow {
+  margin-right: 6px;
+  transition: transform 0.2s ease;
+}
+
+.park-card-stat-btn-text {
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.park-card-stat-btn:hover {
+  opacity: 1;
+}
+
+.park-card-stat-btn:hover .park-card-stat-btn-arrow {
+  transform: translateX(2px);
+}
+
+.park-card-stat-btn:hover .park-card-stat-btn-text {
+  background: var(--chip-color);
+  color: #1a1840;
 }
 
 /* Top Machines */
@@ -598,23 +649,22 @@ function closeModal() {
 }
 
 /* ═══════════════════════════════════════
-   CARD CTAs — БЕЗ счётчика
+   CARD CTA
    ═══════════════════════════════════════ */
 .park-card-ctas {
   display: flex;
-  gap: 8px;
 }
 
 .park-btn-primary {
   flex: 1;
-  padding: 11px 16px;
+  padding: 12px 20px;
   border-radius: 10px;
   border: none;
   background: #3d47a0;
   color: #F0F4FF;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -626,29 +676,6 @@ function closeModal() {
 }
 
 .park-btn-primary:active { transform: scale(0.96); }
-
-.park-btn-secondary {
-  padding: 11px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,212,255,0.25);
-  background: transparent;
-  color: #00D4FF;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.park-btn-secondary:hover {
-  background: rgba(0,212,255,0.08);
-  border-color: #00D4FF;
-}
-
-.park-btn-secondary:active { transform: scale(0.96); }
 
 /* ═══════════════════════════════════════
    VK SECTION
@@ -772,9 +799,9 @@ function closeModal() {
    MODAL HEADER — геймерский стиль
    ═══════════════════════════════════════ */
 .park-modal-header {
-  height: 100px;
+  height: 140px;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* грид выходит за пределы */
   border-radius: 16px 16px 0 0;
   background: #0D1421;
   display: flex;
@@ -782,19 +809,21 @@ function closeModal() {
   padding: 0 24px;
 }
 
-/* Грид на всю ширину — без отступов */
+/* Грид на всю ширину + fade внизу */
 .park-modal-grid {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 180px; /* выходит за header */
   background-image:
     linear-gradient(color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: 0 0;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .park-modal-glow {
@@ -1025,10 +1054,10 @@ function closeModal() {
   .parks-grid { padding: 20px 16px; }
   .park-card { max-width: 100%; }
   .park-card-name { font-size: 22px; letter-spacing: 1.5px; }
-  .park-card-stat-row { padding: 8px 12px; }
+  .park-card-desc { font-size: 14px; }
+  .park-card-stat-row { padding: 8px 12px; flex-wrap: wrap; }
   .park-card-stat-row .park-card-stat-number { font-size: 24px; }
-  .park-card-ctas { flex-direction: column; }
-  .park-btn-primary, .park-btn-secondary { width: 100%; text-align: center; justify-content: center; }
+  .park-card-stat-btn { margin-left: 0; margin-top: 8px; width: 100%; justify-content: center; }
   .park-modal-name { font-size: 24px; letter-spacing: 2px; }
   .park-modal-stat-bar .park-modal-stat-number { font-size: 28px; }
   .park-modal-ctas { flex-direction: column; }
