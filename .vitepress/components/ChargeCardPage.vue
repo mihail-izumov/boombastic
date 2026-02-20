@@ -101,13 +101,13 @@ onUnmounted(() => {
           <div class="topup-table">
             <!-- 5000 - GOD MODE -->
             <div class="topup-row tier-max" @click="openLoginModal">
-              <div class="row-badge">GOD MODE</div>
               <div class="row-content">
                 <div class="row-left">
                   <span class="charges-value">8 000</span>
                   <span class="charges-label">зарядов</span>
                 </div>
                 <div class="row-right">
+                  <div class="row-badge badge-lime">GOD MODE</div>
                   <div class="row-percent"><span class="percent-value">+60%</span></div>
                   <div class="row-price">
                     <span class="price-value">5 000</span>
@@ -119,13 +119,13 @@ onUnmounted(() => {
 
             <!-- 3000 - PRO -->
             <div class="topup-row tier-best" @click="openLoginModal">
-              <div class="row-badge">PRO</div>
               <div class="row-content">
                 <div class="row-left">
                   <span class="charges-value">4 500</span>
                   <span class="charges-label">зарядов</span>
                 </div>
                 <div class="row-right">
+                  <div class="row-badge badge-magenta">PRO</div>
                   <div class="row-percent"><span class="percent-value">+50%</span></div>
                   <div class="row-price">
                     <span class="price-value">3 000</span>
@@ -547,14 +547,14 @@ onUnmounted(() => {
 }
 
 .title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  display: block;
+  text-align: center;
   margin: 0 0 12px;
+  line-height: 1.1;
 }
 
 .title-accent {
+  display: block;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: clamp(36px, 8vw, 52px);
@@ -565,12 +565,14 @@ onUnmounted(() => {
 }
 
 .title-main {
+  display: block;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: clamp(28px, 6vw, 42px);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-primary);
+  margin-top: 4px;
 }
 
 .subtitle {
@@ -762,7 +764,8 @@ onUnmounted(() => {
 
 @media (min-width: 960px) {
   .content-grid {
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 }
 
@@ -880,25 +883,24 @@ onUnmounted(() => {
   border-color: var(--neon-cyan);
 }
 
+/* Бейджи внутри строки */
 .row-badge {
-  position: absolute;
-  top: -10px;
-  right: 16px;
-  padding: 5px 12px;
+  padding: 5px 10px;
   font-family: 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
-.tier-max .row-badge {
+.row-badge.badge-lime {
   background: var(--accent-lime);
   color: var(--bg-night);
 }
 
-.tier-best .row-badge {
+.row-badge.badge-magenta {
   background: var(--neon-magenta);
   color: white;
 }
@@ -940,7 +942,7 @@ onUnmounted(() => {
 .row-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .row-percent {
@@ -1397,6 +1399,7 @@ onUnmounted(() => {
   border: none;
 }
 
+/* ========== MOBILE ========== */
 @media (max-width: 768px) {
   .topup-page { padding: 24px 16px 40px; }
   .currency-explainer { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
@@ -1412,10 +1415,10 @@ onUnmounted(() => {
   .topup-row { padding: 12px 14px; }
   .charges-value { font-size: 20px; }
   .charges-label { font-size: 9px; }
+  .row-badge { font-size: 8px; padding: 4px 8px; }
   .row-percent { width: 50px; padding: 4px 0; }
   .percent-value { font-size: 11px; }
   .price-value { font-size: 15px; }
-  .row-badge { padding: 4px 8px; font-size: 9px; right: 12px; }
   .card-note { padding: 10px 14px; }
   .turbo-header { padding: 16px 18px; }
   .turbo-price-value { font-size: 40px; }
@@ -1439,6 +1442,7 @@ onUnmounted(() => {
 
 @media (max-width: 380px) {
   .charges-value { font-size: 18px; }
+  .row-badge { font-size: 7px; padding: 3px 6px; }
   .row-percent { width: 45px; }
   .price-value { font-size: 14px; }
   .comparison-header, .comparison-row { grid-template-columns: 50px 1fr 1fr 40px; font-size: 9px; padding: 6px 8px; }
