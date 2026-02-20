@@ -356,12 +356,12 @@ function closeModal() {
 }
 
 .parks-title-line1 {
-  color: #F0F4FF;
+  color: #C5F946;
+  text-shadow: 0 0 30px rgba(197,249,70,0.3);
 }
 
 .parks-title-line2 {
-  color: #C5F946;
-  text-shadow: 0 0 30px rgba(197,249,70,0.3);
+  color: #F0F4FF;
 }
 
 .parks-subtitle {
