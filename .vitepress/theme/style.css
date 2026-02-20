@@ -610,11 +610,12 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 /* ============================================================
-   МОБИЛЬНОЕ МЕНЮ (VitePress использует 960px как breakpoint)
-   Переключаемся на мобильное меню раньше, чтобы избежать "..."
+   МОБИЛЬНОЕ МЕНЮ — переключаемся раньше, пропуская промежуточный режим
+   VitePress breakpoints: 768 / 960 / 1024
+   Мы переключаемся на 1024px чтобы избежать промежуточного режима с "..."
    ============================================================ */
-/* Скрываем десктопное меню при 960px */
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
+  /* Скрываем десктопное меню */
   .VPNavBar .VPNavBarMenu {
     display: none !important;
   }
@@ -699,7 +700,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     background-color: var(--accent-lime) !important;
   }
 
-  /* [FIX 6] VPLocalNav — скрыть на страницах с sidebar (она не нужна и перекрывает навигацию) */
+  /* [FIX 6] VPLocalNav — скрыть на страницах с sidebar */
   .has-sidebar .VPLocalNav {
     display: none !important;
   }
@@ -713,6 +714,16 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   /* Скрыть VPLocalNav когда открыто мобильное меню */
   body:has(.VPNavScreen.open) .VPLocalNav {
     display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  
+  /* Fallback: VPNavScreen имеет z-index выше VPLocalNav */
+  .VPNavScreen {
+    z-index: 100 !important;
+  }
+  .VPNavScreen.open {
+    z-index: 100 !important;
   }
   
   /* Отступ для контента на страницах с сайдбаром */

@@ -93,13 +93,15 @@ onMounted(() => {
   injectSharkEyes()
   setupMobileSignalButton()
   setupDropdownPosition()
+  hideLocalNavWhenMenuOpen()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
     setupDropdownPosition()
-    if (window.innerWidth <= 768) setupMobileSignalButton()
+    hideLocalNavWhenMenuOpen()
+    if (window.innerWidth <= 1024) setupMobileSignalButton()
   })
-  observer.observe(document.body, { childList: true, subtree: true })
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true })
 
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
@@ -123,7 +125,7 @@ onMounted(() => {
       injectSharkEyes()
       setupDropdownPosition()
     })
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1024) {
       setTimeout(setupMobileSignalButton, 300)
     }
   }
@@ -190,7 +192,7 @@ function setupMobileSignalButton() {
 
 // Принудительное позиционирование dropdown по левому краю кнопки
 function setupDropdownPosition() {
-  if (typeof window === 'undefined' || window.innerWidth <= 768) return
+  if (typeof window === 'undefined' || window.innerWidth <= 1024) return
   
   const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
   
@@ -217,6 +219,29 @@ function setupDropdownPosition() {
     applyPosition()
     flyout.addEventListener('mouseenter', applyPosition)
   })
+}
+
+// Скрываем VPLocalNav когда открыто мобильное меню
+function hideLocalNavWhenMenuOpen() {
+  if (typeof window === 'undefined') return
+  
+  const navScreen = document.querySelector('.VPNavScreen')
+  const localNav = document.querySelector('.VPLocalNav')
+  
+  if (!localNav) return
+  
+  if (navScreen && navScreen.classList.contains('open')) {
+    localNav.style.display = 'none'
+    localNav.style.visibility = 'hidden'
+  } else {
+    // Восстанавливаем только если не на странице с sidebar
+    const hasSidebar = document.body.classList.contains('has-sidebar') || 
+                       document.querySelector('.has-sidebar')
+    if (!hasSidebar) {
+      localNav.style.display = ''
+      localNav.style.visibility = ''
+    }
+  }
 }
 </script>
 
