@@ -26,7 +26,7 @@
     <Transition name="preloader-fade">
       <div v-if="showPreloader" class="bb-preloader">
         <img 
-          src="/shark-eyes-icon-electric.svg" 
+          src="https://b00m.fun/shark-eyes-icon-electric.svg" 
           alt="" 
           class="bb-preloader-eyes"
           aria-hidden="true"
@@ -139,7 +139,7 @@ function injectSharkEyes() {
   const titleLink = document.querySelector('.VPNavBarTitle a')
   if (titleLink && !titleLink.querySelector('.shark-eyes')) {
     const eyes = document.createElement('img')
-    eyes.src = '/boombastic/shark-eyes-icon-electric.svg'
+    eyes.src = 'https://b00m.fun/shark-eyes-icon-electric.svg'
     eyes.alt = ''
     eyes.className = 'shark-eyes'
     eyes.setAttribute('aria-hidden', 'true')

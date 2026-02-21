@@ -765,62 +765,11 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 /* ============================================================
-   [FIX 9] VPNavBarExtra — меню "..." (показывается когда элементы не помещаются)
+   [FIX 9] VPNavBarExtra — меню "..." СКРЫТО на больших экранах
    ============================================================ */
-/* Стили для десктопа когда часть элементов уходит в "..." */
 @media (min-width: 961px) {
   .VPNavBarExtra {
-    display: flex !important;
-    align-items: center !important;
-  }
-
-  .VPNavBarExtra .VPFlyout .VPMenu {
-    background: rgba(22, 20, 52, 0.98) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(74, 90, 173, 0.3) !important;
-    padding: 16px !important;
-    min-width: 180px !important;
-  }
-
-  /* Контейнер внутри "..." */
-  .VPNavBarExtra .VPMenu .group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
-    align-items: center !important;
-    padding: 8px 0 !important;
-  }
-
-  /* VK иконка внутри "..." — по центру */
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 48px !important;
-    margin-bottom: 12px !important;
-  }
-  .VPNavBarExtra .VPSocialLink[aria-label="vk-link"] svg {
-    width: 36px !important;
-    height: 36px !important;
-  }
-
-  /* Кнопки внутри "..." */
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"],
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"] {
-    width: 100% !important;
-    margin: 4px 0 !important;
-  }
-
-  .VPNavBarExtra .VPSocialLink[aria-label="gamemode-link"]::after,
-  .VPNavBarExtra .VPSocialLink[aria-label="apply-link"]::after {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    min-width: 140px !important;
-    padding: 10px 16px !important;
-    font-size: 14px !important;
+    display: none !important;
   }
 }
 
