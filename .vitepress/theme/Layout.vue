@@ -188,47 +188,34 @@ function setupMobileSignalButton() {
   })
 }
 
-// Умное позиционирование dropdown — не выходит за экран
+// Принудительное позиционирование dropdown по левому краю кнопки
 function setupDropdownPosition() {
   if (typeof window === 'undefined' || window.innerWidth <= 768) return
   
-  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout, .VPNavBarExtra .VPFlyout')
+  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
   
   flyouts.forEach((flyout) => {
+    if (flyout.dataset.dropdownFixed) return
+    flyout.dataset.dropdownFixed = 'true'
+    
     const menu = flyout.querySelector('.VPMenu')
     if (!menu) return
     
+    // Применяем inline стили для максимального приоритета
     const applyPosition = () => {
-      // Сначала сбрасываем стили чтобы получить реальные размеры
-      menu.style.cssText = 'position: absolute; top: 100%; margin-top: 8px;'
-      
-      const flyoutRect = flyout.getBoundingClientRect()
-      const menuWidth = menu.offsetWidth || 180
-      const viewportWidth = window.innerWidth
-      
-      // Если dropdown выходит за правый край экрана — выравниваем по правому краю кнопки
-      if (flyoutRect.left + menuWidth > viewportWidth - 16) {
-        menu.style.cssText = `
-          position: absolute !important;
-          top: 100% !important;
-          right: 0 !important;
-          left: auto !important;
-          margin-top: 8px !important;
-        `
-      } else {
-        menu.style.cssText = `
-          position: absolute !important;
-          top: 100% !important;
-          left: 0 !important;
-          right: auto !important;
-          margin-top: 8px !important;
-        `
-      }
+      menu.style.cssText = `
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+        margin-top: 8px !important;
+      `
     }
     
-    // Применяем при hover/click
+    // Применяем сразу и при hover
+    applyPosition()
     flyout.addEventListener('mouseenter', applyPosition)
-    flyout.addEventListener('click', () => setTimeout(applyPosition, 10))
   })
 }
 </script>
