@@ -6,7 +6,7 @@ import SectionHeader from './SectionHeader.vue'
 const { elRef, visible } = useReveal()
 
 const levels = [
-  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#6B6B7C', hoverColor: '#FFFFFF', icon: 'bow' },
+  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#9090A0', hoverColor: '#FFFFFF', icon: 'bow' },
   { id: 'silver', name: 'СЕРЕБРО', games: '25', bonus: '+4', color: '#00D4FF', hoverColor: '#00D4FF', icon: 'swords' },
   { id: 'gold', name: 'ЗОЛОТО', games: '30', bonus: '+9', color: '#FFD60A', hoverColor: '#FFD60A', icon: 'medal' },
   { id: 'platinum', name: 'ПЛАТИНА', games: '42', bonus: '×2', color: '#FF0080', hoverColor: '#FF0080', icon: 'crown' },
@@ -21,9 +21,6 @@ const hoveredCard = ref(-1)
       <SectionHeader
         tag="СТАТУСЫ ИГРОКОВ"
         title="Прокачай уровень"
-        subtitle="До ×2 больше игр за те же деньги"
-        linkText="ПОДРОБНЕЕ О СТАТУСАХ"
-        linkHref="/rewards"
       >
         <template #icon>
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--lime)">
@@ -31,14 +28,28 @@ const hoveredCard = ref(-1)
             <path d="M5 21h14"/>
           </svg>
         </template>
+        <template #subtitle>
+          <span style="color: rgba(255,255,255,0.6);">До </span><span style="color: #FF0080; font-weight: 700;">×2 больше игр</span><span style="color: rgba(255,255,255,0.6);"> за те же деньги</span>
+        </template>
       </SectionHeader>
+      
+      <!-- Link to /rewards -->
+      <div class="loyalty-link-wrap">
+        <a href="/rewards" class="loyalty-link">
+          ПОДРОБНЕЕ О СТАТУСАХ
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </a>
+      </div>
     </div>
 
     <div class="boom-wrap">
       <div class="loyalty-grid">
         <template v-for="(lvl, i) in levels" :key="lvl.id">
           <!-- Card -->
-          <div
+          <a
+            href="/rewards"
             class="loyalty-card"
             @mouseenter="hoveredCard = i"
             @mouseleave="hoveredCard = -1"
@@ -46,7 +57,7 @@ const hoveredCard = ref(-1)
               opacity: visible ? 1 : 0,
               transform: visible ? 'translateY(0)' : 'translateY(20px)',
               transition: `all 0.5s ease ${i * 0.1}s`,
-              borderColor: hoveredCard === i ? lvl.hoverColor : `${lvl.color}30`,
+              borderColor: hoveredCard === i ? lvl.hoverColor : `${lvl.color}40`,
               boxShadow: hoveredCard === i ? `0 0 25px ${lvl.hoverColor}25` : 'none',
               background: hoveredCard === i ? `linear-gradient(165deg, ${lvl.hoverColor}12, ${lvl.hoverColor}05)` : '#222050',
             }"
@@ -116,7 +127,7 @@ const hoveredCard = ref(-1)
             <div class="loyalty-games-label" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
               ИГР
             </div>
-          </div>
+          </a>
 
           <!-- Arrow between cards -->
           <div 
@@ -144,6 +155,29 @@ const hoveredCard = ref(-1)
 </template>
 
 <style scoped>
+.loyalty-link-wrap {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.loyalty-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lime, #C5F946);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.loyalty-link:hover {
+  opacity: 1;
+}
+
 .loyalty-grid {
   display: flex;
   gap: 0;
@@ -162,6 +196,7 @@ const hoveredCard = ref(-1)
   border: 1.5px solid;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .loyalty-name {
@@ -195,11 +230,11 @@ const hoveredCard = ref(-1)
 }
 
 .loyalty-bonus-base {
-  background: rgba(255,255,255,0.03);
-  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.15);
   font-size: 10px;
   font-weight: 500;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.35);
 }
 
 .loyalty-icon {
