@@ -6,10 +6,10 @@ import SectionHeader from './SectionHeader.vue'
 const { elRef, visible } = useReveal()
 
 const levels = [
-  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#6B6B7C', icon: 'bow' },
-  { id: 'silver', name: 'СЕРЕБРО', games: '25', bonus: '+4', color: '#00D4FF', icon: 'swords' },
-  { id: 'gold', name: 'ЗОЛОТО', games: '30', bonus: '+9', color: '#FFD60A', icon: 'medal' },
-  { id: 'platinum', name: 'ПЛАТИНА', games: '42', bonus: '×2', color: '#FF0080', icon: 'crown' },
+  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#6B6B7C', hoverColor: '#FFFFFF', icon: 'bow' },
+  { id: 'silver', name: 'СЕРЕБРО', games: '25', bonus: '+4', color: '#00D4FF', hoverColor: '#00D4FF', icon: 'swords' },
+  { id: 'gold', name: 'ЗОЛОТО', games: '30', bonus: '+9', color: '#FFD60A', hoverColor: '#FFD60A', icon: 'medal' },
+  { id: 'platinum', name: 'ПЛАТИНА', games: '42', bonus: '×2', color: '#FF0080', hoverColor: '#FF0080', icon: 'crown' },
 ]
 
 const hoveredCard = ref(-1)
@@ -21,6 +21,7 @@ const hoveredCard = ref(-1)
       <SectionHeader
         tag="СТАТУСЫ ИГРОКОВ"
         title="Прокачай уровень"
+        subtitle="До ×2 больше игр за те же деньги"
         linkText="ПОДРОБНЕЕ О СТАТУСАХ"
         linkHref="/rewards"
       >
@@ -29,9 +30,6 @@ const hoveredCard = ref(-1)
             <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/>
             <path d="M5 21h14"/>
           </svg>
-        </template>
-        <template #subtitle>
-          До <span style="color: #FF0080; font-weight: 600;">×2 больше игр</span> за те же деньги
         </template>
       </SectionHeader>
     </div>
@@ -48,13 +46,13 @@ const hoveredCard = ref(-1)
               opacity: visible ? 1 : 0,
               transform: visible ? 'translateY(0)' : 'translateY(20px)',
               transition: `all 0.5s ease ${i * 0.1}s`,
-              borderColor: hoveredCard === i ? lvl.color : `${lvl.color}30`,
-              boxShadow: hoveredCard === i ? `0 0 25px ${lvl.color}25` : 'none',
-              background: hoveredCard === i ? `linear-gradient(165deg, ${lvl.color}12, ${lvl.color}05)` : '#222050',
+              borderColor: hoveredCard === i ? lvl.hoverColor : `${lvl.color}30`,
+              boxShadow: hoveredCard === i ? `0 0 25px ${lvl.hoverColor}25` : 'none',
+              background: hoveredCard === i ? `linear-gradient(165deg, ${lvl.hoverColor}12, ${lvl.hoverColor}05)` : '#222050',
             }"
           >
             <!-- Name at top -->
-            <div class="loyalty-name" :style="{ color: lvl.color }">
+            <div class="loyalty-name" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
               {{ lvl.name }}
             </div>
             
@@ -64,9 +62,9 @@ const hoveredCard = ref(-1)
                 v-if="lvl.bonus" 
                 class="loyalty-bonus"
                 :style="{ 
-                  background: `${lvl.color}20`,
-                  borderColor: `${lvl.color}50`,
-                  color: lvl.color,
+                  background: `${hoveredCard === i ? lvl.hoverColor : lvl.color}20`,
+                  borderColor: `${hoveredCard === i ? lvl.hoverColor : lvl.color}50`,
+                  color: hoveredCard === i ? lvl.hoverColor : lvl.color,
                 }"
               >
                 {{ lvl.bonus }}
@@ -80,9 +78,9 @@ const hoveredCard = ref(-1)
             <div 
               class="loyalty-icon"
               :style="{ 
-                borderColor: lvl.color,
-                background: hoveredCard === i ? lvl.color : 'rgba(255,255,255,0.05)',
-                boxShadow: hoveredCard === i ? `0 0 20px ${lvl.color}40` : 'none',
+                borderColor: hoveredCard === i ? lvl.hoverColor : lvl.color,
+                background: hoveredCard === i ? lvl.hoverColor : 'rgba(255,255,255,0.05)',
+                boxShadow: hoveredCard === i ? `0 0 20px ${lvl.hoverColor}40` : 'none',
               }"
             >
               <!-- Bow -->
@@ -107,15 +105,15 @@ const hoveredCard = ref(-1)
             <div 
               class="loyalty-games"
               :style="{ 
-                color: lvl.color,
-                textShadow: hoveredCard === i ? `0 0 15px ${lvl.color}60` : 'none',
+                color: hoveredCard === i ? lvl.hoverColor : lvl.color,
+                textShadow: hoveredCard === i ? `0 0 15px ${lvl.hoverColor}60` : 'none',
               }"
             >
               {{ lvl.games }}
             </div>
             
             <!-- "ИГР" label -->
-            <div class="loyalty-games-label" :style="{ color: lvl.color }">
+            <div class="loyalty-games-label" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
               ИГР
             </div>
           </div>
@@ -172,6 +170,7 @@ const hoveredCard = ref(-1)
   font-weight: 700;
   letter-spacing: 0.08em;
   margin-bottom: 12px;
+  transition: color 0.3s ease;
 }
 
 .loyalty-bonus-wrap {
@@ -192,6 +191,7 @@ const hoveredCard = ref(-1)
   font-size: 12px;
   font-weight: 700;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
 .loyalty-bonus-base {
@@ -220,7 +220,7 @@ const hoveredCard = ref(-1)
   font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .loyalty-games-label {
@@ -229,6 +229,7 @@ const hoveredCard = ref(-1)
   font-weight: 700;
   letter-spacing: 0.1em;
   opacity: 0.7;
+  transition: color 0.3s ease;
 }
 
 .loyalty-arrow {
