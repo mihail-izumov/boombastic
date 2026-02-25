@@ -5,22 +5,14 @@ import SectionHeader from './SectionHeader.vue'
 
 const { elRef, visible } = useReveal()
 
-function rgba(hex, a) {
-  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16)
-  return `rgba(${r},${g},${b},${a})`
-}
-
 const levels = [
-  { name: 'СТАНДАРТ', color: '#C5F946', borderC: 'rgba(197,249,70,0.3)', gradient: 'linear-gradient(165deg,#222840,#1c2235)', desc: 'Новый гость', perks: ['B00M!-карта бесплатно', 'Базовые призы', 'Копи тикеты'], hasBtn: true, lockText: '' },
-  { name: 'СЕРЕБРО', color: '#00D4FF', borderC: 'rgba(0,212,255,0.3)', gradient: 'linear-gradient(165deg,#1a2a4a,#101e38)', desc: 'Система заметила', perks: ['+10% к тикетам', 'Ранний доступ к призам', 'Бонусные заряды'], hasBtn: false, lockText: 'Играй → откроется' },
-  { name: 'ЗОЛОТО', color: '#FF0080', borderC: 'rgba(255,0,128,0.3)', gradient: 'linear-gradient(165deg,#2a1a2a,#1e0e1e)', desc: 'Оба глаза на тебе', perks: ['+25% к тикетам', 'VIP-доступ', 'Эксклюзивные призы'], hasBtn: false, lockText: 'Играй → откроется' },
+  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#6B6B7C', icon: 'bow' },
+  { id: 'silver', name: 'СЕРЕБРО', games: '25', bonus: '+4', color: '#00D4FF', icon: 'swords' },
+  { id: 'gold', name: 'ЗОЛОТО', games: '30', bonus: '+9', color: '#FFD60A', icon: 'medal' },
+  { id: 'platinum', name: 'ПЛАТИНА', games: '42', bonus: '×2', color: '#FF0080', icon: 'crown' },
 ]
 
 const hoveredCard = ref(-1)
-
-function openModal() {
-  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
-}
 </script>
 
 <template>
@@ -29,78 +21,125 @@ function openModal() {
       <SectionHeader
         tag="СТАТУСЫ ИГРОКОВ"
         title="Прокачай уровень"
-        subtitle="Чем больше играешь — тем больше получаешь"
         linkText="ПОДРОБНЕЕ О СТАТУСАХ"
+        linkHref="/rewards"
       >
         <template #icon>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--lime)"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--lime)">
+            <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/>
+            <path d="M5 21h14"/>
+          </svg>
+        </template>
+        <template #subtitle>
+          До <span style="color: #FF0080; font-weight: 600;">×2 больше игр</span> за те же деньги
         </template>
       </SectionHeader>
     </div>
 
     <div class="boom-wrap">
       <div class="loyalty-grid">
-        <template v-for="(lvl, i) in levels" :key="i">
+        <template v-for="(lvl, i) in levels" :key="lvl.id">
           <!-- Card -->
           <div
-            class="loyalty-card boom-card-hover"
+            class="loyalty-card"
             @mouseenter="hoveredCard = i"
             @mouseleave="hoveredCard = -1"
             :style="{
-              borderRadius: '14px', position: 'relative', overflow: 'hidden',
-              border: `1.5px solid ${hoveredCard === i ? lvl.color : lvl.borderC}`,
-              background: lvl.gradient,
               opacity: visible ? 1 : 0,
-              boxShadow: hoveredCard === i ? `0 10px 30px ${rgba(lvl.color, 0.12)}` : 'none',
-              transition: `transform 0.4s ease ${i * 0.1}s, opacity 0.5s ease ${i * 0.1}s, border-color 0.3s, box-shadow 0.3s`,
+              transform: visible ? 'translateY(0)' : 'translateY(20px)',
+              transition: `all 0.5s ease ${i * 0.1}s`,
+              borderColor: hoveredCard === i ? lvl.color : `${lvl.color}30`,
+              boxShadow: hoveredCard === i ? `0 0 25px ${lvl.color}25` : 'none',
+              background: hoveredCard === i ? `linear-gradient(165deg, ${lvl.color}12, ${lvl.color}05)` : '#222050',
             }"
           >
-            <!-- Header -->
-            <div :style="{ padding: '24px 22px 16px', textAlign: 'center', borderBottom: `1px solid ${rgba(lvl.color, 0.1)}`, position: 'relative' }">
-              <svg width="100%" height="100%" :style="{ position: 'absolute', inset: 0, opacity: hoveredCard === i ? 0.07 : 0.03, transition: 'opacity 0.3s' }">
-                <defs><pattern :id="'lg' + i" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" :stroke="lvl.color" stroke-width="0.4" /></pattern></defs>
-                <rect width="100%" height="100%" :fill="'url(#lg' + i + ')'" />
-              </svg>
-              <div :style="{ display: 'inline-block', padding: '6px 24px', borderRadius: '5px', background: `linear-gradient(180deg, ${rgba(lvl.color, 0.2)}, ${rgba(lvl.color, 0.05)})`, border: `1px solid ${rgba(lvl.color, 0.3)}`, position: 'relative' }">
-                <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: lvl.color, letterSpacing: '0.1em' }">{{ lvl.name }}</span>
-              </div>
-              <div :style="{ fontFamily: 'var(--font-head)', fontSize: '15px', fontWeight: 600, color: 'var(--text-pri)', marginTop: '10px', position: 'relative' }">{{ lvl.desc }}</div>
+            <!-- Name at top -->
+            <div class="loyalty-name" :style="{ color: lvl.color }">
+              {{ lvl.name }}
             </div>
-            <!-- Perks -->
-            <div style="padding: 16px 22px 22px">
-              <div v-for="(p, j) in lvl.perks" :key="j" :style="{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: j < lvl.perks.length - 1 ? '10px' : '18px' }">
-                <div :style="{ width: '5px', height: '5px', borderRadius: '1px', background: lvl.color, boxShadow: `0 0 6px ${rgba(lvl.color, 0.5)}`, flexShrink: 0 }" />
-                <span style="font-family: var(--font-body); font-size: 13px; color: var(--text-pri)">{{ p }}</span>
-              </div>
-              <!-- СТАНДАРТ → button -->
-              <div v-if="lvl.hasBtn"
-                @click="openModal"
-                :style="{
-                  padding: '9px 0', borderRadius: '7px', textAlign: 'center',
-                  border: `1px solid ${rgba(lvl.color, hoveredCard === i ? 0.5 : 0.25)}`,
-                  background: rgba(lvl.color, hoveredCard === i ? 0.12 : 0.05),
-                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-                  color: lvl.color, letterSpacing: '0.04em', transition: 'all 0.3s', cursor: 'pointer',
+            
+            <!-- Bonus badge above icon -->
+            <div class="loyalty-bonus-wrap">
+              <div 
+                v-if="lvl.bonus" 
+                class="loyalty-bonus"
+                :style="{ 
+                  background: `${lvl.color}20`,
+                  borderColor: `${lvl.color}50`,
+                  color: lvl.color,
                 }"
-              >Получить карту</div>
-              <!-- СЕРЕБРО/ЗОЛОТО → locked indicator -->
-              <div v-else :style="{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                padding: '9px 0', borderRadius: '7px',
-                border: `1px dashed ${rgba(lvl.color, 0.2)}`,
-                background: rgba(lvl.color, 0.03),
-              }">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" :stroke="lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" :style="{ opacity: 0.5 }"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: lvl.color, letterSpacing: '0.04em', opacity: 0.6 }">{{ lvl.lockText }}</span>
+              >
+                {{ lvl.bonus }}
               </div>
+              <div v-else class="loyalty-bonus loyalty-bonus-base">
+                базовый
+              </div>
+            </div>
+            
+            <!-- Icon Box -->
+            <div 
+              class="loyalty-icon"
+              :style="{ 
+                borderColor: lvl.color,
+                background: hoveredCard === i ? lvl.color : 'rgba(255,255,255,0.05)',
+                boxShadow: hoveredCard === i ? `0 0 20px ${lvl.color}40` : 'none',
+              }"
+            >
+              <!-- Bow -->
+              <svg v-if="lvl.icon === 'bow'" width="26" height="26" viewBox="0 0 24 24" fill="none" :stroke="hoveredCard === i ? '#0D1421' : lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3h4v4"/><path d="M18.575 11.082a13 13 0 0 1 1.048 9.027 1.17 1.17 0 0 1-1.914.597L14 17"/><path d="M7 10 3.29 6.29a1.17 1.17 0 0 1 .6-1.91 13 13 0 0 1 9.03 1.05"/><path d="M7 14a1.7 1.7 0 0 0-1.207.5l-2.646 2.646A.5.5 0 0 0 3.5 18H5a1 1 0 0 1 1 1v1.5a.5.5 0 0 0 .854.354L9.5 18.207A1.7 1.7 0 0 0 10 17v-2a1 1 0 0 0-1-1z"/><path d="M9.707 14.293 21 3"/>
+              </svg>
+              <!-- Swords -->
+              <svg v-else-if="lvl.icon === 'swords'" width="26" height="26" viewBox="0 0 24 24" fill="none" :stroke="hoveredCard === i ? '#0D1421' : lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>
+              </svg>
+              <!-- Medal -->
+              <svg v-else-if="lvl.icon === 'medal'" width="26" height="26" viewBox="0 0 24 24" fill="none" :stroke="hoveredCard === i ? '#0D1421' : lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/>
+              </svg>
+              <!-- Crown -->
+              <svg v-else-if="lvl.icon === 'crown'" width="26" height="26" viewBox="0 0 24 24" fill="none" :stroke="hoveredCard === i ? '#0D1421' : lvl.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/>
+              </svg>
+            </div>
+            
+            <!-- Games count -->
+            <div 
+              class="loyalty-games"
+              :style="{ 
+                color: lvl.color,
+                textShadow: hoveredCard === i ? `0 0 15px ${lvl.color}60` : 'none',
+              }"
+            >
+              {{ lvl.games }}
+            </div>
+            
+            <!-- "ИГР" label -->
+            <div class="loyalty-games-label" :style="{ color: lvl.color }">
+              ИГР
             </div>
           </div>
 
-          <!-- Arrow between cards (desktop only) -->
-          <div v-if="i < 2" class="loyalty-arrow" :style="{ opacity: visible ? 0.5 : 0, transition: `opacity 0.5s ease ${0.3 + i * 0.1}s` }">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--text-sec)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <!-- Arrow between cards -->
+          <div 
+            v-if="i < levels.length - 1" 
+            class="loyalty-arrow"
+            :style="{ 
+              opacity: visible ? 1 : 0,
+              transition: `opacity 0.5s ease ${0.3 + i * 0.1}s`,
+            }"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="12" fill="var(--bg-deep, #1c1a3e)"/>
+              <path d="M9 6l6 6-6 6" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
         </template>
+      </div>
+      
+      <!-- Bottom note -->
+      <div class="loyalty-note">
+        * расчёт для 1500₽ при средней цене игры ~70₽
       </div>
     </div>
   </section>
@@ -109,25 +148,151 @@ function openModal() {
 <style scoped>
 .loyalty-grid {
   display: flex;
-  gap: 12px;
+  gap: 0;
   justify-content: center;
-  align-items: center;
-  padding: 8px 0 16px;
+  align-items: stretch;
+  padding: 8px 0 12px;
 }
-.loyalty-card { flex: 0 0 270px; }
-.loyalty-arrow { flex-shrink: 0; }
 
-@media (max-width: 900px) {
+.loyalty-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 20px;
+  border-radius: 14px;
+  border: 1.5px solid;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loyalty-name {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.loyalty-bonus-wrap {
+  width: 56px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.loyalty-bonus {
+  width: 100%;
+  padding: 3px 0;
+  border: 1px solid;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.loyalty-bonus-base {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.1);
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.25);
+}
+
+.loyalty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+
+.loyalty-games {
+  font-family: var(--font-mono, monospace);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+  transition: all 0.3s;
+}
+
+.loyalty-games-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.loyalty-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.loyalty-note {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
   .loyalty-grid {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-    padding-right: 0;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .loyalty-grid::-webkit-scrollbar { display: none; }
-  .loyalty-grid { scrollbar-width: none; }
-  .loyalty-card { flex: 0 0 78vw !important; min-width: 240px !important; max-width: 280px !important; }
-  .loyalty-arrow { display: none; }
+  
+  .loyalty-card {
+    flex: 0 0 calc(50% - 4px);
+    min-width: 0;
+  }
+  
+  .loyalty-arrow {
+    display: none;
+  }
+  
+  .loyalty-name {
+    font-size: 10px;
+  }
+  
+  .loyalty-bonus-wrap {
+    width: 48px;
+    height: 18px;
+  }
+  
+  .loyalty-bonus {
+    font-size: 10px;
+    padding: 2px 0;
+  }
+  
+  .loyalty-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+  }
+  
+  .loyalty-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .loyalty-games {
+    font-size: 24px;
+  }
+  
+  .loyalty-games-label {
+    font-size: 10px;
+  }
 }
 </style>
