@@ -11,6 +11,7 @@ import Layout from './Layout.vue'
 import ShareButton from '../components/ShareButton.vue'
 import ParksPage from '../components/ParksPage.vue'
 import ChargeCardPage from '../components/ChargeCardPage.vue'
+import BoomRewards from '../components/BoomRewards.vue'
 
 export default {
   extends: DefaultTheme,
@@ -29,6 +30,7 @@ export default {
     app.component('ShareButton', ShareButton)
     app.component('ParksPage', ParksPage)
     app.component('ChargeCardPage', ChargeCardPage)
+    app.component('BoomRewards', BoomRewards)
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
       let transitioning = false
