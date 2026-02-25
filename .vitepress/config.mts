@@ -22,6 +22,16 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Space+Mono:wght@400;700&display=swap' }],
 
+    /* [ПРАВКА 1] CSS для средней жирности заголовка 404 */
+    ['style', {}, `
+      .NotFound .title,
+      .not-found .title,
+      [class*="NotFound"] h1,
+      [class*="not-found"] h1 {
+        font-weight: 500 !important;
+      }
+    `],
+
     ['script', {}, `
     (function() {
       document.documentElement.classList.add('dark');
@@ -181,6 +191,12 @@ export default defineConfig({
       code: '404'
     },
 
+    /* [ПРАВКА 2] Footer с ссылкой на Условия использования */
+    footer: {
+      message: '<a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color=\'#C5F946\'" onmouseout="this.style.color=\'rgba(255,255,255,0.6)\'">Условия использования</a>',
+      copyright: '© 2026 БумБастик'
+    },
+
     docFooter: { prev: 'Предыдущая страница', next: 'Следующая страница' },
     darkModeSwitchLabel: 'Тема',
     sidebarMenuLabel: 'Меню',
@@ -217,21 +233,13 @@ export default defineConfig({
       }
     },
 
+    /* [ПРАВКА 3] Заменён Empty на Статусы */
     nav: [
       { text: 'Парки', link: '/parks' },
       { text: 'Зарядка', link: '/charge' },
-      {
-        text: 'Empty',
-        items: [
-          { text: 'Empty1', link: '/about/concept' },
-          { text: 'Empty2', link: '/about/locations' },
-          { text: 'Empty3', link: '/about/partners' }
-        ]
-      }
+      { text: 'Статусы', link: '/rewards' }
     ],
 
-    /* [ПРАВКА 8] VK ссылка изменена на bumbastik_spb
-       [ПРАВКА 5] Убран login-link, порядок: vk, gamemode, apply */
     socialLinks: [
       {
         icon: {
