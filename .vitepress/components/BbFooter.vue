@@ -4,7 +4,8 @@
     <div class="bb-footer-links">
       <div class="footer-row">
         <a href="/boombastic/contact-us" data-neon="cyan">Контакт</a>
-        <a href="https://vk.com/boombastic_parks" target="_blank" rel="noopener noreferrer" data-neon="magenta">ВКонтакте</a>
+        <a href="https://vk.com/bumbastik_spb" target="_blank" rel="noopener noreferrer" data-neon="magenta">ВКонтакте</a>
+        <a href="/terms" data-neon="green">Условия использования</a>
       </div>
     </div>
     <div class="bb-footer-info">
