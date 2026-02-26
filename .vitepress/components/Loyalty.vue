@@ -207,7 +207,7 @@ const hoveredCard = ref(-1)
   align-items: center;
   gap: 4px;
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--lime, #C5F946);
   text-decoration: none;
