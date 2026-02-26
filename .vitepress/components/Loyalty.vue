@@ -28,10 +28,12 @@ const hoveredCard = ref(-1)
             <path d="M5 21h14"/>
           </svg>
         </template>
-        <template #subtitle>
-          <span style="color: rgba(255,255,255,0.6);">До </span><span style="color: #FF0080; font-weight: 700;">×2 больше игр</span><span style="color: rgba(255,255,255,0.6);"> за те же деньги</span>
-        </template>
       </SectionHeader>
+      
+      <!-- Subtitle - separate element -->
+      <p class="loyalty-subtitle">
+        До <span class="loyalty-subtitle-accent">×2 больше игр</span> за те же деньги
+      </p>
       
       <!-- Link to /rewards -->
       <div class="loyalty-link-wrap">
@@ -155,9 +157,22 @@ const hoveredCard = ref(-1)
 </template>
 
 <style scoped>
+.loyalty-subtitle {
+  text-align: center;
+  margin: -4px 0 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+}
+
+.loyalty-subtitle-accent {
+  color: #FF0080;
+  font-weight: 700;
+}
+
 .loyalty-link-wrap {
   text-align: center;
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .loyalty-link {
