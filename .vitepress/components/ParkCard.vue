@@ -14,8 +14,8 @@ const c = computed(() => props.card.color)
 </script>
 
 <template>
-  <div ref="elRef" class="boom-card-hover" @mouseenter="hovered = true" @mouseleave="hovered = false"
-    :style="{ flex: '0 0 320px', minWidth: '280px', position: 'relative', borderRadius: '12px', cursor: 'pointer', opacity: visible ? 1 : 0, transition: 'transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s', display: 'flex', flexDirection: 'column' }">
+  <a ref="elRef" :href="card.href" class="boom-card-hover" @mouseenter="hovered = true" @mouseleave="hovered = false"
+    :style="{ flex: '0 0 320px', minWidth: '280px', position: 'relative', borderRadius: '12px', cursor: 'pointer', opacity: visible ? 1 : 0, transition: 'transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s', display: 'flex', flexDirection: 'column', textDecoration: 'none' }">
     <div :style="{ position: 'absolute', inset: '-1px', borderRadius: '13px', background: `linear-gradient(135deg, ${rgba(c, hovered ? 0.45 : 0.15)}, transparent 50%, ${rgba(c, hovered ? 0.2 : 0.08)})`, transition: 'background 0.4s' }" />
     <div :style="{ position: 'relative', margin: '1px', borderRadius: '11px', overflow: 'hidden', background: 'linear-gradient(165deg, rgba(34,32,80,0.95), rgba(28,26,62,0.98))', display: 'flex', flexDirection: 'column', flex: 1 }">
       <div :style="{ position: 'relative', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: `1px solid ${rgba(c, 0.12)}` }">
@@ -39,5 +39,5 @@ const c = computed(() => props.card.color)
         <div :style="{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: hovered ? c : 'var(--text-pri)', letterSpacing: '0.04em', transition: 'color 0.3s' }">{{ card.link }} →</div>
       </div>
     </div>
-  </div>
+  </a>
 </template>
