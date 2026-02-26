@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useReveal } from '../composables/useReveal'
-import SectionHeader from './SectionHeader.vue'
 
 const { elRef, visible } = useReveal()
 
@@ -16,43 +15,39 @@ const hoveredCard = ref(-1)
 </script>
 
 <template>
-  <section ref="elRef" class="boom-section loyalty-section">
+  <section ref="elRef" class="boom-section">
     <div class="boom-wrap">
-      <SectionHeader
-        tag="СТАТУСЫ ИГРОКОВ"
-        title="Прокачай уровень"
-      >
-        <template #icon>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--lime)">
+      <!-- Custom header without SectionHeader component -->
+      <div class="lty-header">
+        <div class="lty-tag">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lty-tag-icon">
             <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/>
             <path d="M5 21h14"/>
           </svg>
-        </template>
-      </SectionHeader>
-      
-      <!-- Subtitle -->
-      <p class="loyalty-subtitle">
-        До <span class="loyalty-subtitle-accent">×2 больше игр</span> за те же деньги
-      </p>
-      
-      <!-- Link to /rewards -->
-      <div class="loyalty-link-wrap">
-        <a href="/rewards" class="loyalty-link">
-          ПОДРОБНЕЕ О СТАТУСАХ
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"/>
-          </svg>
-        </a>
+          СТАТУСЫ ИГРОКОВ
+        </div>
+        <h2 class="lty-title">Прокачай уровень</h2>
+        <p class="lty-subtitle">
+          До <span class="lty-subtitle-accent">×2 больше игр</span> за те же деньги
+        </p>
+        <div class="lty-link-wrap">
+          <a href="/rewards" class="lty-link">
+            ПОДРОБНЕЕ О СТАТУСАХ
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
     <div class="boom-wrap">
-      <div class="loyalty-grid">
+      <div class="lty-grid">
         <template v-for="(lvl, i) in levels" :key="lvl.id">
           <!-- Card -->
           <a
             href="/rewards"
-            class="loyalty-card"
+            class="lty-card"
             @mouseenter="hoveredCard = i"
             @mouseleave="hoveredCard = -1"
             :style="{
@@ -65,15 +60,15 @@ const hoveredCard = ref(-1)
             }"
           >
             <!-- Name at top -->
-            <div class="loyalty-name" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
+            <div class="lty-name" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
               {{ lvl.name }}
             </div>
             
             <!-- Bonus badge above icon -->
-            <div class="loyalty-bonus-wrap">
+            <div class="lty-bonus-wrap">
               <div 
                 v-if="lvl.bonus" 
-                class="loyalty-bonus"
+                class="lty-bonus"
                 :style="{ 
                   background: `${hoveredCard === i ? lvl.hoverColor : lvl.color}20`,
                   borderColor: `${hoveredCard === i ? lvl.hoverColor : lvl.color}50`,
@@ -82,14 +77,14 @@ const hoveredCard = ref(-1)
               >
                 {{ lvl.bonus }}
               </div>
-              <div v-else class="loyalty-bonus loyalty-bonus-base">
+              <div v-else class="lty-bonus lty-bonus-base">
                 базовый
               </div>
             </div>
             
             <!-- Icon Box -->
             <div 
-              class="loyalty-icon"
+              class="lty-icon"
               :style="{ 
                 borderColor: hoveredCard === i ? lvl.hoverColor : lvl.color,
                 background: hoveredCard === i ? lvl.hoverColor : 'rgba(255,255,255,0.05)',
@@ -116,7 +111,7 @@ const hoveredCard = ref(-1)
             
             <!-- Games count -->
             <div 
-              class="loyalty-games"
+              class="lty-games"
               :style="{ 
                 color: hoveredCard === i ? lvl.hoverColor : lvl.color,
                 textShadow: hoveredCard === i ? `0 0 15px ${lvl.hoverColor}60` : 'none',
@@ -126,7 +121,7 @@ const hoveredCard = ref(-1)
             </div>
             
             <!-- "ИГР" label -->
-            <div class="loyalty-games-label" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
+            <div class="lty-games-label" :style="{ color: hoveredCard === i ? lvl.hoverColor : lvl.color }">
               ИГР
             </div>
           </a>
@@ -134,7 +129,7 @@ const hoveredCard = ref(-1)
           <!-- Arrow between cards -->
           <div 
             v-if="i < levels.length - 1" 
-            class="loyalty-arrow"
+            class="lty-arrow"
             :style="{ 
               opacity: visible ? 1 : 0,
               transition: `opacity 0.5s ease ${0.3 + i * 0.1}s`,
@@ -149,7 +144,7 @@ const hoveredCard = ref(-1)
       </div>
       
       <!-- Bottom note -->
-      <div class="loyalty-note">
+      <div class="lty-note">
         * расчёт для 1500₽ при средней цене игры ~70₽
       </div>
     </div>
@@ -157,32 +152,57 @@ const hoveredCard = ref(-1)
 </template>
 
 <style scoped>
-/* Override SectionHeader title margin */
-.loyalty-section :deep(h2),
-.loyalty-section :deep(.section-title),
-.loyalty-section :deep([class*="title"]) {
-  margin-bottom: 4px !important;
+/* Header block */
+.lty-header {
+  text-align: center;
 }
 
-.loyalty-subtitle {
-  text-align: center;
-  margin: 0 0 6px;
+.lty-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(197, 249, 70, 0.1);
+  border: 1px solid rgba(197, 249, 70, 0.25);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lime, #C5F946);
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.lty-tag-icon {
+  color: var(--lime, #C5F946);
+}
+
+.lty-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  color: #F0F4FF !important;
+  margin: 0 0 6px 0 !important;
+  line-height: 1.2 !important;
+}
+
+.lty-subtitle {
+  margin: 0 0 8px 0;
   font-size: 14px;
   color: rgba(255,255,255,0.6);
   line-height: 1.4;
 }
 
-.loyalty-subtitle-accent {
+.lty-subtitle-accent {
   color: #FF0080;
   font-weight: 700;
 }
 
-.loyalty-link-wrap {
-  text-align: center;
+.lty-link-wrap {
   margin-bottom: 28px;
 }
 
-.loyalty-link {
+.lty-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -196,11 +216,12 @@ const hoveredCard = ref(-1)
   transition: opacity 0.2s;
 }
 
-.loyalty-link:hover {
+.lty-link:hover {
   opacity: 1;
 }
 
-.loyalty-grid {
+/* Grid */
+.lty-grid {
   display: flex;
   gap: 0;
   justify-content: center;
@@ -208,7 +229,7 @@ const hoveredCard = ref(-1)
   padding: 8px 0 12px;
 }
 
-.loyalty-card {
+.lty-card {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -221,7 +242,7 @@ const hoveredCard = ref(-1)
   text-decoration: none;
 }
 
-.loyalty-name {
+.lty-name {
   font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: 700;
@@ -230,7 +251,7 @@ const hoveredCard = ref(-1)
   transition: color 0.3s ease;
 }
 
-.loyalty-bonus-wrap {
+.lty-bonus-wrap {
   width: 56px;
   height: 28px;
   display: flex;
@@ -239,7 +260,7 @@ const hoveredCard = ref(-1)
   margin-bottom: 16px;
 }
 
-.loyalty-bonus {
+.lty-bonus {
   width: 100%;
   padding: 5px 0;
   border: 1.5px solid;
@@ -251,7 +272,7 @@ const hoveredCard = ref(-1)
   transition: all 0.3s ease;
 }
 
-.loyalty-bonus-base {
+.lty-bonus-base {
   background: rgba(255,255,255,0.1);
   border-color: rgba(255,255,255,0.25);
   font-size: 10px;
@@ -259,7 +280,7 @@ const hoveredCard = ref(-1)
   color: rgba(255,255,255,0.6);
 }
 
-.loyalty-icon {
+.lty-icon {
   width: 56px;
   height: 56px;
   border-radius: 12px;
@@ -271,7 +292,7 @@ const hoveredCard = ref(-1)
   transition: all 0.3s ease;
 }
 
-.loyalty-games {
+.lty-games {
   font-family: var(--font-mono, monospace);
   font-size: 28px;
   font-weight: 700;
@@ -280,7 +301,7 @@ const hoveredCard = ref(-1)
   transition: all 0.3s ease;
 }
 
-.loyalty-games-label {
+.lty-games-label {
   font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: 700;
@@ -289,7 +310,7 @@ const hoveredCard = ref(-1)
   transition: color 0.3s ease;
 }
 
-.loyalty-arrow {
+.lty-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,7 +318,7 @@ const hoveredCard = ref(-1)
   flex-shrink: 0;
 }
 
-.loyalty-note {
+.lty-note {
   text-align: center;
   margin-top: 8px;
   font-size: 11px;
@@ -306,56 +327,60 @@ const hoveredCard = ref(-1)
 
 /* Mobile */
 @media (max-width: 640px) {
-  .loyalty-link-wrap {
+  .lty-title {
+    font-size: 26px !important;
+  }
+
+  .lty-link-wrap {
     margin-bottom: 20px;
   }
 
-  .loyalty-grid {
+  .lty-grid {
     flex-wrap: wrap;
     gap: 8px;
   }
   
-  .loyalty-card {
+  .lty-card {
     flex: 0 0 calc(50% - 4px);
     min-width: 0;
   }
   
-  .loyalty-arrow {
+  .lty-arrow {
     display: none;
   }
   
-  .loyalty-name {
+  .lty-name {
     font-size: 10px;
   }
   
-  .loyalty-bonus-wrap {
+  .lty-bonus-wrap {
     width: 48px;
     height: 22px;
     margin-bottom: 12px;
   }
   
-  .loyalty-bonus {
+  .lty-bonus {
     font-size: 11px;
     padding: 3px 0;
     border-radius: 10px;
   }
   
-  .loyalty-icon {
+  .lty-icon {
     width: 48px;
     height: 48px;
     margin-bottom: 10px;
   }
   
-  .loyalty-icon svg {
+  .lty-icon svg {
     width: 22px;
     height: 22px;
   }
   
-  .loyalty-games {
+  .lty-games {
     font-size: 24px;
   }
   
-  .loyalty-games-label {
+  .lty-games-label {
     font-size: 10px;
   }
 }
