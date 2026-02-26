@@ -6,7 +6,7 @@ import SectionHeader from './SectionHeader.vue'
 const { elRef, visible } = useReveal()
 
 const levels = [
-  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#9090A0', hoverColor: '#FFFFFF', icon: 'bow' },
+  { id: 'standard', name: 'СТАНДАРТ', games: '21', bonus: null, color: '#B0B0C0', hoverColor: '#FFFFFF', icon: 'bow' },
   { id: 'silver', name: 'СЕРЕБРО', games: '25', bonus: '+4', color: '#00D4FF', hoverColor: '#00D4FF', icon: 'swords' },
   { id: 'gold', name: 'ЗОЛОТО', games: '30', bonus: '+9', color: '#FFD60A', hoverColor: '#FFD60A', icon: 'medal' },
   { id: 'platinum', name: 'ПЛАТИНА', games: '42', bonus: '×2', color: '#FF0080', hoverColor: '#FF0080', icon: 'crown' },
@@ -30,7 +30,7 @@ const hoveredCard = ref(-1)
         </template>
       </SectionHeader>
       
-      <!-- Subtitle - separate element -->
+      <!-- Subtitle -->
       <p class="loyalty-subtitle">
         До <span class="loyalty-subtitle-accent">×2 больше игр</span> за те же деньги
       </p>
@@ -59,7 +59,7 @@ const hoveredCard = ref(-1)
               opacity: visible ? 1 : 0,
               transform: visible ? 'translateY(0)' : 'translateY(20px)',
               transition: `all 0.5s ease ${i * 0.1}s`,
-              borderColor: hoveredCard === i ? lvl.hoverColor : `${lvl.color}40`,
+              borderColor: hoveredCard === i ? lvl.hoverColor : `${lvl.color}50`,
               boxShadow: hoveredCard === i ? `0 0 25px ${lvl.hoverColor}25` : 'none',
               background: hoveredCard === i ? `linear-gradient(165deg, ${lvl.hoverColor}12, ${lvl.hoverColor}05)` : '#222050',
             }"
@@ -159,7 +159,7 @@ const hoveredCard = ref(-1)
 <style scoped>
 .loyalty-subtitle {
   text-align: center;
-  margin: -4px 0 8px;
+  margin: 0 0 8px;
   font-size: 14px;
   color: rgba(255,255,255,0.6);
   line-height: 1.4;
@@ -172,7 +172,7 @@ const hoveredCard = ref(-1)
 
 .loyalty-link-wrap {
   text-align: center;
-  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .loyalty-link {
@@ -225,18 +225,18 @@ const hoveredCard = ref(-1)
 
 .loyalty-bonus-wrap {
   width: 56px;
-  height: 20px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 
 .loyalty-bonus {
   width: 100%;
-  padding: 3px 0;
+  padding: 4px 0;
   border: 1px solid;
-  border-radius: 6px;
+  border-radius: 10px;
   font-family: var(--font-mono, monospace);
   font-size: 12px;
   font-weight: 700;
@@ -245,11 +245,11 @@ const hoveredCard = ref(-1)
 }
 
 .loyalty-bonus-base {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
   font-size: 10px;
   font-weight: 500;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.5);
 }
 
 .loyalty-icon {
@@ -319,12 +319,14 @@ const hoveredCard = ref(-1)
   
   .loyalty-bonus-wrap {
     width: 48px;
-    height: 18px;
+    height: 20px;
+    margin-bottom: 10px;
   }
   
   .loyalty-bonus {
     font-size: 10px;
-    padding: 2px 0;
+    padding: 3px 0;
+    border-radius: 8px;
   }
   
   .loyalty-icon {
