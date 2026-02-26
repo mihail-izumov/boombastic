@@ -16,7 +16,7 @@ const hoveredCard = ref(-1)
 </script>
 
 <template>
-  <section ref="elRef" class="boom-section">
+  <section ref="elRef" class="boom-section loyalty-section">
     <div class="boom-wrap">
       <SectionHeader
         tag="СТАТУСЫ ИГРОКОВ"
@@ -30,7 +30,7 @@ const hoveredCard = ref(-1)
         </template>
       </SectionHeader>
       
-      <!-- Subtitle - negative margin to pull up closer to title -->
+      <!-- Subtitle -->
       <p class="loyalty-subtitle">
         До <span class="loyalty-subtitle-accent">×2 больше игр</span> за те же деньги
       </p>
@@ -157,9 +157,16 @@ const hoveredCard = ref(-1)
 </template>
 
 <style scoped>
+/* Override SectionHeader title margin */
+.loyalty-section :deep(h2),
+.loyalty-section :deep(.section-title),
+.loyalty-section :deep([class*="title"]) {
+  margin-bottom: 4px !important;
+}
+
 .loyalty-subtitle {
   text-align: center;
-  margin: -8px 0 6px;
+  margin: 0 0 6px;
   font-size: 14px;
   color: rgba(255,255,255,0.6);
   line-height: 1.4;
