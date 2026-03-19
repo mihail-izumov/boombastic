@@ -73,7 +73,7 @@ onUnmounted(() => {
           viewBox="-2 -2 28 16" fill="none" :stroke="color" stroke-width="2.5"
           stroke-linecap="round" stroke-linejoin="round"
           :style="{
-            animation: `pz-chevronTrail 1.2s ${(n-1)*0.2}s ease-in-out infinite`,
+            animation: `fav-chevron-trail 1.2s ${(n-1)*0.2}s ease-in-out infinite`,
             opacity: 0.2,
             marginTop: n > 1 ? '-20px' : 0,
           }">
@@ -136,14 +136,14 @@ onUnmounted(() => {
   max-height: 800px;
   border-radius: 50%;
   filter: blur(48px);
-  animation: pz-starBurst 1.8s ease-out forwards;
+  animation: fav-starburst 1.8s ease-out forwards;
   pointer-events: none;
 }
 .fav-center {
   position: absolute;
   top: 42%;
   left: 50%;
-  animation: pz-starBurst 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: fav-starburst 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,7 +180,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  animation: pz-bounceDown 1s ease-in-out infinite;
+  animation: fav-bounce-down 1s ease-in-out infinite;
 }
 .fav-particle {
   position: absolute;
@@ -188,22 +188,24 @@ onUnmounted(() => {
   left: 50%;
   font-family: 'Space Mono', monospace;
 }
+</style>
 
-/* Keyframes must be in the same scope to work reliably */
-@keyframes pz-starBurst {
+<!-- Non-scoped keyframes for reliable animation -->
+<style>
+@keyframes fav-starburst {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
   15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.25); }
   50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
   80%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
   100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
 }
-@keyframes pz-chevronTrail {
+@keyframes fav-chevron-trail {
   0%   { opacity: 0.2; filter: drop-shadow(0 0 4px currentColor); }
   30%  { opacity: 1;   filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor); }
   60%  { opacity: 1;   filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor); }
   100% { opacity: 0.2; filter: drop-shadow(0 0 4px currentColor); }
 }
-@keyframes pz-bounceDown {
+@keyframes fav-bounce-down {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(12px); }
 }

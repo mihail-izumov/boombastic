@@ -25,7 +25,7 @@ const handleCollect = inject(PRIZE_KEYS.HANDLE_COLLECT)
 
 // Local state
 const statusFilter = ref('available')
-const ticketRange  = ref('5000+')
+const ticketRange  = ref('all')
 const sort         = ref('tickets-desc')
 const zone         = ref('all')
 
@@ -36,7 +36,7 @@ function setStatusAndReset(v) {
 
 // "My tickets" toggle
 function toggleMyTickets() {
-  ticketRange.value = ticketRange.value === 'my-tickets' ? '5000+' : 'my-tickets'
+  ticketRange.value = ticketRange.value === 'my-tickets' ? 'all' : 'my-tickets'
 }
 
 // Filtering

@@ -33,7 +33,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
       :style="{
         left: b.left,
         fontSize: b.size,
-        animation: `pz-confettiFall ${b.dur} ${b.delay} ease-in forwards`,
+        animation: `boom-confetti-fall ${b.dur} ${b.delay} ease-in forwards`,
       }"
     >{{ b.char }}</span>
     <!-- Centered text -->
@@ -78,7 +78,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
-  animation: pz-boomPop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: boom-pop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .boom-text-wrap {
   padding: 0 60px;
@@ -100,7 +100,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
   overflow: hidden;
   max-width: 0;
   vertical-align: bottom;
-  animation: pz-boomZeros 2s ease-in-out forwards;
+  animation: boom-zeros 2s ease-in-out forwards;
 }
 .boom-subtitle {
   font-size: 18px;
@@ -111,21 +111,23 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
   text-shadow: 0 0 20px rgba(255, 214, 10, 0.6), 0 0 40px rgba(255, 214, 10, 0.3);
   letter-spacing: 0.05em;
 }
+</style>
 
-/* Keyframes must be in the same scope to work reliably */
-@keyframes pz-boomPop {
+<!-- Non-scoped keyframes for reliable animation -->
+<style>
+@keyframes boom-pop {
   0%   { opacity: 0; transform: scale(0.5) translateY(30px); }
   40%  { opacity: 1; transform: scale(1.12) translateY(-8px); }
   70%  { opacity: 1; transform: scale(0.97) translateY(2px); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
-@keyframes pz-boomZeros {
+@keyframes boom-zeros {
   0%   { max-width: 0; }
   30%  { max-width: 6.5em; }
   70%  { max-width: 6.5em; }
   100% { max-width: 0; }
 }
-@keyframes pz-confettiFall {
+@keyframes boom-confetti-fall {
   0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
   50%  { opacity: 0.9; }
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }

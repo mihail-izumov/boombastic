@@ -307,7 +307,7 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
     </template>
 
     <!-- TROPHIES -->
-    <div v-if="collectedItems.length > 0" class="trophy-trophies" :style="{ marginTop: cartItems.length === 0 ? '16px' : 0 }">
+    <div v-if="collectedItems.length > 0" class="trophy-trophies" :style="{ marginTop: cartItems.length === 0 ? '16px' : '24px' }">
       <div class="trophy-trophies__header">
         <div class="trophy-trophies__title">Мои трофеи</div>
         <div style="text-align: right;">

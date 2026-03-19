@@ -349,7 +349,7 @@ function openTicketModal() {
 .pz-header {
   max-width: 900px;
   margin: 0 auto;
-  padding: 100px 20px 24px;
+  padding: 120px 20px 24px;
   position: relative;
   z-index: 1;
   text-align: center;
