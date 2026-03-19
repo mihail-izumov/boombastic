@@ -32,51 +32,53 @@ function handleSend() {
 </script>
 
 <template>
-  <div class="queue-overlay" @click="emit('close')">
-    <div class="queue-backdrop" />
-    <div class="queue-modal" @click.stop>
-      <!-- Shimmer -->
-      <div class="queue-shimmer" />
-      <!-- Close -->
-      <button class="queue-close" @click="emit('close')">×</button>
-      <!-- Emoji -->
-      <div style="font-size: 36px; margin-bottom: 12px;">{{ prize.emoji }}</div>
-      <!-- Headline -->
-      <div class="queue-headline">{{ headline }}</div>
-      <!-- Subtext -->
-      <div class="queue-subtext">
-        <strong style="color: var(--pz-tx1);">{{ prize.name }}</strong> — {{ subtext }}
-      </div>
-      <!-- Queue count -->
-      <div v-if="prize.queue > 0" class="queue-waiting">
-        Уже ждут: {{ prize.queue }} чел.
-      </div>
-
-      <!-- Form or success -->
-      <template v-if="!sent">
-        <input
-          v-model="email"
-          type="email"
-          placeholder="email@example.com"
-          class="queue-input"
-        />
-        <button
-          class="queue-send"
-          :class="{ 'queue-send--active': email.trim() }"
-          :disabled="!email.trim()"
-          @click="handleSend"
-        >Сообщите мне →</button>
-        <div class="queue-note">Откроется Google Forms · данные только у нас</div>
-      </template>
-      <template v-else>
-        <div class="queue-success">
-          <div style="font-size: 28px; margin-bottom: 7px;">✓</div>
-          <div style="color: var(--pz-green); font-family: 'Inter',sans-serif; font-weight: 700;">Записали!</div>
-          <div style="font-size: 12px; color: var(--pz-tx2); margin-top: 5px;">Напишем на email когда приз появится</div>
+  <Teleport to="body">
+    <div class="queue-overlay vp-raw" @click="emit('close')">
+      <div class="queue-backdrop" />
+      <div class="queue-modal" @click.stop>
+        <!-- Shimmer -->
+        <div class="queue-shimmer" />
+        <!-- Close -->
+        <button class="queue-close" @click="emit('close')">×</button>
+        <!-- Emoji -->
+        <div style="font-size: 36px; margin-bottom: 12px;">{{ prize.emoji }}</div>
+        <!-- Headline -->
+        <div class="queue-headline">{{ headline }}</div>
+        <!-- Subtext -->
+        <div class="queue-subtext">
+          <strong style="color: var(--pz-tx1);">{{ prize.name }}</strong> — {{ subtext }}
         </div>
-      </template>
+        <!-- Queue count -->
+        <div v-if="prize.queue > 0" class="queue-waiting">
+          Уже ждут: {{ prize.queue }} чел.
+        </div>
+
+        <!-- Form or success -->
+        <template v-if="!sent">
+          <input
+            v-model="email"
+            type="email"
+            placeholder="email@example.com"
+            class="queue-input"
+          />
+          <button
+            class="queue-send"
+            :class="{ 'queue-send--active': email.trim() }"
+            :disabled="!email.trim()"
+            @click="handleSend"
+          >Сообщите мне →</button>
+          <div class="queue-note">Откроется Google Forms · данные только у нас</div>
+        </template>
+        <template v-else>
+          <div class="queue-success">
+            <div style="font-size: 28px; margin-bottom: 7px;">✓</div>
+            <div style="color: var(--pz-green); font-family: 'Inter',sans-serif; font-weight: 700;">Записали!</div>
+            <div style="font-size: 12px; color: var(--pz-tx2); margin-top: 5px;">Напишем на email когда приз появится</div>
+          </div>
+        </template>
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>

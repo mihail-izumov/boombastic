@@ -99,7 +99,7 @@ const cartBtnStyle = computed(() => {
       borderColor: cardBorder,
       transform: hov && !isCollected ? 'translateY(-3px)' : 'none',
       boxShadow: hov && !isCollected ? '0 10px 32px rgba(0,0,0,0.42)' : '0 4px 14px rgba(0,0,0,0.28)',
-      opacity: isCollected ? 0.55 : 1,
+      opacity: 1,
     }"
     @mouseenter="hov = true"
     @mouseleave="hov = false"
@@ -130,7 +130,7 @@ const cartBtnStyle = computed(() => {
     <!-- Bottom group (pinned to bottom) -->
     <div class="prize-card__bottom">
       <!-- Tickets -->
-      <div class="prize-card__tickets">
+      <div class="prize-card__tickets" :class="{ 'prize-card__tickets--collected': isCollected }">
         {{ fmtNum(prize.tickets) }} тик
       </div>
 
@@ -275,8 +275,9 @@ const cartBtnStyle = computed(() => {
   font-family: 'Inter', sans-serif;
 }
 .prize-card__name--collected {
-  color: rgba(255, 255, 255, 0.55);
+  color: #5a6888;
   text-decoration: line-through;
+  text-decoration-color: #3a4466;
 }
 .prize-card__bottom {
   margin-top: auto;
@@ -290,6 +291,10 @@ const cartBtnStyle = computed(() => {
   font-size: 16px;
   color: var(--pz-yellow);
   text-shadow: 0 0 8px rgba(255, 214, 10, 0.32);
+}
+.prize-card__tickets--collected {
+  color: #5a5a3a;
+  text-shadow: none;
 }
 .prize-card__progress {
   display: flex;

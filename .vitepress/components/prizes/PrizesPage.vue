@@ -9,7 +9,7 @@
  * Использование:
  *   <PrizesPage v-bind="data" park="piterlend" />
  */
-import { ref, computed, provide, onMounted, watch } from 'vue'
+import { ref, computed, provide, onMounted, onUnmounted, watch } from 'vue'
 import { PRIZE_KEYS, lsGet, lsSet, fmtNum } from './prizoteka'
 import './prizes.css'
 
@@ -54,6 +54,10 @@ const trophyOpen    = ref(false)
 
 // ── LOAD FROM localStorage (SSR-safe) ────────────────────────────
 onMounted(() => {
+  // Fix horizontal scroll on the page
+  document.documentElement.style.overflowX = 'hidden'
+  document.body.style.overflowX = 'hidden'
+
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
     const c  = localStorage.getItem(`boom_${props.park}_collected`)
@@ -73,6 +77,11 @@ onMounted(() => {
     if (cr) cart.value = JSON.parse(cr)
     if (tk) taking.value = JSON.parse(tk)
   } catch {}
+})
+
+onUnmounted(() => {
+  document.documentElement.style.overflowX = ''
+  document.body.style.overflowX = ''
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────

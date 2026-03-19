@@ -72,7 +72,8 @@ const historyRev = computed(() => {
 </script>
 
 <template>
-  <div class="tm-overlay" @click="emit('close')">
+  <Teleport to="body">
+    <div class="tm-overlay vp-raw" @click="emit('close')">
     <div class="tm-backdrop" />
     <div class="tm-modal" @click.stop>
       <!-- Label -->
@@ -188,6 +189,7 @@ const historyRev = computed(() => {
       <button class="tm-close-btn" @click="emit('close')">Закрыть</button>
     </div>
   </div>
+  </Teleport>
 </template>
 
 <style scoped>

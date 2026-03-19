@@ -24,7 +24,7 @@ const setQueue   = inject(PRIZE_KEYS.SET_QUEUE_PRIZE)
 const handleCollect = inject(PRIZE_KEYS.HANDLE_COLLECT)
 
 // Local state
-const statusFilter = ref('available')
+const statusFilter = ref('all')
 const ticketRange  = ref('all')
 const sort         = ref('tickets-desc')
 const zone         = ref('all')

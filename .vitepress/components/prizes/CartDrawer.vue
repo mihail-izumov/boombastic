@@ -55,32 +55,34 @@ function handleGoToCatalog(max) {
 </script>
 
 <template>
-  <div class="drawer-overlay" @click="emit('close')">
-    <div class="drawer-backdrop" />
-    <div class="drawer-panel" @click.stop>
-      <!-- Sticky header -->
-      <div
-        class="drawer-header"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchend="onTouchEnd"
-      >
-        <div class="drawer-handle-wrap">
-          <div class="drawer-handle" />
+  <Teleport to="body">
+    <div class="drawer-overlay vp-raw" @click="emit('close')">
+      <div class="drawer-backdrop" />
+      <div class="drawer-panel" @click.stop>
+        <!-- Sticky header -->
+        <div
+          class="drawer-header"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
+          @touchend="onTouchEnd"
+        >
+          <div class="drawer-handle-wrap">
+            <div class="drawer-handle" />
+          </div>
+          <div class="drawer-header-row">
+            <div class="drawer-title">Корзина</div>
+            <button class="drawer-close" @click="emit('close')">
+              <PrizeIcons name="ui_x" :size="18" />
+            </button>
+          </div>
         </div>
-        <div class="drawer-header-row">
-          <div class="drawer-title">Корзина</div>
-          <button class="drawer-close" @click="emit('close')">
-            <PrizeIcons name="ui_x" :size="18" />
-          </button>
+        <!-- Scrollable content -->
+        <div ref="scrollRef" class="drawer-content">
+          <TabTrophy @go-to-catalog="handleGoToCatalog" />
         </div>
-      </div>
-      <!-- Scrollable content -->
-      <div ref="scrollRef" class="drawer-content">
-        <TabTrophy @go-to-catalog="handleGoToCatalog" />
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>

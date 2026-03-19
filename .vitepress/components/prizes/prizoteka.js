@@ -98,6 +98,7 @@ export function fmtNum(n) {
 
 // ── HELPER: статусы ────────────────────────────────────────────
 export const STATUS_OPTS = [
+  { id: 'all',       label: 'Все' },
   { id: 'available', label: 'В наличии' },
   { id: 'soon',      label: 'Скоро' },
   { id: 'archive',   label: 'Архив' },
