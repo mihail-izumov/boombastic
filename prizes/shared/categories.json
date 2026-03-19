@@ -1,0 +1,44 @@
+[
+  {
+    "id": "all",
+    "label": "Все",
+    "has_filter": true,
+    "icon_name": "cat_all"
+  },
+  {
+    "id": "cars",
+    "label": "Машины",
+    "has_filter": true,
+    "icon_name": "cat_cars"
+  },
+  {
+    "id": "constructors",
+    "label": "Конструкторы",
+    "has_filter": true,
+    "icon_name": "cat_constructors"
+  },
+  {
+    "id": "boardgames",
+    "label": "Настолки",
+    "has_filter": true,
+    "icon_name": "cat_boardgames"
+  },
+  {
+    "id": "electronics",
+    "label": "Электроника",
+    "has_filter": true,
+    "icon_name": "cat_electronics"
+  },
+  {
+    "id": "plush",
+    "label": "Мягкие игрушки",
+    "has_filter": false,
+    "icon_name": "—"
+  },
+  {
+    "id": "other",
+    "label": "Прочее",
+    "has_filter": false,
+    "icon_name": "—"
+  }
+]
