@@ -1,0 +1,8 @@
+{
+  "park_id": "piterlend",
+  "park_name": "Питерлэнд",
+  "hit_threshold": 5,
+  "avg_tickets_per_visit": 2000,
+  "queue_form_url": "https://forms.gle/YOUR_LINK",
+  "lk_url": "https://lk.b00m.fun"
+}
