@@ -205,13 +205,22 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
         </div>
 
         <!-- Onboarding hint -->
-        <div v-if="checkedItems.length === 0 && affordableItems.length > 0" class="trophy-onboard">
-          <div class="trophy-onboard__steps">
-            <span class="trophy-onboard__step"><span class="trophy-onboard__n">1</span> Отметь что берёшь</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pz-lime)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span class="trophy-onboard__step"><span class="trophy-onboard__n">2</span> Проверь остаток</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pz-lime)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span class="trophy-onboard__step"><span class="trophy-onboard__n">3</span> Нажми «Беру!» у кассы</span>
+        <div v-if="checkedItems.length === 0 && affordableItems.length > 0" style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;padding:10px 12px;border-radius:10px;background:rgba(197,249,70,0.04);border:1px solid rgba(197,249,70,0.12);">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
+              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">1</span>
+              Отметь что берёшь
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
+              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">2</span>
+              Проверь остаток
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
+              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">3</span>
+              Нажми «Беру!» у кассы
+            </span>
           </div>
         </div>
 

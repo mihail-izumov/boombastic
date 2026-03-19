@@ -322,10 +322,12 @@
   .pz-bb-btn { justify-content: center !important; }
 }
 
-/* ── Fix: Prevent VitePress .vp-doc styles from leaking ───────── */
+/* ── VitePress isolation (vp-raw disables .vp-doc) ────────────── */
 .prizoteka {
   overflow-x: hidden;
   max-width: 100vw;
+  width: 100%;
+  line-height: normal;
 }
 .prizoteka,
 .prizoteka * {
@@ -342,20 +344,8 @@
 .prizoteka button {
   text-align: center;
 }
-/* Reset VitePress .vp-doc typography overrides */
-:where(.vp-doc) .prizoteka {
-  line-height: normal;
-}
-:where(.vp-doc) .prizoteka div,
-:where(.vp-doc) .prizoteka span,
-:where(.vp-doc) .prizoteka button,
-:where(.vp-doc) .prizoteka p,
-:where(.vp-doc) .prizoteka h1,
-:where(.vp-doc) .prizoteka h2,
-:where(.vp-doc) .prizoteka h3 {
-  line-height: normal;
-  margin: 0;
-  border-top: none;
-  padding-top: 0;
-  letter-spacing: normal;
+
+/* ── Horizontal scroll fix: prevent chips from stretching page ─ */
+.pz-hscroll {
+  max-width: 100%;
 }

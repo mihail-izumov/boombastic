@@ -247,7 +247,7 @@ function openTicketModal() {
 </script>
 
 <template>
-  <div class="prizoteka">
+  <div class="prizoteka vp-raw">
     <!-- Overlays -->
     <BoomExplosion v-if="boom" @done="boom = false" />
     <FavAddAnimation v-if="addAnim" :type="addAnim" @done="addAnim = null" />
@@ -349,7 +349,7 @@ function openTicketModal() {
 .pz-header {
   max-width: 900px;
   margin: 0 auto;
-  padding: 80px 20px 24px;
+  padding: 100px 20px 24px;
   position: relative;
   z-index: 1;
   text-align: center;

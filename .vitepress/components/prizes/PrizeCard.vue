@@ -99,7 +99,7 @@ const cartBtnStyle = computed(() => {
       borderColor: cardBorder,
       transform: hov && !isCollected ? 'translateY(-3px)' : 'none',
       boxShadow: hov && !isCollected ? '0 10px 32px rgba(0,0,0,0.42)' : '0 4px 14px rgba(0,0,0,0.28)',
-      opacity: isCollected ? 0.4 : 1,
+      opacity: isCollected ? 0.55 : 1,
     }"
     @mouseenter="hov = true"
     @mouseleave="hov = false"
@@ -275,7 +275,7 @@ const cartBtnStyle = computed(() => {
   font-family: 'Inter', sans-serif;
 }
 .prize-card__name--collected {
-  color: var(--pz-txm);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: line-through;
 }
 .prize-card__bottom {

@@ -40,6 +40,7 @@ const collectionList = computed(() => {
         collected: collectedCount,
       }
     })
+    .filter(r => r.total > 0) // Hide collections with 0 active prizes
 })
 
 // Scroll fade logic
