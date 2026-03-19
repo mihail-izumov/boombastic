@@ -1,37 +1,37 @@
 [
   {
+    "id": "capybara",
+    "name": "Капибара",
+    "color": "#FFD60A",
+    "icon_name": "col_capybara",
+    "order": 1
+  },
+  {
+    "id": "anime",
+    "name": "Аниме",
+    "color": "#E74C3C",
+    "icon_name": "col_anime",
+    "order": 2
+  },
+  {
     "id": "harry_potter",
     "name": "Harry Potter",
     "color": "#FF0080",
     "icon_name": "col_harry_potter",
-    "order": 1
+    "order": 3
   },
   {
     "id": "stitch",
     "name": "Стич",
     "color": "#00D4FF",
     "icon_name": "col_stitch",
-    "order": 2
-  },
-  {
-    "id": "capybara",
-    "name": "Капибара",
-    "color": "#FFD60A",
-    "icon_name": "col_capybara",
-    "order": 3
-  },
-  {
-    "id": "minecraft",
-    "name": "Minecraft",
-    "color": "#00FF88",
-    "icon_name": "col_minecraft",
     "order": 4
   },
   {
-    "id": "mario",
-    "name": "Mario",
-    "color": "#FF6B00",
-    "icon_name": "col_mario",
+    "id": "stranger_things",
+    "name": "Stranger Things",
+    "color": "#CC0000",
+    "icon_name": "col_stranger_things",
     "order": 5
   },
   {
@@ -42,10 +42,10 @@
     "order": 6
   },
   {
-    "id": "kitty",
-    "name": "Hello Kitty",
-    "color": "#FF69B4",
-    "icon_name": "col_kitty",
+    "id": "minecraft",
+    "name": "Minecraft",
+    "color": "#00FF88",
+    "icon_name": "col_minecraft",
     "order": 7
   },
   {
@@ -56,17 +56,17 @@
     "order": 8
   },
   {
-    "id": "stranger_things",
-    "name": "Stranger Things",
-    "color": "#CC0000",
-    "icon_name": "col_stranger_things",
+    "id": "mario",
+    "name": "Mario",
+    "color": "#FF6B00",
+    "icon_name": "col_mario",
     "order": 9
   },
   {
-    "id": "anime",
-    "name": "Аниме",
-    "color": "#E74C3C",
-    "icon_name": "col_anime",
+    "id": "kitty",
+    "name": "Hello Kitty",
+    "color": "#FF69B4",
+    "icon_name": "col_kitty",
     "order": 10
   }
 ]
