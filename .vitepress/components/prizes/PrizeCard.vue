@@ -74,6 +74,7 @@ function btnStyle(bg, color, border) {
     flex: 1,
     display: 'inline-flex',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: '4px',
   }
 }
@@ -264,6 +265,7 @@ const cartBtnStyle = computed(() => {
   border-radius: 4px;
   padding: 2px 8px;
   white-space: nowrap;
+  line-height: 1.4;
 }
 .prize-card__name {
   font-weight: 700;

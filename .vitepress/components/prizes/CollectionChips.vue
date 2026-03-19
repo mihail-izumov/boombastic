@@ -3,7 +3,7 @@
  * CollectionChips — горизонтальные чипы выбора коллекции
  * Показывает «Все» + каждую коллекцию с прогрессом собранных
  */
-import { inject, computed } from 'vue'
+import { ref, inject, computed, onMounted, onUnmounted } from 'vue'
 import { PRIZE_KEYS } from './prizoteka'
 import PrizeIcons from './PrizeIcons.vue'
 
@@ -41,11 +41,34 @@ const collectionList = computed(() => {
       }
     })
 })
+
+// Scroll fade logic
+const scrollEl = ref(null)
+const fadeHidden = ref(false)
+
+function checkScroll() {
+  const el = scrollEl.value
+  if (!el) return
+  const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4
+  fadeHidden.value = atEnd
+}
+
+onMounted(() => {
+  const el = scrollEl.value
+  if (el) {
+    el.addEventListener('scroll', checkScroll, { passive: true })
+    checkScroll()
+  }
+})
+onUnmounted(() => {
+  const el = scrollEl.value
+  if (el) el.removeEventListener('scroll', checkScroll)
+})
 </script>
 
 <template>
   <div style="position: relative; margin-bottom: 16px;">
-    <div class="pz-hscroll">
+    <div ref="scrollEl" class="pz-hscroll">
       <!-- "Все" chip -->
       <button
         class="pz-chip"
@@ -72,6 +95,6 @@ const collectionList = computed(() => {
         </span>
       </button>
     </div>
-    <div class="pz-hscroll-fade" />
+    <div class="pz-hscroll-fade" :class="{ 'pz-hscroll-fade--hidden': fadeHidden }" />
   </div>
 </template>

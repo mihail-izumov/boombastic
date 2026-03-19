@@ -87,7 +87,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
 }
 .boom-text {
   font-size: clamp(48px, 11vw, 88px);
-  color: var(--pz-yellow);
+  color: #FFD60A;
   letter-spacing: -2px;
   font-family: 'Space Mono', monospace;
   font-weight: 700;
@@ -104,11 +104,30 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
 }
 .boom-subtitle {
   font-size: 18px;
-  color: var(--pz-yellow);
+  color: #FFD60A;
   margin-top: 12px;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   text-shadow: 0 0 20px rgba(255, 214, 10, 0.6), 0 0 40px rgba(255, 214, 10, 0.3);
   letter-spacing: 0.05em;
+}
+
+/* Keyframes must be in the same scope to work reliably */
+@keyframes pz-boomPop {
+  0%   { opacity: 0; transform: scale(0.5) translateY(30px); }
+  40%  { opacity: 1; transform: scale(1.12) translateY(-8px); }
+  70%  { opacity: 1; transform: scale(0.97) translateY(2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes pz-boomZeros {
+  0%   { max-width: 0; }
+  30%  { max-width: 6.5em; }
+  70%  { max-width: 6.5em; }
+  100% { max-width: 0; }
+}
+@keyframes pz-confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  50%  { opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 </style>

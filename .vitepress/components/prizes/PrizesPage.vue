@@ -342,13 +342,14 @@ function openTicketModal() {
 .pz-page {
   min-height: 100vh;
   background: var(--pz-bg);
+  overflow-x: hidden;
 }
 
 /* ── HEADER ── */
 .pz-header {
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 20px 24px;
+  padding: 80px 20px 24px;
   position: relative;
   z-index: 1;
   text-align: center;
@@ -431,11 +432,22 @@ function openTicketModal() {
   filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.15)) drop-shadow(0 2px 3px rgba(0,0,0,0.6));
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
+  transform: translateY(-2px) scale(1.08);
+  filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.3)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+}
 .pz-tab__icon--active {
   color: var(--pz-lime);
   opacity: 1;
   filter: drop-shadow(0 0 6px rgba(197,249,70,0.5)) drop-shadow(0 -1px 0px rgba(255,255,255,0.4));
   transform: translateY(-2px) scale(1.08);
+}
+.pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
+  transform: translateY(-2px) scale(1.08);
+  filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.3)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+}
+.pz-tab:not(.pz-tab--active):hover {
+  background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(106,120,200,0.5) 0%, rgba(74,90,173,0.18) 45%, rgba(28,26,62,0.0) 100%);
 }
 .pz-tab-content {
   padding-bottom: 120px;
@@ -452,6 +464,8 @@ function openTicketModal() {
   backdrop-filter: blur(20px) saturate(160%);
   border-top: 1px solid rgba(74, 90, 173, 0.22);
   padding: 10px 16px max(16px, env(safe-area-inset-bottom));
+  width: 100%;
+  box-sizing: border-box;
 }
 .pz-bottom-bar__inner {
   max-width: 900px;

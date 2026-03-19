@@ -6,7 +6,7 @@
  * Фильтры: категория, статус, диапазон тикетов, сортировка.
  * Зоны: «Хватает сейчас» / «Надо подкопить» (если tickets > 0).
  */
-import { ref, computed, watch, inject } from 'vue'
+import { ref, computed, watch, inject, onMounted, onUnmounted } from 'vue'
 import { PRIZE_KEYS, fmtNum, matchesStatus as matchStatus, matchesRange as matchRange, sortPrizes, TICKET_RANGE_OPTS } from './prizoteka'
 import PrizeIcons from './PrizeIcons.vue'
 import StatusDropdown from './StatusDropdown.vue'
@@ -108,6 +108,28 @@ const sortOptions = [
   { id: 'tickets-desc', label: 'Дороже',  icon: '↓' },
 ]
 
+// Scroll fade tracking
+const catScrollEl = ref(null)
+const catFadeHidden = ref(false)
+
+function checkCatScroll() {
+  const el = catScrollEl.value
+  if (!el) return
+  catFadeHidden.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4
+}
+
+onMounted(() => {
+  const el = catScrollEl.value
+  if (el) {
+    el.addEventListener('scroll', checkCatScroll, { passive: true })
+    checkCatScroll()
+  }
+})
+onUnmounted(() => {
+  const el = catScrollEl.value
+  if (el) el.removeEventListener('scroll', checkCatScroll)
+})
+
 const catLabel = computed(() => {
   if (cat.value === 'all') return 'Все призы'
   return categories.find(c => c.id === cat.value)?.label || 'Все призы'
@@ -118,7 +140,7 @@ const catLabel = computed(() => {
   <div>
     <!-- Category chips -->
     <div style="position: relative; margin-bottom: 10px;">
-      <div class="pz-hscroll">
+      <div ref="catScrollEl" class="pz-hscroll">
         <button
           v-for="c in catChips"
           :key="c.id"
@@ -133,7 +155,7 @@ const catLabel = computed(() => {
           </span>
         </button>
       </div>
-      <div class="pz-hscroll-fade" />
+      <div class="pz-hscroll-fade" :class="{ 'pz-hscroll-fade--hidden': catFadeHidden }" />
     </div>
 
     <!-- Filter panel -->

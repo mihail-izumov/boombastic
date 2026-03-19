@@ -188,4 +188,23 @@ onUnmounted(() => {
   left: 50%;
   font-family: 'Space Mono', monospace;
 }
+
+/* Keyframes must be in the same scope to work reliably */
+@keyframes pz-starBurst {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.25); }
+  50%  { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+  80%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+}
+@keyframes pz-chevronTrail {
+  0%   { opacity: 0.2; filter: drop-shadow(0 0 4px currentColor); }
+  30%  { opacity: 1;   filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor); }
+  60%  { opacity: 1;   filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor); }
+  100% { opacity: 0.2; filter: drop-shadow(0 0 4px currentColor); }
+}
+@keyframes pz-bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(12px); }
+}
 </style>
