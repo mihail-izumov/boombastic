@@ -5,6 +5,16 @@ description: Каталог призов парка «Бумбастик» в П
 aside: false
 ---
 
-# Призотека — Питерлэнд
+<script setup>
+import { data } from './piterland.data.js'
+import PrizesPage from '../.vitepress/components/prizes/PrizesPage.vue'
+</script>
 
-Страница в разработке.
+<PrizesPage v-bind="data" :park="data.park" />
+
+<style>
+.VPDoc .container { max-width: 100% !important; }
+.VPDoc .content { padding: 0 !important; }
+.VPDoc .content-container { max-width: 100% !important; }
+.VPContent { padding-top: 0 !important; }
+</style>
