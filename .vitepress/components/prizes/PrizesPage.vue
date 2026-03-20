@@ -53,12 +53,23 @@ const ticketModal   = ref(false)
 const trophyOpen    = ref(false)
 
 // ── LOAD FROM localStorage (SSR-safe) ────────────────────────────
+const hiddenEls = []
+
 onMounted(() => {
-  // Fix horizontal scroll — inject persistent style
+  // Fix horizontal scroll
   const style = document.createElement('style')
   style.id = 'pz-overflow-fix'
   style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
   document.head.appendChild(style)
+
+  // Hide footer elements (DOM, not CSS — guaranteed cleanup)
+  setTimeout(() => {
+    document.querySelectorAll('.VPDocFooter, .VPFooter, footer, .prev-next, .edit-link').forEach(el => {
+      if (el.closest('.prizoteka')) return // skip our own elements
+      hiddenEls.push({ el, prev: el.style.display })
+      el.style.display = 'none'
+    })
+  }, 50)
 
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
@@ -84,6 +95,10 @@ onMounted(() => {
 onUnmounted(() => {
   const style = document.getElementById('pz-overflow-fix')
   if (style) style.remove()
+
+  // Restore all hidden elements
+  hiddenEls.forEach(({ el, prev }) => { el.style.display = prev })
+  hiddenEls.length = 0
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
