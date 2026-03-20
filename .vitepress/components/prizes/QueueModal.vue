@@ -19,8 +19,8 @@ const sent = ref(false)
 const isArchive = computed(() => props.prize.status === 'oos' || props.prize.status === 'was')
 const headline = computed(() => isArchive.value ? 'Хочу этот приз' : 'Первым узнать')
 const subtext = computed(() => isArchive.value
-  ? 'Сейчас нет в витрине — оставь email, сообщим когда он появится.'
-  : 'Скоро в витрине — оставь email, сообщим первым как только появится.'
+  ? 'Сейчас нет в призотеке — оставь email, сообщим когда появится.'
+  : 'Скоро в призотеке — оставь email, сообщим первым.'
 )
 
 function handleSend() {
@@ -40,13 +40,15 @@ function handleSend() {
         <div class="queue-shimmer" />
         <!-- Close -->
         <button class="queue-close" @click="emit('close')">×</button>
+        <!-- Topic -->
+        <div class="queue-topic">Призотека Питерлэнд</div>
         <!-- Emoji -->
-        <div style="font-size: 36px; margin-bottom: 12px;">{{ prize.emoji }}</div>
+        <div style="font-size: 36px; margin-bottom: 12px; text-align: center;">{{ prize.emoji }}</div>
         <!-- Headline -->
         <div class="queue-headline">{{ headline }}</div>
         <!-- Subtext -->
         <div class="queue-subtext">
-          <strong style="color: var(--pz-tx1);">{{ prize.name }}</strong> — {{ subtext }}
+          <strong style="color: #F0F4FF;">{{ prize.name }}</strong> — {{ subtext }}
         </div>
         <!-- Queue count -->
         <div v-if="prize.queue > 0" class="queue-waiting">
@@ -67,13 +69,15 @@ function handleSend() {
             :disabled="!email.trim()"
             @click="handleSend"
           >Сообщите мне →</button>
-          <div class="queue-note">Откроется Google Forms · данные только у нас</div>
+          <div class="queue-note">
+            Продолжая, я даю согласие с <a href="/terms" target="_blank" class="queue-note-link">Правилами обработки персональных данных</a> и <a href="/terms" target="_blank" class="queue-note-link">Правилами посещения</a>
+          </div>
         </template>
         <template v-else>
           <div class="queue-success">
             <div style="font-size: 28px; margin-bottom: 7px;">✓</div>
-            <div style="color: var(--pz-green); font-family: 'Inter',sans-serif; font-weight: 700;">Записали!</div>
-            <div style="font-size: 12px; color: var(--pz-tx2); margin-top: 5px;">Напишем на email когда приз появится</div>
+            <div style="color: #00FF88; font-family: 'Inter',sans-serif; font-weight: 700;">Записали!</div>
+            <div style="font-size: 12px; color: #7A8BA8; margin-top: 5px;">Напишем на email когда приз появится</div>
           </div>
         </template>
       </div>
@@ -98,12 +102,13 @@ function handleSend() {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  background: var(--pz-night);
+  background: #0D1421;
   border: 1px solid rgba(255, 214, 10, 0.3);
   border-radius: 16px;
   padding: 28px 24px;
   width: calc(100% - 40px);
   max-width: 420px;
+  text-align: center;
   animation: pz-modalIn 0.28s ease-out forwards;
 }
 .queue-shimmer {
@@ -120,26 +125,35 @@ function handleSend() {
   top: 14px; right: 16px;
   background: transparent;
   border: none;
-  color: var(--pz-txm);
+  color: rgba(255,255,255,0.45);
   cursor: pointer;
   font-size: 20px;
+}
+.queue-topic {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.36);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 16px;
 }
 .queue-headline {
   font-family: 'Inter', sans-serif;
   font-weight: 800;
   font-size: 18px;
-  color: var(--pz-tx1);
+  color: #F0F4FF;
   margin-bottom: 8px;
 }
 .queue-subtext {
   font-size: 13px;
-  color: var(--pz-tx2);
+  color: #7A8BA8;
   margin-bottom: 14px;
   line-height: 1.55;
 }
 .queue-waiting {
   font-size: 12px;
-  color: var(--pz-yellow);
+  color: #FFD60A;
   font-family: 'Inter', sans-serif;
   margin-bottom: 14px;
 }
@@ -150,11 +164,12 @@ function handleSend() {
   background: rgba(74, 90, 173, 0.15);
   border: 1px solid rgba(0, 212, 255, 0.28);
   border-radius: 8px;
-  color: var(--pz-tx1);
+  color: #F0F4FF;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   outline: none;
   box-sizing: border-box;
+  text-align: center;
 }
 .queue-send {
   width: 100%;
@@ -162,7 +177,7 @@ function handleSend() {
   border-radius: 10px;
   background: rgba(74, 90, 173, 0.18);
   border: 1px solid rgba(74, 90, 173, 0.3);
-  color: var(--pz-txm);
+  color: rgba(255,255,255,0.45);
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 13px;
@@ -172,14 +187,26 @@ function handleSend() {
 .queue-send--active {
   background: linear-gradient(135deg, rgba(197,249,70,0.22), rgba(74,90,173,0.22));
   border-color: rgba(197,249,70,0.5);
-  color: var(--pz-lime);
+  color: #C5F946;
   cursor: pointer;
 }
 .queue-note {
-  font-size: 11px;
-  color: var(--pz-txm);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
   text-align: center;
-  margin-top: 9px;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+.queue-note-link {
+  color: rgba(255,255,255,0.45) !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(255,255,255,0.2) !important;
+  border-bottom: none !important;
+  transition: color 0.2s;
+}
+.queue-note-link:hover {
+  color: #C5F946 !important;
+  text-decoration-color: rgba(197,249,70,0.4) !important;
 }
 .queue-success {
   text-align: center;
