@@ -60,6 +60,12 @@ onMounted(() => {
   style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
   document.head.appendChild(style)
 
+  // Hide VitePress footer (direct DOM — cleanup guaranteed in onUnmounted)
+  document.querySelectorAll('.VPDocFooter, .VPFooter, footer.VPFooter, .prev-next').forEach(el => {
+    el.dataset.pzHidden = el.style.display || ''
+    el.style.display = 'none'
+  })
+
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
     const c  = localStorage.getItem(`boom_${props.park}_collected`)
@@ -84,6 +90,12 @@ onMounted(() => {
 onUnmounted(() => {
   const style = document.getElementById('pz-overflow-fix')
   if (style) style.remove()
+
+  // Restore VitePress footer
+  document.querySelectorAll('[data-pz-hidden]').forEach(el => {
+    el.style.display = el.dataset.pzHidden || ''
+    delete el.dataset.pzHidden
+  })
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
