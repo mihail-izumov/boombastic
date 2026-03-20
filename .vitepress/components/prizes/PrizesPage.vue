@@ -39,6 +39,7 @@ const tickets       = ref(0)
 const collected     = ref([])
 const cart          = ref([])
 const taking        = ref([])
+const queued        = ref([])
 const tab           = ref('catalog')
 const ticketHistory = ref([])
 
@@ -73,6 +74,8 @@ onMounted(() => {
     }
     if (cr) cart.value = JSON.parse(cr)
     if (tk) taking.value = JSON.parse(tk)
+    const qu = localStorage.getItem(`boom_${props.park}_queued`)
+    if (qu) queued.value = JSON.parse(qu)
   } catch {}
 })
 
@@ -83,6 +86,7 @@ watch(tab,           (v) => { try { localStorage.setItem(`boom_${props.park}_tab
 watch(ticketHistory, (v) => { try { localStorage.setItem(`boom_${props.park}_ticket_history`, JSON.stringify(v)) } catch {} }, { deep: true })
 watch(cart,          (v) => { try { localStorage.setItem(`boom_${props.park}_cart`, JSON.stringify(v)) } catch {} }, { deep: true })
 watch(taking,        (v) => { try { localStorage.setItem(`boom_${props.park}_taking`, JSON.stringify(v)) } catch {} }, { deep: true })
+watch(queued,        (v) => { try { localStorage.setItem(`boom_${props.park}_queued`, JSON.stringify(v)) } catch {} }, { deep: true })
 
 // ── COMPUTED ─────────────────────────────────────────────────────
 const prizeMap = computed(() => {
@@ -205,6 +209,7 @@ provide(PRIZE_KEYS.TICKETS, tickets)
 provide(PRIZE_KEYS.COLLECTED, collected)
 provide(PRIZE_KEYS.CART, cart)
 provide(PRIZE_KEYS.TAKING, taking)
+provide(PRIZE_KEYS.QUEUED, queued)
 provide(PRIZE_KEYS.TAB, tab)
 provide(PRIZE_KEYS.TICKET_HISTORY, ticketHistory)
 

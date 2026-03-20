@@ -22,8 +22,10 @@ const emit = defineEmits(['collect', 'queue', 'cart'])
 
 const tickets  = inject(PRIZE_KEYS.TICKETS)
 const settings = inject(PRIZE_KEYS.SETTINGS)
+const queued   = inject(PRIZE_KEYS.QUEUED)
 
 const hov = ref(false)
+const isQueued = computed(() => queued.value.includes(props.prize.id))
 
 const remaining = computed(() => {
   if (tickets.value <= 0) return null
@@ -173,24 +175,40 @@ const cartBtnStyle = computed(() => {
           </template>
         </button>
 
-        <!-- Soon → Узнать первым -->
+        <!-- Soon → Узнать первым / Сообщим о поступлении -->
         <button
           v-if="prize.status === 'soon'"
-          :style="btnStyle('rgba(0,212,255,0.1)', 'var(--pz-cyan)', 'rgba(0,212,255,0.4)')"
-          @click.stop="emit('queue', prize)"
+          :style="isQueued
+            ? btnStyle('rgba(0,255,136,0.08)', '#00FF88', 'rgba(0,255,136,0.25)')
+            : btnStyle('rgba(0,212,255,0.1)', 'var(--pz-cyan)', 'rgba(0,212,255,0.4)')"
+          @click.stop="isQueued ? null : emit('queue', prize)"
         >
-          Узнать первым
-          <PrizeIcons name="ui_arrow_right" :size="11" />
+          <template v-if="isQueued">
+            <PrizeIcons name="ui_check" :size="11" />
+            Сообщим о поступлении
+          </template>
+          <template v-else>
+            Узнать первым
+            <PrizeIcons name="ui_arrow_right" :size="11" />
+          </template>
         </button>
 
-        <!-- Was/OOS → Хочу этот приз -->
+        <!-- Was/OOS → Хочу этот приз / Сообщим о поступлении -->
         <button
           v-if="prize.status === 'oos' || prize.status === 'was'"
-          :style="btnStyle('rgba(122,139,168,0.1)', 'var(--pz-tx1)', 'rgba(122,139,168,0.3)')"
-          @click.stop="emit('queue', prize)"
+          :style="isQueued
+            ? btnStyle('rgba(0,255,136,0.08)', '#00FF88', 'rgba(0,255,136,0.25)')
+            : btnStyle('rgba(122,139,168,0.1)', 'var(--pz-tx1)', 'rgba(122,139,168,0.3)')"
+          @click.stop="isQueued ? null : emit('queue', prize)"
         >
-          Хочу этот приз
-          <PrizeIcons name="ui_arrow_right" :size="11" />
+          <template v-if="isQueued">
+            <PrizeIcons name="ui_check" :size="11" />
+            Сообщим о поступлении
+          </template>
+          <template v-else>
+            Хочу этот приз
+            <PrizeIcons name="ui_arrow_right" :size="11" />
+          </template>
         </button>
       </div>
 

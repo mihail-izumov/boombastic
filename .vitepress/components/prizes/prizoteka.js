@@ -22,6 +22,7 @@ export const PRIZE_KEYS = {
   COLLECTED:      Symbol('pz-collected'),
   CART:           Symbol('pz-cart'),
   TAKING:         Symbol('pz-taking'),
+  QUEUED:         Symbol('pz-queued'),
   TAB:            Symbol('pz-tab'),
   TICKET_HISTORY: Symbol('pz-ticket-history'),
 
