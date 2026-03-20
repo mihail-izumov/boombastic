@@ -367,6 +367,15 @@
     padding: 11px 18px !important;
     font-size: 13px !important;
     min-height: 44px;
+    border-radius: 22px !important;
+  }
+
+  /* "До X тикетов" button */
+  .pz-my-tickets-btn {
+    padding: 10px 16px !important;
+    font-size: 13px !important;
+    min-height: 44px !important;
+    border-radius: 22px !important;
   }
 
   /* Filter buttons: bigger */
@@ -374,6 +383,7 @@
     padding: 10px 14px !important;
     font-size: 13px !important;
     min-height: 44px;
+    border-radius: 22px !important;
   }
 
   /* Sort chips */
@@ -382,12 +392,17 @@
     font-size: 14px !important;
   }
 
-  /* Tab icon glow: prevent clipping */
+  /* Tab icon glow: prevent clipping — critical: use !important on all parents */
   .pz-tabs {
     overflow: visible !important;
-    padding: 4px 4px 8px !important;
+    padding: 4px 4px 10px !important;
+    clip-path: none !important;
   }
   .pz-tab {
+    overflow: visible !important;
+    clip-path: none !important;
+  }
+  .pz-tab__icon {
     overflow: visible !important;
   }
 }

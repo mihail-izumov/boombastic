@@ -74,8 +74,8 @@ const ICONS = {
   },
   // TODO: заменить на фирменные SVG когда будут готовы
   col_disney: {
-    // castle (lucide)
-    paths: '<path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2M15 2v5h4l1 4H4l1-4h4V2"/><path d="M11 2v5"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/>',
+    // castle
+    paths: '<path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z"/><path d="M15 2v5h4l1 4H4l1-4h4V2"/><path d="M11 2v5"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/>',
   },
   col_kitty: {
     // cat (lucide)
