@@ -1,7 +1,7 @@
 <script setup>
 /**
- * QueueModal — модалка «Хочу этот приз» / «Первым узнать»
- * Открывает Google Form для email-подписки.
+ * QueueModal — модалка «Скоро в призотеке»
+ * Отправляет email + приз в Google Sheets через Apps Script.
  */
 import { ref, computed, inject } from 'vue'
 import { PRIZE_KEYS } from './prizoteka'
@@ -14,20 +14,49 @@ const emit = defineEmits(['close'])
 const settings = inject(PRIZE_KEYS.SETTINGS)
 
 const email = ref('')
+const sending = ref(false)
 const sent = ref(false)
+const error = ref(false)
 
 const isArchive = computed(() => props.prize.status === 'oos' || props.prize.status === 'was')
-const headline = computed(() => isArchive.value ? 'Хочу этот приз' : 'Первым узнать')
 const subtext = computed(() => isArchive.value
   ? 'Сейчас нет в призотеке — оставь email и мы сообщим когда появится.'
   : 'Оставь email и мы сообщим первым, когда появится в призотеке.'
 )
 
-function handleSend() {
-  if (!email.value.trim()) return
-  const url = settings.queue_form_url || ''
-  window.open(`${url}?entry.EMAIL=${encodeURIComponent(email.value)}&entry.PRIZE=${encodeURIComponent(props.prize.name)}`, '_blank')
-  sent.value = true
+async function handleSend() {
+  const trimmed = email.value.trim()
+  if (!trimmed) return
+
+  const encoded = settings.queue_form_url
+  if (!encoded) {
+    error.value = true
+    return
+  }
+  const url = atob(encoded)
+
+  sending.value = true
+  error.value = false
+
+  try {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: trimmed,
+        prize: props.prize.name,
+        status: props.prize.status,
+        park: settings.park_id || 'piterlend',
+      }),
+    })
+    // no-cors always returns opaque response, so we assume success
+    sent.value = true
+  } catch (err) {
+    error.value = true
+  } finally {
+    sending.value = false
+  }
 }
 </script>
 
@@ -53,20 +82,25 @@ function handleSend() {
           Уже ждут: {{ prize.queue }} чел.
         </div>
 
-        <!-- Form or success -->
+        <!-- Form, sending, error, or success -->
         <template v-if="!sent">
           <input
             v-model="email"
             type="email"
             placeholder="email@example.com"
             class="queue-input"
+            :disabled="sending"
+            @keydown.enter="handleSend"
           />
           <button
             class="queue-send"
-            :class="{ 'queue-send--active': email.trim() }"
-            :disabled="!email.trim()"
+            :class="{ 'queue-send--active': email.trim() && !sending }"
+            :disabled="!email.trim() || sending"
             @click="handleSend"
-          >Сообщите мне →</button>
+          >{{ sending ? 'Отправляю...' : 'Сообщите мне →' }}</button>
+          <div v-if="error" style="text-align:center;margin-top:10px;font-size:13px;color:#FF6B00;font-family:'Inter',sans-serif;">
+            Не удалось отправить. Попробуй ещё раз.
+          </div>
           <div class="queue-note">
             Продолжая, я даю согласие с <a href="/terms" target="_blank" class="queue-note-link">Правилами обработки персональных данных</a> и <a href="/terms" target="_blank" class="queue-note-link">Правилами посещения</a>
           </div>

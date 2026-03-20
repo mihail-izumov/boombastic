@@ -173,13 +173,13 @@ const cartBtnStyle = computed(() => {
           </template>
         </button>
 
-        <!-- Soon → Первым узнать -->
+        <!-- Soon → Узнать первым -->
         <button
           v-if="prize.status === 'soon'"
           :style="btnStyle('rgba(0,212,255,0.1)', 'var(--pz-cyan)', 'rgba(0,212,255,0.4)')"
           @click.stop="emit('queue', prize)"
         >
-          Первым узнать
+          Узнать первым
           <PrizeIcons name="ui_arrow_right" :size="11" />
         </button>
 
