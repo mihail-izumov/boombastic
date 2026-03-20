@@ -113,7 +113,7 @@ const cartBtnStyle = computed(() => {
     <!-- Top row: emoji + badges -->
     <div class="prize-card__top">
       <span v-if="showEmoji" class="prize-card__emoji">{{ prize.emoji }}</span>
-      <div class="prize-card__badges" :style="{ marginLeft: showEmoji ? 0 : 'auto' }">
+      <div v-if="!isCollected" class="prize-card__badges" :style="{ marginLeft: showEmoji ? 0 : 'auto' }">
         <AvailBadge :status="prize.status" />
         <span v-if="showHit" class="prize-card__hit-badge">Хит</span>
       </div>
@@ -276,9 +276,6 @@ const cartBtnStyle = computed(() => {
 }
 .prize-card__name--collected {
   color: #7A8BA8;
-  text-decoration: line-through;
-  text-decoration-color: #4a5a78;
-  text-decoration-thickness: 2px;
 }
 .prize-card__bottom {
   margin-top: auto;

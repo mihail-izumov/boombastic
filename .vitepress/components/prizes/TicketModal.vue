@@ -2,11 +2,15 @@
 /**
  * TicketModal — модалка ввода тикетов + история визитов
  */
-import { ref, computed, inject, watch } from 'vue'
+import { ref, computed, inject, watch, onMounted, onUnmounted } from 'vue'
 import { PRIZE_KEYS, fmtNum } from './prizoteka'
 import PrizeIcons from './PrizeIcons.vue'
 
 const emit = defineEmits(['close'])
+
+// Lock body scroll
+onMounted(() => { document.body.style.overflowY = 'hidden' })
+onUnmounted(() => { document.body.style.overflowY = '' })
 
 const tickets       = inject(PRIZE_KEYS.TICKETS)
 const ticketHistory = inject(PRIZE_KEYS.TICKET_HISTORY)
@@ -65,12 +69,11 @@ const months = ['янв','фев','мар','апр','май','июн','июл','
 const historyRev = computed(() => {
   const h = ticketHistory.value
   return [...h].reverse().map((entry, i) => {
-    // Compute display label from ts
     let displayLabel = entry.label
     if (entry.ts) {
       const d = new Date(entry.ts)
-      const time = d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0')
-      displayLabel = `${d.getDate()} ${months[d.getMonth()]} · ${time}`
+      const time = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0')
+      displayLabel = `${time} ${d.getDate()} ${months[d.getMonth()]}`
     }
     return {
       ...entry,
@@ -227,7 +230,15 @@ const historyRev = computed(() => {
   box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 40px rgba(255,214,10,0.08);
   animation: pz-modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
+}
+@media (max-width: 768px) {
+  .tm-modal {
+    top: 20px;
+    transform: translateX(-50%);
+    max-height: calc(100dvh - 40px);
+  }
 }
 .tm-label {
   font-family: 'Inter', sans-serif;
@@ -382,17 +393,17 @@ const historyRev = computed(() => {
 .tm-history-header > div:first-child { flex: 1; }
 .tm-history-title {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--pz-tx2);
-  letter-spacing: 0.12em;
+  color: #F0F4FF;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .tm-history-sub {
   font-family: 'Inter', sans-serif;
   font-size: 11px;
-  color: var(--pz-txm);
-  margin-top: 2px;
+  color: rgba(255,255,255,0.36);
+  margin-top: 1px;
 }
 .tm-history-trash {
   background: rgba(255, 255, 255, 0.06);
@@ -499,10 +510,11 @@ const historyRev = computed(() => {
 .tm-timeline-diff--newest { color: var(--pz-yellow); }
 .tm-timeline-diff--up { color: var(--pz-green); }
 .tm-timeline-date {
-  font-family: 'Inter', sans-serif;
-  font-size: 9px;
-  color: var(--pz-txm);
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  color: rgba(255,255,255,0.36);
   margin-top: 2px;
+  white-space: nowrap;
 }
 /* Close */
 .tm-close-btn {

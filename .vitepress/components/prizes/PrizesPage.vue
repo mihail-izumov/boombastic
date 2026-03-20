@@ -54,9 +54,11 @@ const trophyOpen    = ref(false)
 
 // ── LOAD FROM localStorage (SSR-safe) ────────────────────────────
 onMounted(() => {
-  // Fix horizontal scroll on the page
-  document.documentElement.style.overflowX = 'hidden'
-  document.body.style.overflowX = 'hidden'
+  // Fix horizontal scroll — inject persistent style
+  const style = document.createElement('style')
+  style.id = 'pz-overflow-fix'
+  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
+  document.head.appendChild(style)
 
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
@@ -80,8 +82,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  document.documentElement.style.overflowX = ''
-  document.body.style.overflowX = ''
+  const style = document.getElementById('pz-overflow-fix')
+  if (style) style.remove()
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
@@ -407,6 +409,7 @@ function openTicketModal() {
   border-radius: 12px;
   padding: 4px;
   border: 1px solid rgba(74, 90, 173, 0.15);
+  overflow: visible;
 }
 .pz-tab {
   flex: 1;
@@ -443,7 +446,6 @@ function openTicketModal() {
   justify-content: center;
   color: #8090c8;
   opacity: 1;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .pz-tab:not(.pz-tab--active):hover .pz-tab__icon {

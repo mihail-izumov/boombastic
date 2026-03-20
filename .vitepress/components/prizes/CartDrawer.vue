@@ -21,10 +21,10 @@ const wasOpen = ref(false)
 
 // Lock body scroll
 onMounted(() => {
-  document.body.style.overflow = 'hidden'
+  document.body.style.overflowY = 'hidden'
 })
 onUnmounted(() => {
-  document.body.style.overflow = ''
+  document.body.style.overflowY = ''
 })
 
 // Auto-close when cart + collected both empty
@@ -50,6 +50,9 @@ function handleGoToCatalog(max) {
       <div class="drawer-panel" @click.stop>
         <!-- Header -->
         <div class="drawer-header">
+          <div :style="{ display: 'flex', justifyContent: 'center', marginBottom: '12px', cursor: 'grab' }">
+            <div :style="{ width: '44px', height: '5px', borderRadius: '3px', background: 'rgba(255,255,255,0.22)' }" />
+          </div>
           <div class="drawer-header-row">
             <div class="drawer-title">Корзина</div>
             <button class="drawer-close" @click="emit('close')">

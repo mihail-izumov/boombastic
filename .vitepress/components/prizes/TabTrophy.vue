@@ -91,8 +91,8 @@ function colProgress(colId) {
 
 // Dashboard hint
 const hint = computed(() => {
-  if (tickets.value === 0) return { text: 'Сколько у тебя тикетов? Введи в кнопке снизу', color: 'var(--pz-yellow)', icon: '🎟️' }
-  if (afterTaking.value < 0) return { text: 'Тикетов не хватает — сними лишние галочки', color: 'var(--pz-orange)', icon: '⚠️' }
+  if (tickets.value === 0) return { text: 'Сколько у тебя тикетов? Введи в кнопке снизу', color: '#FFD60A', icon: null }
+  if (afterTaking.value < 0) return { text: 'Тикетов не хватает — сними лишние галочки', color: '#FF6B00', icon: '⚠️' }
   return null
 })
 
@@ -174,7 +174,7 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
         </div>
       </div>
       <div v-if="hint" class="trophy-dash__hint-row">
-        <span style="font-size: 12px;">{{ hint.icon }}</span>
+        <span v-if="hint.icon" style="font-size: 12px;">{{ hint.icon }}</span>
         <span :style="{ color: hint.color }" class="trophy-dash__hint-text">{{ hint.text }}</span>
       </div>
     </div>
@@ -204,23 +204,28 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
           <div class="trophy-section-header__line trophy-section-header__line--lime" />
         </div>
 
-        <!-- Onboarding hint -->
-        <div v-if="checkedItems.length === 0 && affordableItems.length > 0" style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;padding:10px 12px;border-radius:10px;background:rgba(197,249,70,0.04);border:1px solid rgba(197,249,70,0.12);">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
-            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
-              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">1</span>
-              Отметь что берёшь
-            </span>
+        <!-- Onboarding hint 1-2-3 -->
+        <div v-if="checkedItems.length === 0 && affordableItems.length > 0"
+          :style="{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: '12px', padding: '10px 12px', borderRadius: '10px',
+            background: 'rgba(197,249,70,0.04)', border: '1px solid rgba(197,249,70,0.12)',
+          }">
+          <div :style="{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }">
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
+              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">1</div>
+              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Отметь что берёшь</div>
+            </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
-              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">2</span>
-              Проверь остаток
-            </span>
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
+              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">2</div>
+              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Проверь остаток</div>
+            </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;font-size:11px;color:#F0F4FF;">
-              <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:1px 5px;">3</span>
-              Нажми «Беру!» у кассы
-            </span>
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
+              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">3</div>
+              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Нажми «Беру!» у кассы</div>
+            </div>
           </div>
         </div>
 
@@ -469,7 +474,7 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
 .trophy-trophy-card__confirm-yes { flex: 1; padding: 8px 0; border-radius: 8px; cursor: pointer; background: rgba(255,214,10,0.12); border: 1px solid rgba(255,214,10,0.35); color: var(--pz-yellow); font-family: 'Inter',sans-serif; font-size: 11px; font-weight: 700; }
 
 /* ── RESET ── */
-.trophy-reset-area { display: flex; flex-direction: column; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); gap: 10px; }
+.trophy-reset-area { display: flex; flex-direction: column; align-items: center; margin-top: 28px; padding-top: 20px; border-top: none; gap: 10px; }
 .trophy-reset-btn { background: transparent; border: 1px solid rgba(255,100,100,0.2); border-radius: 10px; color: rgba(255,100,100,0.5); cursor: pointer; padding: 9px 24px; font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 600; transition: all 0.2s; }
 .trophy-reset-btn:hover { border-color: rgba(255,100,100,0.5); color: rgba(255,100,100,0.85); background: rgba(255,100,100,0.06); }
 .trophy-reset-confirm { width: 100%; max-width: 320px; padding: 14px 18px; border-radius: 12px; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.3); }

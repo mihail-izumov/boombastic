@@ -20,7 +20,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
 </script>
 <template>
   <Teleport to="body">
-    <div style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;">
+    <div style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;pointer-events:none;">
       <div style="position:absolute;inset:0;background:rgba(0,0,0,0.85);" />
       <span v-for="(b, i) in bits" :key="i" :style="{position:'absolute',top:'-8%',left:b.left,fontSize:b.size+'px',animation:`boom-fall ${b.dur}s ${b.delay}s ease-in forwards`}">{{ b.char }}</span>
       <div :style="{position:'relative',zIndex:1,textAlign:'center',width:'100%',padding:'0 20px',opacity:phase>=1?1:0,transform:phase>=1?'scale(1) translateY(0)':'scale(0.5) translateY(30px)',transition:'all 0.8s cubic-bezier(0.22,1,0.36,1)'}">
