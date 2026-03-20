@@ -275,9 +275,10 @@ const cartBtnStyle = computed(() => {
   font-family: 'Inter', sans-serif;
 }
 .prize-card__name--collected {
-  color: #5a6888;
+  color: #7A8BA8;
   text-decoration: line-through;
-  text-decoration-color: #3a4466;
+  text-decoration-color: #4a5a78;
+  text-decoration-thickness: 2px;
 }
 .prize-card__bottom {
   margin-top: auto;
@@ -293,7 +294,7 @@ const cartBtnStyle = computed(() => {
   text-shadow: 0 0 8px rgba(255, 214, 10, 0.32);
 }
 .prize-card__tickets--collected {
-  color: #5a5a3a;
+  color: #7a7a5a;
   text-shadow: none;
 }
 .prize-card__progress {

@@ -60,14 +60,25 @@ function handleClearHistory() {
   emit('close')
 }
 
-// History reversed (newest first)
+// History reversed (newest first) — always show full date from ts
+const months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек']
 const historyRev = computed(() => {
   const h = ticketHistory.value
-  return [...h].reverse().map((entry, i) => ({
-    ...entry,
-    isNewest: i === 0,
-    idx: h.length - 1 - i,
-  }))
+  return [...h].reverse().map((entry, i) => {
+    // Compute display label from ts
+    let displayLabel = entry.label
+    if (entry.ts) {
+      const d = new Date(entry.ts)
+      const time = d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0')
+      displayLabel = `${d.getDate()} ${months[d.getMonth()]} · ${time}`
+    }
+    return {
+      ...entry,
+      displayLabel,
+      isNewest: i === 0,
+      idx: h.length - 1 - i,
+    }
+  })
 })
 </script>
 
@@ -135,7 +146,7 @@ const historyRev = computed(() => {
       <div v-if="historyRev.length > 0" class="tm-history">
         <div class="tm-history-header">
           <div>
-            <div class="tm-history-title">История визитов</div>
+            <div class="tm-history-title">История тикетов</div>
             <div class="tm-history-sub">за последние 30 дней</div>
           </div>
           <button
@@ -177,9 +188,9 @@ const historyRev = computed(() => {
                   'tm-timeline-diff--up': !h.isNewest && h.diff > 0,
                 }"
               >
-                {{ h.idx === 0 ? 'старт' : h.diff > 0 ? '+' + fmtNum(h.diff) : '—' }}
+                {{ h.idx === 0 ? 'СТАРТ' : h.diff > 0 ? '+' + fmtNum(h.diff) : '—' }}
               </div>
-              <div class="tm-timeline-date">{{ h.label }}</div>
+              <div class="tm-timeline-date">{{ h.displayLabel }}</div>
             </div>
           </div>
         </div>
@@ -192,7 +203,7 @@ const historyRev = computed(() => {
   </Teleport>
 </template>
 
-<style scoped>
+<style>
 .tm-overlay {
   position: fixed;
   inset: 0;
@@ -269,8 +280,8 @@ const historyRev = computed(() => {
   background: rgba(74, 90, 173, 0.15);
   border: 1px solid rgba(74, 90, 173, 0.35);
   color: var(--pz-tx2);
-  font-family: 'Space Mono', monospace;
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.15s;
@@ -283,8 +294,8 @@ const historyRev = computed(() => {
   background: rgba(74, 90, 173, 0.1);
   border: 2px solid rgba(74, 90, 173, 0.2);
   color: var(--pz-txm);
-  font-family: 'Space Mono', monospace;
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   font-weight: 900;
   cursor: default;
   transition: all 0.2s;
@@ -292,6 +303,7 @@ const historyRev = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  text-transform: uppercase;
 }
 .tm-btn-confirm--active {
   background: linear-gradient(135deg, #FFD60A, #FF9500);
@@ -370,7 +382,7 @@ const historyRev = computed(() => {
 .tm-history-header > div:first-child { flex: 1; }
 .tm-history-title {
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--pz-tx2);
   letter-spacing: 0.12em;
@@ -378,9 +390,9 @@ const historyRev = computed(() => {
 }
 .tm-history-sub {
   font-family: 'Inter', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--pz-txm);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 .tm-history-trash {
   background: rgba(255, 255, 255, 0.06);
@@ -470,25 +482,27 @@ const historyRev = computed(() => {
 }
 .tm-timeline-val {
   font-family: 'Space Mono', monospace;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--pz-tx2);
   line-height: 1;
 }
 .tm-timeline-val--newest { color: var(--pz-yellow); }
 .tm-timeline-diff {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  margin-top: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 3px;
   color: var(--pz-txm);
+  text-transform: uppercase;
 }
 .tm-timeline-diff--newest { color: var(--pz-yellow); }
 .tm-timeline-diff--up { color: var(--pz-green); }
 .tm-timeline-date {
-  font-family: 'Space Mono', monospace;
-  font-size: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
   color: var(--pz-txm);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 /* Close */
 .tm-close-btn {
@@ -498,9 +512,9 @@ const historyRev = computed(() => {
   margin-top: 8px;
   background: rgba(74, 90, 173, 0.55);
   border: 2px solid rgba(74, 90, 173, 0.85);
-  color: var(--pz-tx1);
+  color: #F0F4FF;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 2px 16px rgba(74, 90, 173, 0.3);

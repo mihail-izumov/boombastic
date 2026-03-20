@@ -96,7 +96,7 @@ onUnmounted(() => {
       </div>
       <!-- Bouncing arrow -->
       <div :style="{
-        position:'absolute', bottom:'90px', left:'50%', transform:'translateX(-50%)',
+        position:'absolute', bottom:'max(80px, calc(16px + env(safe-area-inset-bottom) + 68px))', left:'75%', transform:'translateX(-50%)',
         display:'flex', flexDirection:'column', alignItems:'center', gap:'4px',
         color: color, filter: `drop-shadow(0 0 14px ${color})`,
         animation: 'fav-bounce 1s ease-in-out infinite',

@@ -81,7 +81,7 @@ function handleSend() {
   </Teleport>
 </template>
 
-<style scoped>
+<style>
 .queue-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;

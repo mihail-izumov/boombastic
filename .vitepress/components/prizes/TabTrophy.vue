@@ -358,7 +358,7 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
   </div>
 </template>
 
-<style scoped>
+<style>
 /* ── EMPTY STATE ── */
 .trophy-empty { text-align: center; padding: 48px 24px 40px; }
 .trophy-empty__title { font-family: 'Inter',sans-serif; font-weight: 800; font-size: 20px; color: var(--pz-tx1); margin-bottom: 8px; }
@@ -478,4 +478,26 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
 .trophy-reset-confirm__btns { display: flex; gap: 8px; }
 .trophy-reset-confirm__no { flex: 1; padding: 10px 0; border-radius: 9px; cursor: pointer; background: rgba(74,90,173,0.15); border: 1px solid rgba(74,90,173,0.3); color: var(--pz-tx2); font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 600; }
 .trophy-reset-confirm__yes { flex: 1; padding: 10px 0; border-radius: 9px; cursor: pointer; background: rgba(220,38,38,0.18); border: 1px solid rgba(220,38,38,0.5); color: rgba(255,100,100,1); font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 700; }
+
+/* ── Mobile: bigger fonts in cart ── */
+@media (max-width: 768px) {
+  .trophy-card__name { font-size: 15px !important; }
+  .trophy-card__name--bold { font-size: 15px !important; }
+  .trophy-card__tik { font-size: 16px !important; }
+  .trophy-card__col { font-size: 12px !important; }
+  .trophy-card__beru { font-size: 15px !important; padding: 11px 20px !important; }
+  .trophy-card__check { width: 30px !important; height: 30px !important; }
+  .trophy-section-header__label { font-size: 12px !important; }
+  .trophy-trophies__title { font-size: 20px !important; }
+  .trophy-trophies__total { font-size: 22px !important; }
+  .trophy-trophy-card__name { font-size: 14px !important; }
+  .trophy-trophy-card__tik { font-size: 12px !important; }
+  .trophy-trophy-card__col { font-size: 12px !important; }
+  .trophy-trophy-card__undo { font-size: 14px !important; padding: 9px 18px !important; }
+  .trophy-dash__val { font-size: 24px !important; }
+  .trophy-dash__label { font-size: 12px !important; }
+  .trophy-goto-catalog__val { font-size: 16px !important; }
+  .trophy-goto-catalog__arrow { font-size: 14px !important; }
+  .trophy-card__progress-need { font-size: 12px !important; }
+}
 </style>

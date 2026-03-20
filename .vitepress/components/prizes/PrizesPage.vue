@@ -363,12 +363,17 @@ function openTicketModal() {
   z-index: 1;
   text-align: center;
 }
+@media (max-width: 768px) {
+  .pz-header {
+    padding: 64px 16px 20px;
+  }
+}
 .pz-header__title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: clamp(28px, 8vw, 48px);
   line-height: 1;
-  color: #FFD60A;
+  color: #C5F946;
   letter-spacing: 0.12em;
   margin: 0;
   text-transform: uppercase;
@@ -418,7 +423,7 @@ function openTicketModal() {
   cursor: pointer;
   transition: all 0.18s;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   display: flex;
@@ -437,8 +442,8 @@ function openTicketModal() {
   align-items: center;
   justify-content: center;
   color: #8090c8;
-  opacity: 0.85;
-  filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.15)) drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+  opacity: 1;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
@@ -448,7 +453,7 @@ function openTicketModal() {
 .pz-tab__icon--active {
   color: var(--pz-lime);
   opacity: 1;
-  filter: drop-shadow(0 0 6px rgba(197,249,70,0.5)) drop-shadow(0 -1px 0px rgba(255,255,255,0.4));
+  filter: drop-shadow(0 0 8px rgba(197,249,70,0.6));
   transform: translateY(-2px) scale(1.08);
 }
 .pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
