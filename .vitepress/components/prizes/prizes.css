@@ -431,3 +431,14 @@
   padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
   padding-bottom: max(16px, constant(safe-area-inset-bottom)) !important;
 }
+
+/* ── VitePress layout overrides (active ONLY when .prizoteka exists in DOM) ── */
+/* :has() = zero side effects on other pages, no JS cleanup needed             */
+body:has(.prizoteka) .VPDoc .container { max-width: 100% !important; }
+body:has(.prizoteka) .VPDoc .content { padding: 0 !important; }
+body:has(.prizoteka) .VPDoc .content-container { max-width: 100% !important; }
+body:has(.prizoteka) .VPContent { padding-top: 0 !important; }
+body:has(.prizoteka) .VPDocFooter { display: none !important; }
+body:has(.prizoteka) .VPFooter { display: none !important; }
+body:has(.prizoteka) .prev-next { display: none !important; }
+html:has(.prizoteka), body:has(.prizoteka) { overflow-x: hidden !important; }

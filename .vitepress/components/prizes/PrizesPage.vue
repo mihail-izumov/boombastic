@@ -9,8 +9,7 @@
  * Использование:
  *   <PrizesPage v-bind="data" park="piterlend" />
  */
-import { ref, computed, provide, onMounted, onUnmounted, watch } from 'vue'
-import { useRouter } from 'vitepress'
+import { ref, computed, provide, onMounted, watch } from 'vue'
 import { PRIZE_KEYS, lsGet, lsSet, fmtNum } from './prizoteka'
 import './prizes.css'
 
@@ -54,42 +53,8 @@ const ticketModal   = ref(false)
 const trophyOpen    = ref(false)
 
 // ── LOAD FROM localStorage (SSR-safe) ────────────────────────────
-const hiddenEls = []
-const modifiedEls = []
-
-function applyLayoutOverrides() {
-  // Full-bleed layout
-  document.querySelectorAll('.VPDoc .container, .VPDoc .content-container').forEach(el => {
-    modifiedEls.push({ el, prop: 'maxWidth', prev: el.style.maxWidth })
-    el.style.maxWidth = '100%'
-  })
-  document.querySelectorAll('.VPDoc .content').forEach(el => {
-    modifiedEls.push({ el, prop: 'padding', prev: el.style.padding })
-    el.style.padding = '0'
-  })
-  document.querySelectorAll('.VPContent').forEach(el => {
-    modifiedEls.push({ el, prop: 'paddingTop', prev: el.style.paddingTop })
-    el.style.paddingTop = '0'
-  })
-
-  // Hide footer
-  document.querySelectorAll('.VPDocFooter, .VPFooter, footer, .prev-next, .edit-link').forEach(el => {
-    if (el.closest('.prizoteka')) return
-    hiddenEls.push({ el, prev: el.style.display })
-    el.style.display = 'none'
-  })
-}
-
-function cleanupLayoutOverrides() {
-  modifiedEls.forEach(({ el, prop, prev }) => { el.style[prop] = prev })
-  modifiedEls.length = 0
-  hiddenEls.forEach(({ el, prev }) => { el.style.display = prev })
-  hiddenEls.length = 0
-}
 
 onMounted(() => {
-  setTimeout(applyLayoutOverrides, 50)
-
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
     const c  = localStorage.getItem(`boom_${props.park}_collected`)
@@ -109,19 +74,6 @@ onMounted(() => {
     if (cr) cart.value = JSON.parse(cr)
     if (tk) taking.value = JSON.parse(tk)
   } catch {}
-})
-
-onUnmounted(() => {
-  cleanupLayoutOverrides()
-  if (unwatch) unwatch()
-})
-
-// Guaranteed cleanup on SPA navigation (VitePress router)
-const router = useRouter()
-const unwatch = watch(() => router.route.path, (newPath, oldPath) => {
-  if (oldPath && newPath !== oldPath) {
-    cleanupLayoutOverrides()
-  }
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
