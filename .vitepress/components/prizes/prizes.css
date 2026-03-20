@@ -395,12 +395,13 @@
   /* Tab icon glow: prevent clipping — critical: use !important on all parents */
   .pz-tabs {
     overflow: visible !important;
-    padding: 4px 4px 10px !important;
+    padding: 4px !important;
     clip-path: none !important;
   }
   .pz-tab {
     overflow: visible !important;
     clip-path: none !important;
+    padding: 14px 5px !important;
   }
   .pz-tab__icon {
     overflow: visible !important;
