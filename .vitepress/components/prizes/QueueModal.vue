@@ -19,8 +19,8 @@ const sent = ref(false)
 const isArchive = computed(() => props.prize.status === 'oos' || props.prize.status === 'was')
 const headline = computed(() => isArchive.value ? 'Хочу этот приз' : 'Первым узнать')
 const subtext = computed(() => isArchive.value
-  ? 'Сейчас нет в призотеке — оставь email, сообщим когда появится.'
-  : 'Скоро в призотеке — оставь email, сообщим первым.'
+  ? 'Сейчас нет в призотеке — оставь email и мы сообщим когда появится.'
+  : 'Оставь email и мы сообщим первым, когда появится в призотеке.'
 )
 
 function handleSend() {
@@ -41,15 +41,13 @@ function handleSend() {
         <!-- Close -->
         <button class="queue-close" @click="emit('close')">×</button>
         <!-- Topic -->
-        <div class="queue-topic">Призотека Питерлэнд</div>
+        <div class="queue-topic">Скоро в призотеке</div>
         <!-- Emoji -->
-        <div style="font-size: 36px; margin-bottom: 12px; text-align: center;">{{ prize.emoji }}</div>
-        <!-- Headline -->
-        <div class="queue-headline">{{ headline }}</div>
+        <div style="font-size: 44px; margin-bottom: 14px; text-align: center;">{{ prize.emoji }}</div>
+        <!-- Prize name as headline -->
+        <div class="queue-headline">{{ prize.name }}</div>
         <!-- Subtext -->
-        <div class="queue-subtext">
-          <strong style="color: #F0F4FF;">{{ prize.name }}</strong> — {{ subtext }}
-        </div>
+        <div class="queue-subtext">{{ subtext }}</div>
         <!-- Queue count -->
         <div v-if="prize.queue > 0" class="queue-waiting">
           Уже ждут: {{ prize.queue }} чел.
@@ -75,9 +73,9 @@ function handleSend() {
         </template>
         <template v-else>
           <div class="queue-success">
-            <div style="font-size: 28px; margin-bottom: 7px;">✓</div>
-            <div style="color: #00FF88; font-family: 'Inter',sans-serif; font-weight: 700;">Записали!</div>
-            <div style="font-size: 12px; color: #7A8BA8; margin-top: 5px;">Напишем на email когда приз появится</div>
+            <div style="font-size: 32px; margin-bottom: 8px;">✓</div>
+            <div style="color: #00FF88; font-family: 'Inter',sans-serif; font-weight: 700; font-size: 18px;">Записали!</div>
+            <div style="font-size: 14px; color: #7A8BA8; margin-top: 6px;">Напишем на email когда приз появится</div>
           </div>
         </template>
       </div>
@@ -105,7 +103,7 @@ function handleSend() {
   background: #0D1421;
   border: 1px solid rgba(255, 214, 10, 0.3);
   border-radius: 16px;
-  padding: 28px 24px;
+  padding: 32px 28px;
   width: calc(100% - 40px);
   max-width: 420px;
   text-align: center;
@@ -131,56 +129,56 @@ function handleSend() {
 }
 .queue-topic {
   font-family: 'Inter', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,0.36);
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .queue-headline {
   font-family: 'Inter', sans-serif;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 22px;
   color: #F0F4FF;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .queue-subtext {
-  font-size: 13px;
+  font-size: 15px;
   color: #7A8BA8;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   line-height: 1.55;
 }
 .queue-waiting {
-  font-size: 12px;
+  font-size: 14px;
   color: #FFD60A;
   font-family: 'Inter', sans-serif;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .queue-input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
   background: rgba(74, 90, 173, 0.15);
   border: 1px solid rgba(0, 212, 255, 0.28);
-  border-radius: 8px;
+  border-radius: 10px;
   color: #F0F4FF;
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
   box-sizing: border-box;
   text-align: center;
 }
 .queue-send {
   width: 100%;
-  padding: 13px;
-  border-radius: 10px;
+  padding: 15px;
+  border-radius: 12px;
   background: rgba(74, 90, 173, 0.18);
   border: 1px solid rgba(74, 90, 173, 0.3);
   color: rgba(255,255,255,0.45);
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
   cursor: default;
   transition: all 0.2s;
 }
@@ -191,10 +189,10 @@ function handleSend() {
   cursor: pointer;
 }
 .queue-note {
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255,255,255,0.3);
   text-align: center;
-  margin-top: 12px;
+  margin-top: 14px;
   line-height: 1.5;
 }
 .queue-note-link {
