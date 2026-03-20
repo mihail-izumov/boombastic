@@ -78,6 +78,11 @@ const done = computed(() =>
 )
 const hasTickets = computed(() => tickets.value > 0)
 
+// Count "soon" prizes in current collection (not collected)
+const soonCount = computed(() =>
+  colPrizes.value.filter(p => !collected.value.includes(p.id) && p.status === 'soon').length
+)
+
 // Is collection fully collected?
 const isFullyCollected = computed(() => {
   const uncollected = colPrizes.value.filter(
@@ -174,6 +179,18 @@ function zoneLabel() {
           </svg>
           <div style="color: var(--pz-tx2); font-size: 13px; font-family: 'Inter',sans-serif;">
             Нет призов с такими фильтрами
+          </div>
+          <!-- Hint: switch to "soon" if available is empty but soon exists -->
+          <div
+            v-if="statusFilter !== 'soon' && soonCount > 0"
+            style="margin-top: 16px; font-family: 'Inter',sans-serif; font-size: 14px; color: #F0F4FF;"
+          >
+            <span style="color: #00D4FF;">{{ soonCount }}</span>
+            {{ soonCount === 1 ? 'приз' : soonCount < 5 ? 'приза' : 'призов' }} скоро появится —
+            <span
+              style="color: #C5F946; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;"
+              @click="statusFilter = 'soon'"
+            >посмотреть</span>
           </div>
         </template>
       </div>
