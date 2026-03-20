@@ -10,7 +10,7 @@
  *   <PrizesPage v-bind="data" park="piterlend" />
  */
 import { ref, computed, provide, onMounted, onUnmounted, watch } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { useRouter } from 'vitepress'
 import { PRIZE_KEYS, lsGet, lsSet, fmtNum } from './prizoteka'
 import './prizes.css'
 
@@ -113,11 +113,15 @@ onMounted(() => {
 
 onUnmounted(() => {
   cleanupLayoutOverrides()
+  if (unwatch) unwatch()
 })
 
-// Guaranteed cleanup on SPA navigation (onUnmounted may not fire in VitePress)
-onBeforeRouteLeave(() => {
-  cleanupLayoutOverrides()
+// Guaranteed cleanup on SPA navigation (VitePress router)
+const router = useRouter()
+const unwatch = watch(() => router.route.path, (newPath, oldPath) => {
+  if (oldPath && newPath !== oldPath) {
+    cleanupLayoutOverrides()
+  }
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
