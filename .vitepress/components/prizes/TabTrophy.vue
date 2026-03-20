@@ -116,24 +116,6 @@ const sortedCartItems = computed(() => {
 const checkedItems = computed(() => sortedCartItems.value.filter(p => taking.value.includes(p.id)))
 const affordableItems = computed(() => sortedCartItems.value.filter(p => !taking.value.includes(p.id) && tickets.value > 0 && p.tickets <= afterTaking.value))
 const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.value.includes(p.id) && (tickets.value <= 0 || p.tickets > afterTaking.value)))
-
-// Onboarding HTML (v-html to bypass any style isolation)
-const onboardHtml = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
-  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
-    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">1</span>
-    Отметь что берёшь
-  </span>
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
-    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">2</span>
-    Проверь остаток
-  </span>
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
-    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">3</span>
-    Нажми «Беру!» у кассы
-  </span>
-</div>`
 </script>
 
 <template>
