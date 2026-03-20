@@ -18,8 +18,4 @@ import PrizesPage from '../.vitepress/components/prizes/PrizesPage.vue'
 .VPDoc .content { padding: 0 !important; }
 .VPDoc .content-container { max-width: 100% !important; }
 .VPContent { padding-top: 0 !important; }
-.VPDocFooter { display: none !important; }
-.VPFooter { display: none !important; }
-footer { display: none !important; }
-.prev-next { display: none !important; }
 </style>
