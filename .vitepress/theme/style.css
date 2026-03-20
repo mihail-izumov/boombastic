@@ -83,6 +83,7 @@
 html, body, .dark, .VPApp, .Layout, .VPContent, .VPHome, .VPDoc {
   background-color: var(--bg-deep) !important;
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 .VPSwitchAppearance, .VPNavScreenAppearance,
@@ -778,19 +779,16 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
    ============================================================ */
 .VPSidebar {
   background: rgba(28, 26, 62, 0.95) !important;
-  /* Правый border убран — заменён на неоновый градиент (вертикальный) */
   border-right: none !important;
   position: relative;
 }
 
-/* Неоновая вертикальная полоска вместо border-right */
 .VPSidebar::after {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
   width: 1px;
-  /* Не доходит до самого низа — не перекрывает футер */
   height: calc(100% - 80px);
   background: linear-gradient(
     180deg,
@@ -810,7 +808,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   border-bottom: 1px solid rgba(74, 90, 173, 0.12) !important;
 }
 
-/* Заголовок группы: Space Mono + лаймовый фон */
 .VPSidebar .VPSidebarItem.level-0 > .item {
   background: var(--accent-lime) !important;
   border-radius: 4px !important;
@@ -826,7 +823,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   letter-spacing: 0.04em !important;
 }
 
-/* Пункты: Space Mono, Marathon-стиль */
 .VPSidebar .VPSidebarItem .text {
   color: var(--text-primary) !important;
   font-family: var(--font-mono) !important;
@@ -845,29 +841,24 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   margin: -1px -6px !important;
 }
 
-/* Активный пункт: лаймовый текст */
 .VPSidebar .VPSidebarItem.is-active > .item > div > .text {
   color: var(--accent-lime) !important;
   font-weight: 700 !important;
 }
 
-/* Индикатор активного пункта: циан */
 .VPSidebar .VPSidebarItem.is-active > .item > .indicator {
   background: var(--neon-cyan) !important;
   box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
-/* Стрелки */
 .VPSidebar .VPSidebarItem .caret { color: var(--accent-lime) !important; fill: var(--accent-lime) !important; }
 .VPSidebar .VPSidebarItem .caret svg,
 .VPSidebar .VPSidebarItem .caret-icon { width: 18px !important; height: 18px !important; color: var(--accent-lime) !important; }
 
-/* OUTLINE */
 .VPDocOutlineItem a { color: var(--text-muted) !important; font-family: var(--font-mono) !important; font-size: 12px !important; }
 .VPDocOutlineItem a:hover { color: var(--accent-lime) !important; }
 .VPDocOutlineItem a.active { color: var(--neon-cyan) !important; }
 
-/* Разделители навбара */
 .VPNavBarSocialLinks::before, .VPNavBarSocialLinks .divider,
 .VPNavBar .divider { display: none !important; }
 
@@ -959,7 +950,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 
 /* ============================================================
    BOOM GRID SYSTEM v4
-   Заменить ВЕСЬ предыдущий блок «BOOM GRID SYSTEM» в custom.css
    ============================================================ */
 
 :root {
@@ -985,14 +975,12 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   box-sizing: border-box;
 }
 
-/* FAQ и другие узкие блоки */
 .boom-content-narrow {
   max-width: 680px !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
-/* ── Слайдер ── */
 .boom-slider {
   display: flex !important;
   flex-direction: row !important;
@@ -1006,11 +994,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 .boom-slider > * { flex-shrink: 0 !important; }
 
-/* Скроллбар скрыт везде */
 .boom-slider::-webkit-scrollbar { display: none; }
 .boom-slider { scrollbar-width: none; -ms-overflow-style: none; }
 
-/* Мобилка: карточки уже чтобы видны были края следующей */
 @media (max-width: 768px) {
   .boom-slider > * {
     flex: 0 0 82vw !important;
@@ -1022,7 +1008,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .hide-scroll::-webkit-scrollbar { display: none; }
 .hide-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 
-/* ── Hover-карточки ── */
 @media (hover: hover) {
   .boom-card-hover { transition: transform 0.4s ease, opacity 0.5s ease, box-shadow 0.3s; }
   .boom-card-hover:hover { transform: translateY(-6px); }
@@ -1031,13 +1016,11 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .boom-card-hover { transform: none !important; }
 }
 
-/* ── Мобильные отступы ── */
 @media (max-width: 768px) {
   .boom-section { padding: 48px 0; }
   .boom-wrap { padding: 0 16px; }
 }
 
-/* ── Keyframes ── */
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes boomRing{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
@@ -1049,11 +1032,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 @keyframes ticketGlow{0%,100%{border-color:rgba(255,0,128,0.12);box-shadow:none}50%{border-color:rgba(255,0,128,0.45);box-shadow:0 0 20px rgba(255,0,128,0.18),inset 0 0 14px rgba(255,0,128,0.1)}}
 @keyframes bonusGlow{0%,100%{border-color:rgba(0,212,255,0.12);box-shadow:none}50%{border-color:rgba(0,212,255,0.4);box-shadow:0 0 20px rgba(0,212,255,0.15),inset 0 0 14px rgba(0,212,255,0.08)}}
 @keyframes progressPulse{0%,100%{box-shadow:0 0 6px rgba(255,0,128,0.3)}50%{box-shadow:0 0 24px rgba(255,0,128,0.8),0 0 48px rgba(255,0,128,0.25)}}
-/* Slower stripes: 2s instead of 0.6s */
 @keyframes progressStripes{0%{background-position:0 0}100%{background-position:20px 0}}
 @keyframes statusShine{0%,100%{text-shadow:0 0 4px rgba(255,214,10,0.3)}50%{text-shadow:0 0 14px rgba(255,214,10,0.9),0 0 28px rgba(255,214,10,0.4)}}
 
-/* ── NeonLine ── */
 .neon-line { max-width: 960px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
 .neon-line-inner { height: 1px; opacity: 0.3; background: var(--neon-gradient); }
 @media (max-width: 768px) { .neon-line { padding: 0 16px; } }
