@@ -56,4 +56,13 @@ const emit = defineEmits(['update:modelValue'])
 .sort-chip__icon {
   margin-right: 2px;
 }
+@media (max-width: 768px) {
+  .sort-chip {
+    padding: 10px 14px;
+    font-size: 13px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>

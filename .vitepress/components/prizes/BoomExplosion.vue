@@ -27,7 +27,7 @@ const bits = Array.from({ length: 28 }, (_, i) => ({
         <div style="filter:drop-shadow(0 0 18px #FFD60A) drop-shadow(0 0 50px rgba(255,214,10,0.55));">
           <div style="font-size:clamp(42px,9vw,80px);color:#FFD60A;letter-spacing:-2px;font-family:'Space Mono',monospace;font-weight:700;white-space:nowrap;display:inline-flex;align-items:baseline;overflow:visible;line-height:1.2;">
             <span>Б</span><span>00</span>
-            <span :style="{display:'inline-block',overflow:'hidden',verticalAlign:'baseline',lineHeight:'inherit',maxWidth:phase>=2&&phase<3?'5em':'0',transition:phase>=2?'max-width 0.8s ease-in-out':'max-width 0.6s ease-in-out'}">000000000</span>
+            <span :style="{display:'inline-block',overflow:'hidden',verticalAlign:'baseline',lineHeight:'inherit',maxWidth:phase>=2&&phase<3?'6em':'0',transition:phase>=2?'max-width 0.8s ease-in-out':'max-width 0.6s ease-in-out'}">0000000</span>
             <span>М!</span>
           </div>
         </div>

@@ -347,7 +347,7 @@
   overflow-x: hidden;
 }
 
-/* ── Mobile: bigger card text + badge centering ───────────────── */
+/* ── Mobile: bigger card text ─────────────────────────────────── */
 @media (max-width: 768px) {
   .prize-card { padding: 12px !important; }
   .prize-card__name { font-size: 15px !important; }
@@ -357,23 +357,61 @@
   .prize-card__need-more { font-size: 12px !important; }
   .prize-card__remainder { font-size: 12px !important; }
   .prize-card__actions button {
-    padding: 8px 14px !important;
+    padding: 10px 14px !important;
     font-size: 13px !important;
-    min-height: 40px;
+    min-height: 44px;
+  }
+
+  /* Category/collection chips: Apple 44px touch target */
+  .pz-chip {
+    padding: 11px 18px !important;
+    font-size: 13px !important;
+    min-height: 44px;
+  }
+
+  /* Filter buttons: bigger */
+  .pz-dropdown-btn {
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    min-height: 44px;
+  }
+
+  /* Sort chips */
+  .pz-dropdown-menu .pz-dropdown-item {
+    padding: 14px 16px !important;
+    font-size: 14px !important;
+  }
+
+  /* Tab icon glow: prevent clipping */
+  .pz-tabs {
+    overflow: visible !important;
+    padding: 4px 4px 8px !important;
+  }
+  .pz-tab {
+    overflow: visible !important;
   }
 }
-/* Badge text centering fix */
+
+/* Badge text centering fix — use line-height + vertical padding */
 .avail-badge {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   line-height: 1 !important;
-  padding: 3px 8px !important;
+  padding: 4px 8px 3px !important;
+  vertical-align: middle;
 }
 .prize-card__hit-badge {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   line-height: 1 !important;
-  padding: 3px 8px !important;
+  padding: 4px 8px 3px !important;
+  vertical-align: middle;
+}
+
+/* Chrome mobile: bottom bar gap fix */
+.pz-bottom-bar {
+  padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  padding-bottom: max(16px, constant(safe-area-inset-bottom)) !important;
 }

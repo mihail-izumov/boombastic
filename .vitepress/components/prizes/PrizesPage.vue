@@ -472,9 +472,19 @@ function openTicketModal() {
   background: rgba(10, 8, 26, 0.97);
   backdrop-filter: blur(20px) saturate(160%);
   border-top: 1px solid rgba(74, 90, 173, 0.22);
-  padding: 10px 16px max(16px, env(safe-area-inset-bottom));
+  padding: 10px 16px calc(16px + env(safe-area-inset-bottom, 0px));
   width: 100%;
   box-sizing: border-box;
+}
+/* Extend background below for Chrome mobile toolbar gap */
+.pz-bottom-bar::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: rgba(10, 8, 26, 1);
 }
 .pz-bottom-bar__inner {
   max-width: 900px;

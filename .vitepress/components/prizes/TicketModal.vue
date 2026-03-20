@@ -215,6 +215,7 @@ const historyRev = computed(() => {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
 }
 .tm-backdrop {
   position: fixed;
@@ -226,6 +227,7 @@ const historyRev = computed(() => {
   position: relative;
   z-index: 1;
   width: min(92vw, 380px);
+  margin: auto;
   background: linear-gradient(180deg, #161430 0%, #0D0B28 100%);
   border: 1px solid rgba(255, 214, 10, 0.28);
   border-radius: 20px;
@@ -234,12 +236,7 @@ const historyRev = computed(() => {
   max-height: 90vh;
   max-height: 90dvh;
   overflow-y: auto;
-}
-@media (max-width: 768px) {
-  .tm-overlay {
-    align-items: flex-start;
-    padding: 40px 16px;
-  }
+  flex-shrink: 0;
 }
 .tm-label {
   font-family: 'Inter', sans-serif;
