@@ -57,7 +57,7 @@ onMounted(() => {
   // Fix horizontal scroll — inject persistent style
   const style = document.createElement('style')
   style.id = 'pz-overflow-fix'
-  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
+  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; } .VPDocFooter, .VPFooter, footer.VPFooter { display: none !important; }'
   document.head.appendChild(style)
 
   try {
@@ -444,23 +444,16 @@ function openTicketModal() {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8090c8;
-  opacity: 1;
+  color: #9aa4cc;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
   transform: translateY(-2px) scale(1.08);
-  filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.3)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
 }
 .pz-tab__icon--active {
-  color: var(--pz-lime);
-  opacity: 1;
+  color: #C5F946;
   filter: drop-shadow(0 0 8px rgba(197,249,70,0.6));
   transform: translateY(-2px) scale(1.08);
-}
-.pz-tab:not(.pz-tab--active):hover .pz-tab__icon {
-  transform: translateY(-2px) scale(1.08);
-  filter: drop-shadow(0 -1px 0px rgba(255,255,255,0.3)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
 }
 .pz-tab:not(.pz-tab--active):hover {
   background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(106,120,200,0.5) 0%, rgba(74,90,173,0.18) 45%, rgba(28,26,62,0.0) 100%);

@@ -346,3 +346,34 @@
 .pz-page {
   overflow-x: hidden;
 }
+
+/* ── Mobile: bigger card text + badge centering ───────────────── */
+@media (max-width: 768px) {
+  .prize-card { padding: 12px !important; }
+  .prize-card__name { font-size: 15px !important; }
+  .prize-card__tickets { font-size: 18px !important; }
+  .prize-card__progress-text { font-size: 12px !important; }
+  .prize-card__can-afford { font-size: 12px !important; }
+  .prize-card__need-more { font-size: 12px !important; }
+  .prize-card__remainder { font-size: 12px !important; }
+  .prize-card__actions button {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    min-height: 40px;
+  }
+}
+/* Badge text centering fix */
+.avail-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  padding: 3px 8px !important;
+}
+.prize-card__hit-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  padding: 3px 8px !important;
+}

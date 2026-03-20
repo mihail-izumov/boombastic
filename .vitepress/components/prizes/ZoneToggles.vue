@@ -20,7 +20,7 @@ watch([() => props.canCount, () => props.saveCount], ([can, save]) => {
   if (can === 0 && save > 0) emit('update:modelValue', 'save')
   else if (save === 0 && can > 0) emit('update:modelValue', 'can')
   else emit('update:modelValue', 'all')
-})
+}, { immediate: true })
 
 const zones = [
   {

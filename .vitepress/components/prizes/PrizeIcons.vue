@@ -166,7 +166,7 @@ const strokeWidth = computed(() => iconData.value?.sw || 2)
     :stroke-width="strokeWidth"
     stroke-linecap="round"
     stroke-linejoin="round"
-    :filter="iconData.filter ? `url(#${iconData.filterId})` : undefined"
+    :filter="undefined"
     style="display: inline; vertical-align: middle; flex-shrink: 0;"
   >
     <!-- Drop-shadow filter for tab icons -->

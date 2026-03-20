@@ -142,7 +142,7 @@ function zoneLabel() {
     </div>
 
     <!-- Content -->
-    <div class="pz-fade-up" :key="`${activeCol}-${statusFilter}-${ticketRange}-${sort}-${zone}`">
+    <div class="pz-fade-up" :key="`${activeCol}-${statusFilter}-${ticketRange}-${sort}`">
       <!-- Empty state -->
       <div v-if="base.length === 0" style="text-align: center; padding: 30px 20px;">
         <!-- Fully collected -->

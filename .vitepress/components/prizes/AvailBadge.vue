@@ -37,8 +37,10 @@ const MAP = {
   text-transform: uppercase;
   border: 1px solid;
   border-radius: 4px;
-  padding: 2px 8px;
+  padding: 3px 8px;
   white-space: nowrap;
-  line-height: 1.4;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 </style>

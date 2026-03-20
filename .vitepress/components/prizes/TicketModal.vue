@@ -87,9 +87,9 @@ const historyRev = computed(() => {
 
 <template>
   <Teleport to="body">
-    <div class="tm-overlay vp-raw" @click="emit('close')">
-    <div class="tm-backdrop" />
-    <div class="tm-modal" @click.stop>
+    <div class="tm-overlay vp-raw" @click="emit('close')" @touchmove.prevent>
+    <div class="tm-backdrop" @touchmove.prevent />
+    <div class="tm-modal" @click.stop @touchmove.stop>
       <!-- Label -->
       <div class="tm-label">введи количество тикетов</div>
 
@@ -211,33 +211,34 @@ const historyRev = computed(() => {
   position: fixed;
   inset: 0;
   z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 .tm-backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(14px);
 }
 .tm-modal {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  z-index: 1;
   width: min(92vw, 380px);
   background: linear-gradient(180deg, #161430 0%, #0D0B28 100%);
   border: 1px solid rgba(255, 214, 10, 0.28);
   border-radius: 20px;
   padding: 20px 24px 24px;
   box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 40px rgba(255,214,10,0.08);
-  animation: pz-modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   max-height: 90vh;
   max-height: 90dvh;
   overflow-y: auto;
 }
 @media (max-width: 768px) {
-  .tm-modal {
-    top: 20px;
-    transform: translateX(-50%);
-    max-height: calc(100dvh - 40px);
+  .tm-overlay {
+    align-items: flex-start;
+    padding: 40px 16px;
   }
 }
 .tm-label {

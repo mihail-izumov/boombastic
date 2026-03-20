@@ -332,4 +332,11 @@ const cartBtnStyle = computed(() => {
   align-items: center;
   gap: 5px;
 }
+@media (max-width: 768px) {
+  .prize-card__name { font-size: 14px; }
+  .prize-card__tickets { font-size: 18px; }
+  .prize-card__actions button { padding: 8px 14px !important; font-size: 13px !important; min-height: 40px; }
+  .prize-card__progress-text { font-size: 12px; }
+  .prize-card__remainder { font-size: 12px; }
+}
 </style>

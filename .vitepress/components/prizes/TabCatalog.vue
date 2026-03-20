@@ -192,7 +192,7 @@ const catLabel = computed(() => {
     </div>
 
     <!-- Content -->
-    <div class="pz-fade-up" :key="`${cat}-${sort}-${statusFilter}-${ticketRange}-${zone}`">
+    <div class="pz-fade-up" :key="`${cat}-${sort}-${statusFilter}-${ticketRange}`">
       <!-- Empty state -->
       <template v-if="base.length === 0">
         <!-- catalogFilter active but nothing fits → show all without filter -->

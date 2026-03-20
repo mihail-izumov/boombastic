@@ -46,13 +46,10 @@ function handleGoToCatalog(max) {
 
 <template>
   <Teleport to="body">
-    <div class="drawer-overlay vp-raw">
-      <div class="drawer-panel" @click.stop>
+    <div class="drawer-overlay vp-raw" style="touch-action:none;">
+      <div class="drawer-panel" @click.stop style="touch-action:auto;">
         <!-- Header -->
         <div class="drawer-header">
-          <div :style="{ display: 'flex', justifyContent: 'center', marginBottom: '12px', cursor: 'grab' }">
-            <div :style="{ width: '44px', height: '5px', borderRadius: '3px', background: 'rgba(255,255,255,0.22)' }" />
-          </div>
           <div class="drawer-header-row">
             <div class="drawer-title">Корзина</div>
             <button class="drawer-close" @click="emit('close')">
@@ -74,6 +71,7 @@ function handleGoToCatalog(max) {
   position: fixed;
   inset: 0;
   z-index: 300;
+  touch-action: none;
 }
 .drawer-panel {
   position: absolute;
@@ -81,6 +79,7 @@ function handleGoToCatalog(max) {
   background: linear-gradient(180deg, #141230 0%, #0D0B28 100%);
   display: flex;
   flex-direction: column;
+  touch-action: auto;
 }
 .drawer-header {
   position: sticky;
@@ -120,7 +119,9 @@ function handleGoToCatalog(max) {
 .drawer-content {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: 16px 20px 80px;
   flex: 1;
+  touch-action: pan-y;
 }
 </style>

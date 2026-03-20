@@ -96,6 +96,9 @@ const hint = computed(() => {
   return null
 })
 
+// Onboarding 1-2-3 as raw HTML (workaround for Teleport style issues)
+const onboardHtml = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center"><div style="display:flex;align-items:center;gap:5px"><div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4">1</div><div style="font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4">Отметь что берёшь</div></div><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><div style="display:flex;align-items:center;gap:5px"><div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4">2</div><div style="font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4">Проверь остаток</div></div><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><div style="display:flex;align-items:center;gap:5px"><div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4">3</div><div style="font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4">Нажми «Беру!» у кассы</div></div></div>`
+
 // Sorted cart items
 const sortedCartItems = computed(() => {
   const at = afterTaking.value
@@ -113,6 +116,24 @@ const sortedCartItems = computed(() => {
 const checkedItems = computed(() => sortedCartItems.value.filter(p => taking.value.includes(p.id)))
 const affordableItems = computed(() => sortedCartItems.value.filter(p => !taking.value.includes(p.id) && tickets.value > 0 && p.tickets <= afterTaking.value))
 const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.value.includes(p.id) && (tickets.value <= 0 || p.tickets > afterTaking.value)))
+
+// Onboarding HTML (v-html to bypass any style isolation)
+const onboardHtml = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
+  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
+    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">1</span>
+    Отметь что берёшь
+  </span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
+    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">2</span>
+    Проверь остаток
+  </span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-family:Inter,sans-serif;font-size:12px;color:#F0F4FF;line-height:1.4;">
+    <span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C5F946;background:rgba(197,249,70,0.15);border-radius:4px;padding:2px 6px;line-height:1.4;">3</span>
+    Нажми «Беру!» у кассы
+  </span>
+</div>`
 </script>
 
 <template>
@@ -205,29 +226,11 @@ const savingItems = computed(() => sortedCartItems.value.filter(p => !taking.val
         </div>
 
         <!-- Onboarding hint 1-2-3 -->
-        <div v-if="checkedItems.length === 0 && affordableItems.length > 0"
-          :style="{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            marginBottom: '12px', padding: '10px 12px', borderRadius: '10px',
-            background: 'rgba(197,249,70,0.04)', border: '1px solid rgba(197,249,70,0.12)',
-          }">
-          <div :style="{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }">
-            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
-              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">1</div>
-              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Отметь что берёшь</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
-              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">2</div>
-              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Проверь остаток</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5F946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            <div :style="{ display: 'flex', alignItems: 'center', gap: '5px' }">
-              <div :style="{ fontFamily: 'Space Mono, monospace', fontSize: '10px', fontWeight: 700, color: '#C5F946', background: 'rgba(197,249,70,0.15)', borderRadius: '4px', padding: '1px 5px', lineHeight: '1.4' }">3</div>
-              <div :style="{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#F0F4FF', lineHeight: '1.4' }">Нажми «Беру!» у кассы</div>
-            </div>
-          </div>
-        </div>
+        <div
+          v-if="checkedItems.length === 0 && affordableItems.length > 0"
+          v-html="onboardHtml"
+          style="display:flex;align-items:center;justify-content:center;margin-bottom:12px;padding:10px 12px;border-radius:10px;background:rgba(197,249,70,0.04);border:1px solid rgba(197,249,70,0.12);"
+        ></div>
 
         <!-- Cards -->
         <div class="trophy-cards">
