@@ -3,6 +3,10 @@ layout: page
 title: Призотека — Питерлэнд
 description: Каталог призов парка «Бумбастик» в Питерлэнде
 aside: false
+footer: false
+prev: false
+next: false
+lastUpdated: false
 ---
 
 <script setup>
