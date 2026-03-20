@@ -215,7 +215,8 @@ const historyRev = computed(() => {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  overflow-y: auto;
+  overflow: hidden;
+  touch-action: none;
 }
 .tm-backdrop {
   position: fixed;
@@ -236,6 +237,8 @@ const historyRev = computed(() => {
   max-height: 90vh;
   max-height: 90dvh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: auto;
   flex-shrink: 0;
 }
 .tm-label {
