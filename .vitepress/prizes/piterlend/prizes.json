@@ -44,7 +44,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 0,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -56,7 +56,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 0,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -68,7 +68,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 4,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -80,7 +80,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 11,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -92,7 +92,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 57,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -104,7 +104,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 0,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -128,7 +128,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 12,
-    "emoji": "🫧",
+    "emoji": "🎁",
     "queue": 0
   },
   {
@@ -140,7 +140,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 5,
-    "emoji": "🫧",
+    "emoji": "🎁",
     "queue": 0
   },
   {
@@ -212,7 +212,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 1,
-    "emoji": "🎲",
+    "emoji": "🥳",
     "queue": 0
   },
   {
@@ -224,7 +224,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 2,
-    "emoji": "🎲",
+    "emoji": "🎨",
     "queue": 0
   },
   {
@@ -608,7 +608,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -620,7 +620,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 1,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -632,7 +632,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -644,7 +644,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -656,7 +656,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -668,7 +668,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -680,7 +680,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 3,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -728,7 +728,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "🔊",
     "queue": 0
   },
   {
@@ -740,7 +740,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "🔊",
     "queue": 0
   },
   {
@@ -764,7 +764,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "💇",
     "queue": 0
   },
   {
@@ -788,7 +788,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "🔊",
     "queue": 0
   },
   {
@@ -848,7 +848,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "💇",
     "queue": 0
   },
   {
@@ -1088,7 +1088,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 1,
-    "emoji": "📱",
+    "emoji": "💇",
     "queue": 0
   },
   {
@@ -1256,7 +1256,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 2,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -1268,7 +1268,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -1280,7 +1280,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 1,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -1292,7 +1292,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 1,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -1508,7 +1508,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🎁",
+    "emoji": "🔫",
     "queue": 0
   },
   {
@@ -1712,7 +1712,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 4,
-    "emoji": "🎁",
+    "emoji": "🎒",
     "queue": 0
   },
   {
@@ -1880,7 +1880,7 @@
     "is_jackpot": false,
     "collection": "anime",
     "monthly_sold": 0,
-    "emoji": "⚔️",
+    "emoji": "🍥",
     "queue": 0
   },
   {
@@ -1928,7 +1928,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🫧",
+    "emoji": "🎁",
     "queue": 0
   },
   {
@@ -2000,7 +2000,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🎲",
+    "emoji": "🎨",
     "queue": 0
   },
   {
@@ -2024,7 +2024,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🎲",
+    "emoji": "🎨",
     "queue": 0
   },
   {
@@ -2468,7 +2468,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2480,7 +2480,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2492,7 +2492,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2504,7 +2504,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2516,7 +2516,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2528,7 +2528,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2540,7 +2540,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2552,7 +2552,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2564,7 +2564,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2576,7 +2576,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2588,7 +2588,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2600,7 +2600,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2612,7 +2612,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2624,7 +2624,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2636,7 +2636,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2648,7 +2648,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🧱",
+    "emoji": "🏗️",
     "queue": 0
   },
   {
@@ -2756,7 +2756,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "💇",
     "queue": 0
   },
   {
@@ -2840,7 +2840,7 @@
     "is_jackpot": false,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "📱",
+    "emoji": "🔋",
     "queue": 0
   },
   {
@@ -3116,7 +3116,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -3128,7 +3128,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -3140,7 +3140,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -3152,7 +3152,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -3164,7 +3164,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -3176,7 +3176,7 @@
     "is_jackpot": false,
     "collection": "harry_potter",
     "monthly_sold": 0,
-    "emoji": "⚡",
+    "emoji": "🪄",
     "queue": 0
   },
   {
@@ -4076,7 +4076,7 @@
     "is_jackpot": true,
     "collection": "",
     "monthly_sold": 0,
-    "emoji": "🎁",
+    "emoji": "🔫",
     "queue": 0
   },
   {
