@@ -56,10 +56,16 @@ const trophyOpen    = ref(false)
 const hiddenEls = []
 
 onMounted(() => {
-  // Fix horizontal scroll
+  // Fix horizontal scroll + full-bleed layout (removed on unmount)
   const style = document.createElement('style')
   style.id = 'pz-overflow-fix'
-  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
+  style.textContent = [
+    'html, body { overflow-x: hidden !important; max-width: 100vw !important; }',
+    '.VPDoc .container { max-width: 100% !important; }',
+    '.VPDoc .content { padding: 0 !important; }',
+    '.VPDoc .content-container { max-width: 100% !important; }',
+    '.VPContent { padding-top: 0 !important; }',
+  ].join('\n')
   document.head.appendChild(style)
 
   // Hide footer elements (DOM, not CSS — guaranteed cleanup)
