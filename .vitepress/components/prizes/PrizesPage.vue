@@ -10,6 +10,7 @@
  *   <PrizesPage v-bind="data" park="piterlend" />
  */
 import { ref, computed, provide, onMounted, onUnmounted, watch } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { PRIZE_KEYS, lsGet, lsSet, fmtNum } from './prizoteka'
 import './prizes.css'
 
@@ -54,28 +55,40 @@ const trophyOpen    = ref(false)
 
 // ── LOAD FROM localStorage (SSR-safe) ────────────────────────────
 const hiddenEls = []
+const modifiedEls = []
+
+function applyLayoutOverrides() {
+  // Full-bleed layout
+  document.querySelectorAll('.VPDoc .container, .VPDoc .content-container').forEach(el => {
+    modifiedEls.push({ el, prop: 'maxWidth', prev: el.style.maxWidth })
+    el.style.maxWidth = '100%'
+  })
+  document.querySelectorAll('.VPDoc .content').forEach(el => {
+    modifiedEls.push({ el, prop: 'padding', prev: el.style.padding })
+    el.style.padding = '0'
+  })
+  document.querySelectorAll('.VPContent').forEach(el => {
+    modifiedEls.push({ el, prop: 'paddingTop', prev: el.style.paddingTop })
+    el.style.paddingTop = '0'
+  })
+
+  // Hide footer
+  document.querySelectorAll('.VPDocFooter, .VPFooter, footer, .prev-next, .edit-link').forEach(el => {
+    if (el.closest('.prizoteka')) return
+    hiddenEls.push({ el, prev: el.style.display })
+    el.style.display = 'none'
+  })
+}
+
+function cleanupLayoutOverrides() {
+  modifiedEls.forEach(({ el, prop, prev }) => { el.style[prop] = prev })
+  modifiedEls.length = 0
+  hiddenEls.forEach(({ el, prev }) => { el.style.display = prev })
+  hiddenEls.length = 0
+}
 
 onMounted(() => {
-  // Fix horizontal scroll + full-bleed layout (removed on unmount)
-  const style = document.createElement('style')
-  style.id = 'pz-overflow-fix'
-  style.textContent = [
-    'html, body { overflow-x: hidden !important; max-width: 100vw !important; }',
-    '.VPDoc .container { max-width: 100% !important; }',
-    '.VPDoc .content { padding: 0 !important; }',
-    '.VPDoc .content-container { max-width: 100% !important; }',
-    '.VPContent { padding-top: 0 !important; }',
-  ].join('\n')
-  document.head.appendChild(style)
-
-  // Hide footer elements (DOM, not CSS — guaranteed cleanup)
-  setTimeout(() => {
-    document.querySelectorAll('.VPDocFooter, .VPFooter, footer, .prev-next, .edit-link').forEach(el => {
-      if (el.closest('.prizoteka')) return // skip our own elements
-      hiddenEls.push({ el, prev: el.style.display })
-      el.style.display = 'none'
-    })
-  }, 50)
+  setTimeout(applyLayoutOverrides, 50)
 
   try {
     const t  = localStorage.getItem(`boom_${props.park}_tickets`)
@@ -99,12 +112,12 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  const style = document.getElementById('pz-overflow-fix')
-  if (style) style.remove()
+  cleanupLayoutOverrides()
+})
 
-  // Restore all hidden elements
-  hiddenEls.forEach(({ el, prev }) => { el.style.display = prev })
-  hiddenEls.length = 0
+// Guaranteed cleanup on SPA navigation (onUnmounted may not fire in VitePress)
+onBeforeRouteLeave(() => {
+  cleanupLayoutOverrides()
 })
 
 // ── PERSIST TO localStorage ──────────────────────────────────────
