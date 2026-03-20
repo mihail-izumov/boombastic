@@ -57,7 +57,7 @@ onMounted(() => {
   // Fix horizontal scroll — inject persistent style
   const style = document.createElement('style')
   style.id = 'pz-overflow-fix'
-  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; } .VPDocFooter, .VPFooter, footer.VPFooter { display: none !important; }'
+  style.textContent = 'html, body { overflow-x: hidden !important; max-width: 100vw !important; }'
   document.head.appendChild(style)
 
   try {
