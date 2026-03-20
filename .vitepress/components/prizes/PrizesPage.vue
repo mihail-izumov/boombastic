@@ -412,7 +412,7 @@ function openTicketModal() {
 }
 .pz-tab {
   flex: 1;
-  padding: 18px 5px 14px;
+  padding: 16px 5px 16px;
   border-radius: 9px;
   border: none;
   border-top: 1px solid transparent;
@@ -434,10 +434,10 @@ function openTicketModal() {
   gap: 10px;
 }
 .pz-tab--active {
-  background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(197,249,70,0.45) 0%, rgba(197,249,70,0.12) 45%, rgba(74,90,173,0.08) 100%);
-  box-shadow: inset 0 1px 0 rgba(197,249,70,0.45), inset 0 -1px 0 rgba(0,0,0,0.4);
-  color: var(--pz-lime);
-  border-top-color: rgba(197,249,70,0.24);
+  background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(197,249,70,0.18) 0%, rgba(197,249,70,0.06) 45%, rgba(74,90,173,0.04) 100%);
+  box-shadow: inset 0 1px 0 rgba(197,249,70,0.25), inset 0 -1px 0 rgba(0,0,0,0.3);
+  color: #C5F946;
+  border-top-color: rgba(197,249,70,0.15);
 }
 .pz-tab__icon {
   display: flex;
@@ -459,12 +459,13 @@ function openTicketModal() {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(197,249,70,0.35) 0%, rgba(197,249,70,0) 70%);
+  background: radial-gradient(circle, rgba(197,249,70,0.4) 0%, rgba(197,249,70,0.1) 35%, rgba(197,249,70,0) 65%);
   border-radius: 50%;
   pointer-events: none;
+  filter: blur(6px);
 }
 .pz-tab:not(.pz-tab--active):hover {
   background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(106,120,200,0.5) 0%, rgba(74,90,173,0.18) 45%, rgba(28,26,62,0.0) 100%);
