@@ -8,9 +8,22 @@ import PrizeIcons from './PrizeIcons.vue'
 
 const emit = defineEmits(['close'])
 
-// Lock body scroll
-onMounted(() => { document.body.style.overflowY = 'hidden' })
-onUnmounted(() => { document.body.style.overflowY = '' })
+// Lock body scroll (iOS-compatible)
+let savedScrollY = 0
+onMounted(() => {
+  savedScrollY = window.scrollY
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${savedScrollY}px`
+  document.body.style.left = '0'
+  document.body.style.right = '0'
+})
+onUnmounted(() => {
+  document.body.style.position = ''
+  document.body.style.top = ''
+  document.body.style.left = ''
+  document.body.style.right = ''
+  window.scrollTo(0, savedScrollY)
+})
 
 const tickets       = inject(PRIZE_KEYS.TICKETS)
 const ticketHistory = inject(PRIZE_KEYS.TICKET_HISTORY)
@@ -87,9 +100,9 @@ const historyRev = computed(() => {
 
 <template>
   <Teleport to="body">
-    <div class="tm-overlay vp-raw" @click="emit('close')" @touchmove.prevent>
-    <div class="tm-backdrop" @touchmove.prevent />
-    <div class="tm-modal" @click.stop @touchmove.stop>
+    <div class="tm-overlay vp-raw" @click="emit('close')">
+    <div class="tm-backdrop" />
+    <div class="tm-modal" @click.stop>
       <!-- Label -->
       <div class="tm-label">введи количество тикетов</div>
 
@@ -215,8 +228,6 @@ const historyRev = computed(() => {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  overflow: hidden;
-  touch-action: none;
 }
 .tm-backdrop {
   position: fixed;
@@ -238,7 +249,6 @@ const historyRev = computed(() => {
   max-height: 90dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: auto;
   flex-shrink: 0;
 }
 .tm-label {

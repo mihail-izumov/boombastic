@@ -19,12 +19,21 @@ const setTrophyOpen = inject(PRIZE_KEYS.SET_TROPHY_OPEN)
 const scrollRef = ref(null)
 const wasOpen = ref(false)
 
-// Lock body scroll
+// Lock body scroll (iOS-compatible)
+let savedScrollY = 0
 onMounted(() => {
-  document.body.style.overflowY = 'hidden'
+  savedScrollY = window.scrollY
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${savedScrollY}px`
+  document.body.style.left = '0'
+  document.body.style.right = '0'
 })
 onUnmounted(() => {
-  document.body.style.overflowY = ''
+  document.body.style.position = ''
+  document.body.style.top = ''
+  document.body.style.left = ''
+  document.body.style.right = ''
+  window.scrollTo(0, savedScrollY)
 })
 
 // Auto-close when cart + collected both empty
@@ -46,8 +55,8 @@ function handleGoToCatalog(max) {
 
 <template>
   <Teleport to="body">
-    <div class="drawer-overlay vp-raw" style="touch-action:none;">
-      <div class="drawer-panel" @click.stop style="touch-action:auto;">
+    <div class="drawer-overlay vp-raw">
+      <div class="drawer-panel" @click.stop>
         <!-- Header -->
         <div class="drawer-header">
           <div class="drawer-header-row">
