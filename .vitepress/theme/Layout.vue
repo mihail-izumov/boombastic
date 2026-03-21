@@ -215,7 +215,6 @@ function fixNavigation() {
     if (!btn.dataset.chevronClickFixed) {
       btn.dataset.chevronClickFixed = 'true'
       btn.addEventListener('click', () => {
-        // Даём VitePress время переключить класс .open
         setTimeout(() => {
           const nowOpen = group.classList.contains('open')
           const s = chevron.querySelector('svg')
@@ -237,6 +236,9 @@ function fixNavigation() {
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
+      // Контейнер flyout — центрировать кнопку по вертикали
+      flyout.style.setProperty('align-items', 'center', 'important')
+
       // Dropdown — позиция и скругления
       const menuDiv = flyout.querySelector(':scope > div.menu')
       if (menuDiv) {
@@ -249,10 +251,11 @@ function fixNavigation() {
       // Кнопка flyout — компактная как обычные ссылки
       const btn = flyout.querySelector(':scope > button')
       if (btn) {
-        // Принудительно задаём компактный padding через setProperty (перебивает scoped стили)
         btn.style.setProperty('padding', '4px 12px', 'important')
         btn.style.setProperty('border-radius', '0', 'important')
         btn.style.setProperty('background', 'transparent', 'important')
+        btn.style.setProperty('height', 'auto', 'important')
+        btn.style.setProperty('align-self', 'center', 'important')
 
         if (!btn.dataset.hoverFixed) {
           btn.dataset.hoverFixed = 'true'
