@@ -123,76 +123,63 @@ function injectSharkEyes() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   fixNavigation — JS-фиксы навигации
+   fixNavigation
    
-   Реальная DOM-структура VitePress (из DevTools):
+   МОБИЛКА (VPNavScreen):
+     <div class="VPNavScreenMenuGroup">
+       <button class="button">
+         <span class="button-text">Призотека</span>
+         <span class="vpi-plus button-icon"></span>
+       </button>
+       <div class="items">...</div>
+     </div>
    
-   <div class="VPNavScreenMenuGroup">
-     <button class="button" aria-controls="NavScreenGroup-призотека">
-       <span class="button-text">Призотека</span>     ← НЕ .text!
-       <span class="vpi-plus button-icon"></span>       ← НЕ .text-icon!
-     </button>
-     <div id="NavScreenGroup-призотека" class="items">...</div>
-   </div>
-   
-   Все элементы имеют scoped атрибут data-v-XXXXX,
-   поэтому CSS без него проигрывает. Inline стили побеждают.
+   ДЕСКТОП (VPNavBar):
+     <div class="VPFlyout VPNavBarMenuGroup">
+       <button class="button">
+         <span class="text">Призотека</span>
+         <span class="vpi-chevron-down text-icon"></span>
+       </button>
+       <div class="menu">...</div>           ← НЕ .VPMenu!
+     </div>
    ════════════════════════════════════════════════════════════════ */
 function fixNavigation() {
   if (typeof document === 'undefined') return
 
-  // ── 1. МОБИЛЬНОЕ МЕНЮ: Призотека ──
-  const menuGroups = document.querySelectorAll('.VPNavScreen .VPNavScreenMenuGroup')
-  menuGroups.forEach((group) => {
+  // ══════════════════════════════════════════
+  // 1. МОБИЛЬНОЕ МЕНЮ: Призотека
+  //    Не центрируем — оставляем по левой стороне как VitePress
+  //    Фиксим: размер, цвет, шеврон вместо плюса
+  // ══════════════════════════════════════════
+  const mobileGroups = document.querySelectorAll('.VPNavScreen .VPNavScreenMenuGroup')
+  mobileGroups.forEach((group) => {
     const btn = group.querySelector('button')
     if (!btn) return
 
-    // Текст «Призотека» — класс .button-text
+    const isOpen = group.classList.contains('open')
+
+    // Текст «Призотека» — .button-text
     const textEl = btn.querySelector('.button-text')
     if (textEl) {
-      const isOpen = group.classList.contains('open')
-      textEl.style.cssText = `
-        font-family: Inter, sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 600 !important;
-        color: ${isOpen ? '#C5F946' : '#F0F4FF'} !important;
-      `
+      textEl.style.fontFamily = 'Inter, sans-serif'
+      textEl.style.fontSize = '18px'
+      textEl.style.fontWeight = '600'
+      textEl.style.color = isOpen ? '#C5F946' : '#F0F4FF'
     }
 
-    // Центрирование кнопки
-    btn.style.cssText = `
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      width: 100% !important;
-      padding: 12px 0 !important;
-      text-align: center !important;
-    `
-
-    // Иконка — класс .button-icon (может иметь .vpi-plus или .vpi-chevron-down)
+    // Замена иконки .button-icon на шеврон (один раз)
     const iconEl = btn.querySelector('.button-icon')
     if (iconEl && !iconEl.dataset.chevronDone) {
       iconEl.dataset.chevronDone = 'true'
       
-      // Убираем стандартные классы VitePress иконок
+      // Убираем VitePress классы которые рисуют + через ::before
       iconEl.classList.remove('vpi-plus', 'vpi-chevron-down')
-      
-      // Очищаем содержимое
       iconEl.innerHTML = ''
       
-      // Убираем ::before псевдоэлемент через inline стили
-      iconEl.style.cssText = `
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 24px !important;
-        height: 24px !important;
-        margin-left: 6px !important;
-        font-size: 0 !important;
-        line-height: 0 !important;
-      `
+      // Контейнер
+      iconEl.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:6px;font-size:0;line-height:0;'
       
-      // Вставляем SVG chevron
+      // SVG chevron-down
       const svgNS = 'http://www.w3.org/2000/svg'
       const svg = document.createElementNS(svgNS, 'svg')
       svg.setAttribute('width', '18')
@@ -212,32 +199,26 @@ function fixNavigation() {
       iconEl.appendChild(svg)
     }
 
-    // Обновляем поворот и цвет шеврона при каждом вызове
+    // Обновляем поворот шеврона (каждый вызов)
     const chevron = btn.querySelector('.bb-nav-chevron')
     if (chevron) {
-      const isOpen = group.classList.contains('open')
       chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
       chevron.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
     }
   })
 
-  // ── 2. ДЕСКТОП: dropdown Призотеки — позиция ──
+  // ══════════════════════════════════════════
+  // 2. ДЕСКТОП: dropdown Призотеки
+  //    Классы: .text, .text-icon, div.menu
+  // ══════════════════════════════════════════
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
-      // VitePress может вложить меню в разные контейнеры
-      const menu = flyout.querySelector('.VPMenu')
-      if (menu) {
-        menu.style.cssText = `
-          position: absolute !important;
-          top: 100% !important;
-          left: 0 !important;
-          right: auto !important;
-          transform: none !important;
-          margin: 0 !important;
-          min-width: 160px !important;
-          border-radius: 0 !important;
-        `
+      
+      // Dropdown контейнер — div.menu (НЕ .VPMenu!)
+      const menuDiv = flyout.querySelector(':scope > div.menu')
+      if (menuDiv) {
+        menuDiv.style.cssText = 'position:absolute;top:100%;left:0;right:auto;transform:none;margin:0;min-width:160px;border-radius:0;'
       }
 
       // Hover на кнопке flyout
@@ -248,9 +229,12 @@ function fixNavigation() {
         btn.addEventListener('mouseenter', () => {
           btn.style.background = '#C5F946'
           btn.style.color = '#1a1840'
-          // .button-text тоже существует в десктопном варианте? Проверяем оба варианта
-          const txt = btn.querySelector('.button-text') || btn.querySelector('.text')
+          // Десктоп использует .text (не .button-text)
+          const txt = btn.querySelector('.text')
           if (txt) txt.style.color = '#1a1840'
+          // Шеврон .text-icon
+          const icon = btn.querySelector('.text-icon')
+          if (icon) icon.style.color = '#1a1840'
           btn.querySelectorAll('svg').forEach(s => {
             s.style.color = '#1a1840'
             s.style.fill = '#1a1840'
@@ -260,8 +244,10 @@ function fixNavigation() {
         btn.addEventListener('mouseleave', () => {
           btn.style.background = ''
           btn.style.color = ''
-          const txt = btn.querySelector('.button-text') || btn.querySelector('.text')
+          const txt = btn.querySelector('.text')
           if (txt) txt.style.color = ''
+          const icon = btn.querySelector('.text-icon')
+          if (icon) icon.style.color = ''
           btn.querySelectorAll('svg').forEach(s => {
             s.style.color = ''
             s.style.fill = ''
