@@ -59,6 +59,7 @@ let preloaderTimeout = null
 let preloaderStart = 0
 const PRELOADER_MIN_MS = 600
 let onScroll = null
+let savedScrollY = 0
 
 onMounted(() => {
   if (typeof window === 'undefined') return
@@ -73,6 +74,7 @@ onMounted(() => {
   injectSharkEyes()
   setupMobileSignalButton()
   fixNavigation()
+  setupScrollLock()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
@@ -123,33 +125,84 @@ function injectSharkEyes() {
 }
 
 /* ════════════════════════════════════════════════════════════════
+   Блокировка скролла при открытых модальных окнах
+   Работает на iOS Safari (position: fixed) и Android
+   ════════════════════════════════════════════════════════════════ */
+function setupScrollLock() {
+  if (typeof window === 'undefined') return
+
+  // Перезаписываем глобальные функции модалок с добавлением scroll lock
+  const origOpenLogin = window.openLoginModal
+  const origOpenGameMode = window.openGameModeModal
+
+  window.openLoginModal = function() {
+    lockScroll()
+    if (origOpenLogin) origOpenLogin()
+  }
+  window.openGameModeModal = function() {
+    lockScroll()
+    if (origOpenGameMode) origOpenGameMode()
+  }
+
+  // Следим за закрытием через MutationObserver
+  const checkModals = () => {
+    const login = document.getElementById('bb-login-modal')
+    const gamemode = document.getElementById('bb-gamemode-modal')
+    const loginOpen = login && login.style.display === 'flex'
+    const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
+    
+    if (!loginOpen && !gamemodeOpen && document.body.classList.contains('bb-scroll-locked')) {
+      unlockScroll()
+    }
+  }
+
+  // Проверяем каждые 200ms (надёжнее чем только MutationObserver)
+  setInterval(checkModals, 200)
+
+  // Также на Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      setTimeout(unlockScroll, 50)
+    }
+  })
+}
+
+function lockScroll() {
+  if (document.body.classList.contains('bb-scroll-locked')) return
+  savedScrollY = window.scrollY
+  document.body.classList.add('bb-scroll-locked')
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${savedScrollY}px`
+  document.body.style.left = '0'
+  document.body.style.right = '0'
+  document.body.style.overflow = 'hidden'
+}
+
+function unlockScroll() {
+  if (!document.body.classList.contains('bb-scroll-locked')) return
+  document.body.classList.remove('bb-scroll-locked')
+  document.body.style.position = ''
+  document.body.style.top = ''
+  document.body.style.left = ''
+  document.body.style.right = ''
+  document.body.style.overflow = ''
+  window.scrollTo(0, savedScrollY)
+}
+
+/* ════════════════════════════════════════════════════════════════
    fixNavigation
    
-   МОБИЛКА (VPNavScreen):
-     <div class="VPNavScreenMenuGroup">
-       <button class="button">
-         <span class="button-text">Призотека</span>
-         <span class="vpi-plus button-icon"></span>
-       </button>
-       <div class="items">...</div>
-     </div>
+   МОБИЛКА (.VPNavScreen):
+     .button-text, .button-icon (.vpi-plus)
    
-   ДЕСКТОП (VPNavBar):
-     <div class="VPFlyout VPNavBarMenuGroup">
-       <button class="button">
-         <span class="text">Призотека</span>
-         <span class="vpi-chevron-down text-icon"></span>
-       </button>
-       <div class="menu">...</div>           ← НЕ .VPMenu!
-     </div>
+   ДЕСКТОП (.VPNavBar):
+     .text, .text-icon (.vpi-chevron-down), div.menu
    ════════════════════════════════════════════════════════════════ */
 function fixNavigation() {
   if (typeof document === 'undefined') return
 
   // ══════════════════════════════════════════
   // 1. МОБИЛЬНОЕ МЕНЮ: Призотека
-  //    Не центрируем — оставляем по левой стороне как VitePress
-  //    Фиксим: размер, цвет, шеврон вместо плюса
   // ══════════════════════════════════════════
   const mobileGroups = document.querySelectorAll('.VPNavScreen .VPNavScreenMenuGroup')
   mobileGroups.forEach((group) => {
@@ -161,10 +214,10 @@ function fixNavigation() {
     // Текст «Призотека» — .button-text
     const textEl = btn.querySelector('.button-text')
     if (textEl) {
-      textEl.style.fontFamily = 'Inter, sans-serif'
-      textEl.style.fontSize = '18px'
-      textEl.style.fontWeight = '600'
-      textEl.style.color = isOpen ? '#C5F946' : '#F0F4FF'
+      textEl.style.setProperty('font-family', 'Inter, sans-serif', 'important')
+      textEl.style.setProperty('font-size', '18px', 'important')
+      textEl.style.setProperty('font-weight', '600', 'important')
+      textEl.style.setProperty('color', isOpen ? '#C5F946' : '#F0F4FF', 'important')
     }
 
     // Замена иконки .button-icon на шеврон (один раз)
@@ -172,14 +225,10 @@ function fixNavigation() {
     if (iconEl && !iconEl.dataset.chevronDone) {
       iconEl.dataset.chevronDone = 'true'
       
-      // Убираем VitePress классы которые рисуют + через ::before
       iconEl.classList.remove('vpi-plus', 'vpi-chevron-down')
       iconEl.innerHTML = ''
-      
-      // Контейнер
       iconEl.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:6px;font-size:0;line-height:0;'
       
-      // SVG chevron-down
       const svgNS = 'http://www.w3.org/2000/svg'
       const svg = document.createElementNS(svgNS, 'svg')
       svg.setAttribute('width', '18')
@@ -199,7 +248,7 @@ function fixNavigation() {
       iconEl.appendChild(svg)
     }
 
-    // Обновляем поворот шеврона (каждый вызов)
+    // Обновляем поворот шеврона
     const chevron = btn.querySelector('.bb-nav-chevron')
     if (chevron) {
       chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
@@ -209,19 +258,15 @@ function fixNavigation() {
 
   // ══════════════════════════════════════════
   // 2. ДЕСКТОП: dropdown Призотеки
-  //    Классы: .text, .text-icon, div.menu
   // ══════════════════════════════════════════
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
-      
-      // Dropdown контейнер — div.menu (НЕ .VPMenu!)
       const menuDiv = flyout.querySelector(':scope > div.menu')
       if (menuDiv) {
         menuDiv.style.cssText = 'position:absolute;top:100%;left:0;right:auto;transform:none;margin:0;min-width:160px;border-radius:0;'
       }
 
-      // Hover на кнопке flyout
       const btn = flyout.querySelector(':scope > button')
       if (btn && !btn.dataset.hoverFixed) {
         btn.dataset.hoverFixed = 'true'
@@ -229,10 +274,8 @@ function fixNavigation() {
         btn.addEventListener('mouseenter', () => {
           btn.style.background = '#C5F946'
           btn.style.color = '#1a1840'
-          // Десктоп использует .text (не .button-text)
           const txt = btn.querySelector('.text')
           if (txt) txt.style.color = '#1a1840'
-          // Шеврон .text-icon
           const icon = btn.querySelector('.text-icon')
           if (icon) icon.style.color = '#1a1840'
           btn.querySelectorAll('svg').forEach(s => {
@@ -315,6 +358,15 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .preloader-fade-enter-active { transition: opacity 0.1s ease; }
 .preloader-fade-leave-active { transition: opacity 0.35s ease; }
 .preloader-fade-enter-from, .preloader-fade-leave-to { opacity: 0; }
+
+/* Scroll lock для модальных окон — iOS Safari fix */
+body.bb-scroll-locked {
+  position: fixed !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  -webkit-overflow-scrolling: none !important;
+  touch-action: none !important;
+}
 
 @media (max-width: 768px) {
   .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
