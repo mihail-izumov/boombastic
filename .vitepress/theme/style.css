@@ -220,9 +220,8 @@ code, .vp-code, .line-numbers {
    ============================================================ */
 /* [FIX 1] Кнопки навбара - не выходят за контейнер */
 .VPNavBar .VPNavBarMenu {
-  display: flex !important;
-  align-items: center !important;
-  height: 100% !important;
+  align-items: center;
+  height: 100%;
 }
 
 .VPNavBar .VPNavBarMenu .VPNavBarMenuLink {
@@ -291,11 +290,8 @@ code, .vp-code, .line-numbers {
   color: #1a1840 !important;
 }
 
-/* [FIX 2] Выпадающее меню — под навбаром, выровнено по левому краю кнопки */
-.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu,
-.VPNavBarMenu .VPFlyout .VPMenu,
-.VPFlyout .VPMenu,
-.VPMenu {
+/* [FIX 2] Выпадающее меню — под навбаром */
+.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
   position: absolute !important;
   top: 100% !important;
   margin-top: 8px !important;
@@ -303,6 +299,13 @@ code, .vp-code, .line-numbers {
   right: auto !important;
   transform: none !important;
   min-width: 140px !important;
+}
+
+/* VPNavBarExtra ("...") — выравниваем по правому краю */
+.VPNavBarExtra .VPFlyout .VPMenu,
+.VPNavBarExtra .VPMenu {
+  left: auto !important;
+  right: 0 !important;
 }
 
 /* ============================================================
