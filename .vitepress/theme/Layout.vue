@@ -1,11 +1,9 @@
 <template>
   <DefaultLayout>
-    <!-- B00M homepage: вставляем через слот home-hero-before -->
     <template #home-hero-before>
       <HomePage v-if="isBoomHome" />
     </template>
 
-    <!-- Обычные страницы: баннер -->
     <template #doc-before>
       <div v-if="shouldShowBanner && !isBoomHome" class="notification-container">
         <NotificationSlider v-if="frontmatter.notification === 'brew'" />
@@ -21,16 +19,10 @@
   
   <SignalModalButton v-if="!isBoomHome" />
 
-  <!-- Прелоадер -->
   <Teleport to="body">
     <Transition name="preloader-fade">
       <div v-if="showPreloader" class="bb-preloader">
-        <img 
-          src="https://b00m.fun/shark-eyes-icon-electric.svg" 
-          alt="" 
-          class="bb-preloader-eyes"
-          aria-hidden="true"
-        />
+        <img src="https://b00m.fun/shark-eyes-icon-electric.svg" alt="" class="bb-preloader-eyes" aria-hidden="true" />
       </div>
     </Transition>
   </Teleport>
@@ -52,28 +44,20 @@ const { frontmatter } = useData()
 const router = useRouter()
 
 const isBoomHome = computed(() => frontmatter.value.boomHome === true)
-
-const shouldShowBanner = computed(() => 
-  ['brew', 'general', 'clients'].includes(frontmatter.value?.notification)
-)
+const shouldShowBanner = computed(() => ['brew', 'general', 'clients'].includes(frontmatter.value?.notification))
 
 watch(shouldShowBanner, (newVal) => {
-  if (typeof document !== 'undefined') {
-    document.body.classList.toggle('has-banner', newVal)
-  }
+  if (typeof document !== 'undefined') document.body.classList.toggle('has-banner', newVal)
 }, { immediate: true })
 
 watch(isBoomHome, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.classList.toggle('boom-home-active', val)
-  }
+  if (typeof document !== 'undefined') document.body.classList.toggle('boom-home-active', val)
 }, { immediate: true })
 
 const showPreloader = ref(false)
 let preloaderTimeout = null
 let preloaderStart = 0
 const PRELOADER_MIN_MS = 600
-
 let onScroll = null
 
 onMounted(() => {
@@ -81,9 +65,7 @@ onMounted(() => {
 
   const navbar = document.querySelector('.VPNavBar')
   if (navbar) {
-    onScroll = () => {
-      navbar.classList.toggle('bb-scrolled', window.scrollY > 10)
-    }
+    onScroll = () => navbar.classList.toggle('bb-scrolled', window.scrollY > 10)
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
   }
@@ -109,11 +91,8 @@ onMounted(() => {
   router.onAfterRouteChanged = () => {
     const elapsed = Date.now() - preloaderStart
     const remaining = Math.max(0, PRELOADER_MIN_MS - elapsed)
-
     clearTimeout(preloaderTimeout)
-    preloaderTimeout = setTimeout(() => {
-      showPreloader.value = false
-    }, remaining)
+    preloaderTimeout = setTimeout(() => { showPreloader.value = false }, remaining)
 
     nextTick(() => {
       const nb = document.querySelector('.VPNavBar')
@@ -121,9 +100,7 @@ onMounted(() => {
       injectSharkEyes()
       fixNavigation()
     })
-    if (window.innerWidth <= 960) {
-      setTimeout(setupMobileSignalButton, 300)
-    }
+    if (window.innerWidth <= 960) setTimeout(setupMobileSignalButton, 300)
   }
 })
 
@@ -146,112 +123,153 @@ function injectSharkEyes() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   fixNavigation — JS-фиксы которые CSS не может перебить
-   Вызывается при mount, route change и DOM mutations
+   fixNavigation — JS-фиксы навигации
+   
+   Реальная DOM-структура VitePress (из DevTools):
+   
+   <div class="VPNavScreenMenuGroup">
+     <button class="button" aria-controls="NavScreenGroup-призотека">
+       <span class="button-text">Призотека</span>     ← НЕ .text!
+       <span class="vpi-plus button-icon"></span>       ← НЕ .text-icon!
+     </button>
+     <div id="NavScreenGroup-призотека" class="items">...</div>
+   </div>
+   
+   Все элементы имеют scoped атрибут data-v-XXXXX,
+   поэтому CSS без него проигрывает. Inline стили побеждают.
    ════════════════════════════════════════════════════════════════ */
 function fixNavigation() {
   if (typeof document === 'undefined') return
 
-  // ── 1. МОБИЛЬНОЕ МЕНЮ: Призотека — текст, цвет, размер, шеврон ──
+  // ── 1. МОБИЛЬНОЕ МЕНЮ: Призотека ──
   const menuGroups = document.querySelectorAll('.VPNavScreen .VPNavScreenMenuGroup')
   menuGroups.forEach((group) => {
-    // Кнопка с текстом
     const btn = group.querySelector('button')
     if (!btn) return
 
-    const textEl = btn.querySelector('.text')
+    // Текст «Призотека» — класс .button-text
+    const textEl = btn.querySelector('.button-text')
     if (textEl) {
-      textEl.style.cssText = 'font-family: Inter, sans-serif; font-size: 18px; font-weight: 600; color: #F0F4FF;'
+      const isOpen = group.classList.contains('open')
+      textEl.style.cssText = `
+        font-family: Inter, sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: ${isOpen ? '#C5F946' : '#F0F4FF'} !important;
+      `
     }
 
     // Центрирование кнопки
-    btn.style.cssText = 'display: flex; justify-content: center; align-items: center; width: 100%; padding: 12px 0; text-align: center;'
+    btn.style.cssText = `
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 12px 0 !important;
+      text-align: center !important;
+    `
 
-    // Открытое состояние — лайм
-    if (group.classList.contains('open') && textEl) {
-      textEl.style.color = '#C5F946'
-    }
-
-    // Замена иконки на шеврон
-    const iconContainer = btn.querySelector('.text-icon')
-    if (iconContainer && !iconContainer.dataset.chevronFixed) {
-      iconContainer.dataset.chevronFixed = 'true'
+    // Иконка — класс .button-icon (может иметь .vpi-plus или .vpi-chevron-down)
+    const iconEl = btn.querySelector('.button-icon')
+    if (iconEl && !iconEl.dataset.chevronDone) {
+      iconEl.dataset.chevronDone = 'true'
       
-      // Убираем всё что внутри
-      iconContainer.innerHTML = ''
+      // Убираем стандартные классы VitePress иконок
+      iconEl.classList.remove('vpi-plus', 'vpi-chevron-down')
       
-      // Вставляем SVG шеврон
-      const chevronSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-      chevronSvg.setAttribute('width', '18')
-      chevronSvg.setAttribute('height', '18')
-      chevronSvg.setAttribute('viewBox', '0 0 24 24')
-      chevronSvg.setAttribute('fill', 'none')
-      chevronSvg.setAttribute('stroke', '#7A8BA8')
-      chevronSvg.setAttribute('stroke-width', '2')
-      chevronSvg.setAttribute('stroke-linecap', 'round')
-      chevronSvg.setAttribute('stroke-linejoin', 'round')
-      chevronSvg.style.cssText = 'transition: transform 0.25s ease; margin-left: 4px;'
-      chevronSvg.classList.add('bb-chevron')
+      // Очищаем содержимое
+      iconEl.innerHTML = ''
       
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+      // Убираем ::before псевдоэлемент через inline стили
+      iconEl.style.cssText = `
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 24px !important;
+        height: 24px !important;
+        margin-left: 6px !important;
+        font-size: 0 !important;
+        line-height: 0 !important;
+      `
+      
+      // Вставляем SVG chevron
+      const svgNS = 'http://www.w3.org/2000/svg'
+      const svg = document.createElementNS(svgNS, 'svg')
+      svg.setAttribute('width', '18')
+      svg.setAttribute('height', '18')
+      svg.setAttribute('viewBox', '0 0 24 24')
+      svg.setAttribute('fill', 'none')
+      svg.setAttribute('stroke', '#7A8BA8')
+      svg.setAttribute('stroke-width', '2.5')
+      svg.setAttribute('stroke-linecap', 'round')
+      svg.setAttribute('stroke-linejoin', 'round')
+      svg.style.cssText = 'transition: transform 0.25s ease;'
+      svg.classList.add('bb-nav-chevron')
+      
+      const path = document.createElementNS(svgNS, 'path')
       path.setAttribute('d', 'm6 9 6 6 6-6')
-      chevronSvg.appendChild(path)
-      
-      iconContainer.appendChild(chevronSvg)
-      iconContainer.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px;'
+      svg.appendChild(path)
+      iconEl.appendChild(svg)
     }
 
-    // Обновляем состояние шеврона (поворот + цвет)
-    const chevron = iconContainer ? iconContainer.querySelector('.bb-chevron') : null
+    // Обновляем поворот и цвет шеврона при каждом вызове
+    const chevron = btn.querySelector('.bb-nav-chevron')
     if (chevron) {
-      if (group.classList.contains('open')) {
-        chevron.style.transform = 'rotate(180deg)'
-        chevron.setAttribute('stroke', '#C5F946')
-      } else {
-        chevron.style.transform = 'rotate(0deg)'
-        chevron.setAttribute('stroke', '#7A8BA8')
+      const isOpen = group.classList.contains('open')
+      chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+      chevron.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
+    }
+  })
+
+  // ── 2. ДЕСКТОП: dropdown Призотеки — позиция ──
+  if (window.innerWidth > 960) {
+    const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
+    desktopFlyouts.forEach((flyout) => {
+      // VitePress может вложить меню в разные контейнеры
+      const menu = flyout.querySelector('.VPMenu')
+      if (menu) {
+        menu.style.cssText = `
+          position: absolute !important;
+          top: 100% !important;
+          left: 0 !important;
+          right: auto !important;
+          transform: none !important;
+          margin: 0 !important;
+          min-width: 160px !important;
+          border-radius: 0 !important;
+        `
       }
-    }
-  })
 
-  // ── 2. ДЕСКТОП: dropdown Призотеки — позиционирование ──
-  const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
-  desktopFlyouts.forEach((flyout) => {
-    // Находим VPMenu внутри (может быть вложен в .VPFlyoutBody > .shell > .VPMenu)
-    const menu = flyout.querySelector('.VPMenu')
-    if (menu) {
-      menu.style.cssText = 'position: absolute; top: 100%; left: 0; right: auto; transform: none; margin: 0; min-width: 160px; border-radius: 0;'
-    }
+      // Hover на кнопке flyout
+      const btn = flyout.querySelector(':scope > button')
+      if (btn && !btn.dataset.hoverFixed) {
+        btn.dataset.hoverFixed = 'true'
 
-    // Кнопка flyout — компактный hover как у обычных ссылок
-    const btn = flyout.querySelector(':scope > button')
-    if (btn && !btn.dataset.hoverFixed) {
-      btn.dataset.hoverFixed = 'true'
-      
-      btn.addEventListener('mouseenter', () => {
-        btn.style.background = '#C5F946'
-        btn.style.color = '#1a1840'
-        // Текст и шеврон тоже тёмные
-        const txt = btn.querySelector('.text')
-        if (txt) txt.style.color = '#1a1840'
-        const icon = btn.querySelector('.text-icon')
-        if (icon) icon.style.color = '#1a1840'
-        const svgs = btn.querySelectorAll('svg')
-        svgs.forEach(s => { s.style.color = '#1a1840'; s.style.fill = '#1a1840' })
-      })
-      
-      btn.addEventListener('mouseleave', () => {
-        btn.style.background = 'transparent'
-        btn.style.color = ''
-        const txt = btn.querySelector('.text')
-        if (txt) txt.style.color = ''
-        const icon = btn.querySelector('.text-icon')
-        if (icon) icon.style.color = ''
-        const svgs = btn.querySelectorAll('svg')
-        svgs.forEach(s => { s.style.color = ''; s.style.fill = '' })
-      })
-    }
-  })
+        btn.addEventListener('mouseenter', () => {
+          btn.style.background = '#C5F946'
+          btn.style.color = '#1a1840'
+          // .button-text тоже существует в десктопном варианте? Проверяем оба варианта
+          const txt = btn.querySelector('.button-text') || btn.querySelector('.text')
+          if (txt) txt.style.color = '#1a1840'
+          btn.querySelectorAll('svg').forEach(s => {
+            s.style.color = '#1a1840'
+            s.style.fill = '#1a1840'
+          })
+        })
+        
+        btn.addEventListener('mouseleave', () => {
+          btn.style.background = ''
+          btn.style.color = ''
+          const txt = btn.querySelector('.button-text') || btn.querySelector('.text')
+          if (txt) txt.style.color = ''
+          btn.querySelectorAll('svg').forEach(s => {
+            s.style.color = ''
+            s.style.fill = ''
+          })
+        })
+      }
+    })
+  }
 }
 
 function setupMobileSignalButton() {
@@ -266,28 +284,17 @@ function setupMobileSignalButton() {
     link.style.position = 'relative'
 
     const overlay = document.createElement('button')
-    overlay.style.cssText = `
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: transparent; border: none; cursor: pointer; z-index: 100;
-      -webkit-tap-highlight-color: transparent;
-    `
+    overlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;border:none;cursor:pointer;z-index:100;-webkit-tap-highlight-color:transparent;'
     overlay.setAttribute('aria-label', 'Отправить Сигнал')
 
     overlay.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      e.stopImmediatePropagation()
-
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation()
       const navScreen = document.querySelector('.VPNavScreen')
       if (navScreen) navScreen.classList.remove('open')
       document.body.classList.remove('overflow-hidden')
-
       const menuButton = document.querySelector('.VPNavBarHamburger button')
       if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
-
-      setTimeout(() => {
-        if (window.openSignalModal) window.openSignalModal()
-      }, 100)
+      setTimeout(() => { if (window.openSignalModal) window.openSignalModal() }, 100)
     })
 
     overlay.addEventListener('touchstart', () => {}, { passive: true })
@@ -297,38 +304,25 @@ function setupMobileSignalButton() {
 </script>
 
 <style>
-/* ── Скрываем дефолтный VitePress home-контент когда наша страница активна ── */
 body.boom-home-active .VPHome .VPHomeHero .container { display: none !important; }
 body.boom-home-active .VPHome .VPHomeFeatures { display: none !important; }
 body.boom-home-active .VPHome { padding: 0 !important; margin: 0 !important; }
 body.boom-home-active .VPContent.is-home { padding: 0 !important; }
 
-.notification-container {
-  max-width: 688px; width: 100%; margin: 16px auto 48px auto;
-  padding: 0; box-sizing: border-box; height: 44px; overflow: hidden;
-}
+.notification-container { max-width: 688px; width: 100%; margin: 16px auto 48px auto; padding: 0; box-sizing: border-box; height: 44px; overflow: hidden; }
 .notification-container > * { height: 100%; display: flex; align-items: center; justify-content: center; }
 body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .VPDoc, .VPContent { border-radius: 5px; }
 
 .VPNavBarTitle a { display: flex !important; align-items: center !important; }
 
-.shark-eyes {
-  width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain;
-  animation: eyes-breathe 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 3px rgba(197, 249, 70, 0.3));
-}
-
+.shark-eyes { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
 @keyframes eyes-breathe {
   0%, 100% { filter: drop-shadow(0 0 2px rgba(197,249,70,0.2)); transform: scale(1); }
   50% { filter: drop-shadow(0 0 8px rgba(197,249,70,0.6)) drop-shadow(0 0 16px rgba(197,249,70,0.25)); transform: scale(1.04); }
 }
 
-.bb-preloader {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 9998; background: #1c1a3e;
-  display: flex; align-items: center; justify-content: center;
-}
+.bb-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; background: #1c1a3e; display: flex; align-items: center; justify-content: center; }
 .bb-preloader-eyes { width: 72px; height: 48px; object-fit: contain; animation: preloader-pulse 0.5s ease-in-out infinite alternate; }
 @keyframes preloader-pulse { 0% { transform: scale(0.92); opacity: 0.7; } 100% { transform: scale(1.08); opacity: 1; } }
 
@@ -349,7 +343,6 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
   body.has-banner .VPDoc { padding-top: 18px; }
 }
 
-/* Убираем двойные рамки в dropdown */
 .VPMenu .VPMenuLink a, .VPFlyout .VPMenuLink a { border: none !important; outline: none !important; box-shadow: none !important; }
 .VPMenu .VPMenuLink a:hover, .VPFlyout .VPMenuLink a:hover,
 .VPMenu .VPMenuLink a:focus, .VPFlyout .VPMenuLink a:focus { border: none !important; outline: none !important; box-shadow: none !important; }
