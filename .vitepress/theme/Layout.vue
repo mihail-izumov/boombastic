@@ -74,11 +74,13 @@ onMounted(() => {
   injectSharkEyes()
   setupMobileSignalButton()
   fixNavigation()
+  injectMobileLoginButton()
   setupScrollLock()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
     fixNavigation()
+    injectMobileLoginButton()
     if (window.innerWidth <= 960) setupMobileSignalButton()
   })
   observer.observe(document.body, { childList: true, subtree: true })
@@ -100,6 +102,7 @@ onMounted(() => {
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
       fixNavigation()
+      injectMobileLoginButton()
     })
     if (window.innerWidth <= 960) setTimeout(setupMobileSignalButton, 300)
   }
@@ -121,6 +124,55 @@ function injectSharkEyes() {
     eyes.setAttribute('aria-hidden', 'true')
     titleLink.insertBefore(eyes, titleLink.firstChild)
   }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Мобильная кнопка «Войти» в навбаре (вместо поиска)
+   Показывается только на экранах ≤960px
+   ════════════════════════════════════════════════════════════════ */
+function injectMobileLoginButton() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+  if (window.innerWidth > 960) return
+
+  // Прячем поиск на мобилке
+  const searchBtn = document.querySelector('.VPNavBar .VPNavBarSearchButton')
+  if (searchBtn) searchBtn.style.cssText = 'display:none !important;'
+
+  // Проверяем, не вставлена ли уже кнопка
+  if (document.querySelector('.bb-mobile-login-btn')) return
+
+  // Находим область рядом с гамбургером
+  const hamburger = document.querySelector('.VPNavBarHamburger')
+  if (!hamburger) return
+
+  const loginBtn = document.createElement('button')
+  loginBtn.className = 'bb-mobile-login-btn'
+  loginBtn.textContent = 'Войти'
+  loginBtn.style.cssText = `
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1840;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    background-image: linear-gradient(-45deg, #c5f946, #85a931, #c5f946, #85a931);
+    background-size: 400% 400%;
+    animation: liquid-fluid 6s ease infinite;
+    margin-right: 8px;
+    flex-shrink: 0;
+  `
+
+  loginBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (window.openLoginModal) window.openLoginModal()
+  })
+
+  // Вставляем перед гамбургером
+  hamburger.parentElement.insertBefore(loginBtn, hamburger)
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -181,7 +233,6 @@ function fixNavigation() {
 
     const isOpen = group.classList.contains('open')
 
-    // Текст
     const textEl = btn.querySelector('.button-text')
     if (textEl) {
       textEl.style.setProperty('font-family', 'Inter, sans-serif', 'important')
@@ -190,11 +241,9 @@ function fixNavigation() {
       textEl.style.setProperty('color', isOpen ? '#C5F946' : '#F0F4FF', 'important')
     }
 
-    // Прячем оригинальную иконку
     const iconEl = btn.querySelector('.button-icon')
     if (iconEl) iconEl.style.cssText = 'display:none !important;'
 
-    // Создаём шеврон
     let chevron = btn.querySelector('.bb-chevron-wrap')
     if (!chevron) {
       chevron = document.createElement('span')
@@ -204,14 +253,12 @@ function fixNavigation() {
       btn.appendChild(chevron)
     }
 
-    // Обновляем шеврон
     const svg = chevron.querySelector('svg')
     if (svg) {
       svg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
       svg.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
     }
 
-    // Клик-обработчик для принудительного обновления шеврона
     if (!btn.dataset.chevronClickFixed) {
       btn.dataset.chevronClickFixed = 'true'
       btn.addEventListener('click', () => {
@@ -231,15 +278,11 @@ function fixNavigation() {
   })
 
   // ══════════════════════════════════════════
-  // 2. ДЕСКТОП: dropdown Призотеки
+  // 2. ДЕСКТОП: dropdown Призотеки (без изменения размера кнопки)
   // ══════════════════════════════════════════
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
-      // Контейнер flyout — центрировать кнопку по вертикали
-      flyout.style.setProperty('align-items', 'center', 'important')
-
-      // Dropdown — позиция и скругления
       const menuDiv = flyout.querySelector(':scope > div.menu')
       if (menuDiv) {
         menuDiv.style.cssText = 'position:absolute;top:100%;left:0;right:auto;transform:none;margin:0;min-width:160px;border-radius:0;'
@@ -248,44 +291,35 @@ function fixNavigation() {
         })
       }
 
-      // Кнопка flyout — компактная как обычные ссылки
       const btn = flyout.querySelector(':scope > button')
-      if (btn) {
-        btn.style.setProperty('padding', '4px 12px', 'important')
-        btn.style.setProperty('border-radius', '0', 'important')
-        btn.style.setProperty('background', 'transparent', 'important')
-        btn.style.setProperty('height', 'auto', 'important')
-        btn.style.setProperty('align-self', 'center', 'important')
+      if (btn && !btn.dataset.hoverFixed) {
+        btn.dataset.hoverFixed = 'true'
 
-        if (!btn.dataset.hoverFixed) {
-          btn.dataset.hoverFixed = 'true'
-
-          btn.addEventListener('mouseenter', () => {
-            btn.style.setProperty('background', '#C5F946', 'important')
-            btn.style.setProperty('color', '#1a1840', 'important')
-            const txt = btn.querySelector('.text')
-            if (txt) txt.style.setProperty('color', '#1a1840', 'important')
-            const icon = btn.querySelector('.text-icon')
-            if (icon) icon.style.setProperty('color', '#1a1840', 'important')
-            btn.querySelectorAll('svg').forEach(s => {
-              s.style.setProperty('color', '#1a1840', 'important')
-              s.style.setProperty('fill', '#1a1840', 'important')
-            })
+        btn.addEventListener('mouseenter', () => {
+          btn.style.setProperty('background', '#C5F946', 'important')
+          btn.style.setProperty('color', '#1a1840', 'important')
+          const txt = btn.querySelector('.text')
+          if (txt) txt.style.setProperty('color', '#1a1840', 'important')
+          const icon = btn.querySelector('.text-icon')
+          if (icon) icon.style.setProperty('color', '#1a1840', 'important')
+          btn.querySelectorAll('svg').forEach(s => {
+            s.style.setProperty('color', '#1a1840', 'important')
+            s.style.setProperty('fill', '#1a1840', 'important')
           })
+        })
 
-          btn.addEventListener('mouseleave', () => {
-            btn.style.setProperty('background', 'transparent', 'important')
-            btn.style.removeProperty('color')
-            const txt = btn.querySelector('.text')
-            if (txt) txt.style.removeProperty('color')
-            const icon = btn.querySelector('.text-icon')
-            if (icon) icon.style.removeProperty('color')
-            btn.querySelectorAll('svg').forEach(s => {
-              s.style.removeProperty('color')
-              s.style.removeProperty('fill')
-            })
+        btn.addEventListener('mouseleave', () => {
+          btn.style.setProperty('background', 'transparent', 'important')
+          btn.style.removeProperty('color')
+          const txt = btn.querySelector('.text')
+          if (txt) txt.style.removeProperty('color')
+          const icon = btn.querySelector('.text-icon')
+          if (icon) icon.style.removeProperty('color')
+          btn.querySelectorAll('svg').forEach(s => {
+            s.style.removeProperty('color')
+            s.style.removeProperty('fill')
           })
-        }
+        })
       }
     })
   }
@@ -344,6 +378,11 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .preloader-fade-enter-from, .preloader-fade-leave-to { opacity: 0; }
 
 body.bb-scroll-locked { position: fixed !important; overflow: hidden !important; width: 100% !important; -webkit-overflow-scrolling: none !important; touch-action: none !important; }
+
+/* Мобильная кнопка «Войти» — скрыта на десктопе */
+@media (min-width: 961px) {
+  .bb-mobile-login-btn { display: none !important; }
+}
 
 @media (max-width: 768px) {
   .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
