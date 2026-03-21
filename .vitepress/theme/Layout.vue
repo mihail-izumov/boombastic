@@ -95,7 +95,6 @@ onMounted(() => {
     const remaining = Math.max(0, PRELOADER_MIN_MS - elapsed)
     clearTimeout(preloaderTimeout)
     preloaderTimeout = setTimeout(() => { showPreloader.value = false }, remaining)
-
     nextTick(() => {
       const nb = document.querySelector('.VPNavBar')
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
@@ -129,32 +128,19 @@ function injectSharkEyes() {
    ════════════════════════════════════════════════════════════════ */
 function setupScrollLock() {
   if (typeof window === 'undefined') return
-
   const origOpenLogin = window.openLoginModal
   const origOpenGameMode = window.openGameModeModal
-
-  window.openLoginModal = function() {
-    lockScroll()
-    if (origOpenLogin) origOpenLogin()
-  }
-  window.openGameModeModal = function() {
-    lockScroll()
-    if (origOpenGameMode) origOpenGameMode()
-  }
-
+  window.openLoginModal = function() { lockScroll(); if (origOpenLogin) origOpenLogin() }
+  window.openGameModeModal = function() { lockScroll(); if (origOpenGameMode) origOpenGameMode() }
   const checkModals = () => {
     const login = document.getElementById('bb-login-modal')
     const gamemode = document.getElementById('bb-gamemode-modal')
     const loginOpen = login && login.style.display === 'flex'
     const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
-    if (!loginOpen && !gamemodeOpen && document.body.classList.contains('bb-scroll-locked')) {
-      unlockScroll()
-    }
+    if (!loginOpen && !gamemodeOpen && document.body.classList.contains('bb-scroll-locked')) unlockScroll()
   }
   setInterval(checkModals, 200)
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setTimeout(unlockScroll, 50)
-  })
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setTimeout(unlockScroll, 50) })
 }
 
 function lockScroll() {
@@ -180,10 +166,7 @@ function unlockScroll() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   fixNavigation — JS-фиксы навигации
-   
-   МОБИЛКА: .button-text, .button-icon (.vpi-plus)
-   ДЕСКТОП: .text, .text-icon, div.menu
+   fixNavigation
    ════════════════════════════════════════════════════════════════ */
 function fixNavigation() {
   if (typeof document === 'undefined') return
@@ -198,7 +181,7 @@ function fixNavigation() {
 
     const isOpen = group.classList.contains('open')
 
-    // Текст «Призотека» — .button-text
+    // Текст
     const textEl = btn.querySelector('.button-text')
     if (textEl) {
       textEl.style.setProperty('font-family', 'Inter, sans-serif', 'important')
@@ -207,13 +190,11 @@ function fixNavigation() {
       textEl.style.setProperty('color', isOpen ? '#C5F946' : '#F0F4FF', 'important')
     }
 
-    // Прячем оригинальную иконку VitePress
+    // Прячем оригинальную иконку
     const iconEl = btn.querySelector('.button-icon')
-    if (iconEl) {
-      iconEl.style.cssText = 'display:none !important;'
-    }
+    if (iconEl) iconEl.style.cssText = 'display:none !important;'
 
-    // Создаём свой шеврон рядом (как отдельный элемент)
+    // Создаём шеврон
     let chevron = btn.querySelector('.bb-chevron-wrap')
     if (!chevron) {
       chevron = document.createElement('span')
@@ -223,11 +204,30 @@ function fixNavigation() {
       btn.appendChild(chevron)
     }
 
-    // Обновляем поворот и цвет каждый вызов
+    // Обновляем шеврон
     const svg = chevron.querySelector('svg')
     if (svg) {
       svg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
       svg.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
+    }
+
+    // Клик-обработчик для принудительного обновления шеврона
+    if (!btn.dataset.chevronClickFixed) {
+      btn.dataset.chevronClickFixed = 'true'
+      btn.addEventListener('click', () => {
+        // Даём VitePress время переключить класс .open
+        setTimeout(() => {
+          const nowOpen = group.classList.contains('open')
+          const s = chevron.querySelector('svg')
+          if (s) {
+            s.style.transform = nowOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+            s.setAttribute('stroke', nowOpen ? '#C5F946' : '#7A8BA8')
+          }
+          if (textEl) {
+            textEl.style.setProperty('color', nowOpen ? '#C5F946' : '#F0F4FF', 'important')
+          }
+        }, 50)
+      })
     }
   })
 
@@ -237,52 +237,52 @@ function fixNavigation() {
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
-      // Dropdown контейнер — без скруглений, по левому краю
+      // Dropdown — позиция и скругления
       const menuDiv = flyout.querySelector(':scope > div.menu')
       if (menuDiv) {
         menuDiv.style.cssText = 'position:absolute;top:100%;left:0;right:auto;transform:none;margin:0;min-width:160px;border-radius:0;'
-        // Убираем скругления у всех вложенных элементов
         menuDiv.querySelectorAll('*').forEach(el => {
-          if (getComputedStyle(el).borderRadius !== '0px') {
-            el.style.borderRadius = '0'
-          }
+          if (getComputedStyle(el).borderRadius !== '0px') el.style.borderRadius = '0'
         })
       }
 
-      // Кнопка flyout — компактный padding как у обычных ссылок + hover
+      // Кнопка flyout — компактная как обычные ссылки
       const btn = flyout.querySelector(':scope > button')
-      if (btn && !btn.dataset.hoverFixed) {
-        btn.dataset.hoverFixed = 'true'
+      if (btn) {
+        // Принудительно задаём компактный padding через setProperty (перебивает scoped стили)
+        btn.style.setProperty('padding', '4px 12px', 'important')
+        btn.style.setProperty('border-radius', '0', 'important')
+        btn.style.setProperty('background', 'transparent', 'important')
 
-        // Компактный размер — такой же как у Парки/Зарядка/Статусы
-        btn.style.padding = '4px 12px'
-        btn.style.borderRadius = '0'
+        if (!btn.dataset.hoverFixed) {
+          btn.dataset.hoverFixed = 'true'
 
-        btn.addEventListener('mouseenter', () => {
-          btn.style.background = '#C5F946'
-          btn.style.color = '#1a1840'
-          const txt = btn.querySelector('.text')
-          if (txt) txt.style.color = '#1a1840'
-          const icon = btn.querySelector('.text-icon')
-          if (icon) icon.style.color = '#1a1840'
-          btn.querySelectorAll('svg').forEach(s => {
-            s.style.color = '#1a1840'
-            s.style.fill = '#1a1840'
+          btn.addEventListener('mouseenter', () => {
+            btn.style.setProperty('background', '#C5F946', 'important')
+            btn.style.setProperty('color', '#1a1840', 'important')
+            const txt = btn.querySelector('.text')
+            if (txt) txt.style.setProperty('color', '#1a1840', 'important')
+            const icon = btn.querySelector('.text-icon')
+            if (icon) icon.style.setProperty('color', '#1a1840', 'important')
+            btn.querySelectorAll('svg').forEach(s => {
+              s.style.setProperty('color', '#1a1840', 'important')
+              s.style.setProperty('fill', '#1a1840', 'important')
+            })
           })
-        })
-        
-        btn.addEventListener('mouseleave', () => {
-          btn.style.background = ''
-          btn.style.color = ''
-          const txt = btn.querySelector('.text')
-          if (txt) txt.style.color = ''
-          const icon = btn.querySelector('.text-icon')
-          if (icon) icon.style.color = ''
-          btn.querySelectorAll('svg').forEach(s => {
-            s.style.color = ''
-            s.style.fill = ''
+
+          btn.addEventListener('mouseleave', () => {
+            btn.style.setProperty('background', 'transparent', 'important')
+            btn.style.removeProperty('color')
+            const txt = btn.querySelector('.text')
+            if (txt) txt.style.removeProperty('color')
+            const icon = btn.querySelector('.text-icon')
+            if (icon) icon.style.removeProperty('color')
+            btn.querySelectorAll('svg').forEach(s => {
+              s.style.removeProperty('color')
+              s.style.removeProperty('fill')
+            })
           })
-        })
+        }
       }
     })
   }
@@ -291,18 +291,15 @@ function fixNavigation() {
 function setupMobileSignalButton() {
   if (typeof window === 'undefined' || window.innerWidth > 960) return
   if (!window.openSignalModal) return
-
   const signalLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="signal-link"]')
   signalLinks.forEach((link) => {
     if (link.dataset.signalProcessed) return
     link.dataset.signalProcessed = 'true'
     link.removeAttribute('href')
     link.style.position = 'relative'
-
     const overlay = document.createElement('button')
     overlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;border:none;cursor:pointer;z-index:100;-webkit-tap-highlight-color:transparent;'
     overlay.setAttribute('aria-label', 'Отправить Сигнал')
-
     overlay.addEventListener('click', (e) => {
       e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation()
       const navScreen = document.querySelector('.VPNavScreen')
@@ -312,7 +309,6 @@ function setupMobileSignalButton() {
       if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
       setTimeout(() => { if (window.openSignalModal) window.openSignalModal() }, 100)
     })
-
     overlay.addEventListener('touchstart', () => {}, { passive: true })
     link.appendChild(overlay)
   })
@@ -329,7 +325,6 @@ body.boom-home-active .VPContent.is-home { padding: 0 !important; }
 .notification-container > * { height: 100%; display: flex; align-items: center; justify-content: center; }
 body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .VPDoc, .VPContent { border-radius: 5px; }
-
 .VPNavBarTitle a { display: flex !important; align-items: center !important; }
 
 .shark-eyes { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
@@ -341,18 +336,11 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .bb-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; background: #1c1a3e; display: flex; align-items: center; justify-content: center; }
 .bb-preloader-eyes { width: 72px; height: 48px; object-fit: contain; animation: preloader-pulse 0.5s ease-in-out infinite alternate; }
 @keyframes preloader-pulse { 0% { transform: scale(0.92); opacity: 0.7; } 100% { transform: scale(1.08); opacity: 1; } }
-
 .preloader-fade-enter-active { transition: opacity 0.1s ease; }
 .preloader-fade-leave-active { transition: opacity 0.35s ease; }
 .preloader-fade-enter-from, .preloader-fade-leave-to { opacity: 0; }
 
-body.bb-scroll-locked {
-  position: fixed !important;
-  overflow: hidden !important;
-  width: 100% !important;
-  -webkit-overflow-scrolling: none !important;
-  touch-action: none !important;
-}
+body.bb-scroll-locked { position: fixed !important; overflow: hidden !important; width: 100% !important; -webkit-overflow-scrolling: none !important; touch-action: none !important; }
 
 @media (max-width: 768px) {
   .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
@@ -361,13 +349,11 @@ body.bb-scroll-locked {
   body.has-banner .VPDoc { padding-top: 20px; }
   .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after { pointer-events: none !important; }
 }
-
 @media (max-width: 960px) and (min-width: 769px) {
   .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
 }
 
 .VPMenu .VPMenuLink a, .VPFlyout .VPMenuLink a { border: none !important; outline: none !important; box-shadow: none !important; }
-.VPMenu .VPMenuLink a:hover, .VPFlyout .VPMenuLink a:hover,
-.VPMenu .VPMenuLink a:focus, .VPFlyout .VPMenuLink a:focus { border: none !important; outline: none !important; box-shadow: none !important; }
+.VPMenu .VPMenuLink a:hover, .VPFlyout .VPMenuLink a:hover, .VPMenu .VPMenuLink a:focus, .VPFlyout .VPMenuLink a:focus { border: none !important; outline: none !important; box-shadow: none !important; }
 </style>
