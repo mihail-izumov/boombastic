@@ -308,6 +308,20 @@ code, .vp-code, .line-numbers {
   right: 0 !important;
 }
 
+/* Контент внутри "..." — отступы и центрирование VK */
+.VPNavBarExtra .VPMenu .items {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 14px !important;
+}
+.VPNavBarExtra .VPSocialLinks {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  padding: 4px 0 !important;
+}
+
 /* ============================================================
    [FIX 5] ВЫПАДАЮЩЕЕ МЕНЮ — [ПРАВКА 7] светлый фон, лаймовые заголовки
    ============================================================ */
@@ -632,6 +646,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     font-weight: 600 !important;
     color: var(--text-primary) !important;
     padding: 12px 0 !important;
+    text-align: center !important;
   }
   .VPNavScreen .VPNavScreenMenuLink:hover { color: var(--accent-lime) !important; }
 
@@ -643,6 +658,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     font-size: 18px !important;
     font-weight: 600 !important;
     color: var(--accent-lime) !important;
+    text-align: center !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .title:hover,
   .VPNavScreen .VPNavScreenMenuGroup .title:hover .text { color: var(--accent-lime) !important; }
@@ -660,6 +676,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
     font-weight: 600 !important;
     color: var(--text-primary) !important;
     padding: 8px 0 8px 16px !important;
+    text-align: center !important;
   }
   .VPNavScreen .VPNavScreenMenuGroup .item a:hover,
   .VPNavScreen .VPNavScreenMenuGroupSection .item a:hover {
