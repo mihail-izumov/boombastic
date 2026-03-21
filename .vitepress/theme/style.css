@@ -766,15 +766,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 }
 
 /* ============================================================
-   [FIX 9] VPNavBarExtra — меню "..." СКРЫТО на больших экранах
-   ============================================================ */
-@media (min-width: 961px) {
-  .VPNavBarExtra {
-    display: none !important;
-  }
-}
-
-/* ============================================================
    [FIX 1] SIDEBAR: Marathon-стиль + Space Mono
    ============================================================ */
 .VPSidebar {
