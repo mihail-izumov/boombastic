@@ -91,11 +91,11 @@ onMounted(() => {
   }
 
   injectSharkEyes()
-  setupMobileSignalButton()
+  setupMobileButtons()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
-    if (window.innerWidth <= 768) setupMobileSignalButton()
+    if (window.innerWidth <= 960) setupMobileButtons()
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
@@ -120,8 +120,8 @@ onMounted(() => {
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
     })
-    if (window.innerWidth <= 768) {
-      setTimeout(setupMobileSignalButton, 300)
+    if (window.innerWidth <= 960) {
+      setTimeout(setupMobileButtons, 300)
     }
   }
 })
@@ -144,44 +144,67 @@ function injectSharkEyes() {
   }
 }
 
-function setupMobileSignalButton() {
-  if (typeof window === 'undefined' || window.innerWidth > 768) return
-  if (!window.openSignalModal) return
+/**
+ * Закрывает мобильное меню VitePress
+ */
+function closeMobileMenu() {
+  const navScreen = document.querySelector('.VPNavScreen')
+  if (navScreen) navScreen.classList.remove('open')
+  document.body.classList.remove('overflow-hidden')
 
-  const signalLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="signal-link"]')
-  signalLinks.forEach((link) => {
-    if (link.dataset.signalProcessed) return
-    link.dataset.signalProcessed = 'true'
-    link.removeAttribute('href')
-    link.style.position = 'relative'
+  const menuButton = document.querySelector('.VPNavBarHamburger button')
+  if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
+}
 
-    const overlay = document.createElement('button')
-    overlay.style.cssText = `
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: transparent; border: none; cursor: pointer; z-index: 100;
-      -webkit-tap-highlight-color: transparent;
-    `
-    overlay.setAttribute('aria-label', 'Отправить Сигнал')
+/**
+ * Добавляет overlay-кнопку на social link для перехвата кликов в мобильном меню
+ */
+function addOverlay(link, label, handler) {
+  if (link.dataset.modalProcessed) return
+  link.dataset.modalProcessed = 'true'
+  link.removeAttribute('href')
+  link.style.position = 'relative'
 
-    overlay.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      e.stopImmediatePropagation()
+  const overlay = document.createElement('button')
+  overlay.style.cssText = `
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: transparent; border: none; cursor: pointer; z-index: 100;
+    -webkit-tap-highlight-color: transparent;
+  `
+  overlay.setAttribute('aria-label', label)
 
-      const navScreen = document.querySelector('.VPNavScreen')
-      if (navScreen) navScreen.classList.remove('open')
-      document.body.classList.remove('overflow-hidden')
+  overlay.addEventListener('click', (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    e.stopImmediatePropagation()
+    closeMobileMenu()
+    setTimeout(handler, 150)
+  })
 
-      const menuButton = document.querySelector('.VPNavBarHamburger button')
-      if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
+  overlay.addEventListener('touchstart', () => {}, { passive: true })
+  link.appendChild(overlay)
+}
 
-      setTimeout(() => {
-        if (window.openSignalModal) window.openSignalModal()
-      }, 100)
-    })
+/**
+ * Настраивает кнопки в мобильном меню (VPNavScreen):
+ * — «Игровой режим» → openGameModeModal
+ * — «Войти» → openLoginModal
+ */
+function setupMobileButtons() {
+  if (typeof window === 'undefined' || window.innerWidth > 960) return
 
-    overlay.addEventListener('touchstart', () => {}, { passive: true })
-    link.appendChild(overlay)
+  // Кнопка «Игровой режим»
+  document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="gamemode-link"]').forEach((link) => {
+    if (window.openGameModeModal) {
+      addOverlay(link, 'Игровой режим', () => window.openGameModeModal())
+    }
+  })
+
+  // Кнопка «Войти»
+  document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="apply-link"]').forEach((link) => {
+    if (window.openLoginModal) {
+      addOverlay(link, 'Войти', () => window.openLoginModal())
+    }
   })
 }
 </script>
@@ -284,7 +307,6 @@ body.has-banner .VPDoc {
   .bb-preloader-eyes { width: 56px; height: 38px; }
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
-  .VPNavScreen .VPSocialLink[aria-label="signal-link"]::after { pointer-events: none !important; }
 }
 
 @media (max-width: 960px) and (min-width: 769px) {
@@ -292,7 +314,15 @@ body.has-banner .VPDoc {
   body.has-banner .VPDoc { padding-top: 18px; }
 }
 
-/* ═══ [FIX 3,4] Убираем двойные рамки в dropdown ═══ */
+/* Псевдоэлементы кнопок в мобильном меню — не блокируют overlay */
+@media (max-width: 960px) {
+  .VPNavScreen .VPSocialLink[aria-label="gamemode-link"]::after,
+  .VPNavScreen .VPSocialLink[aria-label="apply-link"]::after {
+    pointer-events: none !important;
+  }
+}
+
+/* ═══ Убираем двойные рамки в dropdown ═══ */
 .VPMenu .VPMenuLink a,
 .VPFlyout .VPMenuLink a {
   border: none !important;
