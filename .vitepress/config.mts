@@ -229,6 +229,13 @@ export default defineConfig({
     },
 
     nav: [
+      {
+        text: 'Призотека',
+        items: [
+          { text: 'Питерлэнд', link: '/prizes/piterland' },
+          { text: 'Охта Молл', link: '/prizes/ohtamall' }
+        ]
+      },
       { text: 'Парки', link: '/parks' },
       { text: 'Зарядка', link: '/charge' },
       { text: 'Статусы', link: '/rewards' }
