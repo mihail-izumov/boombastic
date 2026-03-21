@@ -125,13 +125,11 @@ function injectSharkEyes() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   Блокировка скролла при открытых модальных окнах
-   Работает на iOS Safari (position: fixed) и Android
+   Блокировка скролла при модальных окнах
    ════════════════════════════════════════════════════════════════ */
 function setupScrollLock() {
   if (typeof window === 'undefined') return
 
-  // Перезаписываем глобальные функции модалок с добавлением scroll lock
   const origOpenLogin = window.openLoginModal
   const origOpenGameMode = window.openGameModeModal
 
@@ -144,26 +142,18 @@ function setupScrollLock() {
     if (origOpenGameMode) origOpenGameMode()
   }
 
-  // Следим за закрытием через MutationObserver
   const checkModals = () => {
     const login = document.getElementById('bb-login-modal')
     const gamemode = document.getElementById('bb-gamemode-modal')
     const loginOpen = login && login.style.display === 'flex'
     const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
-    
     if (!loginOpen && !gamemodeOpen && document.body.classList.contains('bb-scroll-locked')) {
       unlockScroll()
     }
   }
-
-  // Проверяем каждые 200ms (надёжнее чем только MutationObserver)
   setInterval(checkModals, 200)
-
-  // Также на Escape
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      setTimeout(unlockScroll, 50)
-    }
+    if (e.key === 'Escape') setTimeout(unlockScroll, 50)
   })
 }
 
@@ -190,13 +180,10 @@ function unlockScroll() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   fixNavigation
+   fixNavigation — JS-фиксы навигации
    
-   МОБИЛКА (.VPNavScreen):
-     .button-text, .button-icon (.vpi-plus)
-   
-   ДЕСКТОП (.VPNavBar):
-     .text, .text-icon (.vpi-chevron-down), div.menu
+   МОБИЛКА: .button-text, .button-icon (.vpi-plus)
+   ДЕСКТОП: .text, .text-icon, div.menu
    ════════════════════════════════════════════════════════════════ */
 function fixNavigation() {
   if (typeof document === 'undefined') return
@@ -220,39 +207,27 @@ function fixNavigation() {
       textEl.style.setProperty('color', isOpen ? '#C5F946' : '#F0F4FF', 'important')
     }
 
-    // Замена иконки .button-icon на шеврон (один раз)
+    // Прячем оригинальную иконку VitePress
     const iconEl = btn.querySelector('.button-icon')
-    if (iconEl && !iconEl.dataset.chevronDone) {
-      iconEl.dataset.chevronDone = 'true'
-      
-      iconEl.classList.remove('vpi-plus', 'vpi-chevron-down')
-      iconEl.innerHTML = ''
-      iconEl.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:6px;font-size:0;line-height:0;'
-      
-      const svgNS = 'http://www.w3.org/2000/svg'
-      const svg = document.createElementNS(svgNS, 'svg')
-      svg.setAttribute('width', '18')
-      svg.setAttribute('height', '18')
-      svg.setAttribute('viewBox', '0 0 24 24')
-      svg.setAttribute('fill', 'none')
-      svg.setAttribute('stroke', '#7A8BA8')
-      svg.setAttribute('stroke-width', '2.5')
-      svg.setAttribute('stroke-linecap', 'round')
-      svg.setAttribute('stroke-linejoin', 'round')
-      svg.style.cssText = 'transition: transform 0.25s ease;'
-      svg.classList.add('bb-nav-chevron')
-      
-      const path = document.createElementNS(svgNS, 'path')
-      path.setAttribute('d', 'm6 9 6 6 6-6')
-      svg.appendChild(path)
-      iconEl.appendChild(svg)
+    if (iconEl) {
+      iconEl.style.cssText = 'display:none !important;'
     }
 
-    // Обновляем поворот шеврона
-    const chevron = btn.querySelector('.bb-nav-chevron')
-    if (chevron) {
-      chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-      chevron.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
+    // Создаём свой шеврон рядом (как отдельный элемент)
+    let chevron = btn.querySelector('.bb-chevron-wrap')
+    if (!chevron) {
+      chevron = document.createElement('span')
+      chevron.className = 'bb-chevron-wrap'
+      chevron.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:6px;'
+      chevron.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8BA8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease"><path d="m6 9 6 6 6-6"/></svg>'
+      btn.appendChild(chevron)
+    }
+
+    // Обновляем поворот и цвет каждый вызов
+    const svg = chevron.querySelector('svg')
+    if (svg) {
+      svg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+      svg.setAttribute('stroke', isOpen ? '#C5F946' : '#7A8BA8')
     }
   })
 
@@ -262,14 +237,26 @@ function fixNavigation() {
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
     desktopFlyouts.forEach((flyout) => {
+      // Dropdown контейнер — без скруглений, по левому краю
       const menuDiv = flyout.querySelector(':scope > div.menu')
       if (menuDiv) {
         menuDiv.style.cssText = 'position:absolute;top:100%;left:0;right:auto;transform:none;margin:0;min-width:160px;border-radius:0;'
+        // Убираем скругления у всех вложенных элементов
+        menuDiv.querySelectorAll('*').forEach(el => {
+          if (getComputedStyle(el).borderRadius !== '0px') {
+            el.style.borderRadius = '0'
+          }
+        })
       }
 
+      // Кнопка flyout — компактный padding как у обычных ссылок + hover
       const btn = flyout.querySelector(':scope > button')
       if (btn && !btn.dataset.hoverFixed) {
         btn.dataset.hoverFixed = 'true'
+
+        // Компактный размер — такой же как у Парки/Зарядка/Статусы
+        btn.style.padding = '4px 12px'
+        btn.style.borderRadius = '0'
 
         btn.addEventListener('mouseenter', () => {
           btn.style.background = '#C5F946'
@@ -359,7 +346,6 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .preloader-fade-leave-active { transition: opacity 0.35s ease; }
 .preloader-fade-enter-from, .preloader-fade-leave-to { opacity: 0; }
 
-/* Scroll lock для модальных окон — iOS Safari fix */
 body.bb-scroll-locked {
   position: fixed !important;
   overflow: hidden !important;
