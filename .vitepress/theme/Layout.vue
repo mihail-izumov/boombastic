@@ -92,11 +92,9 @@ onMounted(() => {
 
   injectSharkEyes()
   setupMobileSignalButton()
-  setupDropdownPosition()
 
   const observer = new MutationObserver(() => {
     injectSharkEyes()
-    setupDropdownPosition()
     if (window.innerWidth <= 768) setupMobileSignalButton()
   })
   observer.observe(document.body, { childList: true, subtree: true })
@@ -121,7 +119,6 @@ onMounted(() => {
       const nb = document.querySelector('.VPNavBar')
       if (nb) nb.classList.toggle('bb-scrolled', window.scrollY > 10)
       injectSharkEyes()
-      setupDropdownPosition()
     })
     if (window.innerWidth <= 768) {
       setTimeout(setupMobileSignalButton, 300)
@@ -185,37 +182,6 @@ function setupMobileSignalButton() {
 
     overlay.addEventListener('touchstart', () => {}, { passive: true })
     link.appendChild(overlay)
-  })
-}
-
-// Принудительное позиционирование dropdown по левому краю кнопки
-function setupDropdownPosition() {
-  if (typeof window === 'undefined' || window.innerWidth <= 768) return
-  
-  const flyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
-  
-  flyouts.forEach((flyout) => {
-    if (flyout.dataset.dropdownFixed) return
-    flyout.dataset.dropdownFixed = 'true'
-    
-    const menu = flyout.querySelector('.VPMenu')
-    if (!menu) return
-    
-    // Применяем inline стили для максимального приоритета
-    const applyPosition = () => {
-      menu.style.cssText = `
-        position: absolute !important;
-        top: 100% !important;
-        left: 0 !important;
-        right: auto !important;
-        transform: none !important;
-        margin-top: 8px !important;
-      `
-    }
-    
-    // Применяем сразу и при hover
-    applyPosition()
-    flyout.addEventListener('mouseenter', applyPosition)
   })
 }
 </script>
@@ -324,16 +290,6 @@ body.has-banner .VPDoc {
 @media (max-width: 960px) and (min-width: 769px) {
   .notification-container { max-width: calc(100% - 24px); margin: 14px 12px 42px 12px; height: 58px; }
   body.has-banner .VPDoc { padding-top: 18px; }
-}
-
-/* ═══ [FIX 2] DROPDOWN: принудительное выравнивание ═══ */
-.VPNavBar .VPNavBarMenu .VPFlyout .VPMenu {
-  position: absolute !important;
-  top: 100% !important;
-  left: 0 !important;
-  right: auto !important;
-  transform: none !important;
-  margin-top: 8px !important;
 }
 
 /* ═══ [FIX 3,4] Убираем двойные рамки в dropdown ═══ */
