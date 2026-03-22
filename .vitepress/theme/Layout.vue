@@ -204,12 +204,10 @@ function injectMobileLoginButton() {
 
 /* ════════════════════════════════════════════════════════════════
    Кнопки модалок в мобильном меню (VPNavScreen)
-   Перехватывают клики на «Игровой режим» и «Войти»
    ════════════════════════════════════════════════════════════════ */
 function setupMobileModalButtons() {
   if (typeof window === 'undefined' || window.innerWidth > 768) return
 
-  // Кнопка «Игровой режим»
   const gamemodeLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="gamemode-link"]')
   gamemodeLinks.forEach((link) => {
     if (link.dataset.modalProcessed) return
@@ -221,7 +219,6 @@ function setupMobileModalButtons() {
     })
   })
 
-  // Кнопка «Войти»
   const applyLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="apply-link"]')
   applyLinks.forEach((link) => {
     if (link.dataset.modalProcessed) return
@@ -337,6 +334,17 @@ function fixNavigation() {
         }, 50)
       })
     }
+
+    // Подсветка активного пункта в мобильном dropdown
+    const items = group.querySelectorAll('.item a')
+    const currentPath = window.location.pathname
+    items.forEach((a) => {
+      const href = a.getAttribute('href')
+      if (href && currentPath.startsWith(href) && href !== '/') {
+        a.style.setProperty('color', '#C5F946', 'important')
+        a.style.setProperty('font-weight', '700', 'important')
+      }
+    })
   })
 
   // ══════════════════════════════════════════

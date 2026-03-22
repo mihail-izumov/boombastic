@@ -164,6 +164,9 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   body:has(.VPNavScreen.open) .VPLocalNav { display: none !important; }
   .has-sidebar .VPContent { padding-top: 0 !important; }
 
+  /* Скрываем стики-блоки при открытом мобильном меню */
+  body:has(.VPNavScreen.open) .pz-bottom-bar { display: none !important; }
+
   /* Social Links — обводка по периметру со скруглениями */
   .VPNavScreen .VPNavScreenSocialLinks {
     margin: 24px 16px 16px 16px !important;
