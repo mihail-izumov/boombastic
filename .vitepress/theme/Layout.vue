@@ -91,6 +91,7 @@ onMounted(() => {
     }, 150)
   })
   observer.observe(document.body, { childList: true, subtree: true })
+  window.addEventListener('resize', () => fixNavigation(), { passive: true })
 
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
