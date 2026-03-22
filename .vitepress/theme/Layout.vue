@@ -60,6 +60,7 @@ let preloaderStart = 0
 const PRELOADER_MIN_MS = 600
 let onScroll = null
 let savedScrollY = 0
+let mutationThrottle = null
 
 onMounted(() => {
   if (typeof window === 'undefined') return
@@ -77,11 +78,16 @@ onMounted(() => {
   injectMobileLoginButton()
   setupScrollLock()
 
+  // MutationObserver с throttle — не чаще чем раз в 150ms
   const observer = new MutationObserver(() => {
-    injectSharkEyes()
-    fixNavigation()
-    injectMobileLoginButton()
-    if (window.innerWidth <= 960) setupMobileSignalButton()
+    if (mutationThrottle) return
+    mutationThrottle = setTimeout(() => {
+      mutationThrottle = null
+      injectSharkEyes()
+      fixNavigation()
+      injectMobileLoginButton()
+      if (window.innerWidth <= 960) setupMobileSignalButton()
+    }, 150)
   })
   observer.observe(document.body, { childList: true, subtree: true })
 
@@ -111,6 +117,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (onScroll) window.removeEventListener('scroll', onScroll)
   clearTimeout(preloaderTimeout)
+  clearTimeout(mutationThrottle)
 })
 
 function injectSharkEyes() {
@@ -127,7 +134,7 @@ function injectSharkEyes() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   Мобильная кнопка «Войти» в навбаре (вместо поиска)
+   Мобильная кнопка «Войти» в навбаре
    Показывается только на экранах ≤960px
    ════════════════════════════════════════════════════════════════ */
 function injectMobileLoginButton() {
@@ -165,34 +172,83 @@ function injectMobileLoginButton() {
     flex-shrink: 0;
   `
 
+  // Вызываем openLoginModal в момент клика, а не при инициализации
   loginBtn.addEventListener('click', (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (window.openLoginModal) window.openLoginModal()
+    if (typeof window.openLoginModal === 'function') {
+      window.openLoginModal()
+    }
   })
 
-  // Вставляем перед гамбургером
   hamburger.parentElement.insertBefore(loginBtn, hamburger)
 }
 
 /* ════════════════════════════════════════════════════════════════
    Блокировка скролла при модальных окнах
+   
+   Используем Proxy-паттерн: не сохраняем ссылку на функцию
+   при загрузке (она может быть undefined), а перехватываем
+   вызов в момент клика через Object.defineProperty.
    ════════════════════════════════════════════════════════════════ */
 function setupScrollLock() {
   if (typeof window === 'undefined') return
-  const origOpenLogin = window.openLoginModal
-  const origOpenGameMode = window.openGameModeModal
-  window.openLoginModal = function() { lockScroll(); if (origOpenLogin) origOpenLogin() }
-  window.openGameModeModal = function() { lockScroll(); if (origOpenGameMode) origOpenGameMode() }
+
+  // Перехватываем openLoginModal
+  wrapWithScrollLock('openLoginModal')
+  // Перехватываем openGameModeModal
+  wrapWithScrollLock('openGameModeModal')
+
+  // Периодически проверяем закрытие модалок
   const checkModals = () => {
+    if (!document.body.classList.contains('bb-scroll-locked')) return
     const login = document.getElementById('bb-login-modal')
     const gamemode = document.getElementById('bb-gamemode-modal')
     const loginOpen = login && login.style.display === 'flex'
     const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
-    if (!loginOpen && !gamemodeOpen && document.body.classList.contains('bb-scroll-locked')) unlockScroll()
+    if (!loginOpen && !gamemodeOpen) unlockScroll()
   }
-  setInterval(checkModals, 200)
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setTimeout(unlockScroll, 50) })
+  setInterval(checkModals, 300)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setTimeout(unlockScroll, 50)
+  })
+}
+
+/**
+ * Оборачивает window[fnName] в scroll lock.
+ * Работает даже если функция определяется ПОСЛЕ вызова setupScrollLock.
+ * При каждом переопределении window[fnName] автоматически оборачивает новую версию.
+ */
+function wrapWithScrollLock(fnName) {
+  let _real = typeof window[fnName] === 'function' ? window[fnName] : null
+  let _wrapped = null
+
+  function makeWrapped(fn) {
+    return function() {
+      lockScroll()
+      return fn.apply(this, arguments)
+    }
+  }
+
+  if (_real) {
+    _wrapped = makeWrapped(_real)
+  }
+
+  Object.defineProperty(window, fnName, {
+    configurable: true,
+    get() {
+      return _wrapped || _real
+    },
+    set(newFn) {
+      if (typeof newFn === 'function') {
+        _real = newFn
+        _wrapped = makeWrapped(newFn)
+      } else {
+        _real = newFn
+        _wrapped = null
+      }
+    }
+  })
 }
 
 function lockScroll() {
@@ -278,7 +334,7 @@ function fixNavigation() {
   })
 
   // ══════════════════════════════════════════
-  // 2. ДЕСКТОП: dropdown Призотеки (без изменения размера кнопки)
+  // 2. ДЕСКТОП: dropdown Призотеки
   // ══════════════════════════════════════════
   if (window.innerWidth > 960) {
     const desktopFlyouts = document.querySelectorAll('.VPNavBar .VPNavBarMenu .VPFlyout')
@@ -344,7 +400,7 @@ function setupMobileSignalButton() {
       document.body.classList.remove('overflow-hidden')
       const menuButton = document.querySelector('.VPNavBarHamburger button')
       if (menuButton) menuButton.setAttribute('aria-expanded', 'false')
-      setTimeout(() => { if (window.openSignalModal) window.openSignalModal() }, 100)
+      setTimeout(() => { if (typeof window.openSignalModal === 'function') window.openSignalModal() }, 100)
     })
     overlay.addEventListener('touchstart', () => {}, { passive: true })
     link.appendChild(overlay)
