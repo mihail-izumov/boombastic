@@ -75,6 +75,7 @@ onMounted(() => {
 
   injectSharkEyes()
   setupMobileSignalButton()
+  setupMobileModalButtons()
   fixNavigation()
   injectMobileLoginButton()
   setupScrollLock()
@@ -87,19 +88,24 @@ onMounted(() => {
       injectSharkEyes()
       fixNavigation()
       injectMobileLoginButton()
-      if (window.innerWidth <= 768) setupMobileSignalButton()
+      if (window.innerWidth <= 768) {
+        setupMobileSignalButton()
+        setupMobileModalButtons()
+      }
     }, 150)
   })
   observer.observe(document.body, { childList: true, subtree: true })
+
+  // Resize — только десктопный flyout hover
   window.addEventListener('resize', () => {
-  if (mutationThrottle) return
-  mutationThrottle = setTimeout(() => {
-    mutationThrottle = null
-    if (window.innerWidth > 960) {
-      fixNavigation()
-    }
-  }, 150)
-}, { passive: true })
+    if (mutationThrottle) return
+    mutationThrottle = setTimeout(() => {
+      mutationThrottle = null
+      if (window.innerWidth > 960) {
+        fixNavigation()
+      }
+    }, 150)
+  }, { passive: true })
 
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
@@ -120,7 +126,10 @@ onMounted(() => {
       fixNavigation()
       injectMobileLoginButton()
     })
-    if (window.innerWidth <= 768) setTimeout(setupMobileSignalButton, 300)
+    if (window.innerWidth <= 768) {
+      setTimeout(setupMobileSignalButton, 300)
+      setTimeout(setupMobileModalButtons, 300)
+    }
   }
 })
 
@@ -194,12 +203,39 @@ function injectMobileLoginButton() {
 }
 
 /* ════════════════════════════════════════════════════════════════
+   Кнопки модалок в мобильном меню (VPNavScreen)
+   Перехватывают клики на «Игровой режим» и «Войти»
+   ════════════════════════════════════════════════════════════════ */
+function setupMobileModalButtons() {
+  if (typeof window === 'undefined' || window.innerWidth > 768) return
+
+  // Кнопка «Игровой режим»
+  const gamemodeLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="gamemode-link"]')
+  gamemodeLinks.forEach((link) => {
+    if (link.dataset.modalProcessed) return
+    link.dataset.modalProcessed = 'true'
+    link.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (typeof window.openGameModeModal === 'function') window.openGameModeModal()
+    })
+  })
+
+  // Кнопка «Войти»
+  const applyLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="apply-link"]')
+  applyLinks.forEach((link) => {
+    if (link.dataset.modalProcessed) return
+    link.dataset.modalProcessed = 'true'
+    link.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (typeof window.openLoginModal === 'function') window.openLoginModal()
+    })
+  })
+}
+
+/* ════════════════════════════════════════════════════════════════
    Блокировка скролла при модальных окнах
-   
-   Простой подход: каждые 300ms проверяем DOM.
-   Если модалка видна — блокируем скролл.
-   Если нет — разблокируем.
-   Не перехватываем функции, не используем defineProperty.
    ════════════════════════════════════════════════════════════════ */
 function setupScrollLock() {
   if (typeof window === 'undefined') return
