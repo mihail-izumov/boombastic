@@ -95,8 +95,9 @@ onMounted(() => {
   if (mutationThrottle) return
   mutationThrottle = setTimeout(() => {
     mutationThrottle = null
-    fixNavigation()
-    injectMobileLoginButton()
+    if (window.innerWidth > 960) {
+      fixNavigation()
+    }
   }, 150)
 }, { passive: true })
 
