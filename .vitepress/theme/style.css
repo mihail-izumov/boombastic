@@ -143,7 +143,7 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   .VPNavBar .VPNavBarSocialLinks { display: none !important; }
   .VPNavBar .VPNavBarSearchButton { display: none !important; }
 
-  .VPNavScreen { overflow-y: auto !important; background: var(--bg-deep) !important; z-index: 60 !important; }
+.VPNavScreen { overflow-y: auto !important; background: var(--bg-deep) !important; z-index: 9999 !important; }
   .VPNavScreen .VPNavScreenMenu { padding-bottom: 16px !important; }
   .VPNavScreen .VPNavScreenAppearance { display: none !important; }
 
