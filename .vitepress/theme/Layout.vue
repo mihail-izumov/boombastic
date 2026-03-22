@@ -61,6 +61,7 @@ const PRELOADER_MIN_MS = 600
 let onScroll = null
 let savedScrollY = 0
 let mutationThrottle = null
+let scrollLockInterval = null
 
 onMounted(() => {
   if (typeof window === 'undefined') return
@@ -78,7 +79,7 @@ onMounted(() => {
   injectMobileLoginButton()
   setupScrollLock()
 
-  // MutationObserver с throttle — не чаще чем раз в 150ms
+  // MutationObserver с throttle 150ms
   const observer = new MutationObserver(() => {
     if (mutationThrottle) return
     mutationThrottle = setTimeout(() => {
@@ -86,7 +87,7 @@ onMounted(() => {
       injectSharkEyes()
       fixNavigation()
       injectMobileLoginButton()
-      if (window.innerWidth <= 960) setupMobileSignalButton()
+      if (window.innerWidth <= 768) setupMobileSignalButton()
     }, 150)
   })
   observer.observe(document.body, { childList: true, subtree: true })
@@ -110,7 +111,7 @@ onMounted(() => {
       fixNavigation()
       injectMobileLoginButton()
     })
-    if (window.innerWidth <= 960) setTimeout(setupMobileSignalButton, 300)
+    if (window.innerWidth <= 768) setTimeout(setupMobileSignalButton, 300)
   }
 })
 
@@ -118,6 +119,7 @@ onUnmounted(() => {
   if (onScroll) window.removeEventListener('scroll', onScroll)
   clearTimeout(preloaderTimeout)
   clearTimeout(mutationThrottle)
+  clearInterval(scrollLockInterval)
 })
 
 function injectSharkEyes() {
@@ -135,11 +137,11 @@ function injectSharkEyes() {
 
 /* ════════════════════════════════════════════════════════════════
    Мобильная кнопка «Войти» в навбаре
-   Показывается только на экранах ≤960px
+   Только при ≤768px (когда виден гамбургер)
    ════════════════════════════════════════════════════════════════ */
 function injectMobileLoginButton() {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
-  if (window.innerWidth > 960) return
+  if (window.innerWidth > 768) return
 
   // Прячем поиск на мобилке
   const searchBtn = document.querySelector('.VPNavBar .VPNavBarSearchButton')
@@ -148,7 +150,6 @@ function injectMobileLoginButton() {
   // Проверяем, не вставлена ли уже кнопка
   if (document.querySelector('.bb-mobile-login-btn')) return
 
-  // Находим область рядом с гамбургером
   const hamburger = document.querySelector('.VPNavBarHamburger')
   if (!hamburger) return
 
@@ -172,7 +173,6 @@ function injectMobileLoginButton() {
     flex-shrink: 0;
   `
 
-  // Вызываем openLoginModal в момент клика, а не при инициализации
   loginBtn.addEventListener('click', (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -187,67 +187,28 @@ function injectMobileLoginButton() {
 /* ════════════════════════════════════════════════════════════════
    Блокировка скролла при модальных окнах
    
-   Используем Proxy-паттерн: не сохраняем ссылку на функцию
-   при загрузке (она может быть undefined), а перехватываем
-   вызов в момент клика через Object.defineProperty.
+   Простой подход: каждые 300ms проверяем DOM.
+   Если модалка видна — блокируем скролл.
+   Если нет — разблокируем.
+   Не перехватываем функции, не используем defineProperty.
    ════════════════════════════════════════════════════════════════ */
 function setupScrollLock() {
   if (typeof window === 'undefined') return
 
-  // Перехватываем openLoginModal
-  wrapWithScrollLock('openLoginModal')
-  // Перехватываем openGameModeModal
-  wrapWithScrollLock('openGameModeModal')
-
-  // Периодически проверяем закрытие модалок
-  const checkModals = () => {
-    if (!document.body.classList.contains('bb-scroll-locked')) return
+  scrollLockInterval = setInterval(() => {
     const login = document.getElementById('bb-login-modal')
     const gamemode = document.getElementById('bb-gamemode-modal')
     const loginOpen = login && login.style.display === 'flex'
     const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
-    if (!loginOpen && !gamemodeOpen) unlockScroll()
-  }
-  setInterval(checkModals, 300)
+    const anyOpen = loginOpen || gamemodeOpen
+    const isLocked = document.body.classList.contains('bb-scroll-locked')
+
+    if (anyOpen && !isLocked) lockScroll()
+    if (!anyOpen && isLocked) unlockScroll()
+  }, 300)
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setTimeout(unlockScroll, 50)
-  })
-}
-
-/**
- * Оборачивает window[fnName] в scroll lock.
- * Работает даже если функция определяется ПОСЛЕ вызова setupScrollLock.
- * При каждом переопределении window[fnName] автоматически оборачивает новую версию.
- */
-function wrapWithScrollLock(fnName) {
-  let _real = typeof window[fnName] === 'function' ? window[fnName] : null
-  let _wrapped = null
-
-  function makeWrapped(fn) {
-    return function() {
-      lockScroll()
-      return fn.apply(this, arguments)
-    }
-  }
-
-  if (_real) {
-    _wrapped = makeWrapped(_real)
-  }
-
-  Object.defineProperty(window, fnName, {
-    configurable: true,
-    get() {
-      return _wrapped || _real
-    },
-    set(newFn) {
-      if (typeof newFn === 'function') {
-        _real = newFn
-        _wrapped = makeWrapped(newFn)
-      } else {
-        _real = newFn
-        _wrapped = null
-      }
-    }
   })
 }
 
@@ -382,7 +343,7 @@ function fixNavigation() {
 }
 
 function setupMobileSignalButton() {
-  if (typeof window === 'undefined' || window.innerWidth > 960) return
+  if (typeof window === 'undefined' || window.innerWidth > 768) return
   if (!window.openSignalModal) return
   const signalLinks = document.querySelectorAll('.VPNavScreen .VPSocialLink[aria-label="signal-link"]')
   signalLinks.forEach((link) => {
@@ -435,9 +396,10 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 
 body.bb-scroll-locked { position: fixed !important; overflow: hidden !important; width: 100% !important; -webkit-overflow-scrolling: none !important; touch-action: none !important; }
 
-/* Мобильная кнопка «Войти» — скрыта на десктопе */
-@media (min-width: 961px) {
-  .bb-mobile-login-btn { display: none !important; }
+/* Мобильная кнопка «Войти» — только при ≤768px */
+.bb-mobile-login-btn { display: none !important; }
+@media (max-width: 768px) {
+  .bb-mobile-login-btn { display: inline-flex !important; }
 }
 
 @media (max-width: 768px) {
