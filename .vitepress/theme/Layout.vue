@@ -91,7 +91,14 @@ onMounted(() => {
     }, 150)
   })
   observer.observe(document.body, { childList: true, subtree: true })
-  window.addEventListener('resize', () => fixNavigation(), { passive: true })
+  window.addEventListener('resize', () => {
+  if (mutationThrottle) return
+  mutationThrottle = setTimeout(() => {
+    mutationThrottle = null
+    fixNavigation()
+    injectMobileLoginButton()
+  }, 150)
+}, { passive: true })
 
   router.onBeforeRouteChange = () => {
     showPreloader.value = true
