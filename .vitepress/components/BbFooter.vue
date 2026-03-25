@@ -3,7 +3,7 @@
     <hr class="bb-footer-divider" />
     <div class="bb-footer-links">
       <div class="footer-row">
-        <a href="/boombastic/contact-us" data-neon="cyan">Контакт</a>
+        <a href="https://lk.b00m.fun" target="_blank" rel="noopener noreferrer" data-neon="cyan">Личный кабинет</a>
         <a href="https://vk.com/bumbastik_spb" target="_blank" rel="noopener noreferrer" data-neon="magenta">ВКонтакте</a>
         <a href="/terms" data-neon="green">Условия использования</a>
       </div>
