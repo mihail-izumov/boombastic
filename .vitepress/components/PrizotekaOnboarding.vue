@@ -39,10 +39,7 @@ function next() { if (step.value < totalSteps - 1) { dir.value = 1; animKey.valu
 function goToStart() { dir.value = -1; animKey.value++; step.value = 0 }
 function goTo(i) { dir.value = i > step.value ? 1 : -1; animKey.value++; step.value = i }
 
-function onKey(e) {
-  if (e.key === 'ArrowRight' || e.key === ' ') next()
-  if (e.key === 'ArrowLeft') goToStart()
-}
+function onKey(e) { if (e.key === 'ArrowRight' || e.key === ' ') next(); if (e.key === 'ArrowLeft') goToStart() }
 onMounted(() => window.addEventListener('keydown', onKey))
 onUnmounted(() => window.removeEventListener('keydown', onKey))
 
@@ -54,10 +51,20 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
 </script>
 
 <template>
+  <!--
+    LAYOUT: 3 vertical zones
+    [spacer-top]  — flex:1 — pushes content to center
+    [content]     — icon + title + desc + dots + buttons
+    [spacer-bot]  — flex:1 — equal to spacer-top
+  -->
   <div class="ob" @touchstart.passive="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
     <div class="ob__glow" :style="{ background: `radial-gradient(circle, ${isLastSlide ? 'rgba(197,249,70,0.06)' : accentColor + '11'} 0%, transparent 70%)` }" />
-    <div class="ob__wrap">
 
+    <!-- Spacer top -->
+    <div class="ob__spacer"></div>
+
+    <!-- All content: slide + dots + buttons — ONE block, no gap issues -->
+    <div class="ob__content">
       <div v-if="!isLastSlide" :key="animKey" class="ob__slide" :style="{ '--dir': dir }">
         <div class="ob__icon" :class="floatClass">
           <svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 24 24" fill="none" :stroke="slide.accent" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ color: slide.accent }" v-html="ICONS[slide.icon]" />
@@ -74,32 +81,25 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
         <div class="ob__parks">
           <a v-for="(p, i) in PARKS" :key="p.id" :href="p.href" class="ob__park-card" :style="{ borderColor: p.color+'55', background: `linear-gradient(135deg,${p.color}0a,${p.color}04)`, animationDelay: (0.1+i*0.15)+'s' }" @mouseenter="$event.currentTarget.style.borderColor=p.color+'99';$event.currentTarget.style.boxShadow=`0 0 30px ${p.color}22`;$event.currentTarget.style.transform='translateY(-2px)'" @mouseleave="$event.currentTarget.style.borderColor=p.color+'55';$event.currentTarget.style.boxShadow='none';$event.currentTarget.style.transform='none'">
             <div class="ob__park-shimmer" :style="{ background:`linear-gradient(105deg,transparent 40%,${p.color}08 50%,transparent 60%)` }"/>
-            <div style="position:relative;z-index:1">
-              <div class="ob__park-name" :style="{color:p.color}">{{ p.name }}</div>
-              <div class="ob__park-meta">
-                <span class="ob__park-badge" :style="{background:p.color,boxShadow:`0 0 12px ${p.color}44`,animationDelay:(0.3+i*0.15)+'s'}">{{ p.count }}</span>
-                <span class="ob__park-sub">призов ждут тебя</span>
-              </div>
-            </div>
+            <div style="position:relative;z-index:1"><div class="ob__park-name" :style="{color:p.color}">{{ p.name }}</div><div class="ob__park-meta"><span class="ob__park-badge" :style="{background:p.color,boxShadow:`0 0 12px ${p.color}44`,animationDelay:(0.3+i*0.15)+'s'}">{{ p.count }}</span><span class="ob__park-sub">призов ждут тебя</span></div></div>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" :stroke="p.color" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1;flex-shrink:0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="ob__footer">
-        <div class="ob__dots">
-          <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot" :style="{width:i===step?'28px':'8px',background:dotColor(i),boxShadow:i===step?`0 0 12px ${dotColor(i)}66`:'none'}" @click="goTo(i)"/>
-        </div>
-        <div class="ob__buttons">
-          <button v-if="!isLastSlide" class="ob__btn-main" :style="{background:slide.accent,boxShadow:`0 4px 24px ${slide.accent}44`}" @click="next">
-            {{ slide.btnWord }}
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1840" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-          <button v-if="step>0" class="ob__btn-sec" @click="goToStart">В начало</button>
-          <button v-if="!isLastSlide&&step===0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
-        </div>
+      <!-- Dots + buttons — directly after slide, no gap -->
+      <div class="ob__dots">
+        <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot" :style="{width:i===step?'28px':'8px',background:dotColor(i),boxShadow:i===step?`0 0 12px ${dotColor(i)}66`:'none'}" @click="goTo(i)"/>
+      </div>
+      <div class="ob__buttons">
+        <button v-if="!isLastSlide" class="ob__btn-main" :style="{background:slide.accent,boxShadow:`0 4px 24px ${slide.accent}44`}" @click="next">{{ slide.btnWord }}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1840" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        <button v-if="step>0" class="ob__btn-sec" @click="goToStart">В начало</button>
+        <button v-if="!isLastSlide&&step===0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
       </div>
     </div>
+
+    <!-- Spacer bottom -->
+    <div class="ob__spacer"></div>
   </div>
 </template>
 
@@ -117,66 +117,74 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
 .ob__float--4{animation:ob-float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 24px rgba(255,0,128,0.4)) drop-shadow(0 0 48px rgba(255,0,128,0.15))}
 .ob__shark{margin-bottom:28px;animation:ob-float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 24px rgba(197,249,70,0.4)) drop-shadow(0 0 48px rgba(197,249,70,0.15))}
 
-/* ── DESKTOP ── */
-.ob{min-height:calc(100vh - 64px);background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 32px;font-family:'Inter',sans-serif;color:#F0F4FF;position:relative;overflow:hidden;touch-action:pan-y;-webkit-user-select:none;user-select:none}
-.ob__glow{position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;filter:blur(80px);transition:background 0.6s ease;pointer-events:none}
-.ob__wrap{max-width:420px;width:100%;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
-.ob__slide{animation:ob-slideIn 0.4s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;align-items:center;text-align:center;min-height:320px;justify-content:center;width:100%}
-.ob__icon{margin-bottom:28px}
-.ob__title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:36px;line-height:40px;margin-bottom:20px;color:#F0F4FF;max-width:400px}
-.ob__desc{font-size:15px;line-height:1.6;color:rgba(255,255,255,0.55);max-width:340px;font-weight:400;margin:0}
-.ob__park-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(26px,7vw,36px);line-height:1;margin-bottom:32px;text-transform:uppercase;letter-spacing:0.04em}
-.ob__parks{display:flex;flex-direction:column;gap:12px;width:100%}
-.ob__park-card{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-radius:14px;border:2px solid;cursor:pointer;transition:all 0.25s ease;text-decoration:none;animation:ob-parkCardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;position:relative;overflow:hidden}
-.ob__park-shimmer{position:absolute;inset:0;border-radius:14px;background-size:200% 100%;animation:ob-shimmer 4s linear infinite;pointer-events:none}
-.ob__park-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:24px;margin-bottom:6px;text-align:left}
-.ob__park-meta{display:flex;align-items:center;gap:8px}
-.ob__park-badge{display:inline-flex;align-items:center;color:#1a1840;font-family:'Space Mono',monospace;font-weight:700;font-size:13px;padding:3px 10px;border-radius:6px;animation:ob-badgePop 0.5s cubic-bezier(0.16,1,0.3,1) both}
-.ob__park-sub{font-size:12px;color:rgba(255,255,255,0.5);font-family:'Inter',sans-serif;font-weight:500}
-.ob__footer{display:flex;flex-direction:column;align-items:center}
-.ob__dots{display:flex;gap:10px;margin-top:36px;align-items:center}
-.ob__dot{height:8px;border-radius:4px;border:none;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);padding:0}
-.ob__buttons{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:24px;width:100%;max-width:340px}
-.ob__btn-main{width:100%;padding:16px 32px;border-radius:14px;border:none;color:#1a1840;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.ob__btn-sec{padding:10px 24px;min-width:160px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;text-align:center}
-.ob__btn-sec:hover{color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.1)}
+/*
+  LAYOUT: .ob is flex-column, full viewport height.
+  Two .ob__spacer divs (flex:1) sit above and below .ob__content
+  This centers .ob__content perfectly without any hacks.
+*/
+.ob {
+  min-height: calc(100vh - 64px);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  font-family: 'Inter', sans-serif;
+  color: #F0F4FF;
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ob__spacer { flex: 1; }
+.ob__glow {
+  position: absolute; top: 20%; left: 50%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  filter: blur(80px); transition: background 0.6s ease; pointer-events: none;
+}
+.ob__content {
+  max-width: 420px; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; z-index: 1;
+  flex-shrink: 0;
+}
+.ob__slide {
+  animation: ob-slideIn 0.4s cubic-bezier(0.16,1,0.3,1);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  width: 100%;
+}
+.ob__icon { margin-bottom: 28px }
+.ob__title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:36px; line-height:40px; margin-bottom:20px; color:#F0F4FF; max-width:400px }
+.ob__desc { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.55); max-width:340px; font-weight:400; margin:0 }
+.ob__park-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:clamp(26px,7vw,36px); line-height:1; margin-bottom:32px; text-transform:uppercase; letter-spacing:0.04em }
+.ob__parks { display:flex; flex-direction:column; gap:12px; width:100% }
+.ob__park-card { display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-radius:14px; border:2px solid; cursor:pointer; transition:all 0.25s ease; text-decoration:none; animation:ob-parkCardIn 0.5s cubic-bezier(0.16,1,0.3,1) both; position:relative; overflow:hidden }
+.ob__park-shimmer { position:absolute; inset:0; border-radius:14px; background-size:200% 100%; animation:ob-shimmer 4s linear infinite; pointer-events:none }
+.ob__park-name { font-family:'Montserrat',sans-serif; font-weight:700; font-size:24px; margin-bottom:6px; text-align:left }
+.ob__park-meta { display:flex; align-items:center; gap:8px }
+.ob__park-badge { display:inline-flex; align-items:center; color:#1a1840; font-family:'Space Mono',monospace; font-weight:700; font-size:13px; padding:3px 10px; border-radius:6px; animation:ob-badgePop 0.5s cubic-bezier(0.16,1,0.3,1) both }
+.ob__park-sub { font-size:12px; color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:500 }
+.ob__dots { display:flex; gap:10px; margin-top:36px; align-items:center }
+.ob__dot { height:8px; border-radius:4px; border:none; cursor:pointer; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); padding:0 }
+.ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:24px; width:100%; max-width:340px }
+.ob__btn-main { width:100%; padding:16px 32px; border-radius:14px; border:none; color:#1a1840; font-family:'Inter',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px }
+.ob__btn-sec { padding:10px 24px; min-width:160px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.5); font-size:14px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; text-align:center }
+.ob__btn-sec:hover { color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.1) }
 
-/* ══════════════════════════════════════
-   MOBILE: equal space above & below content
-   ══════════════════════════════════════ */
+/* ── MOBILE ── */
 @media (max-width: 768px) {
-  .ob {
-    padding: 0 16px !important;
-    min-height: calc(100vh - 64px) !important;
-  }
-  .ob__wrap {
-    flex: 1 !important;
-    min-height: calc(100vh - 64px) !important;
-  }
-  /* Slide uses margin:auto to sit perfectly between top and footer */
-  .ob__slide {
-    flex: 1 0 auto !important;
-    min-height: auto !important;
-    justify-content: center !important;
-    /* no padding-bottom hack — pure centering */
-  }
-  /* Footer: zero extra spacing, tight to slide */
-  .ob__footer {
-    flex-shrink: 0 !important;
-    padding-bottom: 16px !important;
-    width: 100% !important;
-  }
-  .ob__dots { margin-top: 0 !important }
-  .ob__buttons { margin-top: 12px !important; max-width: 100% !important }
-  .ob__btn-main { padding: 14px 24px !important; font-size: 15px !important }
-  .ob__btn-sec { padding: 8px 20px !important; font-size: 13px !important }
-
-  .ob__icon { margin-bottom: 20px !important }
-  .ob__icon svg { width: 120px !important; height: 120px !important }
-  .ob__shark { margin-bottom: 16px !important }
-  .ob__shark svg { width: 110px !important; height: 70px !important }
-  .ob__title { font-size: 28px !important; line-height: 34px !important; margin-bottom: 14px !important }
-  .ob__desc { font-size: 14px !important; max-width: 300px !important }
-  .ob__park-title { margin-bottom: 24px !important; font-size: 28px !important }
+  .ob { padding: 0 16px; }
+  .ob__icon { margin-bottom: 20px; }
+  .ob__icon svg { width: 120px; height: 120px; }
+  .ob__shark { margin-bottom: 16px; }
+  .ob__shark svg { width: 110px; height: 70px; }
+  .ob__title { font-size: 28px; line-height: 34px; margin-bottom: 14px; }
+  .ob__desc { font-size: 14px; max-width: 300px; }
+  .ob__park-title { margin-bottom: 24px; font-size: 28px; }
+  .ob__dots { margin-top: 24px; }
+  .ob__buttons { margin-top: 16px; }
+  .ob__btn-main { padding: 14px 24px; font-size: 15px; }
+  .ob__btn-sec { padding: 8px 20px; font-size: 13px; }
 }
 </style>
