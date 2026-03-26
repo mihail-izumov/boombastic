@@ -125,30 +125,31 @@ export default defineConfig({
 
         /* --- Призотека (раскрывающаяся) --- */
         var prizWrap = document.createElement('div');
-        prizWrap.style.cssText = 'display:flex;flex-direction:column;gap:0;';
+        prizWrap.style.cssText = 'display:flex;flex-direction:column;gap:0;border-radius:10px;border:1.5px solid #FF008040;background:#FF00800d;transition:all 0.25s;overflow:hidden;';
 
         var prizBtn = document.createElement('button');
-        prizBtn.style.cssText = "width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid #FF008040;background:#FF00800d;cursor:pointer;transition:all 0.25s;text-align:center;";
+        prizBtn.style.cssText = "width:100%;padding:14px 20px;border:none;background:transparent;cursor:pointer;transition:all 0.2s;text-align:center;";
         var prizLabel = document.createElement('div');
-        prizLabel.textContent = 'Призотека';
-        prizLabel.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FF0080;line-height:1.4;display:inline-flex;align-items:center;gap:6px;justify-content:center;";
+        prizLabel.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FF0080;line-height:1.4;display:inline-flex;align-items:center;gap:8px;justify-content:center;";
+        var prizText = document.createTextNode('Призотека');
+        prizLabel.appendChild(prizText);
         var prizArrow = document.createElement('span');
-        prizArrow.textContent = '\\u25BE';
-        prizArrow.style.cssText = 'font-size:14px;opacity:0.6;transition:transform 0.25s;display:inline-block;';
+        prizArrow.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0080" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease;display:block;"><path d="m6 9 6 6 6-6"/></svg>';
+        prizArrow.style.cssText = 'display:inline-flex;align-items:center;opacity:0.7;';
         prizLabel.appendChild(prizArrow);
         prizBtn.appendChild(prizLabel);
-        prizBtn.addEventListener('mouseenter', function() { if(!prizOpen) { this.style.background='#FF008022'; this.style.borderColor='#FF008080'; } });
-        prizBtn.addEventListener('mouseleave', function() { if(!prizOpen) { this.style.background='#FF00800d'; this.style.borderColor='#FF008040'; } });
+        prizBtn.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.08)'; });
+        prizBtn.addEventListener('mouseleave', function() { this.style.background='transparent'; });
 
         var prizSub = document.createElement('div');
-        prizSub.style.cssText = 'display:none;flex-direction:row;gap:8px;margin-top:10px;';
+        prizSub.style.cssText = 'display:none;flex-direction:row;gap:8px;padding:0 12px 12px 12px;';
 
         function makePrizSubBtn(label, href) {
           var a = document.createElement('a');
           a.href = href;
           a.textContent = label;
-          a.style.cssText = "flex:1;display:flex;align-items:center;justify-content:center;padding:12px 10px;border-radius:8px;border:1px solid rgba(255,0,128,0.2);background:rgba(255,0,128,0.06);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#FF0080;text-decoration:none;transition:all 0.2s;cursor:pointer;";
-          a.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.18)'; this.style.borderColor='rgba(255,0,128,0.5)'; });
+          a.style.cssText = "flex:1;display:flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:8px;border:1px solid rgba(255,0,128,0.2);background:rgba(255,0,128,0.06);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#FF0080;text-decoration:none;transition:all 0.2s;cursor:pointer;";
+          a.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.2)'; this.style.borderColor='rgba(255,0,128,0.5)'; });
           a.addEventListener('mouseleave', function() { this.style.background='rgba(255,0,128,0.06)'; this.style.borderColor='rgba(255,0,128,0.2)'; });
           a.addEventListener('click', function() { closeGameModeModal(); });
           return a;
@@ -161,14 +162,14 @@ export default defineConfig({
         prizBtn.addEventListener('click', function() {
           prizOpen = !prizOpen;
           prizSub.style.display = prizOpen ? 'flex' : 'none';
-          prizArrow.style.transform = prizOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-          prizBtn.style.borderRadius = prizOpen ? '10px 10px 0 0' : '10px';
+          var svg = prizArrow.querySelector('svg');
+          if (svg) svg.style.transform = prizOpen ? 'rotate(180deg)' : 'rotate(0deg)';
           if (prizOpen) {
-            prizBtn.style.borderColor = '#FF008060';
-            prizBtn.style.background = '#FF008018';
+            prizWrap.style.borderColor = '#FF008060';
+            prizWrap.style.background = '#FF008015';
           } else {
-            prizBtn.style.borderColor = '#FF008040';
-            prizBtn.style.background = '#FF00800d';
+            prizWrap.style.borderColor = '#FF008040';
+            prizWrap.style.background = '#FF00800d';
           }
         });
 
@@ -256,7 +257,7 @@ export default defineConfig({
 
     notFound: {
       title: 'Страница не найдена',
-      quote: 'Похоже, вы зашли не туда. Но не переживайте — даже лучшие навигаторы иногда теряются.',
+      quote: 'Похоже, ты зашел не туда. Но не переживай — даже лучшие игроки иногда теряются.',
       linkLabel: 'Вернуться на главную',
       linkText: 'На главную',
       code: '404'
