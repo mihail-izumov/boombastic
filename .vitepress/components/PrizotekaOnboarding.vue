@@ -77,7 +77,6 @@ function dotColor(i) {
     <div class="ob__glow" :style="{ background: `radial-gradient(circle, ${isLastSlide ? 'rgba(197,249,70,0.06)' : accentColor + '11'} 0%, transparent 70%)` }" />
     <div class="ob__wrap">
 
-      <!-- SLIDE: flex-grow fills space above dots -->
       <div v-if="!isLastSlide" :key="animKey" class="ob__slide" :style="{ '--dir': dir }">
         <div class="ob__icon" :class="floatClass">
           <svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 24 24"
@@ -114,7 +113,6 @@ function dotColor(i) {
         </div>
       </div>
 
-      <!-- FOOTER: dots + buttons — always at bottom on mobile -->
       <div class="ob__footer">
         <div class="ob__dots">
           <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot"
@@ -220,10 +218,7 @@ function dotColor(i) {
 }
 .ob__park-sub { font-size:12px; color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:500 }
 
-/* Footer (dots + buttons) — desktop: normal flow */
-.ob__footer {
-  display:flex; flex-direction:column; align-items:center;
-}
+.ob__footer { display:flex; flex-direction:column; align-items:center }
 .ob__dots { display:flex; gap:10px; margin-top:36px; align-items:center }
 .ob__dot { height:8px; border-radius:4px; border:none; cursor:pointer; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); padding:0 }
 .ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:24px; width:100%; max-width:340px }
@@ -242,17 +237,16 @@ function dotColor(i) {
 .ob__btn-sec:hover { color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.1) }
 
 /* ══════════════════════════════════════
-   MOBILE: slide grows, content centered,
-   footer pinned to bottom
+   MOBILE
+   Slide grows & centers content visually
+   above the footer. Footer pinned bottom.
    ══════════════════════════════════════ */
 @media (max-width: 768px) {
   .ob {
     padding: 0 16px !important;
     min-height: calc(100vh - 64px) !important;
-    justify-content: stretch !important;
   }
 
-  /* Wrap becomes full-height flex column */
   .ob__wrap {
     flex: 1 !important;
     display: flex !important;
@@ -260,57 +254,34 @@ function dotColor(i) {
     min-height: calc(100vh - 64px) !important;
   }
 
-  /* Slide grows to fill all space above footer, content centered inside */
+  /* Slide takes all space, content centered but shifted up 10% */
   .ob__slide {
     flex: 1 !important;
     min-height: auto !important;
     justify-content: center !important;
+    /* shift visual center upward so it doesn't feel too low */
+    padding-bottom: 10vh !important;
   }
 
-  /* Footer sticks to bottom */
   .ob__footer {
     flex-shrink: 0 !important;
-    padding-bottom: 24px !important;
+    padding-bottom: 20px !important;
     width: 100% !important;
   }
 
-  /* Icons 2x bigger */
-  .ob__icon {
-    margin-bottom: 20px !important;
-  }
-  .ob__icon svg {
-    width: 140px !important;
-    height: 140px !important;
-  }
+  .ob__icon { margin-bottom: 20px !important }
+  .ob__icon svg { width: 120px !important; height: 120px !important }
 
-  .ob__shark {
-    margin-bottom: 16px !important;
-  }
-  .ob__shark svg {
-    width: 120px !important;
-    height: 76px !important;
-  }
+  .ob__shark { margin-bottom: 16px !important }
+  .ob__shark svg { width: 110px !important; height: 70px !important }
 
-  .ob__title {
-    font-size: 28px !important;
-    line-height: 34px !important;
-    margin-bottom: 14px !important;
-  }
-  .ob__desc {
-    font-size: 14px !important;
-    max-width: 300px !important;
-  }
-  .ob__park-title {
-    margin-bottom: 24px !important;
-    font-size: 28px !important;
-  }
-  .ob__dots {
-    margin-top: 0 !important;
-    padding-top: 16px !important;
-  }
-  .ob__buttons {
-    margin-top: 16px !important;
-    max-width: 100% !important;
-  }
+  .ob__title { font-size: 28px !important; line-height: 34px !important; margin-bottom: 14px !important }
+  .ob__desc { font-size: 14px !important; max-width: 300px !important }
+  .ob__park-title { margin-bottom: 24px !important; font-size: 28px !important }
+
+  .ob__dots { margin-top: 0 !important; padding-top: 0 !important }
+  .ob__buttons { margin-top: 14px !important; max-width: 100% !important }
+  .ob__btn-main { padding: 14px 24px !important; font-size: 15px !important }
+  .ob__btn-sec { padding: 8px 20px !important; font-size: 13px !important }
 }
 </style>
