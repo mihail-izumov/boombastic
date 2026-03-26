@@ -5,10 +5,6 @@ description: Интерактивный каталог призов парков
 aside: false
 ---
 
-<script setup>
-import PrizotekaOnboarding from '../.vitepress/components/PrizotekaOnboarding.vue'
-</script>
-
 <PrizotekaOnboarding />
 
 <style>
