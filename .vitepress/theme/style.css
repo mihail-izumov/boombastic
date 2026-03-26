@@ -270,3 +270,20 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
 .neon-line { max-width: 960px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
 .neon-line-inner { height: 1px; opacity: 0.3; background: var(--neon-gradient); }
 @media (max-width: 768px) { .neon-line { padding: 0 16px; } }
+
+/* ============================================================
+   FIX: Фиксированный навбар на мобилке (все страницы)
+   ============================================================ */
+@media (max-width: 960px) {
+  .VPNav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+    width: 100% !important;
+  }
+  .VPContent {
+    padding-top: 64px !important;
+  }
+}
