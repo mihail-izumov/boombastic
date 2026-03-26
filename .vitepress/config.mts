@@ -124,13 +124,15 @@ export default defineConfig({
         btns.appendChild(makeLinkBtn('Игровой статус', 'Узнать уровень = получить больше игр', '#00D4FF', '/rewards'));
 
         /* --- Призотека (раскрывающаяся) --- */
+        var prizOpen = false;
+
         var prizWrap = document.createElement('div');
         prizWrap.style.cssText = 'display:flex;flex-direction:column;gap:0;border-radius:10px;border:1.5px solid #FF008040;background:#FF00800d;transition:all 0.25s;overflow:hidden;';
 
         var prizBtn = document.createElement('button');
-        prizBtn.style.cssText = "width:100%;padding:14px 20px;border:none;background:transparent;cursor:pointer;transition:all 0.2s;text-align:center;";
+        prizBtn.style.cssText = "width:100%;padding:14px 20px;border:none;background:transparent;cursor:pointer;transition:background 0.2s;text-align:center;";
         var prizLabel = document.createElement('div');
-        prizLabel.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FF0080;line-height:1.4;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:opacity 0.25s ease;";
+        prizLabel.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FF0080;line-height:1.4;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:opacity 0.2s ease;pointer-events:none;";
         var prizText = document.createTextNode('Призотека');
         prizLabel.appendChild(prizText);
         var prizArrow = document.createElement('span');
@@ -138,8 +140,15 @@ export default defineConfig({
         prizArrow.style.cssText = 'display:inline-flex;align-items:center;opacity:0.7;';
         prizLabel.appendChild(prizArrow);
         prizBtn.appendChild(prizLabel);
-        prizBtn.addEventListener('mouseenter', function() { if(!prizOpen) { this.style.background='rgba(255,0,128,0.08)'; } });
-        prizBtn.addEventListener('mouseleave', function() { if(!prizOpen) { this.style.background='transparent'; } });
+
+        prizBtn.addEventListener('mouseenter', function() {
+          if (prizOpen) { prizLabel.style.opacity = '0.8'; }
+          else { prizBtn.style.background = 'rgba(255,0,128,0.08)'; }
+        });
+        prizBtn.addEventListener('mouseleave', function() {
+          if (prizOpen) { prizLabel.style.opacity = '0.4'; }
+          else { prizBtn.style.background = 'transparent'; }
+        });
 
         var prizSub = document.createElement('div');
         prizSub.style.cssText = 'display:none;flex-direction:row;gap:8px;padding:0 12px 12px 12px;';
@@ -158,7 +167,6 @@ export default defineConfig({
         prizSub.appendChild(makePrizSubBtn('Питерлэнд', '/prizes/piterland'));
         prizSub.appendChild(makePrizSubBtn('Охта Молл', '/prizes/ohtamall'));
 
-        var prizOpen = false;
         prizBtn.addEventListener('click', function() {
           prizOpen = !prizOpen;
           prizSub.style.display = prizOpen ? 'flex' : 'none';
@@ -169,11 +177,11 @@ export default defineConfig({
             prizWrap.style.background = '#FF008015';
             prizLabel.style.opacity = '0.4';
             prizBtn.style.background = 'transparent';
-            prizBtn.style.cursor = 'pointer';
           } else {
             prizWrap.style.borderColor = '#FF008040';
             prizWrap.style.background = '#FF00800d';
             prizLabel.style.opacity = '1';
+            prizBtn.style.background = 'transparent';
           }
         });
 
