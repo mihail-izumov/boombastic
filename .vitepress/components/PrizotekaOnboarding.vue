@@ -46,25 +46,24 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 function onTouchStart(e) { touchStartX.value = e.touches[0].clientX; touchStartY.value = e.touches[0].clientY; swiping.value = false }
 function onTouchMove(e) { if (touchStartX.value === null) return; const dx = Math.abs(e.touches[0].clientX - touchStartX.value); const dy = Math.abs(e.touches[0].clientY - touchStartY.value); if (dx > dy && dx > 10) { swiping.value = true; e.preventDefault() } }
 function onTouchEnd(e) { if (!swiping.value) { touchStartX.value = null; touchStartY.value = null; return }; const dx = e.changedTouches[0].clientX - touchStartX.value; if (dx < -50) next(); if (dx > 50) goToStart(); touchStartX.value = null; touchStartY.value = null; swiping.value = false }
-
 function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step.value) return SLIDES[i]?.accent || '#C5F946'; return 'rgba(255,255,255,0.15)' }
 </script>
 
 <template>
   <!--
-    LAYOUT: 3 vertical zones
-    [spacer-top]  — flex:1 — pushes content to center
-    [content]     — icon + title + desc + dots + buttons
-    [spacer-bot]  — flex:1 — equal to spacer-top
+    LAYOUT (mobile):
+    spacer-top (flex:1)  ← eats space above slide
+    slide                ← icon + title + desc (natural height)
+    spacer-bot (flex:1)  ← eats space between slide and footer
+    footer               ← dots + buttons (pinned to bottom)
   -->
   <div class="ob" @touchstart.passive="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
     <div class="ob__glow" :style="{ background: `radial-gradient(circle, ${isLastSlide ? 'rgba(197,249,70,0.06)' : accentColor + '11'} 0%, transparent 70%)` }" />
 
-    <!-- Spacer top -->
-    <div class="ob__spacer"></div>
+    <div class="ob__spacer-top"></div>
 
-    <!-- All content: slide + dots + buttons — ONE block, no gap issues -->
-    <div class="ob__content">
+    <!-- SLIDE: just icon + title + desc -->
+    <div class="ob__center">
       <div v-if="!isLastSlide" :key="animKey" class="ob__slide" :style="{ '--dir': dir }">
         <div class="ob__icon" :class="floatClass">
           <svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 24 24" fill="none" :stroke="slide.accent" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ color: slide.accent }" v-html="ICONS[slide.icon]" />
@@ -86,8 +85,12 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
           </a>
         </div>
       </div>
+    </div>
 
-      <!-- Dots + buttons — directly after slide, no gap -->
+    <div class="ob__spacer-bot"></div>
+
+    <!-- FOOTER: dots + buttons — always at bottom -->
+    <div class="ob__footer">
       <div class="ob__dots">
         <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot" :style="{width:i===step?'28px':'8px',background:dotColor(i),boxShadow:i===step?`0 0 12px ${dotColor(i)}66`:'none'}" @click="goTo(i)"/>
       </div>
@@ -97,9 +100,6 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
         <button v-if="!isLastSlide&&step===0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
       </div>
     </div>
-
-    <!-- Spacer bottom -->
-    <div class="ob__spacer"></div>
   </div>
 </template>
 
@@ -117,11 +117,6 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
 .ob__float--4{animation:ob-float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 24px rgba(255,0,128,0.4)) drop-shadow(0 0 48px rgba(255,0,128,0.15))}
 .ob__shark{margin-bottom:28px;animation:ob-float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 24px rgba(197,249,70,0.4)) drop-shadow(0 0 48px rgba(197,249,70,0.15))}
 
-/*
-  LAYOUT: .ob is flex-column, full viewport height.
-  Two .ob__spacer divs (flex:1) sit above and below .ob__content
-  This centers .ob__content perfectly without any hacks.
-*/
 .ob {
   min-height: calc(100vh - 64px);
   background: transparent;
@@ -137,24 +132,19 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
   -webkit-user-select: none;
   user-select: none;
 }
-.ob__spacer { flex: 1; }
-.ob__glow {
-  position: absolute; top: 20%; left: 50%; transform: translate(-50%,-50%);
-  width: 600px; height: 600px; border-radius: 50%;
-  filter: blur(80px); transition: background 0.6s ease; pointer-events: none;
-}
-.ob__content {
-  max-width: 420px; width: 100%;
-  display: flex; flex-direction: column; align-items: center;
-  position: relative; z-index: 1;
-  flex-shrink: 0;
-}
-.ob__slide {
-  animation: ob-slideIn 0.4s cubic-bezier(0.16,1,0.3,1);
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  width: 100%;
-}
-.ob__icon { margin-bottom: 28px }
+.ob__glow { position:absolute; top:20%; left:50%; transform:translate(-50%,-50%); width:600px; height:600px; border-radius:50%; filter:blur(80px); transition:background 0.6s ease; pointer-events:none }
+
+/* Spacers eat equal space above and below slide */
+.ob__spacer-top, .ob__spacer-bot { flex: 1 1 0; }
+
+/* Center block: natural height, no flex grow */
+.ob__center { max-width:420px; width:100%; flex-shrink:0; display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; }
+
+/* Footer: pinned to bottom, no flex grow */
+.ob__footer { max-width:420px; width:100%; flex-shrink:0; display:flex; flex-direction:column; align-items:center; padding-bottom:24px; position:relative; z-index:1; }
+
+.ob__slide { animation:ob-slideIn 0.4s cubic-bezier(0.16,1,0.3,1); display:flex; flex-direction:column; align-items:center; text-align:center; width:100% }
+.ob__icon { margin-bottom:28px }
 .ob__title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:36px; line-height:40px; margin-bottom:20px; color:#F0F4FF; max-width:400px }
 .ob__desc { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.55); max-width:340px; font-weight:400; margin:0 }
 .ob__park-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:clamp(26px,7vw,36px); line-height:1; margin-bottom:32px; text-transform:uppercase; letter-spacing:0.04em }
@@ -165,9 +155,9 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
 .ob__park-meta { display:flex; align-items:center; gap:8px }
 .ob__park-badge { display:inline-flex; align-items:center; color:#1a1840; font-family:'Space Mono',monospace; font-weight:700; font-size:13px; padding:3px 10px; border-radius:6px; animation:ob-badgePop 0.5s cubic-bezier(0.16,1,0.3,1) both }
 .ob__park-sub { font-size:12px; color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:500 }
-.ob__dots { display:flex; gap:10px; margin-top:36px; align-items:center }
+.ob__dots { display:flex; gap:10px; margin-bottom:16px; align-items:center }
 .ob__dot { height:8px; border-radius:4px; border:none; cursor:pointer; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); padding:0 }
-.ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:24px; width:100%; max-width:340px }
+.ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; max-width:340px }
 .ob__btn-main { width:100%; padding:16px 32px; border-radius:14px; border:none; color:#1a1840; font-family:'Inter',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px }
 .ob__btn-sec { padding:10px 24px; min-width:160px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.5); font-size:14px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; text-align:center }
 .ob__btn-sec:hover { color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.1) }
@@ -182,8 +172,8 @@ function dotColor(i) { if (i === SLIDES.length) return '#C5F946'; if (i === step
   .ob__title { font-size: 28px; line-height: 34px; margin-bottom: 14px; }
   .ob__desc { font-size: 14px; max-width: 300px; }
   .ob__park-title { margin-bottom: 24px; font-size: 28px; }
-  .ob__dots { margin-top: 24px; }
-  .ob__buttons { margin-top: 16px; }
+  .ob__footer { padding-bottom: 16px; }
+  .ob__dots { margin-bottom: 12px; }
   .ob__btn-main { padding: 14px 24px; font-size: 15px; }
   .ob__btn-sec { padding: 8px 20px; font-size: 13px; }
 }
