@@ -87,25 +87,95 @@ export default defineConfig({
         closeBtn.addEventListener('mouseenter', function() { this.style.background='rgba(255,255,255,0.12)'; this.style.color='#fff'; });
         closeBtn.addEventListener('mouseleave', function() { this.style.background='rgba(255,255,255,0.06)'; this.style.color='rgba(255,255,255,0.5)'; });
         closeBtn.addEventListener('click', function() { closeGameModeModal(); });
+
         var title = document.createElement('div');
         title.textContent = 'ИГРОВОЙ РЕЖИМ';
         title.style.cssText = "font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#00D4FF;letter-spacing:0.12em;text-align:center;margin-bottom:8px;";
+
         var subtitle = document.createElement('div');
-        subtitle.textContent = 'Выбери действие';
+        subtitle.textContent = 'Победи сегодня!';
         subtitle.style.cssText = "font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:#F0F4FF;text-align:center;margin-bottom:28px;";
+
         var btns = document.createElement('div');
         btns.style.cssText = 'display:flex;flex-direction:column;gap:12px;';
-        function makeBtn(label, color) {
-          var b = document.createElement('button');
-          b.textContent = label;
-          b.style.cssText = "width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid " + color + "40;background:" + color + "0d;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:" + color + ";cursor:pointer;transition:all 0.25s;text-align:center;";
+
+        /* Хелпер: кнопка-ссылка с подсказкой */
+        function makeLinkBtn(label, hint, color, href) {
+          var b = document.createElement('a');
+          b.href = href;
+          b.style.cssText = "display:block;width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid " + color + "40;background:" + color + "0d;cursor:pointer;transition:all 0.25s;text-align:center;text-decoration:none;box-sizing:border-box;";
+          var labelEl = document.createElement('div');
+          labelEl.textContent = label;
+          labelEl.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:" + color + ";line-height:1.4;";
+          b.appendChild(labelEl);
+          if (hint) {
+            var hintEl = document.createElement('div');
+            hintEl.textContent = hint;
+            hintEl.style.cssText = "font-family:'Inter',sans-serif;font-size:12px;font-weight:400;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.3;";
+            b.appendChild(hintEl);
+          }
           b.addEventListener('mouseenter', function() { this.style.background=color+'22'; this.style.borderColor=color+'80'; });
           b.addEventListener('mouseleave', function() { this.style.background=color+'0d'; this.style.borderColor=color+'40'; });
+          b.addEventListener('click', function() { closeGameModeModal(); });
           return b;
         }
-        btns.appendChild(makeBtn('Кнопка 1', '#C5F946'));
-        btns.appendChild(makeBtn('Кнопка 2', '#00D4FF'));
-        btns.appendChild(makeBtn('Кнопка 3', '#FF0080'));
+
+        btns.appendChild(makeLinkBtn('Зарядить карту', 'Онлайн-оплата с выгодой до 60%', '#C5F946', '/charge'));
+        btns.appendChild(makeLinkBtn('Игровой статус', 'Узнать уровень = получить больше игр', '#00D4FF', '/rewards'));
+
+        /* --- Призотека (раскрывающаяся) --- */
+        var prizWrap = document.createElement('div');
+        prizWrap.style.cssText = 'display:flex;flex-direction:column;gap:0;';
+
+        var prizBtn = document.createElement('button');
+        prizBtn.style.cssText = "width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid #FF008040;background:#FF00800d;cursor:pointer;transition:all 0.25s;text-align:center;";
+        var prizLabel = document.createElement('div');
+        prizLabel.textContent = 'Призотека';
+        prizLabel.style.cssText = "font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#FF0080;line-height:1.4;display:inline-flex;align-items:center;gap:6px;justify-content:center;";
+        var prizArrow = document.createElement('span');
+        prizArrow.textContent = '\\u25BE';
+        prizArrow.style.cssText = 'font-size:14px;opacity:0.6;transition:transform 0.25s;display:inline-block;';
+        prizLabel.appendChild(prizArrow);
+        prizBtn.appendChild(prizLabel);
+        prizBtn.addEventListener('mouseenter', function() { if(!prizOpen) { this.style.background='#FF008022'; this.style.borderColor='#FF008080'; } });
+        prizBtn.addEventListener('mouseleave', function() { if(!prizOpen) { this.style.background='#FF00800d'; this.style.borderColor='#FF008040'; } });
+
+        var prizSub = document.createElement('div');
+        prizSub.style.cssText = 'display:none;flex-direction:row;gap:8px;margin-top:10px;';
+
+        function makePrizSubBtn(label, href) {
+          var a = document.createElement('a');
+          a.href = href;
+          a.textContent = label;
+          a.style.cssText = "flex:1;display:flex;align-items:center;justify-content:center;padding:12px 10px;border-radius:8px;border:1px solid rgba(255,0,128,0.2);background:rgba(255,0,128,0.06);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#FF0080;text-decoration:none;transition:all 0.2s;cursor:pointer;";
+          a.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.18)'; this.style.borderColor='rgba(255,0,128,0.5)'; });
+          a.addEventListener('mouseleave', function() { this.style.background='rgba(255,0,128,0.06)'; this.style.borderColor='rgba(255,0,128,0.2)'; });
+          a.addEventListener('click', function() { closeGameModeModal(); });
+          return a;
+        }
+
+        prizSub.appendChild(makePrizSubBtn('Питерлэнд', '/prizes/piterland'));
+        prizSub.appendChild(makePrizSubBtn('Охта Молл', '/prizes/ohtamall'));
+
+        var prizOpen = false;
+        prizBtn.addEventListener('click', function() {
+          prizOpen = !prizOpen;
+          prizSub.style.display = prizOpen ? 'flex' : 'none';
+          prizArrow.style.transform = prizOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+          prizBtn.style.borderRadius = prizOpen ? '10px 10px 0 0' : '10px';
+          if (prizOpen) {
+            prizBtn.style.borderColor = '#FF008060';
+            prizBtn.style.background = '#FF008018';
+          } else {
+            prizBtn.style.borderColor = '#FF008040';
+            prizBtn.style.background = '#FF00800d';
+          }
+        });
+
+        prizWrap.appendChild(prizBtn);
+        prizWrap.appendChild(prizSub);
+        btns.appendChild(prizWrap);
+
         modal.appendChild(closeBtn);
         modal.appendChild(title);
         modal.appendChild(subtitle);
