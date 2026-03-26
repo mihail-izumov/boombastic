@@ -8,9 +8,8 @@ aside: false
 <PrizotekaOnboarding />
 
 <style>
-/* Full-bleed: убираем VitePress-обёртки */
+/* Full-bleed content but keep navbar */
 .VPDoc .container { max-width: 100% !important; }
-.VPDoc .content { padding: 0 !important; }
+.VPDoc .content { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
 .VPDoc .content-container { max-width: 100% !important; }
-.VPContent { padding-top: 0 !important; }
 </style>
