@@ -315,6 +315,7 @@ export default defineConfig({
       {
         text: 'Призотека',
         items: [
+          { text: 'Старт', link: '/prizes' },
           { text: 'Питерлэнд', link: '/prizes/piterland' },
           { text: 'Охта Молл', link: '/prizes/ohtamall' }
         ]
