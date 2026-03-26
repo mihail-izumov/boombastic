@@ -50,7 +50,6 @@ function goTo(i) {
   dir.value = i > step.value ? 1 : -1; animKey.value++; step.value = i
 }
 
-// Keyboard
 function onKey(e) {
   if (e.key === 'ArrowRight' || e.key === ' ') next()
   if (e.key === 'ArrowLeft') goToStart()
@@ -58,7 +57,6 @@ function onKey(e) {
 onMounted(() => window.addEventListener('keydown', onKey))
 onUnmounted(() => window.removeEventListener('keydown', onKey))
 
-// Swipe — track both axes to prevent scroll during horizontal swipe
 function onTouchStart(e) {
   touchStartX.value = e.touches[0].clientX
   touchStartY.value = e.touches[0].clientY
@@ -68,7 +66,6 @@ function onTouchMove(e) {
   if (touchStartX.value === null) return
   const dx = Math.abs(e.touches[0].clientX - touchStartX.value)
   const dy = Math.abs(e.touches[0].clientY - touchStartY.value)
-  // If horizontal movement > vertical, it's a swipe — block scroll
   if (dx > dy && dx > 10) {
     swiping.value = true
     e.preventDefault()
@@ -76,20 +73,14 @@ function onTouchMove(e) {
 }
 function onTouchEnd(e) {
   if (touchStartX.value === null || !swiping.value) {
-    touchStartX.value = null
-    touchStartY.value = null
-    swiping.value = false
-    return
+    touchStartX.value = null; touchStartY.value = null; swiping.value = false; return
   }
   const dx = e.changedTouches[0].clientX - touchStartX.value
   if (dx < -50) next()
   if (dx > 50) goToStart()
-  touchStartX.value = null
-  touchStartY.value = null
-  swiping.value = false
+  touchStartX.value = null; touchStartY.value = null; swiping.value = false
 }
 
-// Float animation class per step (avoids dynamic keyframe re-injection)
 const floatClass = computed(() => `ob__float--${step.value}`)
 
 function dotColor(i) {
@@ -106,7 +97,6 @@ function dotColor(i) {
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
   >
-    <!-- Background glow -->
     <div class="ob__glow" :style="{
       background: `radial-gradient(circle, ${isLastSlide ? 'rgba(197,249,70,0.06)' : accentColor + '11'} 0%, transparent 70%)`
     }" />
@@ -134,29 +124,16 @@ function dotColor(i) {
           <span style="color: #F0F4FF;">ВЫБЕРИ</span><br />
           <span style="color: #C5F946; text-shadow: 0 0 30px rgba(197,249,70,0.3);">ПРИЗОТЕКУ</span>
         </div>
-
         <div class="ob__parks">
-          <a
-            v-for="(p, i) in PARKS"
-            :key="p.id"
-            :href="p.href"
-            class="ob__park-card"
-            :style="{
-              borderColor: p.color + '55',
-              background: `linear-gradient(135deg, ${p.color}0a, ${p.color}04)`,
-              animationDelay: (0.1 + i * 0.15) + 's',
-            }"
+          <a v-for="(p, i) in PARKS" :key="p.id" :href="p.href" class="ob__park-card"
+            :style="{ borderColor: p.color + '55', background: `linear-gradient(135deg, ${p.color}0a, ${p.color}04)`, animationDelay: (0.1 + i * 0.15) + 's' }"
             @mouseenter="$event.currentTarget.style.borderColor = p.color + '99'; $event.currentTarget.style.boxShadow = `0 0 30px ${p.color}22`; $event.currentTarget.style.transform = 'translateY(-2px)';"
-            @mouseleave="$event.currentTarget.style.borderColor = p.color + '55'; $event.currentTarget.style.boxShadow = 'none'; $event.currentTarget.style.transform = 'none';"
-          >
+            @mouseleave="$event.currentTarget.style.borderColor = p.color + '55'; $event.currentTarget.style.boxShadow = 'none'; $event.currentTarget.style.transform = 'none';">
             <div class="ob__park-shimmer" :style="{ background: `linear-gradient(105deg, transparent 40%, ${p.color}08 50%, transparent 60%)` }" />
             <div style="position: relative; z-index: 1;">
               <div class="ob__park-name" :style="{ color: p.color }">{{ p.name }}</div>
               <div class="ob__park-meta">
-                <span class="ob__park-badge" :style="{
-                  background: p.color, boxShadow: `0 0 12px ${p.color}44`,
-                  animationDelay: (0.3 + i * 0.15) + 's',
-                }">{{ p.count }}</span>
+                <span class="ob__park-badge" :style="{ background: p.color, boxShadow: `0 0 12px ${p.color}44`, animationDelay: (0.3 + i * 0.15) + 's' }">{{ p.count }}</span>
                 <span class="ob__park-sub">призов ждут тебя</span>
               </div>
             </div>
@@ -171,37 +148,21 @@ function dotColor(i) {
 
       <!-- DOTS -->
       <div class="ob__dots">
-        <button
-          v-for="(_, i) in totalSteps"
-          :key="i"
-          class="ob__dot"
-          :style="{
-            width: i === step ? '28px' : '8px',
-            background: dotColor(i),
-            boxShadow: i === step ? `0 0 12px ${dotColor(i)}66` : 'none',
-          }"
-          @click="goTo(i)"
-        />
+        <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot"
+          :style="{ width: i === step ? '28px' : '8px', background: dotColor(i), boxShadow: i === step ? `0 0 12px ${dotColor(i)}66` : 'none' }"
+          @click="goTo(i)" />
       </div>
 
       <!-- BUTTONS -->
       <div class="ob__buttons">
-        <button
-          v-if="!isLastSlide"
-          class="ob__btn-main"
-          :style="{
-            background: slide.accent,
-            boxShadow: `0 4px 24px ${slide.accent}44`,
-          }"
-          @click="next"
-        >
+        <button v-if="!isLastSlide" class="ob__btn-main"
+          :style="{ background: slide.accent, boxShadow: `0 4px 24px ${slide.accent}44` }" @click="next">
           {{ slide.btnWord }}
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
             fill="none" stroke="#1a1840" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
           </svg>
         </button>
-
         <button v-if="step > 0" class="ob__btn-sec" @click="goToStart">В начало</button>
         <button v-if="!isLastSlide && step === 0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
       </div>
@@ -210,36 +171,23 @@ function dotColor(i) {
 </template>
 
 <style scoped>
-/* ── ANIMATIONS (static, no re-injection) ── */
 @keyframes ob-slideIn {
   from { opacity: 0; transform: translateX(calc(var(--dir) * 60px)); }
   to   { opacity: 1; transform: translateX(0); }
 }
-@keyframes ob-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-@keyframes ob-parkCardIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes ob-badgePop {
-  0% { transform: scale(0.7); opacity: 0; }
-  60% { transform: scale(1.12); }
-  100% { transform: scale(1); opacity: 1; }
-}
+@keyframes ob-shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes ob-parkCardIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ob-badgePop { 0% { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
 
-/* Smooth float: one animation, color via CSS filter on wrapper */
 @keyframes ob-float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.92; }
-  50%      { transform: translateY(-14px) scale(1.06); opacity: 1; }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-14px) scale(1.06); }
 }
 @keyframes ob-sharkFloat {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.92; }
-  50%      { transform: translateY(-14px) scale(1.06); opacity: 1; }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-14px) scale(1.06); }
 }
 
-/* Per-color glow via static filter (no dynamic keyframes = no flicker) */
 .ob__float--0 { animation: ob-float 3.5s ease-in-out infinite; filter: drop-shadow(0 4px 20px rgba(197,249,70,0.35)) drop-shadow(0 0 40px rgba(197,249,70,0.15)); }
 .ob__float--1 { animation: ob-float 3.5s ease-in-out infinite; filter: drop-shadow(0 4px 20px rgba(0,255,136,0.35)) drop-shadow(0 0 40px rgba(0,255,136,0.15)); }
 .ob__float--2 { animation: ob-float 3.5s ease-in-out infinite; filter: drop-shadow(0 4px 20px rgba(255,214,10,0.35)) drop-shadow(0 0 40px rgba(255,214,10,0.15)); }
@@ -252,7 +200,6 @@ function dotColor(i) {
   filter: drop-shadow(0 4px 20px rgba(197,249,70,0.35)) drop-shadow(0 0 40px rgba(197,249,70,0.15));
 }
 
-/* ── LAYOUT ── */
 .ob {
   min-height: 100vh;
   background: transparent;
@@ -265,218 +212,109 @@ function dotColor(i) {
   color: #F0F4FF;
   position: relative;
   overflow: hidden;
-  touch-action: pan-y; /* allow vertical scroll, we handle horizontal */
+  touch-action: pan-y;
   -webkit-user-select: none;
   user-select: none;
 }
 .ob__glow {
-  position: absolute;
-  top: 20%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  filter: blur(80px);
-  transition: background 0.6s ease;
-  pointer-events: none;
+  position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  filter: blur(80px); transition: background 0.6s ease; pointer-events: none;
 }
 .ob__wrap {
-  max-width: 420px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  z-index: 1;
+  max-width: 420px; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; z-index: 1;
 }
 .ob__slide {
   animation: ob-slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  min-height: 340px;
-  justify-content: center;
-  width: 100%;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  min-height: 340px; justify-content: center; width: 100%;
 }
 .ob__icon { margin-bottom: 32px; }
 .ob__title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 40px;
-  margin-bottom: 20px;
-  color: #F0F4FF;
-  max-width: 400px;
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 36px; line-height: 40px; margin-bottom: 20px;
+  color: #F0F4FF; max-width: 400px;
 }
 .ob__desc {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.55);
-  max-width: 340px;
-  font-weight: 400;
-  margin: 0;
+  font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.55);
+  max-width: 340px; font-weight: 400; margin: 0;
 }
 .ob__park-title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(26px, 7vw, 36px);
-  line-height: 1;
-  margin-bottom: 32px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: clamp(26px, 7vw, 36px); line-height: 1;
+  margin-bottom: 32px; text-transform: uppercase; letter-spacing: 0.04em;
 }
-.ob__parks {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
+.ob__parks { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 .ob__park-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 22px;
-  border-radius: 14px;
-  border: 2px solid;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-decoration: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px; border-radius: 14px; border: 2px solid;
+  cursor: pointer; transition: all 0.25s ease; text-decoration: none;
   animation: ob-parkCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .ob__park-shimmer {
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  background-size: 200% 100%;
-  animation: ob-shimmer 4s linear infinite;
-  pointer-events: none;
+  position: absolute; inset: 0; border-radius: 14px;
+  background-size: 200% 100%; animation: ob-shimmer 4s linear infinite; pointer-events: none;
 }
 .ob__park-name {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  margin-bottom: 6px;
-  text-align: left;
+  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 24px;
+  margin-bottom: 6px; text-align: left;
 }
-.ob__park-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.ob__park-meta { display: flex; align-items: center; gap: 8px; }
 .ob__park-badge {
-  display: inline-flex;
-  align-items: center;
-  color: #1a1840;
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  font-size: 13px;
-  padding: 3px 10px;
-  border-radius: 6px;
+  display: inline-flex; align-items: center; color: #1a1840;
+  font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px;
+  padding: 3px 10px; border-radius: 6px;
   animation: ob-badgePop 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .ob__park-sub {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-size: 12px; color: rgba(255,255,255,0.5);
+  font-family: 'Inter', sans-serif; font-weight: 500;
 }
-
-/* Dots */
-.ob__dots {
-  display: flex;
-  gap: 10px;
-  margin-top: 48px;
-  align-items: center;
-}
+.ob__dots { display: flex; gap: 10px; margin-top: 48px; align-items: center; }
 .ob__dot {
-  height: 8px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 0;
+  height: 8px; border-radius: 4px; border: none; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 0;
 }
-
-/* Buttons */
 .ob__buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 32px;
-  width: 100%;
-  max-width: 340px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 12px; margin-top: 32px; width: 100%; max-width: 340px;
 }
 .ob__btn-main {
-  width: 100%;
-  padding: 16px 32px;
-  border-radius: 14px;
-  border: none;
-  color: #1a1840;
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  width: 100%; padding: 16px 32px; border-radius: 14px; border: none;
+  color: #1a1840; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .ob__btn-sec {
-  padding: 10px 24px;
-  min-width: 160px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s;
-  text-align: center;
+  padding: 10px 24px; min-width: 160px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; text-align: center;
 }
 .ob__btn-sec:hover {
-  color: rgba(255, 255, 255, 0.75);
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
 }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .ob {
-    padding: 20px 16px;
-    min-height: calc(100vh - 64px); /* leave room for VitePress nav */
+    padding: 10px 16px 20px;
+    /* НЕ трогаем padding-top от VitePress — навигация фиксируется сама */
+    min-height: calc(100vh - 64px);
   }
-  .ob__slide {
-    min-height: 280px;
-  }
-  .ob__icon {
-    margin-bottom: 20px;
-  }
-  .ob__icon svg {
-    width: 80px;
-    height: 80px;
-  }
-  .ob__shark {
-    margin-bottom: 16px;
-  }
-  .ob__shark svg {
-    width: 96px;
-    height: 61px;
-  }
-  .ob__title {
-    font-size: 28px;
-    line-height: 32px;
-  }
-  .ob__dots {
-    margin-top: 32px;
-  }
-  .ob__buttons {
-    margin-top: 24px;
-  }
+  .ob__slide { min-height: 260px; }
+  .ob__icon { margin-bottom: 16px; }
+  .ob__icon svg { width: 80px; height: 80px; }
+  .ob__shark { margin-bottom: 12px; }
+  .ob__shark svg { width: 96px; height: 61px; }
+  .ob__title { font-size: 28px; line-height: 32px; margin-bottom: 14px; }
+  .ob__desc { font-size: 14px; }
+  .ob__dots { margin-top: 28px; }
+  .ob__buttons { margin-top: 20px; }
+  .ob__park-title { margin-bottom: 24px; }
 }
 </style>
