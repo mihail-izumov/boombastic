@@ -77,6 +77,7 @@ function dotColor(i) {
     <div class="ob__glow" :style="{ background: `radial-gradient(circle, ${isLastSlide ? 'rgba(197,249,70,0.06)' : accentColor + '11'} 0%, transparent 70%)` }" />
     <div class="ob__wrap">
 
+      <!-- SLIDE: flex-grow fills space above dots -->
       <div v-if="!isLastSlide" :key="animKey" class="ob__slide" :style="{ '--dir': dir }">
         <div class="ob__icon" :class="floatClass">
           <svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 24 24"
@@ -113,19 +114,21 @@ function dotColor(i) {
         </div>
       </div>
 
-      <div class="ob__dots">
-        <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot"
-          :style="{width:i===step?'28px':'8px',background:dotColor(i),boxShadow:i===step?`0 0 12px ${dotColor(i)}66`:'none'}"
-          @click="goTo(i)"/>
-      </div>
-
-      <div class="ob__buttons">
-        <button v-if="!isLastSlide" class="ob__btn-main" :style="{background:slide.accent,boxShadow:`0 4px 24px ${slide.accent}44`}" @click="next">
-          {{ slide.btnWord }}
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1840" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
-        <button v-if="step>0" class="ob__btn-sec" @click="goToStart">В начало</button>
-        <button v-if="!isLastSlide&&step===0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
+      <!-- FOOTER: dots + buttons — always at bottom on mobile -->
+      <div class="ob__footer">
+        <div class="ob__dots">
+          <button v-for="(_, i) in totalSteps" :key="i" class="ob__dot"
+            :style="{width:i===step?'28px':'8px',background:dotColor(i),boxShadow:i===step?`0 0 12px ${dotColor(i)}66`:'none'}"
+            @click="goTo(i)"/>
+        </div>
+        <div class="ob__buttons">
+          <button v-if="!isLastSlide" class="ob__btn-main" :style="{background:slide.accent,boxShadow:`0 4px 24px ${slide.accent}44`}" @click="next">
+            {{ slide.btnWord }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1840" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <button v-if="step>0" class="ob__btn-sec" @click="goToStart">В начало</button>
+          <button v-if="!isLastSlide&&step===0" class="ob__btn-sec" @click="goTo(SLIDES.length)">Выбрать парк</button>
+        </div>
       </div>
     </div>
   </div>
@@ -216,6 +219,11 @@ function dotColor(i) {
   animation:ob-badgePop 0.5s cubic-bezier(0.16,1,0.3,1) both;
 }
 .ob__park-sub { font-size:12px; color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:500 }
+
+/* Footer (dots + buttons) — desktop: normal flow */
+.ob__footer {
+  display:flex; flex-direction:column; align-items:center;
+}
 .ob__dots { display:flex; gap:10px; margin-top:36px; align-items:center }
 .ob__dot { height:8px; border-radius:4px; border:none; cursor:pointer; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); padding:0 }
 .ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:24px; width:100%; max-width:340px }
@@ -233,34 +241,60 @@ function dotColor(i) {
 }
 .ob__btn-sec:hover { color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.1) }
 
-/* ── MOBILE ── */
+/* ══════════════════════════════════════
+   MOBILE: slide grows, content centered,
+   footer pinned to bottom
+   ══════════════════════════════════════ */
 @media (max-width: 768px) {
   .ob {
-    padding: 0 16px 24px !important;
+    padding: 0 16px !important;
     min-height: calc(100vh - 64px) !important;
+    justify-content: stretch !important;
+  }
+
+  /* Wrap becomes full-height flex column */
+  .ob__wrap {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  /* Slide grows to fill all space above footer, content centered inside */
+  .ob__slide {
+    flex: 1 !important;
+    min-height: auto !important;
     justify-content: center !important;
   }
-  .ob__slide {
-    min-height: auto !important;
+
+  /* Footer sticks to bottom */
+  .ob__footer {
+    flex-shrink: 0 !important;
+    padding-bottom: 24px !important;
+    width: 100% !important;
   }
+
+  /* Icons 2x bigger */
   .ob__icon {
-    margin-bottom: 24px !important;
+    margin-bottom: 20px !important;
   }
   .ob__icon svg {
     width: 140px !important;
     height: 140px !important;
   }
+
   .ob__shark {
-    margin-bottom: 20px !important;
+    margin-bottom: 16px !important;
   }
   .ob__shark svg {
     width: 120px !important;
     height: 76px !important;
   }
+
   .ob__title {
     font-size: 28px !important;
     line-height: 34px !important;
-    margin-bottom: 16px !important;
+    margin-bottom: 14px !important;
   }
   .ob__desc {
     font-size: 14px !important;
@@ -271,10 +305,12 @@ function dotColor(i) {
     font-size: 28px !important;
   }
   .ob__dots {
-    margin-top: 32px !important;
+    margin-top: 0 !important;
+    padding-top: 16px !important;
   }
   .ob__buttons {
-    margin-top: 24px !important;
+    margin-top: 16px !important;
+    max-width: 100% !important;
   }
 }
 </style>
