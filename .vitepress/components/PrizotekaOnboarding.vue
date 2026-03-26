@@ -190,7 +190,6 @@ function dotColor(i) {
   color:#F0F4FF; max-width:400px;
 }
 .ob__desc { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.55); max-width:340px; font-weight:400; margin:0 }
-
 .ob__park-title {
   font-family:'Montserrat',sans-serif; font-weight:700;
   font-size:clamp(26px,7vw,36px); line-height:1;
@@ -217,10 +216,8 @@ function dotColor(i) {
   animation:ob-badgePop 0.5s cubic-bezier(0.16,1,0.3,1) both;
 }
 .ob__park-sub { font-size:12px; color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:500 }
-
 .ob__dots { display:flex; gap:10px; margin-top:36px; align-items:center }
 .ob__dot { height:8px; border-radius:4px; border:none; cursor:pointer; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); padding:0 }
-
 .ob__buttons { display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:24px; width:100%; max-width:340px }
 .ob__btn-main {
   width:100%; padding:16px 32px; border-radius:14px; border:none;
@@ -239,46 +236,45 @@ function dotColor(i) {
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .ob {
-    padding: 4px 16px 16px !important;
+    padding: 0 16px 24px !important;
     min-height: calc(100vh - 64px) !important;
-    justify-content: flex-start !important;
-    padding-top: 20px !important;
+    justify-content: center !important;
   }
   .ob__slide {
     min-height: auto !important;
-    justify-content: flex-start !important;
   }
   .ob__icon {
-    margin-bottom: 12px !important;
+    margin-bottom: 24px !important;
   }
   .ob__icon svg {
-    width: 72px !important;
-    height: 72px !important;
+    width: 140px !important;
+    height: 140px !important;
   }
   .ob__shark {
-    margin-bottom: 10px !important;
+    margin-bottom: 20px !important;
   }
   .ob__shark svg {
-    width: 80px !important;
-    height: 51px !important;
+    width: 120px !important;
+    height: 76px !important;
   }
   .ob__title {
-    font-size: 26px !important;
-    line-height: 30px !important;
-    margin-bottom: 12px !important;
+    font-size: 28px !important;
+    line-height: 34px !important;
+    margin-bottom: 16px !important;
   }
   .ob__desc {
     font-size: 14px !important;
+    max-width: 300px !important;
   }
   .ob__park-title {
-    margin-bottom: 20px !important;
-    font-size: 26px !important;
+    margin-bottom: 24px !important;
+    font-size: 28px !important;
   }
   .ob__dots {
-    margin-top: 20px !important;
+    margin-top: 32px !important;
   }
   .ob__buttons {
-    margin-top: 16px !important;
+    margin-top: 24px !important;
   }
 }
 </style>
