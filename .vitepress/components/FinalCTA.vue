@@ -43,21 +43,29 @@ const communities = [
       <!-- VK Cards -->
       <div class="vk-cards">
         <a
-          v-for="c in communities"
+          v-for="(c, i) in communities"
           :key="c.handle"
           :href="c.url"
           target="_blank"
           rel="noopener noreferrer"
           class="vk-card"
         >
-          <div class="vk-card__city">СООБЩЕСТВО &middot; {{ c.city }}</div>
+          <div class="vk-card__city">{{ c.city }}</div>
 
           <div class="vk-card__body">
-            <!-- VK Icon -->
+            <!-- VK Icon — b00m.fun style -->
             <div class="vk-card__icon">
               <svg viewBox="0 0 48 48" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="48" height="48" rx="12" fill="#0077FF"/>
-                <path d="M25.54 34.58c-8.94 0-14.04-6.12-14.28-16.32h4.5c.16 7.56 3.48 10.76 6.12 11.42V18.26h4.24v6.52c2.6-.28 5.34-3.26 6.26-6.52h4.24c-.7 4.02-3.64 7-5.72 8.22 2.08 1 5.42 3.58 6.7 8.1h-4.68c-1-3.12-3.5-5.54-6.8-5.88v5.88h-.58Z" fill="#fff"/>
+                <rect width="48" height="48" rx="12" fill="#0D1421"/>
+                <rect x="0.5" y="0.5" width="47" height="47" rx="11.5" :stroke="`url(#vk-border-${i})`" stroke-opacity="0.4"/>
+                <path d="M25.54 33c-8.94 0-14.04-6.12-14.28-16.32h4.5c.16 7.56 3.48 10.76 6.12 11.42V16.68h4.24v6.52c2.6-.28 5.34-3.26 6.26-6.52h4.24c-.7 4.02-3.64 7-5.72 8.22 2.08 1 5.42 3.58 6.7 8.1h-4.68c-1-3.12-3.5-5.54-6.8-5.88V33h-.58Z" fill="#C5F946"/>
+                <defs>
+                  <linearGradient :id="`vk-border-${i}`" x1="0" y1="0" x2="48" y2="48">
+                    <stop stop-color="#C5F946"/>
+                    <stop offset="0.5" stop-color="#00D4FF"/>
+                    <stop offset="1" stop-color="#C5F946"/>
+                  </linearGradient>
+                </defs>
               </svg>
             </div>
 
@@ -131,8 +139,16 @@ const communities = [
 }
 
 /* Single card */
+.vk-card,
+.vk-card:hover,
+.vk-card:focus,
+.vk-card:active {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
 .vk-card {
-  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,6 +206,12 @@ const communities = [
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 0 6px rgba(197, 249, 70, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.vk-card:hover .vk-card__icon {
+  filter: drop-shadow(0 0 10px rgba(197, 249, 70, 0.5));
 }
 
 .vk-card__icon svg {
