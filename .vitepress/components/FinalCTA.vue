@@ -246,10 +246,12 @@ const communities = [
 @media (max-width: 600px) {
   .vk-cards {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    gap: 12px;
   }
 
   .vk-card {
+    flex: 0 0 auto;
     max-width: 100%;
     width: 100%;
   }
