@@ -14,6 +14,11 @@ import ChargeCardPage from '../components/ChargeCardPage.vue'
 import BoomRewards from '../components/BoomRewards.vue'
 import PrizotekaOnboarding from '../components/PrizotekaOnboarding.vue'
 import CookieConsent from '../components/CookieConsent.vue'
+import TermsHub from '../terms/TermsHub.vue'
+import TermsOfertaOhta from '../terms/TermsOfertaOhta.vue'
+import TermsOfertaPiterland from '../terms/TermsOfertaPiterland.vue'
+import TermsPolicy from '../terms/TermsPolicy.vue'
+import TermsPrivacy from '../terms/TermsPrivacy.vue'
 
 export default {
   extends: DefaultTheme,
@@ -35,6 +40,11 @@ export default {
     app.component('BoomRewards', BoomRewards)
     app.component('PrizotekaOnboarding', PrizotekaOnboarding)
     app.component('CookieConsent', CookieConsent)
+    app.component('TermsHub', TermsHub)
+    app.component('TermsOfertaOhta', TermsOfertaOhta)
+    app.component('TermsOfertaPiterland', TermsOfertaPiterland)
+    app.component('TermsPolicy', TermsPolicy)
+    app.component('TermsPrivacy', TermsPrivacy)
     
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
