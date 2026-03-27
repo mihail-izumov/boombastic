@@ -148,10 +148,10 @@ function closeModal() {
           <div class="park-card-stat-row" :style="{ '--chip-color': park.accent }">
             <span class="park-card-stat-number">{{ park.machines }}</span>
             <span class="park-card-stat-label">машин</span>
-            <a href="/machines" class="park-card-stat-btn">
+            <a href="/parks" class="park-card-stat-btn">
               <span class="park-card-stat-btn-bracket">[</span>
               <svg class="park-card-stat-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 17-5-5 5-5"/><path d="m4 17 5-5-5-5"/></svg>
-              <span class="park-card-stat-btn-text">арены</span>
+              <span class="park-card-stat-btn-text">маршруты</span>
               <span class="park-card-stat-btn-bracket">]</span>
             </a>
           </div>
@@ -226,7 +226,7 @@ function closeModal() {
             <!-- Top machines -->
             <div class="park-top-label" style="margin-top: 16px;">
               <svg class="park-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
-              Топ автоматов сегодня
+              Топ машин сегодня
             </div>
             <div class="park-top-list">
               <div
@@ -259,10 +259,10 @@ function closeModal() {
               </div>
               <div class="park-modal-ctas">
                 <button class="park-modal-btn-accent" :style="{ '--btn-color': modalPark.accent }">
-                  <span class="park-modal-btn-text">Арены</span>
+                  <span class="park-modal-btn-text">Маршруты</span>
                   <svg class="park-modal-btn-chevrons" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 17-5-5 5-5"/><path d="m4 17 5-5-5-5"/></svg>
                 </button>
-                <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route" :style="{ '--btn-color': modalPark.accent, borderColor: modalPark.accent + '40', color: modalPark.accent }">Маршрут</a>
+                <a :href="modalPark.mapUrl" target="_blank" rel="noopener noreferrer" class="park-modal-btn-route" :style="{ '--btn-color': modalPark.accent, borderColor: modalPark.accent + '40', color: modalPark.accent }">Карта</a>
               </div>
             </div>
           </div>
