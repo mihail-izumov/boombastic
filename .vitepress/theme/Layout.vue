@@ -145,7 +145,7 @@ onUnmounted(() => {
 function injectSharkEyes() {
   if (typeof document === 'undefined') return
   const titleLink = document.querySelector('.VPNavBarTitle a')
-  if (titleLink && !titleLink.querySelector('.shark-eyes')) {
+  if (titleLink && !titleLink.querySelector('')) {
     const eyes = document.createElement('img')
     eyes.src = 'https://b00m.fun/shark-eyes-icon-electric.svg'
     eyes.alt = ''
@@ -436,7 +436,7 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .VPDoc, .VPContent { border-radius: 5px; }
 .VPNavBarTitle a { display: flex !important; align-items: center !important; }
 
-.shark-eyes { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
+ { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
 @keyframes eyes-breathe {
   0%, 100% { filter: drop-shadow(0 0 2px rgba(197,249,70,0.2)); transform: scale(1); }
   50% { filter: drop-shadow(0 0 8px rgba(197,249,70,0.6)) drop-shadow(0 0 16px rgba(197,249,70,0.25)); transform: scale(1.04); }
@@ -458,7 +458,7 @@ body.bb-scroll-locked { position: fixed !important; overflow: hidden !important;
 }
 
 @media (max-width: 768px) {
-  .shark-eyes { width: 24px; height: 16px; margin-right: 4px; }
+  .shark-eyes { width: auto; height: 22px; margin-right: 5px; }
   .bb-preloader-eyes { width: 56px; height: 38px; }
   .notification-container { max-width: 100%; margin: 12px 0 36px 0; height: 72px; }
   body.has-banner .VPDoc { padding-top: 20px; }
