@@ -14,6 +14,7 @@
 
     <template #layout-bottom>
       <BbFooter />
+      <CookieConsent />
     </template>
   </DefaultLayout>
   
@@ -38,6 +39,7 @@ import NotificationsClients from './NotificationsClients.vue'
 import SignalModalButton from '../components/SignalModalButton.vue'
 import BbFooter from '../components/BbFooter.vue'
 import HomePage from '../components/HomePage.vue'
+import CookieConsent from '../components/CookieConsent.vue'
 
 const DefaultLayout = DefaultTheme.Layout
 const { frontmatter } = useData()
