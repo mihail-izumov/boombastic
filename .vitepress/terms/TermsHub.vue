@@ -1,45 +1,37 @@
 <template>
   <div class="terms-hub">
 
-    <!-- Header -->
     <div class="hub-header">
       <p class="hub-eyebrow">ЮРИДИЧЕСКАЯ ЗОНА</p>
       <h1 class="hub-title">Документы</h1>
       <p class="hub-sub">Всё прозрачно. Читай сколько хочешь — или просто глянь главное вверху.</p>
     </div>
 
-    <!-- Primary nav — filled cards, centered -->
+    <!-- Primary nav: 3 tabs, centered, filled when active -->
     <div class="primary-nav">
       <button
         v-for="s in sections"
         :key="s.id"
         class="primary-tab"
-        :class="{ active: activeSection === s.id }"
-        :style="activeSection === s.id ? { background: s.color, color: '#0D1421', borderColor: s.color } : {}"
+        :class="{ active: activeSection === s.id, [`tab-${s.id}`]: true }"
         @click="activeSection = s.id"
       >
-        <span class="tab-icon-wrap" :style="activeSection === s.id ? { maskImage: s.mask, WebkitMaskImage: s.mask, backgroundColor: '#0D1421' } : { maskImage: s.mask, WebkitMaskImage: s.mask, backgroundColor: s.color }"></span>
+        <span
+          class="tab-icon-wrap"
+          :style="{ maskImage: s.mask, WebkitMaskImage: s.mask, backgroundColor: activeSection === s.id ? s.iconActiveColor : s.color }"
+        ></span>
         {{ s.label }}
       </button>
     </div>
 
-    <!-- Park switcher — centered, park colors -->
+    <!-- Park switcher: centered, Охта=#FF0080, Питерлэнд=#00D4FF -->
     <div class="park-wrap" v-if="activeSection === 'oferta'">
       <div class="park-switcher">
-        <button
-          class="park-btn"
-          :class="{ active: activePark === 'ohta' }"
-          @click="activePark = 'ohta'"
-        >Охта Молл</button>
-        <button
-          class="park-btn park-btn-piterland"
-          :class="{ active: activePark === 'piterland' }"
-          @click="activePark = 'piterland'"
-        >Питерлэнд</button>
+        <button class="park-btn park-ohta"      :class="{ active: activePark === 'ohta' }"      @click="activePark = 'ohta'">Охта Молл</button>
+        <button class="park-btn park-piterland"  :class="{ active: activePark === 'piterland' }" @click="activePark = 'piterland'">Питерлэнд</button>
       </div>
     </div>
 
-    <!-- Content -->
     <div class="tab-content">
       <TermsOfertaOhta      v-if="activeSection === 'oferta'  && activePark === 'ohta'" />
       <TermsOfertaPiterland v-if="activeSection === 'oferta'  && activePark === 'piterland'" />
@@ -47,26 +39,26 @@
       <TermsPrivacy         v-if="activeSection === 'privacy'" />
     </div>
 
-    <!-- Footer — centered, no top divider -->
+    <!-- Footer: centered columns -->
     <div class="hub-footer">
       <div class="footer-grid">
         <div class="footer-item">
           <span class="footer-icon" :style="{ maskImage: phoneIcon, WebkitMaskImage: phoneIcon }"></span>
-          <div>
+          <div class="footer-col">
             <div class="footer-label">Охта Молл</div>
             <a href="tel:+79643211100" class="footer-link">+7 (964) 321-11-00</a>
           </div>
         </div>
         <div class="footer-item">
           <span class="footer-icon" :style="{ maskImage: phoneIcon, WebkitMaskImage: phoneIcon }"></span>
-          <div>
+          <div class="footer-col">
             <div class="footer-label">Питерлэнд</div>
             <a href="tel:+79650457555" class="footer-link">+7 (965) 045-75-55</a>
           </div>
         </div>
         <div class="footer-item">
           <span class="footer-icon" :style="{ maskImage: mailIcon, WebkitMaskImage: mailIcon }"></span>
-          <div>
+          <div class="footer-col">
             <div class="footer-label">Email</div>
             <a href="mailto:spb@bumbastiki.ru" class="footer-link">spb@bumbastiki.ru</a>
           </div>
@@ -97,19 +89,23 @@ const sections = [
   {
     id: 'oferta',
     label: 'Оферта',
-    color: '#C5F946',
+    // white tab — active bg is white, inactive icon is white-ish
+    color: 'rgba(255,255,255,0.55)',
+    iconActiveColor: '#1a1840',
     mask: ic(`<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>`)
   },
   {
     id: 'policy',
     label: 'Политика конфиденциальности',
-    color: '#FF0080',
+    color: '#C5F946',
+    iconActiveColor: '#1a1840',
     mask: ic(`<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`)
   },
   {
     id: 'privacy',
     label: 'Согласие на данные',
     color: '#00FF88',
+    iconActiveColor: '#1a1840',
     mask: ic(`<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>`)
   },
 ]
@@ -127,165 +123,79 @@ const mailIcon  = ic(`<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x
 }
 
 /* ── Header ── */
-.hub-header {
-  padding: 48px 0 32px;
-  text-align: center;
-}
-.hub-eyebrow {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: #7A8BA8;
-  margin: 0 0 14px;
-}
-.hub-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 36px;
-  color: #F0F4FF;
-  margin: 0 0 16px;
-}
-.hub-sub {
-  font-size: 15px;
-  color: #7A8BA8;
-  margin: 0 auto;
-  max-width: 440px;
-  line-height: 1.65;
-}
+.hub-header { padding: 48px 0 32px; text-align: center; }
+.hub-eyebrow { font-size: 22px; font-weight: 700; letter-spacing: 3px; color: #7A8BA8; margin: 0 0 14px; }
+.hub-title { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; line-height: 36px; color: #F0F4FF; margin: 0 0 16px; }
+.hub-sub { font-size: 15px; color: #7A8BA8; margin: 0 auto; max-width: 440px; line-height: 1.65; }
 
-/* ── Primary nav — filled tabs, centered ── */
-.primary-nav {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
+/* ── Primary nav ── */
+.primary-nav { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 
 .primary-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
   padding: 11px 22px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 10px;
   color: #7A8BA8;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
-.primary-tab:hover {
-  color: #F0F4FF;
-  border-color: rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.08);
-}
-.primary-tab.active {
-  /* color and bg set inline via :style */
-  font-weight: 700;
-}
+.primary-tab:hover { color: #F0F4FF; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
 
-/* icon inside tab */
+/* active states per tab */
+.primary-tab.active.tab-oferta  { background: rgba(255,255,255,0.92); color: #1a1840; border-color: rgba(255,255,255,0.92); }
+.primary-tab.active.tab-policy  { background: #C5F946; color: #1a1840; border-color: #C5F946; }
+.primary-tab.active.tab-privacy { background: #00FF88; color: #1a1840; border-color: #00FF88; }
+
+/* hover hints for inactive */
+.primary-tab.tab-oferta:not(.active):hover  { border-color: rgba(255,255,255,0.4); }
+.primary-tab.tab-policy:not(.active):hover  { border-color: rgba(197,249,70,0.4); }
+.primary-tab.tab-privacy:not(.active):hover { border-color: rgba(0,255,136,0.4); }
+
 .tab-icon-wrap {
-  display: block;
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  -webkit-mask-position: center;
+  display: block; width: 16px; height: 16px; min-width: 16px;
+  mask-repeat: no-repeat; mask-size: contain; mask-position: center;
+  -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; -webkit-mask-position: center;
 }
 
-/* ── Park switcher — centered ── */
-.park-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 28px;
-}
-.park-switcher {
-  display: inline-flex;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.12);
-}
+/* ── Park switcher ── */
+.park-wrap { display: flex; justify-content: center; margin-bottom: 28px; }
+.park-switcher { display: inline-flex; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); }
+
 .park-btn {
-  padding: 9px 24px;
-  background: rgba(255,255,255,0.05);
-  border: none;
-  color: #7A8BA8;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+  padding: 9px 24px; background: rgba(255,255,255,0.05); border: none;
+  color: #7A8BA8; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
 }
-.park-btn + .park-btn {
-  border-left: 1px solid rgba(255,255,255,0.1);
-}
+.park-btn + .park-btn { border-left: 1px solid rgba(255,255,255,0.1); }
 .park-btn:hover { color: #F0F4FF; background: rgba(255,255,255,0.08); }
 
-/* Охта Молл — magenta */
-.park-btn.active       { color: #fff; background: #FF0080; }
-
-/* Питерлэнд — cyan */
-.park-btn-piterland.active { color: #0D1421; background: #00D4FF; }
+.park-ohta.active      { color: #fff;    background: #FF0080; }
+.park-piterland.active { color: #0D1421; background: #00D4FF; }
 
 /* ── Content ── */
 .tab-content { min-height: 400px; }
 
-/* ── Footer — no divider, centered ── */
-.hub-footer {
-  margin-top: 52px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.footer-grid {
-  display: flex;
-  gap: 36px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-.footer-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  text-align: left;
-}
+/* ── Footer ── */
+.hub-footer { margin-top: 52px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.footer-grid { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+
+/* each footer column: icon + text stacked, all centered */
+.footer-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
 .footer-icon {
-  display: block;
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
+  display: block; width: 20px; height: 20px;
   background-color: #7A8BA8;
   mask-repeat: no-repeat; mask-size: contain; mask-position: center;
   -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; -webkit-mask-position: center;
-  margin-top: 3px;
 }
-.footer-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #7A8BA8;
-  margin-bottom: 3px;
-}
-.footer-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: #C5F946;
-  text-decoration: none;
-  transition: color 0.2s;
-}
+
+.footer-col { display: flex; flex-direction: column; align-items: center; }
+
+.footer-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #7A8BA8; margin-bottom: 3px; }
+.footer-link { font-size: 14px; font-weight: 600; color: #C5F946; text-decoration: none; transition: color 0.2s; }
 .footer-link:hover { color: #F0F4FF; }
 .footer-note { font-size: 13px; color: #7A8BA8; margin: 0; }
 
@@ -297,7 +207,7 @@ const mailIcon  = ic(`<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x
   .hub-header { padding: 28px 0 24px; }
   .primary-nav { gap: 8px; }
   .primary-tab { font-size: 13px; padding: 10px 14px; }
-  .footer-grid { gap: 20px; }
+  .footer-grid { gap: 24px; }
   .park-btn { padding: 9px 18px; }
 }
 </style>
