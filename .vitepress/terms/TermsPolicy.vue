@@ -1,44 +1,40 @@
 <template>
   <div class="terms-doc">
-    <div class="tldr-card">
-      <div class="tldr-header">
-        <span class="tldr-badge">TL;DR</span>
-        <h2 class="tldr-title">Что мы делаем с твоими данными</h2>
-        <p class="tldr-sub">Политика конфиденциальности · Редакция от 05 февраля 2026 г.</p>
-      </div>
+
+    <div class="doc-header">
+      <h2 class="doc-title">Политика конфиденциальности</h2>
+      <p class="doc-meta">Редакция от 05 февраля 2026 г.</p>
+    </div>
+
+    <div class="tldr-block">
+      <h3 class="tldr-heading">Главное за 10 секунд</h3>
       <div class="tldr-grid">
-        <div class="tldr-item" v-for="item in tldr" :key="item.icon">
-          <span class="tldr-icon">{{ item.icon }}</span>
+        <div class="tldr-item" v-for="item in tldr" :key="item.title">
+          <span class="tldr-icon" :style="{ maskImage: item.mask, WebkitMaskImage: item.mask }"></span>
           <div>
             <div class="tldr-item-title">{{ item.title }}</div>
             <div class="tldr-item-text">{{ item.text }}</div>
           </div>
         </div>
       </div>
+      <a class="tldr-anchor" href="#policy-full">Читать полностью
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </a>
     </div>
 
-    <div class="doc-header">
-      <h1 class="doc-title">Политика конфиденциальности</h1>
-      <p class="doc-meta">Редакция от 05 февраля 2026 г.</p>
-    </div>
-
-    <div class="sections">
-      <div
-        v-for="(section, i) in sections"
-        :key="i"
-        class="section"
-        :class="{ open: openIndex === i }"
-      >
+    <div class="sections" id="policy-full">
+      <div v-for="(section, i) in sections" :key="i" class="section" :class="{ open: openIndex === i }">
         <button class="section-toggle" @click="toggle(i)">
           <span class="section-num">{{ String(i + 1).padStart(2, '0') }}</span>
           <span class="section-title">{{ section.title }}</span>
-          <span class="section-arrow">{{ openIndex === i ? '▲' : '▼' }}</span>
+          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="section-body" v-show="openIndex === i">
           <div class="section-content" v-html="section.html"></div>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -48,82 +44,87 @@ import { ref } from 'vue'
 const openIndex = ref(null)
 const toggle = (i) => { openIndex.value = openIndex.value === i ? null : i }
 
+const ic = (paths) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+}
+
 const tldr = [
-  { icon: '🔒', title: 'Берём только нужное', text: 'Телефон, email, история карты — только для работы кабинета и парка' },
-  { icon: '🚫', title: 'Не продаём данные', text: 'Третьим лицам передаём только платёжной системе ЮKassa' },
-  { icon: '🗑️', title: 'Удалим по запросу', text: 'Пишешь на spb@bumbastiki.ru — обработку прекратим за 30 дней' },
-  { icon: '📧', title: 'Рассылка отключаема', text: 'Откажись в любой момент — пришли письмо или скажи на кассе' },
-  { icon: '🛡️', title: 'Данные защищены', text: 'SSL, ограниченный доступ, хранение на защищённых серверах' },
+  {
+    title: 'Берём только нужное',
+    text: 'Телефон, email, история карты — только для работы кабинета и парка',
+    mask: ic(`<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`)
+  },
+  {
+    title: 'Не продаём данные',
+    text: 'Третьим лицам передаём только платёжной системе ЮKassa',
+    mask: ic(`<path d="m2 2 20 20"/><path d="M8.35 2.69A10 10 0 0 1 21.3 15.65"/><path d="M19.08 19.08A10 10 0 1 1 4.92 4.92"/>`)
+  },
+  {
+    title: 'Удалим по запросу',
+    text: 'Пиши на spb@bumbastiki.ru — прекратим обработку за 30 дней',
+    mask: ic(`<path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>`)
+  },
+  {
+    title: 'Рассылка отключаема',
+    text: 'Откажись в любой момент — письмом или лично на кассе',
+    mask: ic(`<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="m9.5 17 5-5"/><path d="m9.5 12 5 5"/>`)
+  },
+  {
+    title: 'Данные защищены',
+    text: 'SSL-шифрование, ограниченный доступ, защищённые серверы',
+    mask: ic(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M6.376 18.91a6 6 0 0 1 11.249.003"/><circle cx="12" cy="11" r="4"/>`)
+  },
 ]
 
 const sections = [
   {
     title: 'Общие положения',
     html: `
-      <p>Настоящая Политика конфиденциальности устанавливает порядок обработки персональных данных посетителей сайта b00m.fun и парков «Бумбастик».</p>
+      <p>Политика устанавливает порядок обработки персональных данных посетителей сайта b00m.fun и парков «Бумбастик».</p>
       <p><b>Операторы данных:</b></p>
       <ul>
-        <li>ИП Завернин Эдуард Игоревич (ИНН 290217217403) — парк Охта Молл</li>
-        <li>ИП Завернин Лев Эдуардович (ИНН 290218807250) — парк Питерлэнд</li>
+        <li>ИП Завернин Эдуард Игоревич (ИНН 290217217403) — парк Охта Молл;</li>
+        <li>ИП Завернин Лев Эдуардович (ИНН 290218807250) — парк Питерлэнд.</li>
       </ul>
-      <p>Политика распространяется на все персональные данные, обрабатываемые Операторами при оказании услуг.</p>
       <p>Использование сайта и услуг означает согласие с настоящей Политикой.</p>
     `
   },
   {
-    title: 'Какие данные мы обрабатываем',
+    title: 'Какие данные обрабатываются',
     html: `
-      <p><b>При регистрации и использовании Личного кабинета:</b></p>
-      <ul>
-        <li>ФИО;</li>
-        <li>номер мобильного телефона;</li>
-        <li>адрес электронной почты;</li>
-        <li>дата рождения.</li>
-      </ul>
-      <p><b>При использовании Игровой карты:</b></p>
-      <ul>
-        <li>номер карты и баланс;</li>
-        <li>история транзакций и посещений.</li>
-      </ul>
-      <p><b>Технические данные (автоматически):</b></p>
-      <ul>
-        <li>IP-адрес;</li>
-        <li>cookies и информация о браузере;</li>
-        <li>данные о посещаемых страницах (Яндекс.Метрика).</li>
-      </ul>
+      <p><b>При регистрации и использовании Личного кабинета:</b> ФИО, номер телефона, email, дата рождения.</p>
+      <p><b>При использовании Игровой карты:</b> номер карты, баланс, история транзакций.</p>
+      <p><b>Технические данные (автоматически):</b> IP-адрес, cookies, информация о браузере и устройстве, данные Яндекс.Метрики.</p>
     `
   },
   {
-    title: 'Для чего мы используем данные',
+    title: 'Для чего используются данные',
     html: `
       <ul>
-        <li>Регистрация и идентификация в Личном кабинете.</li>
-        <li>Управление Игровой картой: баланс, история операций, пополнение.</li>
-        <li>Обработка платежей через ЮKassa.</li>
+        <li>Регистрация и авторизация в Личном кабинете.</li>
+        <li>Управление Игровой картой и обработка платежей через ЮKassa.</li>
         <li>Уведомления об изменениях в работе парков.</li>
         <li>Рекламные рассылки — только с отдельного согласия, отказ в любой момент.</li>
-        <li>Улучшение сайта и качества услуг.</li>
-        <li>Ответы на обращения.</li>
-        <li>Исполнение требований законодательства РФ.</li>
+        <li>Улучшение сайта, ответы на обращения, исполнение требований законодательства РФ.</li>
       </ul>
     `
   },
   {
     title: 'Правовые основания обработки',
     html: `
-      <p>Обработка персональных данных осуществляется на основании:</p>
       <ul>
-        <li>Федерального закона № 152-ФЗ «О персональных данных»;</li>
-        <li>согласия субъекта персональных данных (ст. 9 ФЗ-152);</li>
-        <li>необходимости исполнения договора (оферты), стороной которого является субъект;</li>
-        <li>законных интересов Оператора (обеспечение безопасности, улучшение услуг).</li>
+        <li>Федеральный закон № 152-ФЗ «О персональных данных»;</li>
+        <li>согласие субъекта (ст. 9 ФЗ-152);</li>
+        <li>необходимость исполнения договора (оферты);</li>
+        <li>законные интересы Оператора (безопасность, улучшение услуг).</li>
       </ul>
     `
   },
   {
     title: 'Способы и сроки обработки',
     html: `
-      <p>Данные обрабатываются с использованием средств автоматизации (серверы, базы данных) и без таковых (бумажные носители в случаях, предусмотренных законодательством).</p>
+      <p>Данные обрабатываются автоматически (серверы, базы данных) и вручную в случаях, предусмотренных законом.</p>
       <p><b>Сроки хранения:</b></p>
       <ul>
         <li>Данные Личного кабинета — до удаления аккаунта или отзыва согласия;</li>
@@ -134,12 +135,11 @@ const sections = [
     `
   },
   {
-    title: 'Кому мы передаём данные',
+    title: 'Передача данных третьим лицам',
     html: `
-      <p>Данные передаются только в следующих случаях:</p>
       <ul>
         <li><b>ЮKassa (ООО «НКО ЮМани»)</b> — для обработки онлайн-платежей;</li>
-        <li><b>Яндекс.Метрика и аналоги</b> — обезличенные данные о посещаемости сайта;</li>
+        <li><b>Яндекс.Метрика</b> — обезличенные данные о посещаемости;</li>
         <li><b>Хостинг-провайдеры</b> — для хранения и обработки данных;</li>
         <li><b>Государственные органы</b> — только в случаях, прямо предусмотренных законодательством РФ.</li>
       </ul>
@@ -148,76 +148,57 @@ const sections = [
   },
   {
     title: 'Трансграничная передача',
-    html: `
-      <p>Трансграничная передача персональных данных (за пределы РФ) не осуществляется.</p>
-      <p>Все данные хранятся на серверах, расположенных на территории Российской Федерации.</p>
-    `
+    html: `<p>Трансграничная передача данных за пределы РФ не осуществляется. Все данные хранятся на серверах на территории Российской Федерации.</p>`
   },
   {
     title: 'Защита данных',
     html: `
-      <p>Для защиты персональных данных применяются:</p>
       <ul>
         <li>шифрование передаваемых данных (SSL/TLS);</li>
-        <li>ограниченный доступ сотрудников к персональным данным — только по служебной необходимости;</li>
+        <li>ограниченный доступ сотрудников — только по служебной необходимости;</li>
         <li>регулярная проверка систем безопасности;</li>
-        <li>хранение данных на защищённых серверах с резервным копированием.</li>
+        <li>хранение на защищённых серверах с резервным копированием.</li>
       </ul>
     `
   },
   {
-    title: 'Твои права',
+    title: 'Права субъектов данных',
     html: `
-      <p>Ты вправе в любой момент:</p>
       <ul>
         <li>запросить информацию о том, какие данные обрабатываются;</li>
         <li>потребовать исправления неточных данных;</li>
         <li>отозвать согласие — обработка прекратится в течение 30 дней;</li>
-        <li>потребовать удаления данных (за исключением тех, что хранятся по требованию закона);</li>
+        <li>потребовать удаления данных (кроме тех, что хранятся по требованию закона);</li>
         <li>пожаловаться в Роскомнадзор или обратиться в суд.</li>
       </ul>
-      <p><b>Контакт:</b> spb@bumbastiki.ru — опиши запрос в свободной форме, ответим в течение 10 рабочих дней.</p>
+      <p><b>Контакт:</b> spb@bumbastiki.ru — ответим в течение 10 рабочих дней.</p>
     `
   },
   {
     title: 'Cookies',
     html: `
-      <p>Сайт использует cookies для:</p>
-      <ul>
-        <li>авторизации в Личном кабинете;</li>
-        <li>запоминания настроек (выбранный парк, количество тикетов);</li>
-        <li>анализа посещаемости (Яндекс.Метрика).</li>
-      </ul>
+      <p>Сайт использует cookies для авторизации, запоминания настроек и аналитики (Яндекс.Метрика).</p>
       <p>Отключить cookies можно в настройках браузера. Это может ограничить функциональность Личного кабинета.</p>
     `
   },
   {
     title: 'Данные несовершеннолетних',
-    html: `
-      <p>Сайт b00m.fun не предназначен для лиц моложе 18 лет.</p>
-      <p>Если тебе нет 18 лет — регистрацию в Личном кабинете и онлайн-платежи должен совершать родитель или законный представитель.</p>
-      <p>При обнаружении данных несовершеннолетнего, полученных без согласия родителей, мы удалим их незамедлительно.</p>
-    `
+    html: `<p>Сайт b00m.fun не предназначен для лиц моложе 18 лет. Регистрацию и онлайн-платежи должен совершать родитель или законный представитель. При обнаружении данных несовершеннолетнего без согласия родителей мы удалим их незамедлительно.</p>`
   },
   {
     title: 'Изменения политики',
-    html: `
-      <p>Оператор вправе вносить изменения в Политику в одностороннем порядке. Актуальная версия всегда доступна по адресу: <b>b00m.fun/terms/policy</b></p>
-      <p>При существенных изменениях уведомим по email (если он указан в Личном кабинете).</p>
-    `
+    html: `<p>Оператор вправе вносить изменения в одностороннем порядке. Актуальная версия всегда доступна по адресу: <b>b00m.fun/terms/policy</b>. При существенных изменениях уведомим по email (если он указан в Личном кабинете).</p>`
   },
   {
-    title: 'Контакты',
+    title: 'Контактная информация',
     html: `
       <div class="requisites">
-        <p><b>По вопросам обработки данных:</b></p>
-        <p>✉️ spb@bumbastiki.ru</p>
-        <p>📞 +7 (964) 321-11-00 (Охта Молл)</p>
-        <p>📞 +7 (965) 045-75-55 (Питерлэнд)</p>
+        <p>Email: spb@bumbastiki.ru</p>
+        <p>Телефон: +7 (964) 321-11-00 (Охта Молл)</p>
+        <p>Телефон: +7 (965) 045-75-55 (Питерлэнд)</p>
         <br>
-        <p><b>Адреса парков:</b></p>
-        <p>📍 Братиславская дорога, д. 3, ТРК «Охта Молл», 3 этаж, оф. 3.15</p>
-        <p>📍 Приморский проспект, д. 72, ТРК «Питерлэнд»</p>
+        <p>Братиславская дорога, д. 3, ТРК «Охта Молл», 3 этаж, оф. 3.15</p>
+        <p>Приморский проспект, д. 72, ТРК «Питерлэнд»</p>
       </div>
     `
   },
@@ -227,115 +208,71 @@ const sections = [
 <style scoped>
 .terms-doc { font-family: 'Inter', sans-serif; color: #F0F4FF; }
 
-.tldr-card {
-  border: 1px solid transparent;
-  background-image:
-    linear-gradient(145deg, rgba(28,26,62,0.97), rgba(34,32,80,0.95)),
-    linear-gradient(145deg, rgba(255,0,128,0.2), rgba(74,90,173,0.2), rgba(0,212,255,0.15));
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 32px;
-}
-.tldr-header { margin-bottom: 20px; }
-.tldr-badge {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #0D1421;
-  background: #FF0080;
-  padding: 3px 10px;
-  border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-.tldr-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; color: #F0F4FF; }
-.tldr-sub { font-family: 'Space Mono', monospace; font-size: 12px; color: #7A8BA8; margin: 0; }
-
-.tldr-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-}
-.tldr-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,0,128,0.1);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-.tldr-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-.tldr-item-title { font-size: 13px; font-weight: 700; color: #FF0080; margin-bottom: 3px; }
-.tldr-item-text { font-size: 12px; color: #7A8BA8; line-height: 1.5; }
-
 .doc-header { margin-bottom: 24px; }
-.doc-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #F0F4FF;
-  margin: 0 0 6px;
-}
-.doc-meta { font-family: 'Space Mono', monospace; font-size: 12px; color: #7A8BA8; margin: 0; }
+.doc-title { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 700; color: #F0F4FF; margin: 0 0 6px; }
+.doc-meta { font-size: 12px; color: #7A8BA8; margin: 0; }
 
-.sections { display: flex; flex-direction: column; gap: 8px; }
-.section {
-  border: 1px solid rgba(74,90,173,0.25);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: border-color 0.25s;
+.tldr-block {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 24px 28px 20px;
+  margin-bottom: 28px;
 }
-.section.open { border-color: rgba(255,0,128,0.2); }
+.tldr-heading { font-size: 16px; font-weight: 700; color: #F0F4FF; margin: 0 0 16px; }
+.tldr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin-bottom: 18px; }
+
+.tldr-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 12px 14px;
+}
+
+.tldr-icon {
+  display: block; width: 20px; height: 20px; min-width: 20px;
+  background-color: #FF0080;
+  mask-repeat: no-repeat; mask-size: contain; mask-position: center;
+  -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; -webkit-mask-position: center;
+  margin-top: 1px;
+}
+
+.tldr-item-title { font-size: 13px; font-weight: 700; color: #FF0080; margin-bottom: 3px; }
+.tldr-item-text  { font-size: 12px; color: #9aaabb; line-height: 1.5; }
+
+.tldr-anchor {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; color: #7A8BA8;
+  text-decoration: none; transition: color 0.2s;
+}
+.tldr-anchor:hover { color: #F0F4FF; }
+
+.sections { display: flex; flex-direction: column; gap: 4px; }
+.section { border: 1px solid rgba(74,90,173,0.2); border-radius: 8px; overflow: hidden; transition: border-color 0.2s; }
+.section.open { border-color: rgba(255,0,128,0.25); }
 
 .section-toggle {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: rgba(28,26,62,0.6);
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.2s;
+  width: 100%; display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; background: rgba(28,26,62,0.5);
+  border: none; cursor: pointer; text-align: left; transition: background 0.2s;
 }
-.section-toggle:hover { background: rgba(255,0,128,0.06); }
+.section-toggle:hover { background: rgba(255,0,128,0.05); }
 
-.section-num {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: #FF0080;
-  min-width: 24px;
-}
+.section-num { font-size: 11px; font-weight: 700; color: #FF0080; min-width: 22px; flex-shrink: 0; }
 .section-title { flex: 1; font-size: 14px; font-weight: 600; color: #F0F4FF; }
-.section-arrow { font-size: 10px; color: #7A8BA8; }
+.chevron { color: #7A8BA8; flex-shrink: 0; transition: transform 0.25s; }
+.section.open .chevron { transform: rotate(180deg); }
 
-.section-body { border-top: 1px solid rgba(74,90,173,0.2); }
-.section-content {
-  padding: 18px 22px;
-  font-size: 14px;
-  line-height: 1.75;
-  color: #b0bcd4;
-}
-.section-content :deep(p) { margin: 0 0 10px; }
+.section-body { border-top: 1px solid rgba(74,90,173,0.15); }
+.section-content { padding: 18px 22px; font-size: 14px; line-height: 1.75; color: #b0bcd4; }
+.section-content :deep(p)  { margin: 0 0 10px; }
 .section-content :deep(ul) { padding-left: 20px; margin: 8px 0 12px; }
 .section-content :deep(li) { margin-bottom: 5px; }
-.section-content :deep(b) { color: #F0F4FF; font-weight: 600; }
-.section-content :deep(.requisites) {
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  line-height: 2;
-  color: #7A8BA8;
-}
-.section-content :deep(.requisites b) { color: #FF0080; }
+.section-content :deep(b)  { color: #F0F4FF; font-weight: 600; }
+.section-content :deep(.requisites) { font-size: 13px; line-height: 2; color: #9aaabb; }
 
 @media (max-width: 600px) {
   .tldr-grid { grid-template-columns: 1fr; }
-  .tldr-card { padding: 18px; }
+  .tldr-block { padding: 18px; }
 }
 </style>

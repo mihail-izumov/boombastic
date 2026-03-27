@@ -1,44 +1,40 @@
 <template>
   <div class="terms-doc">
-    <div class="tldr-card">
-      <div class="tldr-header">
-        <span class="tldr-badge">TL;DR</span>
-        <h2 class="tldr-title">Согласие на данные — коротко</h2>
-        <p class="tldr-sub">Редакция от 05 февраля 2026 г.</p>
-      </div>
+
+    <div class="doc-header">
+      <h2 class="doc-title">Согласие на обработку персональных данных</h2>
+      <p class="doc-meta">Редакция от 05 февраля 2026 г.</p>
+    </div>
+
+    <div class="tldr-block">
+      <h3 class="tldr-heading">Главное за 10 секунд</h3>
       <div class="tldr-grid">
-        <div class="tldr-item" v-for="item in tldr" :key="item.icon">
-          <span class="tldr-icon">{{ item.icon }}</span>
+        <div class="tldr-item" v-for="item in tldr" :key="item.title">
+          <span class="tldr-icon" :style="{ maskImage: item.mask, WebkitMaskImage: item.mask }"></span>
           <div>
             <div class="tldr-item-title">{{ item.title }}</div>
             <div class="tldr-item-text">{{ item.text }}</div>
           </div>
         </div>
       </div>
+      <a class="tldr-anchor" href="#privacy-full">Читать полностью
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </a>
     </div>
 
-    <div class="doc-header">
-      <h1 class="doc-title">Согласие на обработку персональных данных</h1>
-      <p class="doc-meta">Редакция от 05 февраля 2026 г.</p>
-    </div>
-
-    <div class="sections">
-      <div
-        v-for="(section, i) in sections"
-        :key="i"
-        class="section"
-        :class="{ open: openIndex === i }"
-      >
+    <div class="sections" id="privacy-full">
+      <div v-for="(section, i) in sections" :key="i" class="section" :class="{ open: openIndex === i }">
         <button class="section-toggle" @click="toggle(i)">
           <span class="section-num">{{ String(i + 1).padStart(2, '0') }}</span>
           <span class="section-title">{{ section.title }}</span>
-          <span class="section-arrow">{{ openIndex === i ? '▲' : '▼' }}</span>
+          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="section-body" v-show="openIndex === i">
           <div class="section-content" v-html="section.html"></div>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -48,21 +44,42 @@ import { ref } from 'vue'
 const openIndex = ref(null)
 const toggle = (i) => { openIndex.value = openIndex.value === i ? null : i }
 
+const ic = (paths) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+}
+
 const tldr = [
-  { icon: '📋', title: 'Зачем нужно согласие', text: 'Для регистрации в кабинете, пополнения карты и работы парка' },
-  { icon: '📤', title: 'Кому передаём', text: 'Только ЮKassa — для проведения онлайн-платежей. Больше никому' },
-  { icon: '🔄', title: 'Отзыв в любой момент', text: 'Email на spb@bumbastiki.ru или лично в парке — прекратим за 30 дней' },
-  { icon: '✅', title: 'Нажал кнопку = согласился', text: 'Регистрация или оплата означают принятие условий' },
+  {
+    title: 'Зачем нужно согласие',
+    text: 'Для регистрации в кабинете, пополнения карты и работы парка',
+    mask: ic(`<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 14h6"/><path d="M12 17v-6"/>`)
+  },
+  {
+    title: 'Кому передаём',
+    text: 'Только ЮKassa для онлайн-платежей. Больше никому',
+    mask: ic(`<path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/>`)
+  },
+  {
+    title: 'Отзыв в любой момент',
+    text: 'Email на spb@bumbastiki.ru или лично в парке — прекратим за 30 дней',
+    mask: ic(`<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>`)
+  },
+  {
+    title: 'Нажал кнопку — согласился',
+    text: 'Регистрация или оплата означают принятие условий',
+    mask: ic(`<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>`)
+  },
 ]
 
 const sections = [
   {
     title: 'Кто даёт согласие и кому',
     html: `
-      <p>Нажимая кнопку регистрации, оплаты или пополнения карты, ты (субъект персональных данных) даёшь согласие следующим Операторам:</p>
+      <p>Регистрируясь или оплачивая услуги, ты даёшь согласие следующим Операторам:</p>
       <ul>
-        <li><b>ИП Завернин Эдуард Игоревич</b> (ИНН 290217217403, ОГРНИП 304290201600071) — парк «Охта Молл»;</li>
-        <li><b>ИП Завернин Лев Эдуардович</b> (ИНН 290218807250, ОГРНИП 325290000025349) — парк «Питерлэнд».</li>
+        <li><b>ИП Завернин Эдуард Игоревич</b> (ИНН 290217217403, ОГРНИП 304290201600071) — парк Охта Молл;</li>
+        <li><b>ИП Завернин Лев Эдуардович</b> (ИНН 290218807250, ОГРНИП 325290000025349) — парк Питерлэнд.</li>
       </ul>
       <p>Согласие действует в связи с использованием сайта b00m.fun и/или посещением парков «Бумбастик».</p>
     `
@@ -86,33 +103,25 @@ const sections = [
     title: 'Для чего используются данные',
     html: `
       <ul>
-        <li>Регистрация и авторизация на сайте и в Личном кабинете;</li>
-        <li>исполнение договора публичной оферты (управление картой, выдача призов);</li>
+        <li>Регистрация и авторизация в Личном кабинете;</li>
+        <li>исполнение договора публичной оферты;</li>
         <li>обработка платежей через ЮKassa;</li>
-        <li>уведомления об изменениях в работе парков и состоянии заказа;</li>
+        <li>уведомления об изменениях в работе парков;</li>
         <li>рекламные рассылки — только при наличии отдельного согласия;</li>
-        <li>ответы на обращения;</li>
-        <li>улучшение сайта и анализ его использования;</li>
-        <li>безопасность и предотвращение мошенничества;</li>
-        <li>исполнение требований законодательства РФ.</li>
+        <li>ответы на обращения, улучшение сайта, исполнение требований законодательства РФ.</li>
       </ul>
     `
   },
   {
     title: 'Способы обработки',
-    html: `
-      <p>Операторы вправе осуществлять следующие действия с данными:</p>
-      <p>сбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача (только согласно п. 5), обезличивание, блокирование, удаление, уничтожение.</p>
-      <p>Обработка ведётся как автоматически (серверы, базы данных), так и вручную (в случаях, предусмотренных законом).</p>
-    `
+    html: `<p>Операторы вправе осуществлять: сбор, запись, систематизацию, накопление, хранение, уточнение, извлечение, использование, передачу (согласно п. 5), обезличивание, блокирование, удаление, уничтожение.</p><p>Обработка ведётся автоматически и вручную в случаях, предусмотренных законом.</p>`
   },
   {
     title: 'Кому передаются данные',
     html: `
-      <p>Данные передаются только:</p>
       <ul>
         <li><b>ЮKassa (ООО «НКО ЮМани»)</b> — для обработки онлайн-платежей;</li>
-        <li><b>Сервисы аналитики</b> (Яндекс.Метрика) — обезличенные данные о посещаемости;</li>
+        <li><b>Яндекс.Метрика</b> — обезличенные данные о посещаемости;</li>
         <li><b>Хостинг-провайдеры</b> — для технического обеспечения работы сайта;</li>
         <li><b>Государственные органы</b> — только в случаях, прямо предусмотренных законодательством РФ.</li>
       </ul>
@@ -121,29 +130,24 @@ const sections = [
   },
   {
     title: 'Срок действия согласия',
-    html: `
-      <p>Согласие действует с момента его предоставления (нажатия кнопки) и до достижения целей обработки или до момента его отзыва.</p>
-      <p>Сроки хранения данных определяются Политикой конфиденциальности (b00m.fun/terms/policy).</p>
-    `
+    html: `<p>Согласие действует с момента предоставления и до достижения целей обработки или до отзыва.</p><p>Сроки хранения данных — в Политике конфиденциальности: b00m.fun/terms/policy</p>`
   },
   {
     title: 'Как отозвать согласие',
     html: `
-      <p><b>Отзыв согласия:</b></p>
+      <p><b>Способы отзыва:</b></p>
       <ul>
-        <li>по электронной почте: spb@bumbastiki.ru</li>
-        <li>лично в любом из парков (паспорт или другой документ).</li>
+        <li>по email: spb@bumbastiki.ru;</li>
+        <li>лично в любом из парков с документом, удостоверяющим личность.</li>
       </ul>
-      <p><b>В заявлении укажи:</b> ФИО, контактный телефон и/или email, указание на отзыв согласия.</p>
-      <p><b>Срок:</b> обработку прекратим в течение 30 (тридцати) дней с момента получения заявления. Часть данных может сохраниться в соответствии с требованиями законодательства (например, данные транзакций — 5 лет).</p>
-      <p>Отзыв согласия не влияет на законность обработки, осуществлённой до момента отзыва.</p>
+      <p>Обработку прекратим в течение 30 дней. Часть данных может сохраниться согласно требованиям законодательства (данные транзакций — 5 лет).</p>
     `
   },
   {
-    title: 'Твои права',
+    title: 'Права пользователя',
     html: `
       <ul>
-        <li>Получать информацию об обработке своих персональных данных;</li>
+        <li>Получать информацию об обработке своих данных;</li>
         <li>требовать уточнения, блокирования или удаления данных;</li>
         <li>отозвать согласие в любой момент;</li>
         <li>обжаловать действия Оператора в Роскомнадзор или в суд.</li>
@@ -154,7 +158,7 @@ const sections = [
   {
     title: 'Заключительные положения',
     html: `
-      <p>Нажимая кнопку регистрации, оплаты или пополнения карты, ты подтверждаешь, что:</p>
+      <p>Регистрируясь, оплачивая услуги или пополняя карту, ты подтверждаешь, что:</p>
       <ul>
         <li>ознакомлен с настоящим Согласием и Политикой конфиденциальности;</li>
         <li>понимаешь и принимаешь условия обработки;</li>
@@ -164,15 +168,15 @@ const sections = [
     `
   },
   {
-    title: 'Контакты',
+    title: 'Контактная информация',
     html: `
       <div class="requisites">
-        <p>✉️ spb@bumbastiki.ru</p>
-        <p>📞 +7 (964) 321-11-00 (Охта Молл)</p>
-        <p>📞 +7 (965) 045-75-55 (Питерлэнд)</p>
+        <p>Email: spb@bumbastiki.ru</p>
+        <p>Телефон: +7 (964) 321-11-00 (Охта Молл)</p>
+        <p>Телефон: +7 (965) 045-75-55 (Питерлэнд)</p>
         <br>
-        <p>📍 Братиславская дорога, д. 3, ТРК «Охта Молл», 3 этаж, оф. 3.15</p>
-        <p>📍 Приморский проспект, д. 72, ТРК «Питерлэнд»</p>
+        <p>Братиславская дорога, д. 3, ТРК «Охта Молл», 3 этаж, оф. 3.15</p>
+        <p>Приморский проспект, д. 72, ТРК «Питерлэнд»</p>
       </div>
     `
   },
@@ -182,114 +186,71 @@ const sections = [
 <style scoped>
 .terms-doc { font-family: 'Inter', sans-serif; color: #F0F4FF; }
 
-.tldr-card {
-  border: 1px solid transparent;
-  background-image:
-    linear-gradient(145deg, rgba(28,26,62,0.97), rgba(34,32,80,0.95)),
-    linear-gradient(145deg, rgba(0,255,136,0.2), rgba(74,90,173,0.2), rgba(0,255,136,0.08));
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 32px;
-}
-.tldr-header { margin-bottom: 20px; }
-.tldr-badge {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #0D1421;
-  background: #00FF88;
-  padding: 3px 10px;
-  border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-.tldr-title { font-size: 20px; font-weight: 700; margin: 0 0 4px; color: #F0F4FF; }
-.tldr-sub { font-family: 'Space Mono', monospace; font-size: 12px; color: #7A8BA8; margin: 0; }
-
-.tldr-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-}
-.tldr-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(0,255,136,0.1);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-.tldr-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-.tldr-item-title { font-size: 13px; font-weight: 700; color: #00FF88; margin-bottom: 3px; }
-.tldr-item-text { font-size: 12px; color: #7A8BA8; line-height: 1.5; }
-
 .doc-header { margin-bottom: 24px; }
-.doc-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #F0F4FF;
-  margin: 0 0 6px;
-}
-.doc-meta { font-family: 'Space Mono', monospace; font-size: 12px; color: #7A8BA8; margin: 0; }
+.doc-title { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 700; color: #F0F4FF; margin: 0 0 6px; }
+.doc-meta { font-size: 12px; color: #7A8BA8; margin: 0; }
 
-.sections { display: flex; flex-direction: column; gap: 8px; }
-.section {
-  border: 1px solid rgba(74,90,173,0.25);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: border-color 0.25s;
+.tldr-block {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 24px 28px 20px;
+  margin-bottom: 28px;
 }
-.section.open { border-color: rgba(0,255,136,0.2); }
+.tldr-heading { font-size: 16px; font-weight: 700; color: #F0F4FF; margin: 0 0 16px; }
+.tldr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin-bottom: 18px; }
+
+.tldr-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 12px 14px;
+}
+
+.tldr-icon {
+  display: block; width: 20px; height: 20px; min-width: 20px;
+  background-color: #00FF88;
+  mask-repeat: no-repeat; mask-size: contain; mask-position: center;
+  -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; -webkit-mask-position: center;
+  margin-top: 1px;
+}
+
+.tldr-item-title { font-size: 13px; font-weight: 700; color: #00FF88; margin-bottom: 3px; }
+.tldr-item-text  { font-size: 12px; color: #9aaabb; line-height: 1.5; }
+
+.tldr-anchor {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; color: #7A8BA8;
+  text-decoration: none; transition: color 0.2s;
+}
+.tldr-anchor:hover { color: #F0F4FF; }
+
+.sections { display: flex; flex-direction: column; gap: 4px; }
+.section { border: 1px solid rgba(74,90,173,0.2); border-radius: 8px; overflow: hidden; transition: border-color 0.2s; }
+.section.open { border-color: rgba(0,255,136,0.25); }
 
 .section-toggle {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: rgba(28,26,62,0.6);
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.2s;
+  width: 100%; display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; background: rgba(28,26,62,0.5);
+  border: none; cursor: pointer; text-align: left; transition: background 0.2s;
 }
-.section-toggle:hover { background: rgba(0,255,136,0.06); }
+.section-toggle:hover { background: rgba(0,255,136,0.05); }
 
-.section-num {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: #00FF88;
-  min-width: 24px;
-}
+.section-num { font-size: 11px; font-weight: 700; color: #00FF88; min-width: 22px; flex-shrink: 0; }
 .section-title { flex: 1; font-size: 14px; font-weight: 600; color: #F0F4FF; }
-.section-arrow { font-size: 10px; color: #7A8BA8; }
+.chevron { color: #7A8BA8; flex-shrink: 0; transition: transform 0.25s; }
+.section.open .chevron { transform: rotate(180deg); }
 
-.section-body { border-top: 1px solid rgba(74,90,173,0.2); }
-.section-content {
-  padding: 18px 22px;
-  font-size: 14px;
-  line-height: 1.75;
-  color: #b0bcd4;
-}
-.section-content :deep(p) { margin: 0 0 10px; }
+.section-body { border-top: 1px solid rgba(74,90,173,0.15); }
+.section-content { padding: 18px 22px; font-size: 14px; line-height: 1.75; color: #b0bcd4; }
+.section-content :deep(p)  { margin: 0 0 10px; }
 .section-content :deep(ul) { padding-left: 20px; margin: 8px 0 12px; }
 .section-content :deep(li) { margin-bottom: 5px; }
-.section-content :deep(b) { color: #F0F4FF; font-weight: 600; }
-.section-content :deep(.requisites) {
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  line-height: 2;
-  color: #7A8BA8;
-}
+.section-content :deep(b)  { color: #F0F4FF; font-weight: 600; }
+.section-content :deep(.requisites) { font-size: 13px; line-height: 2; color: #9aaabb; }
 
 @media (max-width: 600px) {
   .tldr-grid { grid-template-columns: 1fr; }
-  .tldr-card { padding: 18px; }
+  .tldr-block { padding: 18px; }
 }
 </style>

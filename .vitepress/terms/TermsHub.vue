@@ -1,113 +1,94 @@
 <template>
   <div class="terms-hub">
-    <!-- Page header -->
+
     <div class="hub-header">
       <p class="hub-eyebrow">ЮРИДИЧЕСКАЯ ЗОНА</p>
       <h1 class="hub-title">Документы</h1>
-      <p class="hub-sub">
-        Всё прозрачно. Читай сколько хочешь — или просто глянь главное вверху каждого раздела.
-      </p>
+      <p class="hub-sub">Всё прозрачно. Читай сколько хочешь — или просто глянь главное вверху каждого раздела.</p>
     </div>
 
-    <!-- Neon divider -->
     <div class="neon-divider"></div>
 
-    <!-- Tab navigation -->
-    <div class="tabs-wrap">
-      <div class="tabs">
-        <button
-          v-for="tab in tabs"
-          :key="tab.id"
-          class="tab"
-          :class="{ active: activeTab === tab.id }"
-          @click="activeTab = tab.id"
-        >
-          <span class="tab-icon">{{ tab.icon }}</span>
-          <span class="tab-label">{{ tab.label }}</span>
-          <span
-            class="tab-dot"
-            :style="{ background: tab.color }"
-          ></span>
-        </button>
-      </div>
+    <!-- Primary nav -->
+    <div class="primary-nav">
+      <button
+        v-for="s in sections"
+        :key="s.id"
+        class="primary-tab"
+        :class="{ active: activeSection === s.id }"
+        @click="activeSection = s.id"
+      >{{ s.label }}</button>
     </div>
 
-    <!-- Tab content -->
+    <!-- Park switcher — only for Оферта -->
+    <div class="park-switcher" v-if="activeSection === 'oferta'">
+      <button class="park-btn" :class="{ active: activePark === 'ohta' }"      @click="activePark = 'ohta'">Охта Молл</button>
+      <button class="park-btn" :class="{ active: activePark === 'piterland' }" @click="activePark = 'piterland'">Питерлэнд</button>
+    </div>
+
     <div class="tab-content">
-      <TermsOfertaOhta v-if="activeTab === 'ohta'" />
-      <TermsOfertaPiterland v-if="activeTab === 'piterland'" />
-      <TermsPolicy v-if="activeTab === 'policy'" />
-      <TermsPrivacy v-if="activeTab === 'privacy'" />
+      <TermsOfertaOhta      v-if="activeSection === 'oferta'  && activePark === 'ohta'" />
+      <TermsOfertaPiterland v-if="activeSection === 'oferta'  && activePark === 'piterland'" />
+      <TermsPolicy          v-if="activeSection === 'policy'" />
+      <TermsPrivacy         v-if="activeSection === 'privacy'" />
     </div>
 
-    <!-- Footer note -->
+    <!-- Footer -->
     <div class="hub-footer">
-      <div class="neon-divider" style="margin-bottom: 24px;"></div>
+      <div class="neon-divider" style="margin-bottom: 28px;"></div>
       <div class="footer-grid">
         <div class="footer-item">
-          <span class="footer-icon">📞</span>
+          <span class="footer-icon" :style="{ maskImage: phoneIcon, WebkitMaskImage: phoneIcon }"></span>
           <div>
             <div class="footer-label">Охта Молл</div>
             <a href="tel:+79643211100" class="footer-link">+7 (964) 321-11-00</a>
           </div>
         </div>
         <div class="footer-item">
-          <span class="footer-icon">📞</span>
+          <span class="footer-icon" :style="{ maskImage: phoneIcon, WebkitMaskImage: phoneIcon }"></span>
           <div>
             <div class="footer-label">Питерлэнд</div>
             <a href="tel:+79650457555" class="footer-link">+7 (965) 045-75-55</a>
           </div>
         </div>
         <div class="footer-item">
-          <span class="footer-icon">✉️</span>
+          <span class="footer-icon" :style="{ maskImage: mailIcon, WebkitMaskImage: mailIcon }"></span>
           <div>
             <div class="footer-label">Email</div>
             <a href="mailto:spb@bumbastiki.ru" class="footer-link">spb@bumbastiki.ru</a>
           </div>
         </div>
       </div>
-      <p class="footer-note">
-        Остались вопросы? Напиши или позвони — ответим в рабочие часы.
-      </p>
+      <p class="footer-note">Остались вопросы? Напиши или позвони — ответим в рабочие часы.</p>
     </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import TermsOfertaOhta from './TermsOfertaOhta.vue'
+import TermsOfertaOhta      from './TermsOfertaOhta.vue'
 import TermsOfertaPiterland from './TermsOfertaPiterland.vue'
-import TermsPolicy from './TermsPolicy.vue'
-import TermsPrivacy from './TermsPrivacy.vue'
+import TermsPolicy          from './TermsPolicy.vue'
+import TermsPrivacy         from './TermsPrivacy.vue'
 
-const activeTab = ref('ohta')
+const activeSection = ref('oferta')
+const activePark    = ref('ohta')
 
-const tabs = [
-  {
-    id: 'ohta',
-    icon: '📄',
-    label: 'Оферта · Охта Молл',
-    color: '#C5F946',
-  },
-  {
-    id: 'piterland',
-    icon: '📄',
-    label: 'Оферта · Питерлэнд',
-    color: '#00D4FF',
-  },
-  {
-    id: 'policy',
-    icon: '🔒',
-    label: 'Политика конфиденциальности',
-    color: '#FF0080',
-  },
-  {
-    id: 'privacy',
-    icon: '✅',
-    label: 'Согласие на данные',
-    color: '#00FF88',
-  },
+const sections = [
+  { id: 'oferta',  label: 'Оферта' },
+  { id: 'policy',  label: 'Политика конфиденциальности' },
+  { id: 'privacy', label: 'Согласие на данные' },
 ]
+
+const ic = (paths) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+}
+
+const phoneIcon = ic(`<path d="m16 8 6-6"/><path d="M22 8V2h-6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>`)
+
+const mailIcon = ic(`<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>`)
 </script>
 
 <style scoped>
@@ -119,158 +100,86 @@ const tabs = [
 }
 
 /* Header */
-.hub-header {
-  padding: 40px 0 28px;
-  text-align: left;
-}
+.hub-header { padding: 48px 0 32px; text-align: center; }
 .hub-eyebrow {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: #4a5aad;
-  margin: 0 0 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  color: #7A8BA8; margin: 0 0 14px;
 }
 .hub-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 36px;
-  font-weight: 900;
-  color: #F0F4FF;
-  margin: 0 0 12px;
-  line-height: 1.1;
+  font-family: 'Montserrat', sans-serif; font-size: 36px;
+  font-weight: 900; color: #F0F4FF; margin: 0 0 14px;
 }
 .hub-sub {
-  font-size: 15px;
-  color: #7A8BA8;
-  margin: 0;
-  max-width: 520px;
-  line-height: 1.6;
+  font-size: 15px; color: #7A8BA8; margin: 0 auto;
+  max-width: 500px; line-height: 1.65;
 }
 
-/* Neon divider */
+/* Divider */
 .neon-divider {
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    #00D4FF 15%,
-    #C5F946 35%,
-    #FFD60A 50%,
-    #FF0080 65%,
-    #00FF88 85%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, #00D4FF 15%, #C5F946 35%, #FFD60A 50%, #FF0080 65%, #00FF88 85%, transparent 100%);
   opacity: 0.35;
   margin-bottom: 28px;
 }
 
-/* Tabs */
-.tabs-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 28px;
-  /* hide scrollbar */
-  scrollbar-width: none;
-}
-.tabs-wrap::-webkit-scrollbar { display: none; }
-
-.tabs {
-  display: flex;
-  gap: 8px;
-  min-width: max-content;
-}
-
-.tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(74,90,173,0.25);
+/* Primary nav */
+.primary-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.primary-tab {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(74, 90, 173, 0.3);
   border-radius: 10px;
-  color: #7A8BA8;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  white-space: nowrap;
-  position: relative;
+  color: #7A8BA8; font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
-.tab:hover {
-  background: rgba(255,255,255,0.07);
-  color: #F0F4FF;
-  border-color: rgba(74,90,173,0.5);
-}
-.tab.active {
-  background: rgba(197,249,70,0.08);
-  border-color: rgba(197,249,70,0.25);
-  color: #F0F4FF;
-}
+.primary-tab:hover { color: #F0F4FF; border-color: rgba(74,90,173,0.6); background: rgba(255,255,255,0.04); }
+.primary-tab.active { color: #F0F4FF; background: rgba(197,249,70,0.08); border-color: rgba(197,249,70,0.35); }
 
-.tab-icon { font-size: 15px; }
-.tab-label { }
-.tab-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  opacity: 0.7;
+/* Park switcher */
+.park-switcher {
+  display: inline-flex; margin-bottom: 28px;
+  border: 1px solid rgba(74, 90, 173, 0.3);
+  border-radius: 8px; overflow: hidden;
 }
-.tab.active .tab-dot { opacity: 1; }
-
-/* Override active color per tab */
-.tab[data-id="ohta"].active { background: rgba(197,249,70,0.07); border-color: rgba(197,249,70,0.25); }
-.tab[data-id="piterland"].active { background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.25); }
-.tab[data-id="policy"].active { background: rgba(255,0,128,0.07); border-color: rgba(255,0,128,0.25); }
-.tab[data-id="privacy"].active { background: rgba(0,255,136,0.07); border-color: rgba(0,255,136,0.25); }
-
-/* Content */
-.tab-content {
-  min-height: 400px;
+.park-btn {
+  padding: 7px 20px; background: transparent; border: none;
+  color: #7A8BA8; font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
 }
+.park-btn + .park-btn { border-left: 1px solid rgba(74,90,173,0.3); }
+.park-btn:hover { color: #F0F4FF; background: rgba(255,255,255,0.04); }
+.park-btn.active { color: #1a1840; background: #C5F946; }
+
+.tab-content { min-height: 400px; }
 
 /* Footer */
-.hub-footer {
-  margin-top: 48px;
+.hub-footer { margin-top: 52px; }
+.footer-grid { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-start; }
+
+.footer-item { display: flex; align-items: flex-start; gap: 10px; }
+
+/* Mask icon in footer — lime color */
+.footer-icon {
+  display: block; width: 18px; height: 18px; min-width: 18px;
+  background-color: #7A8BA8;
+  mask-repeat: no-repeat; mask-size: contain; mask-position: center;
+  -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; -webkit-mask-position: center;
+  margin-top: 3px;
 }
-.footer-grid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-.footer-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-.footer-icon { font-size: 18px; margin-top: 2px; }
+
 .footer-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  color: #4a5aad;
-  margin-bottom: 4px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #7A8BA8; margin-bottom: 3px;
 }
-.footer-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: #C5F946;
-  text-decoration: none;
-  transition: color 0.2s;
-}
+.footer-link { font-size: 14px; font-weight: 600; color: #C5F946; text-decoration: none; transition: color 0.2s; }
 .footer-link:hover { color: #F0F4FF; }
-.footer-note {
-  font-size: 13px;
-  color: #4a5aad;
-  margin: 0;
-}
+.footer-note { font-size: 13px; color: #7A8BA8; margin: 0; line-height: 1.5; }
 
 @media (max-width: 600px) {
   .hub-title { font-size: 28px; }
-  .hub-header { padding: 24px 0 20px; }
-  .footer-grid { flex-direction: column; gap: 14px; }
+  .hub-header { padding: 28px 0 24px; }
+  .primary-tab { font-size: 13px; padding: 9px 14px; }
+  .footer-grid { gap: 18px; }
 }
 </style>
