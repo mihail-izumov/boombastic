@@ -13,6 +13,7 @@ import ParksPage from '../components/ParksPage.vue'
 import ChargeCardPage from '../components/ChargeCardPage.vue'
 import BoomRewards from '../components/BoomRewards.vue'
 import PrizotekaOnboarding from '../components/PrizotekaOnboarding.vue'
+import CookieConsent from '../components/CookieConsent.vue'
 
 export default {
   extends: DefaultTheme,
@@ -33,6 +34,7 @@ export default {
     app.component('ChargeCardPage', ChargeCardPage)
     app.component('BoomRewards', BoomRewards)
     app.component('PrizotekaOnboarding', PrizotekaOnboarding)
+    app.component('CookieConsent', CookieConsent)
     
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
