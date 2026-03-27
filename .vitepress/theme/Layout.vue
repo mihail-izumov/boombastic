@@ -436,7 +436,7 @@ body.has-banner .VPDoc { margin-top: 0; padding-top: 16px; }
 .VPDoc, .VPContent { border-radius: 5px; }
 .VPNavBarTitle a { display: flex !important; align-items: center !important; }
 
- .shark-eyes { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
+.shark-eyes { width: 28px; height: 18px; margin-right: 5px; flex-shrink: 0; object-fit: contain; animation: eyes-breathe 4s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(197,249,70,0.3)); }
 @keyframes eyes-breathe {
   0%, 100% { filter: drop-shadow(0 0 2px rgba(197,249,70,0.2)); transform: scale(1); }
   50% { filter: drop-shadow(0 0 8px rgba(197,249,70,0.6)) drop-shadow(0 0 16px rgba(197,249,70,0.25)); transform: scale(1.04); }
