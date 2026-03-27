@@ -294,23 +294,6 @@ export default defineConfig({
       }]
     },
 
-    search: {
-      provider: 'local',
-      options: {
-        placeholder: 'Найти приз?',
-        translations: {
-          button: { buttonText: 'Найти приз?', buttonAriaLabel: 'Поиск' },
-          modal: {
-            displayDetails: 'Показать подробные результаты',
-            resetButtonTitle: 'Сбросить поиск',
-            backButtonTitle: 'Закрыть поиск',
-            noResultsText: 'Результаты не найдены для',
-            footer: { selectText: 'выбрать', navigateText: 'навигация', closeText: 'закрыть' }
-          }
-        }
-      }
-    },
-
     nav: [
       {
         text: 'Призотека',
