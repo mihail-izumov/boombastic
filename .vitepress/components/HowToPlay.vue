@@ -55,10 +55,10 @@ const steps = [
                 <div class="result-count">250+</div>
                 <div class="result-label">призов на выбор</div>
                 <div class="result-desc">От брелоков до колонок и мышек Razer</div>
-                <button class="result-cta" :class="{ hovered: resultHover }">
-                  <span>К ПРИЗАМ</span>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </button>
+                <a href="/prizes" class="result-cta" :class="{ hovered: resultHover }">
+  <span>К ПРИЗАМ</span>
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+</a>
               </div>
             </div>
           </div>
