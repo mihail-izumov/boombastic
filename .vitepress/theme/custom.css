@@ -182,21 +182,22 @@ code, .vp-code, .line-numbers {
 }
 
 /* ============================================================
-   [FIX 8] ПОИСК: циановая рамка
+   ПОИСК: полностью скрыт
    ============================================================ */
-.VPNavBarSearchButton {
-  border: 1px solid rgba(0, 212, 255, 0.25) !important;
-  background: rgba(74, 90, 173, 0.1) !important;
-  border-radius: 8px !important;
-  transition: all 0.3s ease !important;
-}
-.VPNavBarSearchButton:hover {
-  border-color: rgba(0, 212, 255, 0.45) !important;
-  background: rgba(74, 90, 173, 0.18) !important;
-  box-shadow: 0 0 12px rgba(0, 212, 255, 0.1) !important;
-}
-.VPNavBarSearchButton .vpi-search {
-  color: var(--neon-cyan) !important;
+.VPNavBarSearch,
+.VPNavBarSearchButton,
+.DocSearch,
+.DocSearch-Button,
+[class*="VPNavBarSearch"],
+[class*="search"] {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  opacity: 0 !important;
 }
 
 /* ============================================================
@@ -774,9 +775,6 @@ a.VPFeature.link:hover .link-text .icon { fill: var(--accent-lime) !important; }
   box-shadow: 0 8px 25px rgba(197, 249, 70, 0.25) !important;
 }
 .NotFound .action .link:active { transform: scale(0.95) !important; }
-
-/* ПОИСК */
-.DocSearch { --docsearch-primary-color: var(--blue-1) !important; }
 
 /* ============================================================
    ЦЕНТРИРОВАНИЕ
