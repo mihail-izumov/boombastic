@@ -6,13 +6,13 @@ const { elRef, visible } = useReveal()
 const communities = [
   {
     city: 'САНКТ-ПЕТЕРБУРГ',
-    name: 'Бумбастик',
+    name: 'БумБастик',
     handle: '@bumbastik_spb',
     url: 'https://vk.com/bumbastik_spb',
   },
   {
     city: 'МОСКВА',
-    name: 'Бумбастик',
+    name: 'БумБастик',
     handle: '@bumbastik_msc',
     url: 'https://vk.com/bumbastik_msc',
   },
