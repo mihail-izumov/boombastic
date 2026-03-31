@@ -1,6 +1,6 @@
 <script setup>
 /**
- * PrizeIcons — 33 SVG-иконки для Призотеки
+ * PrizeIcons — 38 SVG-иконки для Призотеки
  * 
  * Naming: tab_* (вкладки), cat_* (категории), col_* (коллекции), ui_* (UI)
  * Использование: <PrizeIcons name="tab_catalog" :size="32" />
@@ -55,6 +55,26 @@ const ICONS = {
   cat_electronics: {
     paths: '<path d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"/><path d="M17 21v-2"/><path d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"/><path d="M21 21v-2"/><path d="M3 5V3"/><path d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"/><path d="M7 5V3"/>',
   },
+  cat_figurines: {
+    // trophy — фигурки
+    paths: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+  },
+  cat_accessories: {
+    // gem — аксессуары
+    paths: '<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>',
+  },
+  cat_antistress: {
+    // smile — антистресс
+    paths: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/>',
+  },
+  cat_stationery: {
+    // pencil — канцелярия
+    paths: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+  },
+  cat_sweets: {
+    // candy — сладости
+    paths: '<path d="m9.5 7.5-2 2a4.95 4.95 0 1 0 7 7l2-2a4.95 4.95 0 1 0-7-7Z"/><path d="M14 6.5v10"/><path d="M10 7.5v10"/><path d="m16 7 1-5 1.37.68A3 3 0 0 0 19.7 3H21v1.3a3 3 0 0 0 .32 1.33L22 7"/><path d="m8 17-1 5-1.37-.68A3 3 0 0 0 4.3 21H3v-1.3a3 3 0 0 0-.32-1.33L2 17"/>',
+  },
 
   // ── COLLECTION ICONS ──────────────────────────────────────────
   col_harry_potter: {
@@ -72,25 +92,19 @@ const ICONS = {
   col_mario: {
     paths: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>',
   },
-  // TODO: заменить на фирменные SVG когда будут готовы
   col_disney: {
-    // castle
     paths: '<path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z"/><path d="M15 2v5h4l1 4H4l1-4h4V2"/><path d="M11 2v5"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/>',
   },
   col_kitty: {
-    // cat (lucide)
     paths: '<path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.1 6.87-.25.27.27.47.58.62.92.37.78.53 1.64.53 2.52A10 10 0 0 1 12 21.5 10 10 0 0 1 1.98 8.45c0-.88.16-1.74.53-2.52.15-.34.35-.65.62-.92C5.97 3.16 9.22 3.26 11 5.26c.32-.08.65-.15 1-.2z"/><path d="M8 14v.5"/><path d="M16 14v.5"/><path d="M11.25 16.25h1.5L12 17l-.75-.75Z"/>',
   },
   col_kuromi: {
-    // skull (lucide)
     paths: '<circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M8 20v2h8v-2"/><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"/>',
   },
   col_stranger_things: {
-    // cassette
     paths: '<rect width="20" height="16" x="2" y="4" rx="2"/><circle cx="8" cy="10" r="2"/><path d="M8 12h8"/><circle cx="16" cy="10" r="2"/><path d="m6 20 .7-2.9A1.4 1.4 0 0 1 8.1 16h7.8a1.4 1.4 0 0 1 1.4 1l.7 3"/>',
   },
   col_anime: {
-    // swords (lucide)
     paths: '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>',
   },
 
