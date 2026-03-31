@@ -30,6 +30,36 @@
     "icon_name": "cat_electronics"
   },
   {
+    "id": "figurines",
+    "label": "Фигурки",
+    "has_filter": true,
+    "icon_name": "cat_figurines"
+  },
+  {
+    "id": "accessories",
+    "label": "Аксессуары",
+    "has_filter": true,
+    "icon_name": "cat_accessories"
+  },
+  {
+    "id": "antistress",
+    "label": "Антистресс",
+    "has_filter": true,
+    "icon_name": "cat_antistress"
+  },
+  {
+    "id": "stationery",
+    "label": "Канцелярия",
+    "has_filter": true,
+    "icon_name": "cat_stationery"
+  },
+  {
+    "id": "sweets",
+    "label": "Сладости",
+    "has_filter": true,
+    "icon_name": "cat_sweets"
+  },
+  {
     "id": "plush",
     "label": "Мягкие игрушки",
     "has_filter": false,
