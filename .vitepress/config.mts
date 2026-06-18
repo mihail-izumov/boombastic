@@ -41,6 +41,13 @@ export default defineConfig({
     (function() {
       document.documentElement.classList.add('dark');
 
+      /* === Plausible: хелпер для отправки событий === */
+      function track(name, props) {
+        try {
+          if (window.plausible) window.plausible(name, props ? { props: props } : undefined);
+        } catch (e) {}
+      }
+
       /* === МОДАЛЬНОЕ ОКНО «Войти» === */
       function createLoginModal() {
         if (document.getElementById('bb-login-modal')) return;
@@ -67,7 +74,7 @@ export default defineConfig({
       }
       window.openLoginModal = function() {
         var m = document.getElementById('bb-login-modal');
-        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; }
+        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; track('Войти'); }
       };
       function closeLoginModal() {
         var m = document.getElementById('bb-login-modal');
@@ -104,7 +111,7 @@ export default defineConfig({
         btns.style.cssText = 'display:flex;flex-direction:column;gap:12px;';
 
         /* Хелпер: кнопка-ссылка с подсказкой */
-        function makeLinkBtn(label, hint, color, href) {
+        function makeLinkBtn(label, hint, color, href, eventName) {
           var b = document.createElement('a');
           b.href = href;
           b.style.cssText = "display:block;width:100%;padding:14px 20px;border-radius:10px;border:1.5px solid " + color + "40;background:" + color + "0d;cursor:pointer;transition:all 0.25s;text-align:center;text-decoration:none;box-sizing:border-box;";
@@ -120,12 +127,12 @@ export default defineConfig({
           }
           b.addEventListener('mouseenter', function() { this.style.background=color+'22'; this.style.borderColor=color+'80'; });
           b.addEventListener('mouseleave', function() { this.style.background=color+'0d'; this.style.borderColor=color+'40'; });
-          b.addEventListener('click', function() { closeGameModeModal(); });
+          b.addEventListener('click', function() { track(eventName); closeGameModeModal(); });
           return b;
         }
 
-        btns.appendChild(makeLinkBtn('Зарядить карту', 'Онлайн-оплата с выгодой до 60%', '#C5F946', '/charge'));
-        btns.appendChild(makeLinkBtn('Игровой статус', 'Узнать уровень = получить больше игр', '#00D4FF', '/rewards'));
+        btns.appendChild(makeLinkBtn('Зарядить карту', 'Онлайн-оплата с выгодой до 60%', '#C5F946', '/charge', 'Зарядить карту'));
+        btns.appendChild(makeLinkBtn('Игровой статус', 'Узнать уровень = получить больше игр', '#00D4FF', '/rewards', 'Игровой статус'));
 
         /* --- Призотека (раскрывающаяся) --- */
         var prizOpen = false;
@@ -157,19 +164,19 @@ export default defineConfig({
         var prizSub = document.createElement('div');
         prizSub.style.cssText = 'display:none;flex-direction:row;gap:8px;padding:0 12px 12px 12px;';
 
-        function makePrizSubBtn(label, href) {
+        function makePrizSubBtn(label, href, park) {
           var a = document.createElement('a');
           a.href = href;
           a.textContent = label;
           a.style.cssText = "flex:1;display:flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:8px;border:1px solid rgba(255,0,128,0.2);background:rgba(255,0,128,0.06);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#FF0080;text-decoration:none;transition:all 0.2s;cursor:pointer;";
           a.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.2)'; this.style.borderColor='rgba(255,0,128,0.5)'; });
           a.addEventListener('mouseleave', function() { this.style.background='rgba(255,0,128,0.06)'; this.style.borderColor='rgba(255,0,128,0.2)'; });
-          a.addEventListener('click', function() { closeGameModeModal(); });
+          a.addEventListener('click', function() { track('Призотека парк', { park: park }); closeGameModeModal(); });
           return a;
         }
 
-        prizSub.appendChild(makePrizSubBtn('Питерлэнд', '/prizes/piterland'));
-        prizSub.appendChild(makePrizSubBtn('Охта Молл', '/prizes/ohtamall'));
+        prizSub.appendChild(makePrizSubBtn('Питерлэнд', '/prizes/piterland', 'Питерлэнд'));
+        prizSub.appendChild(makePrizSubBtn('Охта Молл', '/prizes/ohtamall', 'Охта Молл'));
 
         prizBtn.addEventListener('click', function() {
           prizOpen = !prizOpen;
@@ -181,6 +188,7 @@ export default defineConfig({
             prizWrap.style.background = '#FF008015';
             prizLabel.style.opacity = '0.4';
             prizBtn.style.background = 'transparent';
+            track('Призотека');
           } else {
             prizWrap.style.borderColor = '#FF008040';
             prizWrap.style.background = '#FF00800d';
@@ -202,7 +210,7 @@ export default defineConfig({
       }
       window.openGameModeModal = function() {
         var m = document.getElementById('bb-gamemode-modal');
-        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; }
+        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; track('Игровой режим'); }
       };
       function closeGameModeModal() {
         var m = document.getElementById('bb-gamemode-modal');
