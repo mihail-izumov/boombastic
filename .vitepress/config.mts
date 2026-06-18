@@ -14,6 +14,10 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
+    /* === Plausible Analytics === */
+    ['script', { defer: '', 'data-domain': 'b00m.fun', src: 'https://plausible.io/js/pa-QfbhFzoy5wEYNES7ufi0v.js' }],
+    ['script', {}, `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`],
+
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/shark-eyes-icon-electric.svg' }],
     ['link', { rel: 'shortcut icon', href: '/shark-eyes-icon-electric.svg' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
