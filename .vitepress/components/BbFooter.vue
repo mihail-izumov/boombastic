@@ -3,7 +3,7 @@
     <hr class="bb-footer-divider" />
     <div class="bb-footer-links">
       <div class="footer-row">
-        <a href="https://lk.b00m.fun" target="_blank" rel="noopener noreferrer" data-neon="cyan">Личный кабинет</a>
+        <button type="button" data-neon="cyan" @click="openLogin">Личный кабинет</button>
         <a href="https://vk.com/bumbastik_spb" target="_blank" rel="noopener noreferrer" data-neon="magenta">ВКонтакте</a>
         <a href="/terms" data-neon="green">Условия использования</a>
       </div>
@@ -21,6 +21,11 @@ import { computed } from 'vue'
 
 const route = useRoute()
 const isHome = computed(() => route.path === '/' || route.path === '/boombastic/')
+
+/* Модалка «Войти» — общая, живёт в LoginModal.vue (смонтирована в theme/Layout.vue) */
+function openLogin() {
+  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
+}
 </script>
 
 <style scoped>
@@ -62,7 +67,13 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Glass bubble ссылки — база */
-.footer-row a {
+.footer-row a,
+.footer-row button {
+  /* сброс дефолтов <button>, чтобы он выглядел как остальные ссылки */
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  cursor: pointer;
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 600;
   font-size: 12px;
@@ -79,7 +90,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 /* ── Покой: приглушённый неон ── */
 
 /* Cyan — покой */
-.footer-row a[data-neon="cyan"] {
+.footer-row [data-neon="cyan"] {
   color: rgba(0, 212, 255, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -90,7 +101,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Cyan — hover: загорается */
-.footer-row a[data-neon="cyan"]:hover {
+.footer-row [data-neon="cyan"]:hover {
   color: #00D4FF;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
@@ -100,7 +111,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Magenta — покой */
-.footer-row a[data-neon="magenta"] {
+.footer-row [data-neon="magenta"] {
   color: rgba(255, 0, 128, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -111,7 +122,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Magenta — hover */
-.footer-row a[data-neon="magenta"]:hover {
+.footer-row [data-neon="magenta"]:hover {
   color: #FF0080;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
@@ -121,7 +132,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Yellow — покой */
-.footer-row a[data-neon="yellow"] {
+.footer-row [data-neon="yellow"] {
   color: rgba(255, 214, 10, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -132,7 +143,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Yellow — hover */
-.footer-row a[data-neon="yellow"]:hover {
+.footer-row [data-neon="yellow"]:hover {
   color: #FFD60A;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
@@ -142,7 +153,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Green — покой */
-.footer-row a[data-neon="green"] {
+.footer-row [data-neon="green"] {
   color: rgba(0, 255, 136, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -153,7 +164,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Green — hover */
-.footer-row a[data-neon="green"]:hover {
+.footer-row [data-neon="green"]:hover {
   color: #00FF88;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
@@ -163,7 +174,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Lime — покой */
-.footer-row a[data-neon="lime"] {
+.footer-row [data-neon="lime"] {
   color: rgba(197, 249, 70, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -174,7 +185,7 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Lime — hover */
-.footer-row a[data-neon="lime"]:hover {
+.footer-row [data-neon="lime"]:hover {
   color: #C5F946;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(34,32,80,0.75)),
@@ -184,7 +195,8 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
 }
 
 /* Fallback */
-.footer-row a:not([data-neon]) {
+.footer-row a:not([data-neon]),
+.footer-row button:not([data-neon]) {
   color: rgba(240, 244, 255, 0.6);
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.85), rgba(34,32,80,0.8)),
@@ -193,7 +205,8 @@ const isHome = computed(() => route.path === '/' || route.path === '/boombastic/
   background-clip: padding-box, border-box;
   border: 1px solid transparent;
 }
-.footer-row a:not([data-neon]):hover {
+.footer-row a:not([data-neon]):hover,
+.footer-row button:not([data-neon]):hover {
   color: #C5F946;
   background-image:
     linear-gradient(135deg, rgba(28,26,62,0.8), rgba(40,38,90,0.75)),

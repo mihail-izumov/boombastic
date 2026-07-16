@@ -1,29 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const isModalOpen = ref(false)
-
+/* Модалка «Войти» — общая, живёт в LoginModal.vue (смонтирована в theme/Layout.vue) */
 function openLoginModal() {
-  isModalOpen.value = true
-  document.body.style.overflow = 'hidden'
+  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
 }
-
-function closeLoginModal() {
-  isModalOpen.value = false
-  document.body.style.overflow = ''
-}
-
-function handleKeydown(e) {
-  if (e.key === 'Escape') closeLoginModal()
-}
-
-onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('keydown', handleKeydown)
-})
 </script>
 
 <template>
@@ -477,16 +456,6 @@ onUnmounted(() => {
       <button class="balance-btn" @click="openLoginModal">ПРОВЕРИТЬ БАЛАНС</button>
     </div>
 
-    <!-- Modal -->
-    <Teleport to="body">
-      <div class="modal-overlay" :class="{ active: isModalOpen }">
-        <div class="modal-backdrop" @click="closeLoginModal"></div>
-        <div class="modal-content">
-          <button class="modal-close" @click="closeLoginModal">✕</button>
-          <iframe class="modal-iframe" src="https://lk.b00m.fun"></iframe>
-        </div>
-      </div>
-    </Teleport>
   </div>
 </template>
 

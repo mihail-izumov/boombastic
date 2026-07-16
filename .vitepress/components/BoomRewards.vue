@@ -4,7 +4,6 @@ import { ref, computed } from 'vue'
 // State
 const userSpent = ref(0)
 const openFaq = ref(null)
-const isModalOpen = ref(false)
 
 // Data
 const levels = [
@@ -78,12 +77,9 @@ const toggleFaq = (idx) => {
   openFaq.value = openFaq.value === idx ? null : idx
 }
 
+/* Модалка «Войти» — общая, живёт в LoginModal.vue (смонтирована в theme/Layout.vue) */
 const openModal = () => {
-  isModalOpen.value = true
-}
-
-const closeModal = () => {
-  isModalOpen.value = false
+  if (typeof window !== 'undefined' && window.openLoginModal) window.openLoginModal()
 }
 </script>
 
@@ -478,15 +474,6 @@ const closeModal = () => {
 
     </div>
     
-    <!-- Modal -->
-    <Teleport to="body">
-      <div v-if="isModalOpen" class="modal-overlay" @click="closeModal">
-        <div class="modal-content" @click.stop>
-          <button class="modal-close" @click="closeModal">✕</button>
-          <iframe src="https://lk.b00m.fun" class="modal-iframe"></iframe>
-        </div>
-      </div>
-    </Teleport>
   </div>
 </template>
 
