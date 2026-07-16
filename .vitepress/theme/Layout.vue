@@ -20,6 +20,8 @@
   
   <SignalModalButton v-if="!isBoomHome" />
 
+  <LoginModal />
+
   <Teleport to="body">
     <Transition name="preloader-fade">
       <div v-if="showPreloader" class="bb-preloader">
@@ -38,6 +40,7 @@ import GeneralNotification from './GeneralNotification.vue'
 import NotificationsClients from './NotificationsClients.vue'  
 import SignalModalButton from '../components/SignalModalButton.vue'
 import BbFooter from '../components/BbFooter.vue'
+import LoginModal from '../components/LoginModal.vue'
 import HomePage from '../components/HomePage.vue'
 import CookieConsent from '../components/CookieConsent.vue'
 
@@ -242,7 +245,8 @@ function setupScrollLock() {
   scrollLockInterval = setInterval(() => {
     const login = document.getElementById('bb-login-modal')
     const gamemode = document.getElementById('bb-gamemode-modal')
-    const loginOpen = login && login.style.display === 'flex'
+    // LoginModal.vue рендерится через v-if: элемент есть = модалка открыта
+    const loginOpen = !!login
     const gamemodeOpen = gamemode && gamemode.style.display === 'flex'
     const anyOpen = loginOpen || gamemodeOpen
     const isLocked = document.body.classList.contains('bb-scroll-locked')
