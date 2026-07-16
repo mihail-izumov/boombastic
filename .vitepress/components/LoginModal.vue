@@ -90,7 +90,11 @@ onUnmounted(() => {
         <div class="bb-login-backdrop" @click="close" />
 
         <div class="bb-login-modal">
-          <button class="bb-login-close" aria-label="Закрыть" @click="close">✕</button>
+          <button class="bb-login-close" type="button" aria-label="Закрыть" @click="close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+            </svg>
+          </button>
 
           <div class="bb-login-title">ЛИЧНЫЙ КАБИНЕТ</div>
           <div class="bb-login-subtitle">Выбери свой парк</div>
@@ -163,25 +167,39 @@ onUnmounted(() => {
 
 .bb-login-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   z-index: 10;
-  width: 32px;
-  height: 32px;
+  /* Десктоп: мышь, хватает 36. Мобилка ниже — 44×44 по Apple HIG. */
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
+  box-sizing: border-box;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.2s, color 0.2s, transform 0.12s;
+}
+.bb-login-close svg {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 .bb-login-close:hover {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
+}
+.bb-login-close:active {
+  transform: scale(0.9);
 }
 
 .bb-login-title {
@@ -319,10 +337,22 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .bb-login-modal {
-    padding: 32px 20px 24px;
+    padding: 34px 20px 24px;
   }
   .bb-park {
     padding: 17px 44px;
+  }
+  /* Минимальная зона нажатия по Apple HIG — 44×44 pt */
+  .bb-login-close {
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+  .bb-login-close svg {
+    width: 18px;
+    height: 18px;
   }
 }
 </style>
