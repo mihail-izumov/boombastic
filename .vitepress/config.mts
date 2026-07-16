@@ -48,38 +48,9 @@ export default defineConfig({
         } catch (e) {}
       }
 
-      /* === МОДАЛЬНОЕ ОКНО «Войти» === */
-      function createLoginModal() {
-        if (document.getElementById('bb-login-modal')) return;
-        var overlay = document.createElement('div');
-        overlay.id = 'bb-login-modal';
-        overlay.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;align-items:center;justify-content:center;';
-        var backdrop = document.createElement('div');
-        backdrop.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,30,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;';
-        backdrop.addEventListener('click', function() { closeLoginModal(); });
-        var modal = document.createElement('div');
-        modal.style.cssText = 'position:relative;width:90%;max-width:480px;height:80vh;max-height:700px;border-radius:16px;overflow:hidden;background:white;box-shadow:0 25px 60px rgba(0,0,0,0.5);';
-        var closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '\\u2715';
-        closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:10;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.1);color:#333;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;';
-        closeBtn.addEventListener('mouseenter', function() { this.style.background='rgba(0,0,0,0.12)'; this.style.color='#000'; });
-        closeBtn.addEventListener('mouseleave', function() { this.style.background='rgba(0,0,0,0.06)'; this.style.color='#333'; });
-        closeBtn.addEventListener('click', function() { closeLoginModal(); });
-        var iframe = document.createElement('iframe');
-        iframe.src = 'https://lk.b00m.fun';
-        iframe.style.cssText = 'width:100%;height:100%;border:none;';
-        modal.appendChild(closeBtn); modal.appendChild(iframe);
-        overlay.appendChild(backdrop); overlay.appendChild(modal);
-        document.body.appendChild(overlay);
-      }
-      window.openLoginModal = function() {
-        var m = document.getElementById('bb-login-modal');
-        if (m) { m.style.display='flex'; document.body.style.overflow='hidden'; track('Войти'); }
-      };
-      function closeLoginModal() {
-        var m = document.getElementById('bb-login-modal');
-        if (m) { m.style.display='none'; document.body.style.overflow=''; }
-      }
+      /* === МОДАЛЬНОЕ ОКНО «Войти» ===
+         Живёт в .vitepress/components/LoginModal.vue.
+         Компонент сам вешает window.openLoginModal при монтировании. */
 
       /* === МОДАЛЬНОЕ ОКНО «Игровой режим» === */
       function createGameModeModal() {
@@ -218,7 +189,7 @@ export default defineConfig({
       }
 
       document.addEventListener('keydown', function(e) {
-        if (e.key==='Escape') { closeLoginModal(); closeGameModeModal(); }
+        if (e.key==='Escape') { closeGameModeModal(); }
       });
 
       /* === КНОПКИ НАВИГАЦИИ === */
@@ -227,7 +198,7 @@ export default defineConfig({
           if (btn.dataset.loginReady) return;
           btn.dataset.loginReady = 'true';
           btn.removeAttribute('href'); btn.style.cursor = 'pointer';
-          btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.openLoginModal(); });
+          btn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); if (window.openLoginModal) window.openLoginModal(); });
         });
         document.querySelectorAll('.VPSocialLink[aria-label="gamemode-link"]').forEach(function(btn) {
           if (btn.dataset.gamemodeReady) return;
@@ -256,7 +227,7 @@ export default defineConfig({
       }
 
       /* === INIT === */
-      function init() { createLoginModal(); createGameModeModal(); setupNavButtons(); translateUI(); }
+      function init() { createGameModeModal(); setupNavButtons(); translateUI(); }
       if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
       else init();
       window.addEventListener('load', init);
