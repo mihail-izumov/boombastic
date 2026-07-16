@@ -18,7 +18,7 @@ export const parks = [
   {
     id: 'ohta',
     name: 'Охта Молл',
-    address: 'Брантовская дор., 3, этаж 3',
+    address: 'Брантовская дор., 3',
     accent: '#FF0080',
     lk: { status: 'active', url: 'https://lk.b00m.fun' },
   },
@@ -33,7 +33,7 @@ export const parks = [
   {
     id: 'june',
     name: 'Июнь',
-    address: '', // TODO: адрес парка
+    address: 'Индустриальный просп., 24',
     accent: '#00D4FF',
     // TODO: включить, когда поднимется jun.b00m.fun
     lk: { status: 'soon', url: '' },
@@ -41,7 +41,7 @@ export const parks = [
   {
     id: 'mari',
     name: 'MARI',
-    address: 'ул. Поречная, 10, этаж 5',
+    address: 'ул. Поречная, 10',
     accent: '#FFD60A',
     // В модалке ЛК не показывается. Появится ЛК — поменять на 'soon' / 'active'.
     lk: { status: 'none', url: '' },
