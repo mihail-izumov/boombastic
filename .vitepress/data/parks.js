@@ -35,8 +35,7 @@ export const parks = [
     name: 'Июнь',
     address: 'Индустриальный просп., 24',
     accent: '#00D4FF',
-    // TODO: включить, когда поднимется jun.b00m.fun
-    lk: { status: 'soon', url: '' },
+    lk: { status: 'active', url: 'https://jun.b00m.fun/' },
   },
   {
     id: 'mari',
