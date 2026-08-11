@@ -19,6 +19,7 @@ import TermsOfertaOhta from '../terms/TermsOfertaOhta.vue'
 import TermsOfertaPiterland from '../terms/TermsOfertaPiterland.vue'
 import TermsPolicy from '../terms/TermsPolicy.vue'
 import TermsPrivacy from '../terms/TermsPrivacy.vue'
+import TurboSubscribe from '../turbo/TurboSubscribe.vue'
 
 export default {
   extends: DefaultTheme,
@@ -45,6 +46,7 @@ export default {
     app.component('TermsOfertaPiterland', TermsOfertaPiterland)
     app.component('TermsPolicy', TermsPolicy)
     app.component('TermsPrivacy', TermsPrivacy)
+    app.component('TurboSubscribe', TurboSubscribe)
     
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
