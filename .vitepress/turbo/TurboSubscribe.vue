@@ -43,7 +43,7 @@ const SOURCES = { tv: 'turbo-tv', tent: 'turbo-tent', qr: 'turbo-qr' }
 
 /* Версия страницы. Нужна не для красоты: 11.08 мы полдня выясняли, доехала
    ли сборка до боя. Теперь это видно в DOM — data-v на корне. */
-const PAGE_VERSION = 'v1.5-mailing-consent'
+const PAGE_VERSION = 'v1.6-readability'
 
 /**
  * ПРАВИЛА РОЗЫГРЫША — три документа, по одному на парк.
@@ -289,44 +289,36 @@ function onRulesKey (e) { if (e.key === 'Escape') closeRules() }
 
       <header class="ts-head">
 
-        <!-- ─────────── БРЕНД-ПЛАШКА ───────────
-             Ровно та же конструкция, что в шапке ТВ-панели: иконка + бейдж
-             «БУМБАСТИК // <парк>». Гость только что видел её на экране у кассы,
-             и первое, что он встречает на телефоне, — она же. Одновременно это
-             ответ на вопрос «на что я подписываюсь»: парк из QR назван здесь,
-             а не отдельным блоком внутри формы (решение владельца 11.08).
+        <!-- ─────────── ПЛАШКА ПАРКА ───────────
+             Раньше здесь стоял логотип БумБастика и бейдж «БУМБАСТИК // парк»
+             — копия шапки ТВ-панели. На сайте это оказалось дублем: наверху
+             страницы уже висит навбар b00m.fun с тем же логотипом и тем же
+             словом. Осталось единственное, чего в навбаре нет, — парк.
+
+             Ответ на вопрос «на что я подписываюсь» при заходе по QR: парк
+             назван здесь, а не отдельным блоком внутри формы.
 
              ⚠ Класс .ts-parklock обёрнут ровно вокруг имени парка и ни вокруг
-               чего больше: приёмка сверяет его textContent с названием. -->
-        <div class="ts-brand">
-          <svg class="ts-logo" viewBox="0 0 180 114" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-               style="fill-rule:evenodd;clip-rule:evenodd" aria-label="БумБастик">
-            <g transform="matrix(1,0,0,0.633333,0,0)">
-              <g transform="matrix(1.21253,0,0,1.91453,-19.1576,-81.8723)">
-                <g transform="matrix(0.388571,0,0,0.388571,-1586.56,-4010.12)">
-                  <path d="M4368.24,10448.4L4505.63,10440.8C4505.63,10440.8 4501.3,10486.6 4491.87,10531.6C4475.88,10607.8 4458.86,10662.7 4458.86,10662.7L4260.49,10672.8L4350.14,10534.7L4325.11,10534.8L4365.12,10454.6L4365.14,10454.6L4365.8,10453.3L4368.24,10448.4ZM4447.79,10507.4C4446.91,10512.2 4445.97,10516.9 4444.97,10521.7C4436.79,10560.7 4428.35,10593.9 4422.2,10616.6C4422.2,10616.6 4337.79,10620.9 4337.79,10620.9L4381.48,10530.8C4405.55,10526.2 4427.95,10518.2 4447.79,10507.4Z"/>
-                </g>
-                <g transform="matrix(0.388571,0,0,0.388571,-1586.56,-4010.12)">
-                  <path d="M4272.15,10569.3L4296.18,10569.2L4253.91,10655.4L4123.72,10661.7C4123.72,10661.7 4131.45,10597.1 4145.77,10533.5C4160.78,10466.8 4170.9,10440.7 4170.9,10440.7L4363.5,10430.8L4272.15,10569.3ZM4204.13,10496.3C4221.83,10508.5 4242.25,10518.2 4264.55,10524.9L4223.35,10608.9C4223.35,10608.9 4179.57,10611 4179.57,10611C4182.92,10590.9 4187.26,10567.4 4192.52,10544C4196.91,10524.5 4200.83,10508.8 4204.13,10496.3Z"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-          <span class="ts-badge">
-            <span>БУМБАСТИК</span>
-            <span class="ts-sep">//</span>
-            <!-- До монтирования и при прямом заходе парка ещё нет: показываем
-                 раздел, а не пустоту, — ширина плашки почти та же, прыжка нет. -->
-            <span v-if="ready && parkLocked" class="ts-parklock">{{ parkName }}</span>
-            <span v-else>ТУРБО-ЧАСЫ</span>
+               чего больше: приёмка сверяет его textContent с названием.
+
+             Место держится всегда: плашка появляется после монтирования, и без
+             резерва шапка при заходе по QR дёргалась бы вниз на глазах. -->
+        <div class="ts-parkslot">
+          <span v-if="ready && parkLocked" class="ts-badge">
+            <span class="ts-parklock">{{ parkName }}</span>
           </span>
         </div>
 
-        <!-- Локап панели: «ТУРБО» и лаймовый бейдж «ИГРЫ» под наклоном.
-             Единственный элемент, который гость запоминает с экрана целиком. -->
+        <!-- Локап панели: «ТУРБО» и лаймовый бейдж под наклоном — приём, который
+             гость запоминает с экрана у кассы целиком.
+             ⚠ Слово в бейдже НЕ «ИГРЫ», хотя на панели именно оно. Панель
+               продаёт турбо-игры, а эта страница — подписка на турбо-часы, и
+               подменять предмет ради буквального совпадения нельзя: гость
+               решит, что подписывается на игры. Узнаваемость держит форма
+               локапа, а не слово (решение владельца 11.08). -->
         <div class="ts-lockup">
           <div class="ts-lockup-main">ТУРБО</div>
-          <div class="ts-lockup-sub">ИГРЫ</div>
+          <div class="ts-lockup-sub">ЧАСЫ</div>
         </div>
 
         <h1 class="ts-title">Узнавай первым</h1>
@@ -521,7 +513,13 @@ function onRulesKey (e) { if (e.key === 'Escape') closeRules() }
   --tile:#171243;     /* карточка              — белый 17.44:1, --muted 6.26:1 */
   --tile2:#1e1856;    /* поля и вложенные плитки */
   --white:#ffffff;
-  --muted:#9b94d0;    /* вторичный текст       — 6.26:1 на --tile */
+  /* Вторичный текст. На панели стоит #9b94d0, и здесь он тоже стоял — но
+     панель кладёт его на плитку, а шапка страницы лежит на градиенте с синей
+     подсветкой. Фактический фон под лидом — не #0d0a2e, а ~#1b297a, и на нём
+     #9b94d0 даёт 4.58:1: формально AA, на телефоне — «плохо читается».
+     Осветлён до 6.43:1 на пике подсветки и 8.78:1 на карточке.
+     ⚠ Считать контраст надо на СОСТАВНОМ фоне, а не на токене --bg. */
+  --muted:#b9b2e6;
   --lime:#c6f52e;     /* кнопка и бейдж ИГРЫ   — тёмный по ней 15.00:1 */
   --blue:#2d6bff;     /* синий панели: свечение фона, искры — текста по нему нет */
   --blue-ink:#2757d2; /* заливка под белую цифру — 6.21:1. Чистый #2d6bff даёт
@@ -549,17 +547,17 @@ function onRulesKey (e) { if (e.key === 'Escape') closeRules() }
 /* ── шапка ── */
 .ts-head{margin-bottom:20px;text-align:center}
 
-.ts-brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
-.ts-logo{width:28px;height:auto;flex:none;color:var(--white)}
+/* Резерв под плашку парка: 30px плашка + 16px отступ. Держится всегда, чтобы
+   шапка не дёргалась после монтирования. */
+.ts-parkslot{min-height:46px}
 .ts-badge{
-  display:inline-flex;align-items:center;gap:7px;
+  display:inline-flex;align-items:center;
   font-family:'Unbounded',sans-serif;font-weight:700;font-size:12px;letter-spacing:.6px;
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.16);
+  background:rgba(198,245,46,.12);
+  border:1px solid rgba(198,245,46,.35);
   border-radius:10px;padding:6px 12px;
   color:var(--white);white-space:nowrap;
 }
-.ts-sep{color:var(--lime)}
 
 .ts-lockup{margin-bottom:20px;line-height:1}
 .ts-lockup-main{
@@ -637,10 +635,26 @@ function onRulesKey (e) { if (e.key === 'Escape') closeRules() }
   display:flex;gap:12px;align-items:center;
   font-size:14px;line-height:1.45;color:var(--muted);cursor:pointer;
 }
+/* Свой вид, а не системный. `accent-color` красит только ОТМЕЧЕННЫЙ чекбокс;
+   пустой остаётся серым системным квадратом, который на тёмном фоне почти не
+   виден — гость не понимает, что галочку надо ставить, и упирается в
+   выключенную кнопку. */
 .ts-check{
   flex:0 0 auto;width:22px;height:22px;margin:0;
-  accent-color:var(--lime);cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  border:1.5px solid var(--muted);border-radius:6px;
+  background:var(--tile2);cursor:pointer;
+  display:grid;place-content:center;
+  transition:background .15s,border-color .15s;
 }
+.ts-check::before{
+  content:'';width:11px;height:11px;
+  clip-path:polygon(14% 44%,0 60%,39% 100%,100% 18%,84% 0,39% 68%);
+  background:var(--dark);transform:scale(0);transition:transform .12s ease-out;
+}
+.ts-check:checked{background:var(--lime);border-color:var(--lime)}
+.ts-check:checked::before{transform:scale(1)}
+.ts-check:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 .ts-consent a{color:var(--link);text-decoration:underline}
 
 .ts-submit{
@@ -651,7 +665,16 @@ function onRulesKey (e) { if (e.key === 'Escape') closeRules() }
   box-shadow:0 8px 24px rgba(198,245,46,.18);
 }
 .ts-submit:not(:disabled):active{transform:scale(.985)}
-.ts-submit:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* Выключенная кнопка — отдельный цвет, а НЕ прозрачный лайм.
+   `opacity:.4` давал фактический #57682e (лайм, смешанный с фоном) и тёмный
+   текст по нему — 3.11:1, провал AA. Вдобавок кнопка выглядела грязно-оливковой,
+   то есть сломанной, а не выключенной. Теперь это спокойная плашка с читаемой
+   подписью: 5.71:1. */
+.ts-submit:disabled{
+  background:var(--tile2);color:var(--muted);
+  border:1px solid var(--line);
+  cursor:not-allowed;box-shadow:none;
+}
 
 .ts-error{
   margin:0;font-size:14px;font-weight:600;line-height:1.4;
