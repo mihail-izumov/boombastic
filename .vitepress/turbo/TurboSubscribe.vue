@@ -8,9 +8,17 @@
  *   Поменяется адрес — QR надо перегенерировать и переиздать носители в трёх
  *   парках. Поэтому путь turbo/index.md менять нельзя без этой работы.
  *
- * ⚠ QR ОДИН НА ВСЕ ТРИ ПАРКА и параметра ?park= не содержит. Определить парк
- *   из ссылки невозможно — поэтому выбор парка обязателен здесь, на странице.
- *   Если когда-нибудь QR перегенерируют с ?park=, префилл ниже это подхватит.
+ * ⚠ ПАРК ПРИХОДИТ ИЗ ССЫЛКИ И ТОГДА НЕ МЕНЯЕТСЯ. QR каждого парка кодирует
+ *   свой адрес (?park=ohta и т.д.), и гость, отсканировавший код у кассы Охты,
+ *   подписывается на Охту — переключателя ему не нужно.
+ *
+ *   Заход БЕЗ параметра остаётся рабочим и показывает выбор: по прямой ссылке,
+ *   из репоста или набранный руками адрес не должен превращаться в тупик.
+ *
+ * ⚠ ОПЕЧАТКА В ?park= НЕ ПОДМЕНЯЕТ ПАРК МОЛЧА. Ровно эти грабли ловили на
+ *   носителе ТУРБО в бою (v1.8): `piterlend` показывал Охту, и понять это по
+ *   экрану было нельзя. Здесь неизвестный код скатывается к выбору вручную —
+ *   лучше лишний вопрос гостю, чем подписка не на тот парк.
  *
  * ⚠ ДИЗАЙН — ЭТО СТИЛЬ b00m.fun, А НЕ boom-cmd. Сайт принудительно тёмный
  *   (appearance:false + classList.add('dark') в config.mts), палитра —
@@ -25,6 +33,15 @@ const PARKS = [
   { code: 'iyun', name: 'ТЦ Июнь' }
 ]
 
+/* Откуда пришёл гость. Пишется в колонку source и отвечает на вопрос, который
+   иначе не задать: работает экран у кассы или печатный тейблтент. Чужое
+   значение не пропускаем — в таблицу должно попадать только известное. */
+const SOURCES = { tv: 'turbo-tv', tent: 'turbo-tent', qr: 'turbo-qr' }
+
+/* Версия страницы. Нужна не для красоты: сегодня мы полдня выясняли, доехала
+   ли сборка до боя. Теперь это видно в DOM — data-v на корне. */
+const PAGE_VERSION = 'v1.1-park-lock'
+
 /* Эндпойнт приходит из переменной сборки, а не лежит строкой в репозитории.
    Секретом он не является — гость с телефона дёргает его сам, — но и
    индексировать его в публичном репо незачем. */
@@ -32,19 +49,42 @@ const API = import.meta.env.VITE_SUBSCRIBE_API || ''
 
 const email = ref('')
 const park = ref('')
+const parkLocked = ref(false) // парк пришёл из QR — переключатель не нужен
+const source = ref('turbo-qr')
 const consent = ref(false)
 const hp = ref('')          // honeypot: человек его не видит и не заполняет
 const openedAt = ref(0)     // сколько форма была открыта — фильтр от скриптов
 const state = ref('idle')   // idle | sending | done | error
 const errorText = ref('')
 
+/* Страница статическая: на сервере параметра ?park= ещё нет, и блок парка
+   отрисовался бы выбором из трёх кнопок, которые сразу после гидратации
+   схлопнулись бы в один зафиксированный парк. Гость успевает заметить это
+   мигание. Поэтому блок парка ждёт монтирования — место под него держит CSS,
+   чтобы форма не прыгала. */
+const ready = ref(false)
+
+const parkName = computed(() => (PARKS.find(p => p.code === park.value) || {}).name || '')
+
 onMounted(() => {
   openedAt.value = Date.now()
-  // Префилл парка, если он всё-таки пришёл в ссылке.
   try {
-    const p = new URLSearchParams(location.search).get('park')
-    if (p && PARKS.some(x => x.code === p)) park.value = p
+    // window.location, а не голый location: явнее и не зависит от того, есть
+    // ли глобальная переменная с таким именем в окружении, где идёт приёмка.
+    const q = new URLSearchParams(window.location.search)
+
+    const p = q.get('park')
+    if (p && PARKS.some(x => x.code === p)) {
+      park.value = p
+      parkLocked.value = true
+    }
+    // Неизвестный код НЕ подставляем: parkLocked остаётся false, гость видит
+    // выбор. Молчаливая подмена парка — та самая грабля носителя v1.8.
+
+    const s = q.get('src')
+    if (s && SOURCES[s]) source.value = SOURCES[s]
   } catch (e) { /* ссылка без параметров — обычный случай */ }
+  ready.value = true
 })
 
 const emailLooksOk = computed(() => /^[^\s@,;]+@[^\s@,;.]+\.[a-z]{2,}$/i.test(email.value.trim()))
@@ -73,7 +113,7 @@ async function submit () {
         consent: consent.value === true,
         dwell: Date.now() - openedAt.value,
         hp: hp.value,
-        source: 'turbo-qr'
+        source: source.value
       })
     })
     const data = await res.json()
@@ -101,7 +141,7 @@ function retry () { state.value = 'idle'; errorText.value = '' }
 </script>
 
 <template>
-  <div class="ts-page">
+  <div class="ts-page" :data-v="PAGE_VERSION">
     <div class="ts-wrap">
 
       <header class="ts-head">
@@ -129,9 +169,14 @@ function retry () { state.value = 'idle'; errorText.value = '' }
       <!-- ─────────── ФОРМА ─────────── -->
       <form v-else class="ts-card" @submit.prevent="submit">
 
-        <fieldset class="ts-field">
-          <legend class="ts-label">Твой парк</legend>
-          <div class="ts-parks">
+        <div class="ts-field ts-parkslot" role="group" aria-label="Твой парк">
+          <div class="ts-label">Твой парк</div>
+
+          <!-- Парк из QR: не выбор, а факт. Показываем, чтобы гость видел, на
+               что подписывается, — но переключать нечего. -->
+          <div v-if="ready && parkLocked" class="ts-parklock">{{ parkName }}</div>
+
+          <div v-else-if="ready" class="ts-parks">
             <button
               v-for="p in PARKS"
               :key="p.code"
@@ -142,8 +187,9 @@ function retry () { state.value = 'idle'; errorText.value = '' }
               @click="park = p.code"
             >{{ p.name }}</button>
           </div>
+
           <p class="ts-hint">Расписание у каждого парка своё</p>
-        </fieldset>
+        </div>
 
         <div class="ts-field">
           <label class="ts-label" for="ts-email">Почта</label>
@@ -250,6 +296,11 @@ function retry () { state.value = 'idle'; errorText.value = '' }
 }
 
 .ts-field{border:0;padding:0;margin:0;min-width:0}
+
+/* Место под блок парка держится заранее: он появляется после монтирования,
+   и без резерва форма дёргалась бы вверх-вниз на глазах у гостя.
+   52px — высота плашки/кнопок, 10px — отступ до подсказки. */
+.ts-parkslot{min-height:calc(52px + 10px + 34px)}
 .ts-label{
   display:block;font-size:13px;font-weight:700;color:var(--dim);
   letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px;padding:0;
@@ -272,6 +323,17 @@ function retry () { state.value = 'idle'; errorText.value = '' }
   background:rgba(0,212,255,.14);
 }
 .ts-hint{font-size:12.5px;color:var(--dim);margin:8px 0 0}
+
+/* Зафиксированный парк. Намеренно НЕ похож на кнопку: если он выглядит
+   нажимаемым, гость будет по нему стучать и решит, что страница сломана. */
+.ts-parklock{
+  min-height:52px;display:flex;align-items:center;
+  padding:12px 14px;border-radius:10px;
+  border:1.5px solid rgba(0,212,255,.35);
+  background:rgba(0,212,255,.10);
+  font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;
+  color:var(--ink);
+}
 
 .ts-input{
   width:100%;min-height:52px;box-sizing:border-box;
