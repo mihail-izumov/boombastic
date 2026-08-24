@@ -244,6 +244,10 @@ export default defineConfig({
   base: '/',
   cleanUrls: true,
   outDir: '.vitepress/dist',
+
+  /* Служебные файлы — не превращать в страницы сайта */
+  srcExclude: ['ШПАРГАЛКА.md', 'БЕЗОПАСНОСТЬ.md', 'README.md'],
+
   description: 'Игровые парки для детей и их родителей.',
 
   themeConfig: {
