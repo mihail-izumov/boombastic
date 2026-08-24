@@ -74,8 +74,14 @@ onUnmounted(() => {
       </span>
     </h1>
 
-    <p class="hero-subtitle" :style="{ opacity: visible ? 1 : 0, transition: 'all 0.7s ease 0.3s', position: 'relative' }">
-      Аркадные парки БумБастик<br>каждый день с 10 до 22
+    <!-- Подзаголовок набран так же, как заголовок на странице «Парки»:
+         две строки, заглавными, первая — лаймовая, вторая — белая -->
+    <div class="hero-tagline" :style="{ opacity: visible ? 1 : 0, transition: 'all 0.7s ease 0.3s', position: 'relative' }">
+      <span class="hero-tagline-line1">Семейные</span>
+      <span class="hero-tagline-line2">парки развлечений</span>
+    </div>
+    <p class="hero-subtitle" :style="{ opacity: visible ? 1 : 0, transition: 'all 0.7s ease 0.38s', position: 'relative' }">
+      каждый день с 10 до 22
     </p>
 
     <div :style="{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center', opacity: visible ? 1 : 0, transition: 'all 0.7s ease 0.45s', position: 'relative' }">
@@ -98,9 +104,28 @@ onUnmounted(() => {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 100px 24px 70px; overflow: hidden;
 }
+/* Две строки заглавными — набор такой же, как заголовок страницы «Парки» */
+.hero-tagline {
+  display: flex; flex-direction: column; align-items: center;
+  line-height: 1.06; margin: 0 0 12px;
+}
+.hero-tagline-line1,
+.hero-tagline-line2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+}
+.hero-tagline-line1 {
+  font-size: clamp(24px, 5vw, 42px);
+  color: var(--lime); text-shadow: 0 0 30px rgba(197, 249, 70, 0.3);
+}
+.hero-tagline-line2 {
+  font-size: clamp(18px, 3.7vw, 32px);
+  color: #F0F4FF;
+}
+
 .hero-subtitle {
-  font-family: var(--font-head); font-size: clamp(20px, 4vw, 34px); font-weight: 600;
-  color: #fff; margin: 0 0 36px; max-width: 560px; line-height: 1.3;
+  font-family: var(--font-head); font-size: clamp(15px, 2.6vw, 19px); font-weight: 500;
+  color: rgba(255,255,255,0.55); margin: 0 0 36px; max-width: 560px; line-height: 1.3;
 }
 .hero-start {
   position: absolute; bottom: 20px; cursor: pointer;
@@ -109,7 +134,9 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .hero-section { padding: 56px 16px 64px; }
-  .hero-subtitle { font-size: clamp(17px, 5vw, 24px); margin: 0 0 28px; }
+  .hero-tagline-line1 { font-size: clamp(22px, 6.4vw, 32px); }
+  .hero-tagline-line2 { font-size: clamp(16px, 4.8vw, 24px); }
+  .hero-subtitle { font-size: clamp(14px, 3.6vw, 17px); margin: 0 0 28px; }
   .hero-start { bottom: 12px; }
 }
 @media (max-height: 680px) {

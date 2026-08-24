@@ -105,8 +105,8 @@ function closeModal() {
     <div class="parks-header">
       <!-- Заголовок как вход в портал -->
       <div class="parks-title">
-        <span class="parks-title-line1">Аркадные</span>
-        <span class="parks-title-line2">парки</span>
+        <span class="parks-title-line1">Семейные</span>
+        <span class="parks-title-line2">парки развлечений</span>
       </div>
       <p class="parks-subtitle">3 парка · 367 машин</p>
 
@@ -370,6 +370,8 @@ function closeModal() {
 
 .parks-title-line2 {
   color: #F0F4FF;
+  /* Вторая строка длиннее первой — набираем помельче, чтобы влезала на телефоне */
+  font-size: clamp(22px, 4.4vw, 38px);
 }
 
 .parks-subtitle {
@@ -1150,8 +1152,8 @@ function closeModal() {
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
   .parks-header { padding-top: 32px; }
-  .parks-title-line1,
-  .parks-title-line2 { font-size: clamp(28px, 8vw, 40px); }
+  .parks-title-line1 { font-size: clamp(28px, 8vw, 40px); }
+  .parks-title-line2 { font-size: clamp(19px, 5.6vw, 28px); }
   .parks-grid { padding: 20px 16px; }
   .park-card { max-width: 100%; }
   .park-card-name { font-size: 22px; letter-spacing: 1.5px; }
