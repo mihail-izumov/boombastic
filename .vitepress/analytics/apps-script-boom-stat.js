@@ -88,8 +88,14 @@ function buildRow_(p) {
   var now = new Date();
   var tz  = Session.getScriptTimeZone();
 
+  /* ⚠ ВРЕМЯ ПИШЕМ СТРОКОЙ, А НЕ ОБЪЕКТОМ ДАТЫ. Часовых поясов в Google
+     ДВА и они не связаны: у скрипта (Настройки проекта) и у таблицы
+     (Файл → Настройки). Объект даты — это момент времени, и таблица
+     показывает его по СВОЕМУ поясу. 24.08 из-за этого событие 13:23 по
+     Москве отображалось как 02:23: у таблицы после импорта стоял GMT-08:00.
+     Готовая строка так не съезжает — что записали, то и видно. */
   return [
-    now,
+    Utilities.formatDate(now, tz, 'yyyy-MM-dd HH:mm:ss'),
     Utilities.formatDate(now, tz, 'yyyy-MM-dd'),
     event,
     clean_(p.page, 120),
@@ -108,8 +114,38 @@ function clean_(v, max) {
   return String(v).replace(/[\r\n\t]/g, ' ').slice(0, max);
 }
 
-function hitsSheet_() {
+/**
+ * Таблица, с которой работаем.
+ *
+ * ⚠ ПОЧЕМУ НЕ ПРОСТО getActiveSpreadsheet(). Он возвращает таблицу только
+ *   если проект скрипта создан ИЗ НЕЁ (Расширения → Apps Script). Если
+ *   завести скрипт отдельно, на script.google.com, он вернёт null, и всё
+ *   упадёт с «Cannot read properties of null» — понять по этой строке, что
+ *   именно не так, невозможно. Ровно на этом застряли 24.08.
+ *
+ *   Поэтому: сначала пробуем свою таблицу, потом — ту, чей ID лежит в
+ *   свойствах скрипта (SHEET_ID), а если нет ни того ни другого — говорим
+ *   человеческим языком, что делать.
+ *
+ *   ID держим в свойствах, а не в коде: репозиторий публичный.
+ */
+function ss_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (ss) return ss;
+
+  var id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+
+  throw new Error(
+    'Скрипт не привязан к таблице. Либо создайте его заново из самой ' +
+    'таблицы (Расширения → Apps Script), либо в «Настройки проекта» → ' +
+    '«Свойства скрипта» добавьте SHEET_ID — это набор символов из адреса ' +
+    'таблицы между /d/ и /edit.'
+  );
+}
+
+function hitsSheet_() {
+  var ss = ss_();
   var sh = ss.getSheetByName(HITS_SHEET);
   if (!sh) {
     sh = ss.insertSheet(HITS_SHEET);
@@ -129,7 +165,7 @@ function hitsSheet_() {
  * из свода одинаково легко собрать и воронку, и график посещаемости.
  */
 function rebuildDaily() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = ss_();
   var hits = hitsSheet_().getDataRange().getValues();
   if (hits.length < 2) return;
 
@@ -182,8 +218,7 @@ function doGet(e) {
 
   if (which === DAILY_SHEET) rebuildDaily();
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = ss.getSheetByName(which);
+  var sh = ss_().getSheetByName(which);
   if (!sh) return ContentService.createTextOutput('нет данных');
 
   var values = sh.getDataRange().getValues();
@@ -228,13 +263,24 @@ function onOpen() {
     .addToUi();
 }
 
-/** Пишет одну тестовую строку — проверить, что всё настроено. */
+/**
+ * Пишет одну тестовую строку — проверить, что всё настроено.
+ *
+ * ⚠ БЕЗ ВСПЛЫВАЮЩИХ ОКОН. Раньше здесь был SpreadsheetApp.getUi().alert() —
+ *   он работает из меню таблицы, но падает при запуске из редактора скрипта
+ *   («Cannot call SpreadsheetApp.getUi() from this context»), а именно так
+ *   эту функцию и запускают первый раз, чтобы выдать Google разрешения.
+ *   Результат теперь пишется в журнал выполнения — он виден в обоих случаях.
+ */
 function testHit() {
-  doPost({ postData: { contents: JSON.stringify({
+  var res = doPost({ postData: { contents: JSON.stringify({
     event: 'pageview', page: '/тест', park: 'ohta', source: 'тест',
     visitor: 'test-visitor', session: 'test-session', first: 1, device: 'mobile'
   }) } });
-  SpreadsheetApp.getUi().alert('Готово. Смотри лист «hits» — там появилась строка «/тест».');
+
+  Logger.log('Ответ скрипта: ' + res.getContent());
+  Logger.log('Строк в листе hits: ' + hitsSheet_().getLastRow());
+  Logger.log('Готово. Открой лист «hits» — там должна быть строка «/тест».');
 }
 
 function json_(obj) {
