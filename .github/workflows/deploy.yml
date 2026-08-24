@@ -45,6 +45,9 @@ jobs:
         run: npm run docs:build
         env:
           VITE_SUBSCRIBE_API: ${{ secrets.VITE_SUBSCRIBE_API }}
+          # Адрес Apps Script счётчика. Нет строки здесь — счётчик молча
+          # выключен, даже если секрет в GitHub заведён. Настройка — СЧЁТЧИК.md
+          VITE_STAT_API: ${{ secrets.VITE_STAT_API }}
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -14,9 +14,10 @@ export default defineConfig({
   buildEnd(siteConfig) {},
 
   head: [
-    /* === Plausible Analytics === */
-    ['script', { defer: '', 'data-domain': 'b00m.fun', src: 'https://plausible.io/js/pa-QfbhFzoy5wEYNES7ufi0v.js' }],
-    ['script', {}, `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`],
+    /* === Аналитика ===
+       Plausible убран 24.08.2026 (решение владельца). Считаем сами:
+       .vitepress/analytics/boom-stat.js подключается из theme/index.ts и
+       пишет события в Google-таблицу. Внешних скриптов здесь больше нет. */
 
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/shark-eyes-icon-electric.svg' }],
     ['link', { rel: 'shortcut icon', href: '/shark-eyes-icon-electric.svg' }],
@@ -41,10 +42,13 @@ export default defineConfig({
     (function() {
       document.documentElement.classList.add('dark');
 
-      /* === Plausible: хелпер для отправки событий === */
+      /* === Счётчик: хелпер для отправки событий ===
+         window.boomTrack вешает .vitepress/analytics/boom-stat.js. Этот
+         скрипт живёт вне Vue и грузится раньше, поэтому проверяем наличие
+         функции каждый раз, а не один раз при старте. */
       function track(name, props) {
         try {
-          if (window.plausible) window.plausible(name, props ? { props: props } : undefined);
+          if (window.boomTrack) window.boomTrack(name, props);
         } catch (e) {}
       }
 
@@ -246,7 +250,7 @@ export default defineConfig({
   outDir: '.vitepress/dist',
 
   /* Служебные файлы — не превращать в страницы сайта */
-  srcExclude: ['ШПАРГАЛКА.md', 'БЕЗОПАСНОСТЬ.md', 'README.md'],
+  srcExclude: ['ШПАРГАЛКА.md', 'БЕЗОПАСНОСТЬ.md', 'СЧЁТЧИК.md', 'CLAUDE.md', 'README.md'],
 
   description: 'Игровые парки для детей и их родителей.',
 

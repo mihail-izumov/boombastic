@@ -2,6 +2,12 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { lkParks, PARK_STORAGE_KEY } from '../data/parks'
 
+/* Счётчик. Это главные две точки воронки: «Войти» — открыл модалку,
+   «Войти — парк» — ушёл в личный кабинет. Второе событие уходит в момент,
+   когда браузер уже открывает чужой сайт, поэтому boom-stat шлёт его
+   через sendBeacon — обычный запрос гость успел бы оборвать. */
+import { track } from '../analytics/boom-stat'
+
 const isOpen = ref(false)
 
 /* #RRGGBB → rgba(...) — так же, как в ParkCard.vue.
@@ -33,14 +39,6 @@ function parkVars(p) {
     '--pk-28': rgba(p.accent, 0.28),
     '--pk-60': rgba(p.accent, 0.6),
   }
-}
-
-function track(name, props) {
-  try {
-    if (typeof window !== 'undefined' && window.plausible) {
-      window.plausible(name, props ? { props } : undefined)
-    }
-  } catch (e) {}
 }
 
 function open() {

@@ -64,13 +64,16 @@ git status --short | sed 's/^/     /'
 echo ""
 echo "  Объём правок:"
 echo ""
-git add -A -n >/dev/null 2>&1
-git diff HEAD --stat | sed 's/^/     /'
+# --intent-to-add регистрирует новые файлы, чтобы они попали в подсчёт строк.
+# Содержимое при этом не фиксируется — коммит делается ниже, после подтверждения.
+git add -A --intent-to-add >/dev/null 2>&1
+git diff --stat | sed 's/^/     /'
 echo ""
 
 read -r -p "  Всё верно, публикуем? (д — да, п — посмотреть правки, н — отмена) " CHECK
 case "$CHECK" in
   [пПpP])
+    git reset --quiet >/dev/null 2>&1   # вернуть индекс в исходное состояние
     echo ""
     echo "  Открываю GitHub Desktop — посмотрите правки там и запустите этот файл снова."
     open -a "GitHub Desktop" "$(pwd)" 2>/dev/null || open "$(pwd)"
@@ -78,6 +81,7 @@ case "$CHECK" in
     ;;
   [дДyY]) ;;
   *)
+    git reset --quiet >/dev/null 2>&1   # вернуть индекс в исходное состояние
     echo ""
     echo "  Отменено. Ничего не опубликовано."
     finish 0

@@ -20,6 +20,10 @@ import TermsOfertaPiterland from '../terms/TermsOfertaPiterland.vue'
 import TermsPolicy from '../terms/TermsPolicy.vue'
 import TermsPrivacy from '../terms/TermsPrivacy.vue'
 import TurboSubscribe from '../turbo/TurboSubscribe.vue'
+import Bonus500Page from '../components/Bonus500Page.vue'
+
+// Свой счётчик вместо Plausible. Код и объяснения — в .vitepress/analytics/
+import { setup as setupStat, pageview as statPageview } from '../analytics/boom-stat'
 
 export default {
   extends: DefaultTheme,
@@ -47,7 +51,23 @@ export default {
     app.component('TermsPolicy', TermsPolicy)
     app.component('TermsPrivacy', TermsPrivacy)
     app.component('TurboSubscribe', TurboSubscribe)
-    
+    app.component('Bonus500Page', Bonus500Page)
+
+    /* === Счётчик посещений ===
+       Первое открытие считаем сами: onAfterRouteChanged срабатывает только
+       на переходах внутри сайта, а на самый первый заход — нет. Именно этот
+       заход нам и нужен: гость приходит с наклейки сразу на нужную страницу
+       и часто уходит с неё же в личный кабинет, не кликнув больше никуда. */
+    if (typeof window !== 'undefined') {
+      setupStat()
+      statPageview()
+
+      const prevAfter = router.onAfterRouteChanged
+      router.onAfterRouteChanged = (to) => {
+        if (prevAfter) prevAfter(to)
+        statPageview()
+      }
+    }
 
     if (typeof window !== 'undefined' && 'startViewTransition' in document) {
       let transitioning = false
