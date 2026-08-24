@@ -24,6 +24,34 @@ echo "  ║   Публикация сайта на b00m.fun         ║"
 echo "  ╚════════════════════════════════════════╝"
 echo ""
 
+# --- Есть ли коммиты, которые не доехали до GitHub? ---
+git fetch --quiet 2>/dev/null
+UNPUSHED=$(git log origin/main..HEAD --oneline 2>/dev/null)
+
+if [ -n "$UNPUSHED" ]; then
+  echo "  ⚠️  Есть сохранённые изменения, которые не доехали до GitHub:"
+  echo ""
+  echo "$UNPUSHED" | sed 's/^/     /'
+  echo ""
+  echo "  📤 Дослать их на GitHub..."
+  if git push; then
+    echo ""
+    echo "  ✅ Готово! Изменения опубликованы."
+    echo "     Сайт обновится через 1–2 минуты: https://b00m.fun"
+  else
+    echo ""
+    echo "  ❌ Не удалось отправить. Проверьте интернет и запустите файл снова."
+    finish 1
+  fi
+  echo ""
+  # Если больше ничего не менялось — на этом всё
+  if [ -z "$(git status --porcelain)" ]; then
+    finish 0
+  fi
+  echo "  Продолжаю — есть ещё несохранённые правки."
+  echo ""
+fi
+
 # --- Что изменилось ---
 if [ -z "$(git status --porcelain)" ]; then
   echo "  ℹ️  Изменений нет — публиковать нечего."
