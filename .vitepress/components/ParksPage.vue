@@ -45,27 +45,31 @@ const parks = [
     glowColor2: 'rgba(0,255,136,0.12)',
   },
   {
-    id: 'mari',
-    name: 'MARI',
-    city: 'msk',
-    address: 'ул. Поречная, 10, этаж 5',
+    id: 'iyun',
+    name: 'Июнь',
+    city: 'spb',
+    address: 'Индустриальный просп., 24, этаж 3',
     hours: '10:00 – 22:00',
-    machines: 183,
-    mapUrl: 'https://yandex.ru/maps/org/bumbastik/85769777303/',
-    topMachines: ['Funky Box', 'Treasure Quest', 'Big Bass Wheel'],
-    nearby: ['Кинотеатр', 'Фудкорт', 'Каток'],
-    tagColor: '#FFD60A',
-    accent: '#FFD60A',
-    shortDesc: 'Самый большой парк БумБастик',
-    fullDesc: 'Самый большой парк БумБастик. 183 автомата — максимум в сети. 5 этаж ТРК MARI. Danz Base для любителей танцевальных баттлов.',
-    glowColor1: 'rgba(255,214,10,0.06)',
-    glowColor2: 'rgba(255,214,10,0.12)',
+    machines: 102,
+    mapUrl: 'https://yandex.ru/maps/org/bumbastik/169319458210/',
+    topMachines: ['Big Bass Wheel Pro', 'Treasure Quest', 'Rescue Hero'],
+    nearby: ['Superland', 'Mori Cinema', 'Боулинг', 'Фудкорт'],
+    tagColor: '#00D4FF',
+    accent: '#00D4FF',
+    shortDesc: 'Самый новый парк сети',
+    fullDesc: 'Самый молодой парк БумБастик — открылся в июне 2026 на 3 этаже ТК «Июнь». Свежий парк аппаратов, Pump It Up Prime 2 и Drum Party для любителей ритма.',
+    glowColor1: 'rgba(0,212,255,0.06)',
+    glowColor2: 'rgba(0,212,255,0.12)',
   },
 ]
 
+/* Города. Сейчас все парки в Петербурге, поэтому переключатель скрыт
+   (см. v-if="false" в шаблоне) — в коде оставлен на будущее.
+   Появится парк в другом городе: поставить ему city, обновить parks
+   в списке ниже и включить переключатель обратно. */
 const cities = [
-  { id: 'spb', label: 'Санкт-Петербург', parks: 2, vk: 'bumbastik_spb', vkUrl: 'https://vk.com/bumbastik_spb' },
-  { id: 'msk', label: 'Москва', parks: 1, vk: 'bumbastik_msc', vkUrl: 'https://vk.com/bumbastik_msc' },
+  { id: 'spb', label: 'Санкт-Петербург', parks: 3, vk: 'bumbastik_spb', vkUrl: 'https://vk.com/bumbastik_spb' },
+  { id: 'msk', label: 'Москва', parks: 0, vk: 'bumbastik_msc', vkUrl: 'https://vk.com/bumbastik_msc' },
 ]
 
 /* ═══════════════════════════════════════
@@ -104,10 +108,14 @@ function closeModal() {
         <span class="parks-title-line1">Аркадные</span>
         <span class="parks-title-line2">парки</span>
       </div>
-      <p class="parks-subtitle">3 парка · 448 машин</p>
+      <p class="parks-subtitle">3 парка · 367 машин</p>
 
-      <!-- City Tabs -->
-      <div class="parks-tabs">
+      <!-- Город подзаголовком — пока все парки в одном городе -->
+      <div class="parks-city">{{ currentCity.label }}</div>
+
+      <!-- City Tabs — скрыты (v-if="false"), пока город один.
+           Появится парк в другом городе — убрать v-if. -->
+      <div class="parks-tabs" v-if="false">
         <button
           v-for="city in cities"
           :key="city.id"
@@ -369,6 +377,17 @@ function closeModal() {
   font-size: 15px;
   color: #7A8BA8;
   margin-top: 12px;
+}
+
+/* Город подзаголовком (вместо переключателя городов) */
+.parks-city {
+  margin-top: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #C5F946;
 }
 
 /* ═══════════════════════════════════════

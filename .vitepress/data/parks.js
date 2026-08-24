@@ -37,14 +37,6 @@ export const parks = [
     accent: '#00D4FF',
     lk: { status: 'active', url: 'https://jun.b00m.fun/' },
   },
-  {
-    id: 'mari',
-    name: 'MARI',
-    address: 'ул. Поречная, 10',
-    accent: '#FFD60A',
-    // В модалке ЛК не показывается. Появится ЛК — поменять на 'soon' / 'active'.
-    lk: { status: 'none', url: '' },
-  },
 ]
 
 /* Парки, попадающие в модалку «Войти» */
