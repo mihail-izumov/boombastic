@@ -7,7 +7,12 @@
  *
  * Что делает:
  *   doPost — принимает событие от сайта и дописывает строку в лист `hits`.
- *   doGet  — отдаёт свод по дням в CSV (для выгрузки в boom-cmd-data).
+ *   doGet  — отдаёт `hits` в CSV (для выгрузки в boom-cmd-data).
+ *
+ * Лист один. Свод по дням тут когда-то собирался автоматически во второй
+ * лист `daily`, но 24.08 его убрали (решение владельца): всё считается из
+ * `hits` сводными таблицами, а лист, в который никто не заглядывает, только
+ * плодит вопросы «какая из двух цифр правильная».
  *
  * Чего НЕ делает: не хранит имена, почты и телефоны. В таблицу попадает
  * только случайный номер посетителя (visitor), который живёт в его браузере,
@@ -21,12 +26,11 @@
 
 /* ── Настройки ────────────────────────────────────────────────────────── */
 
-var HITS_SHEET  = 'hits';   // сырые события, одна строка = одно событие
-var DAILY_SHEET = 'daily';  // свод по дням, пересобирается функцией ниже
+var HITS_SHEET = 'hits';   // единственный лист: одна строка = одно событие
 
 var HITS_HEADER = [
-  'ts',        // когда пришло (время таблицы)
-  'date',      // дата, по ней строится свод
+  'ts',        // когда пришло, строкой по московскому времени
+  'date',      // та же дата отдельно — по ней удобно группировать
   'event',     // что произошло: 'pageview', 'Войти', 'Войти — парк', ...
   'page',      // адрес страницы без домена: /bonus500/ohtamall
   'park',      // код парка: ohta / piterland / june / mari / '' если не про парк
@@ -155,80 +159,34 @@ function hitsSheet_() {
   return sh;
 }
 
-/* ── Свод по дням ─────────────────────────────────────────────────────── */
-
-/**
- * Пересобирает лист `daily` из `hits`. Запускается из меню «БумБастик»
- * и раз в сутки по расписанию (триггер настраивается один раз).
- *
- * Одна строка = один день + одна страница + одно событие. В таком виде
- * из свода одинаково легко собрать и воронку, и график посещаемости.
- */
-function rebuildDaily() {
-  var ss = ss_();
-  var hits = hitsSheet_().getDataRange().getValues();
-  if (hits.length < 2) return;
-
-  var iDate    = HITS_HEADER.indexOf('date');
-  var iEvent   = HITS_HEADER.indexOf('event');
-  var iPage    = HITS_HEADER.indexOf('page');
-  var iPark    = HITS_HEADER.indexOf('park');
-  var iSource  = HITS_HEADER.indexOf('source');
-  var iVisitor = HITS_HEADER.indexOf('visitor');
-
-  var SEP = String.fromCharCode(1);   // разделитель ключа: в данных такого символа не бывает
-  var agg = {};   // ключ → { hits: n, visitors: {} }
-  for (var r = 1; r < hits.length; r++) {
-    var row = hits[r];
-    var d = row[iDate];
-    if (d instanceof Date) {
-      d = Utilities.formatDate(d, Session.getScriptTimeZone(), 'yyyy-MM-dd');
-    }
-    var key = [d, row[iPage], row[iPark], row[iSource], row[iEvent]].join(SEP);
-    if (!agg[key]) agg[key] = { n: 0, v: {} };
-    agg[key].n++;
-    if (row[iVisitor]) agg[key].v[row[iVisitor]] = 1;
-  }
-
-  var out = [['date', 'page', 'park', 'source', 'event', 'hits', 'visitors']];
-  Object.keys(agg).sort().forEach(function (key) {
-    var parts = key.split(SEP);
-    out.push(parts.concat([agg[key].n, Object.keys(agg[key].v).length]));
-  });
-
-  var sh = ss.getSheetByName(DAILY_SHEET) || ss.insertSheet(DAILY_SHEET);
-  sh.clear();
-  sh.getRange(1, 1, out.length, out[0].length).setValues(out);
-  sh.setFrozenRows(1);
-}
-
 /* ── Выгрузка ─────────────────────────────────────────────────────────── */
 
 /**
- * Открыть адрес веб-приложения в браузере — скачается CSV со сводом.
+ * Открыть адрес веб-приложения в браузере — скачается CSV со всеми событиями.
  * Кладётся в ~/work-2026/boombastic/boom-cmd-data.
  *
- *   ...?csv=daily            — свод по дням (по умолчанию)
- *   ...?csv=hits             — сырые события
- *   ...?csv=daily&from=2026-08-01&to=2026-08-31  — за период
+ *   ...exec                                  — всё, что накопилось
+ *   ...exec?from=2026-08-01&to=2026-08-31     — только за период
+ *
+ * Свода по дням здесь нет намеренно: считаем сводными таблицами прямо
+ * по этим строкам, чтобы цифра была одна и её нельзя было пересобрать
+ * «не так».
  */
 function doGet(e) {
   var q = (e && e.parameter) || {};
-  var which = q.csv === 'hits' ? HITS_SHEET : DAILY_SHEET;
 
-  if (which === DAILY_SHEET) rebuildDaily();
-
-  var sh = ss_().getSheetByName(which);
+  var sh = ss_().getSheetByName(HITS_SHEET);
   if (!sh) return ContentService.createTextOutput('нет данных');
 
   var values = sh.getDataRange().getValues();
+  var iDate = HITS_HEADER.indexOf('date');
   var from = q.from || '';
   var to   = q.to   || '';
 
   var lines = values.filter(function (row, i) {
     if (i === 0) return true;                     // заголовок всегда
     if (!from && !to) return true;
-    var d = row[0];
+    var d = row[iDate];
     if (d instanceof Date) {
       d = Utilities.formatDate(d, Session.getScriptTimeZone(), 'yyyy-MM-dd');
     }
@@ -238,6 +196,8 @@ function doGet(e) {
     return true;
   }).map(function (row) {
     return row.map(function (cell) {
+      /* Старые строки, записанные до 24.08, лежат объектами даты — приводим
+         их к тому же виду, что и новые, иначе в CSV поедет разный формат. */
       if (cell instanceof Date) {
         return Utilities.formatDate(cell, Session.getScriptTimeZone(),
           'yyyy-MM-dd HH:mm:ss');
@@ -250,7 +210,7 @@ function doGet(e) {
   return ContentService
     .createTextOutput('﻿' + lines.join('\n'))   // BOM — чтобы Excel не ломал кириллицу
     .setMimeType(ContentService.MimeType.CSV)
-    .downloadAsFile('boom-stat-' + which + '.csv');
+    .downloadAsFile('boom-stat.csv');
 }
 
 /* ── Меню в таблице ───────────────────────────────────────────────────── */
@@ -258,7 +218,6 @@ function doGet(e) {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('БумБастик')
-    .addItem('Пересобрать свод по дням', 'rebuildDaily')
     .addItem('Проверить приём событий', 'testHit')
     .addToUi();
 }
