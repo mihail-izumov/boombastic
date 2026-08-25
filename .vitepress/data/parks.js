@@ -27,8 +27,7 @@ export const parks = [
     name: 'Питерлэнд',
     address: 'Приморский пр., 72',
     accent: '#00FF88',
-    // TODO: включить, когда поднимется ptl.b00m.fun
-    lk: { status: 'soon', url: '' },
+    lk: { status: 'active', url: 'https://ptl.b00m.fun' },
   },
   {
     id: 'june',
