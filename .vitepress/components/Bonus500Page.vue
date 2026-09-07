@@ -51,7 +51,11 @@ function claim () {
   <div v-if="data" class="b5" :style="{ '--pk': data.accent }">
     <!-- ── Шапка: ровно то же, что на наклейке ───────────────────────── -->
     <header class="b5-hero">
-      <div class="b5-floor">{{ data.floor }} ЭТАЖ · {{ data.name.toUpperCase() }}</div>
+      <!-- Этаж не у всех парков: Питерлэнд занимает не один этаж, и цифра
+           там врала бы. Пустой floor в bonus500.js = строка без этажа. -->
+      <div class="b5-floor">
+        <template v-if="data.floor">{{ data.floor }} ЭТАЖ · </template>{{ data.name.toUpperCase() }}
+      </div>
 
       <div class="b5-badge">НА СТАРТ</div>
       <h1 class="b5-title">БОНУС</h1>
