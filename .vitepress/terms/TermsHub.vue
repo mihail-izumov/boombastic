@@ -29,12 +29,14 @@
       <div class="park-switcher">
         <button class="park-btn park-ohta"      :class="{ active: activePark === 'ohta' }"      @click="activePark = 'ohta'">Охта Молл</button>
         <button class="park-btn park-piterland"  :class="{ active: activePark === 'piterland' }" @click="activePark = 'piterland'">Питерлэнд</button>
+        <button class="park-btn park-june"       :class="{ active: activePark === 'june' }"      @click="activePark = 'june'">Июнь</button>
       </div>
     </div>
 
     <div class="tab-content">
       <TermsOfertaOhta      v-if="activeSection === 'oferta'  && activePark === 'ohta'" />
       <TermsOfertaPiterland v-if="activeSection === 'oferta'  && activePark === 'piterland'" />
+      <TermsOfertaIyun      v-if="activeSection === 'oferta'  && activePark === 'june'" />
       <TermsPolicy          v-if="activeSection === 'policy'" />
       <TermsPrivacy         v-if="activeSection === 'privacy'" />
     </div>
@@ -57,6 +59,13 @@
           </div>
         </div>
         <div class="footer-item">
+          <span class="footer-icon" :style="{ maskImage: phoneIcon, WebkitMaskImage: phoneIcon }"></span>
+          <div class="footer-col">
+            <div class="footer-label">Июнь</div>
+            <a href="tel:+79643211100" class="footer-link">+7 (964) 321-11-00</a>
+          </div>
+        </div>
+        <div class="footer-item">
           <span class="footer-icon" :style="{ maskImage: mailIcon, WebkitMaskImage: mailIcon }"></span>
           <div class="footer-col">
             <div class="footer-label">Email</div>
@@ -74,6 +83,7 @@
 import { ref } from 'vue'
 import TermsOfertaOhta      from './TermsOfertaOhta.vue'
 import TermsOfertaPiterland from './TermsOfertaPiterland.vue'
+import TermsOfertaIyun      from './TermsOfertaIyun.vue'
 import TermsPolicy          from './TermsPolicy.vue'
 import TermsPrivacy         from './TermsPrivacy.vue'
 
@@ -172,7 +182,8 @@ const mailIcon  = ic(`<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x
 .park-btn:hover { color: #F0F4FF; background: rgba(255,255,255,0.08); }
 
 .park-ohta.active      { color: #fff;    background: #FF0080; }
-.park-piterland.active { color: #0D1421; background: #00D4FF; }
+.park-piterland.active { color: #0D1421; background: #00FF88; }
+.park-june.active      { color: #0D1421; background: #00D4FF; }
 
 /* ── Content ── */
 .tab-content { min-height: 400px; }
