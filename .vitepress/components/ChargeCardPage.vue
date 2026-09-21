@@ -205,7 +205,7 @@ function openLoginModal() {
               <span class="turbo-price-value">33</span>
               <span class="turbo-price-currency">₽</span>
             </div>
-            <p class="turbo-desc">за <strong>любой</strong> автомат вместо 40–80₽</p>
+            <p class="turbo-desc">за <strong>большинство</strong> автоматов вместо 33–100₽</p>
           </div>
           
           <div class="turbo-comparison">
