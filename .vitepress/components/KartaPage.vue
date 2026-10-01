@@ -64,9 +64,9 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   <div v-if="data" class="kt" :style="{ '--pk': data.accent }">
     <!-- ── 1. Первый экран: карта + вопрос + кнопка ───────────────────── -->
     <header class="kt-hero">
-      <!-- Плашка парка: бренд на лайме + название парка крупно -->
+      <!-- Плашка парка: «парк развлечений» на лайме + название парка крупно -->
       <div class="kt-park">
-        <span class="kt-park-brand">БУМБАСТИК</span>
+        <span class="kt-park-brand">ПАРК<br>РАЗВЛЕЧЕНИЙ</span>
         <span class="kt-park-name">{{ data.name }}</span>
       </div>
 
@@ -157,7 +157,8 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   display: flex; align-items: center;
   padding: 8px 12px;
   background: var(--lime); color: var(--bg-deep);
-  font-family: var(--font-head); font-weight: 900; font-size: 14px; letter-spacing: 0.06em;
+  font-family: var(--font-head); font-weight: 900; font-size: 12px; line-height: 1.15; letter-spacing: 0.06em;
+  text-align: left;   /* «ПАРК / РАЗВЛЕЧЕНИЙ» в две строки — плашка не шире экрана */
 }
 .kt-park-name {
   display: flex; align-items: center;
