@@ -146,7 +146,7 @@ export default defineConfig({
           a.style.cssText = "flex:1;display:flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:8px;border:1px solid rgba(255,0,128,0.2);background:rgba(255,0,128,0.06);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#FF0080;text-decoration:none;transition:all 0.2s;cursor:pointer;";
           a.addEventListener('mouseenter', function() { this.style.background='rgba(255,0,128,0.2)'; this.style.borderColor='rgba(255,0,128,0.5)'; });
           a.addEventListener('mouseleave', function() { this.style.background='rgba(255,0,128,0.06)'; this.style.borderColor='rgba(255,0,128,0.2)'; });
-          a.addEventListener('click', function() { track('Призотека парк', { park: park }); closeGameModeModal(); });
+          a.addEventListener('click', function() { track('Призотека — парк', { park: park }); closeGameModeModal(); });
           return a;
         }
 
