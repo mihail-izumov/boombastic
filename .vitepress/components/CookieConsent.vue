@@ -31,6 +31,10 @@ const CONSENT_KEY = 'boom_cookie_consent'
 const visible = ref(false)
 const phase = ref('idle')      // idle → in → out
 const flashMsg = ref(null)     // { text, type }
+/* На страницах, куда ведут QR ТВ-экранов (/karta/…), гость пришёл за одной
+   кнопкой — большой баннер закрывал её. Там он компактный (одна строка +
+   кнопки) и появляется позже. Выбор и запись согласия — те же. */
+const compact = ref(false)
 
 function generateSessionId() {
   return 's_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
@@ -67,10 +71,11 @@ onMounted(() => {
   try {
     if (localStorage.getItem(CONSENT_KEY)) return
   } catch {}
+  compact.value = window.location.pathname.startsWith('/karta/')
   setTimeout(() => {
     visible.value = true
     phase.value = 'in'
-  }, 900)
+  }, compact.value ? 4000 : 900)
 })
 </script>
 
@@ -78,7 +83,7 @@ onMounted(() => {
   <!-- Баннер -->
   <Teleport to="body">
     <div v-if="visible" class="boom-cookie-overlay">
-      <div :class="['boom-cookie-banner', `phase-${phase}`]">
+      <div :class="['boom-cookie-banner', `phase-${phase}`, { compact }]">
 
         <div class="boom-cookie-head">
           <span class="boom-cookie-eyes">👀</span>
@@ -364,4 +369,13 @@ onMounted(() => {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
+
+/* ══════════════════════════════════════
+   Компактный режим — /karta/… (см. compact в script)
+   ══════════════════════════════════════ */
+.boom-cookie-banner.compact { padding: 12px 14px; max-width: 460px; }
+.boom-cookie-banner.compact .boom-cookie-head,
+.boom-cookie-banner.compact .boom-cookie-title { display: none; }
+.boom-cookie-banner.compact .boom-cookie-text { font-size: 12px; margin-bottom: 10px; }
+.boom-cookie-banner.compact .boom-cookie-actions button { padding-top: 9px; padding-bottom: 9px; font-size: 13px; }
 </style>
