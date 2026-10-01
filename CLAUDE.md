@@ -88,7 +88,7 @@ npm run docs:preview  # посмотреть собранное
 | `terms.md` | `TermsHub.vue` | все юр. документы внутри, отдельных URL нет |
 | `turbo/index.md` | `TurboSubscribe.vue` | |
 | `bonus500/ohtamall.md` | `Bonus500Page.vue` | тексты в `data/bonus500.js`, адрес зашит в QR наклеек |
-| `popolnit/<парк>.md` | `PopolnitPage.vue` | тексты и переключатели в `data/popolnit.js`, парк — из `data/parks.js`; адрес зашит в QR ТВ-экрана у кассы (`boom-cmd/media/kassa/`); цифры подарков совпадают с `kassa.data.json` там |
+| `popolnit/<парк>.md` | `PopolnitPage.vue` | тексты и переключатели в `data/popolnit.js`, парк — из `data/parks.js`; адрес зашит в QR ТВ-экрана у кассы (`boom-cmd/media/kassa/`); страница — продолжение экрана: цифры, тексты оффера, метки X1/X2/X4–6, цвета и бейджи совпадают с `kassa.data.json` там |
 
 **Два способа подключения компонентов** (оба используются):
 
