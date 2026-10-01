@@ -8,9 +8,8 @@
  *   1. карта владельца + «Есть карта? Заряжено» + кнопка кабинета — сразу,
  *      на первом экране;
  *   2. вторая дорожка «Нет карты? +500 на старт» (где бонус включён);
- *   3. телефон-пример: что видно в кабинете;
- *   4. игровой статус — те же 4 ступени и цифры, что на экране;
- *   5. Призотека и турбо-часы.
+ *   3. игровой статус — те же 4 ступени и цифры, что на экране;
+ *   4. Призотека и турбо-часы.
  *
  * Тексты, адреса и цифры — в .vitepress/data/karta.js, здесь только вёрстка.
  *
@@ -65,7 +64,11 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   <div v-if="data" class="kt" :style="{ '--pk': data.accent }">
     <!-- ── 1. Первый экран: карта + вопрос + кнопка ───────────────────── -->
     <header class="kt-hero">
-      <div class="kt-park">БУМБАСТИК · {{ data.name.toUpperCase() }}</div>
+      <!-- Плашка парка: бренд на лайме + название парка крупно -->
+      <div class="kt-park">
+        <span class="kt-park-brand">БУМБАСТИК</span>
+        <span class="kt-park-name">{{ data.name }}</span>
+      </div>
 
       <div class="kt-card" aria-hidden="true">
         <img src="/karta/card.svg" alt="" width="674" height="1063">
@@ -77,7 +80,6 @@ const openPrizes = () => data && track('Карта — призы', { park: data
     </header>
 
     <a class="kt-cta" :href="data.lk" target="_blank" rel="noopener noreferrer" @click="openLk">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
       {{ T.cta }}
     </a>
     <div class="kt-note">{{ T.note }}</div>
@@ -86,37 +88,12 @@ const openPrizes = () => data && track('Карта — призы', { park: data
     <a v-if="bonus" class="kt-bonus" :href="'/bonus500/' + page" @click="openBonus">
       <span class="kt-bonus-txt">
         <span class="kt-bonus-k">{{ T.bonusKicker }}</span>
-        <span class="kt-bonus-t">{{ T.bonusT }} →</span>
+        <span class="kt-bonus-t">{{ T.bonusT }} <span class="kt-bonus-arr">→</span></span>
       </span>
       <span class="kt-ticket"><b>+{{ bonus.amount }}</b><small>{{ T.bonusUnit.toUpperCase() }}</small></span>
     </a>
 
-    <!-- ── 3. Что видно в кабинете — телефон-пример ───────────────────── -->
-    <section class="kt-cab">
-      <div class="kt-sub">{{ T.cabSub }}</div>
-      <div class="kt-phone" aria-label="Пример экрана личного кабинета">
-        <div class="ph-brand">БУМБАСТИК</div>
-        <div class="ph-who">
-          <span class="ph-ava">
-            <svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="7" y="3" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="2" y="6" width="4" height="1"/></svg>
-          </span>
-          <span><b>Артём К.</b><i>золотой</i></span>
-        </div>
-        <div class="ph-bal">Баланс: 1&#8239;200&nbsp;₽</div>
-        <div class="ph-tiles">
-          <span class="ph-tile t-tk"><small>ТИКЕТЫ</small><b>5020</b></span>
-          <span class="ph-tile t-bn"><small>БОНУСЫ</small><b>300</b></span>
-        </div>
-        <span class="ph-btn">Зарядить карту</span>
-        <div class="ph-prog">
-          <div class="ph-prog-h"><span>Razer Cobra Minecraft</span><b>5020/7500</b></div>
-          <div class="ph-rail"><span class="ph-soon">СКОРО</span><i class="ph-fill"></i></div>
-        </div>
-      </div>
-      <div class="kt-cab-note">{{ T.cabNote }}</div>
-    </section>
-
-    <!-- ── 4. Игровой статус — те же ступени, что на экране ───────────── -->
+    <!-- ── 3. Игровой статус — те же ступени, что на экране ───────────── -->
     <section class="kt-lvl">
       <div class="kt-lvl-head">
         <span class="kt-lvl-t">{{ T.lvlT }}</span>
@@ -135,7 +112,7 @@ const openPrizes = () => data && track('Карта — призы', { park: data
       <div class="kt-lvl-note">{{ T.lvlNote }}</div>
     </section>
 
-    <!-- ── 5. Призотека и турбо ───────────────────────────────────────── -->
+    <!-- ── 4. Призотека и турбо ───────────────────────────────────────── -->
     <a v-if="data.prizes" class="kt-link kt-link-prizes" :href="'/prizes/' + page" @click="openPrizes">
       <span class="kt-link-t">{{ T.prizesT }} →</span>
       <span class="kt-link-d">{{ T.prizesD }}</span>
@@ -168,12 +145,26 @@ const openPrizes = () => data && track('Карта — призы', { park: data
 }
 
 .kt-park {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--text-sec);
-  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: stretch;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--lime);
+  box-shadow: 0 6px 22px rgba(197, 249, 70, 0.15);
+}
+.kt-park-brand {
+  display: flex; align-items: center;
+  padding: 8px 12px;
+  background: var(--lime); color: var(--bg-deep);
+  font-family: var(--font-head); font-weight: 900; font-size: 14px; letter-spacing: 0.06em;
+}
+.kt-park-name {
+  display: flex; align-items: center;
+  padding: 8px 16px;
+  background: var(--bg-deep); color: #fff;
+  font-family: var(--font-head); font-weight: 900; font-size: 22px; letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 /* ── 1. Карта владельца ── */
@@ -234,9 +225,13 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 8px 26px rgba(197, 249, 70, 0.25);
 }
-.kt-cta svg { width: 22px; height: 22px; flex: none; }
-.kt-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(197, 249, 70, 0.35); }
-.kt-cta:active { transform: translateY(0); }
+/* ⚠ Общее правило сайта `.VPContent a:hover` (theme/style.css) красит
+   ссылки синим и рисует нижнюю линию — на кнопках это ломало вид. Здесь
+   цвет и рамка заданы заново, с селектором сильнее общего. */
+.kt .kt-cta, .kt .kt-cta:hover, .kt .kt-cta:focus-visible { color: var(--bg-deep); border: none; }
+.kt .kt-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(197, 249, 70, 0.4); filter: brightness(1.06); }
+.kt .kt-cta:active { transform: translateY(1px) scale(0.99); filter: brightness(0.96); }
+.kt .kt-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 .kt-note {
   font-family: var(--font-mono);
@@ -259,6 +254,13 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   text-decoration: none;
   color: #fff;
 }
+.kt .kt-bonus, .kt .kt-bonus:hover, .kt .kt-bonus:focus-visible { color: #fff; border: 1px solid rgba(45, 107, 255, 0.35); }
+.kt-bonus { transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.kt .kt-bonus:hover { border-color: var(--blue); box-shadow: 0 10px 30px rgba(45, 107, 255, 0.3); transform: translateY(-2px); }
+.kt .kt-bonus:active { transform: translateY(1px); }
+.kt .kt-bonus:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.kt-bonus-arr { display: inline-block; transition: transform 0.2s; }
+.kt .kt-bonus:hover .kt-bonus-arr { transform: translateX(4px); }
 .kt-bonus-txt { flex: 1; min-width: 0; }
 .kt-bonus-k {
   display: block;
@@ -290,65 +292,7 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   85%, 100% { transform: rotate(-4deg) }
 }
 
-/* ── 3. Телефон-пример ── */
-.kt-sub {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-sec);
-  margin-bottom: 12px;
-}
-.kt-cab { margin-top: 40px; }
-.kt-phone {
-  width: 250px;
-  margin: 0 auto;
-  padding: 16px 14px 18px;
-  border-radius: 30px;
-  background: #13112e;
-  border: 2px solid rgba(255, 0, 128, 0.45);
-  box-shadow: 0 18px 50px rgba(255, 0, 128, 0.18);
-  text-align: left;
-  font-size: 12px;
-}
-.ph-brand { text-align: center; font-family: var(--font-head); font-weight: 900; font-size: 15px; letter-spacing: 0.04em; margin-bottom: 12px; }
-.ph-who {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 10px; border-radius: 12px;
-  background: #1c1a44; border: 2px solid var(--yellow);
-}
-.ph-ava { width: 34px; height: 34px; border-radius: 9px; background: #3b45a8; display: grid; place-items: center; flex: none; }
-.ph-ava svg { width: 20px; height: 20px; fill: #fff; }
-.ph-who b { display: block; font-size: 14px; line-height: 1.1; }
-.ph-who i { display: block; font-style: normal; font-weight: 800; color: var(--yellow); }
-.ph-bal { margin: 12px 2px 8px; font-weight: 700; font-size: 13px; }
-.ph-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ph-tile { border-radius: 10px; padding: 7px 9px; }
-.ph-tile small { display: block; font-size: 9px; letter-spacing: 0.08em; color: var(--text-sec); }
-.ph-tile b { display: block; font-family: var(--font-head); font-weight: 900; font-size: 22px; line-height: 1.1; }
-.t-tk { background: rgba(255, 0, 128, 0.12); border: 1px solid rgba(255, 0, 128, 0.4); }
-.t-tk b { color: var(--magenta); }
-.t-bn { background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.4); }
-.t-bn b { color: var(--cyan); }
-.ph-btn {
-  display: block; margin-top: 10px; padding: 9px; border-radius: 10px;
-  background: var(--lime); color: var(--bg-deep);
-  text-align: center; font-weight: 800; font-size: 13px;
-}
-.ph-prog { margin-top: 10px; padding: 9px 10px; border-radius: 10px; background: rgba(255, 0, 128, 0.07); border: 1px solid rgba(255, 0, 128, 0.25); }
-.ph-prog-h { display: flex; justify-content: space-between; gap: 6px; font-size: 10px; font-weight: 700; margin-bottom: 20px; }
-.ph-prog-h b { color: var(--magenta); }
-.ph-rail { position: relative; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.08); }
-.ph-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 67%; border-radius: 3px; background: repeating-linear-gradient(115deg, rgba(255,255,255,.25) 0 4px, transparent 4px 8px), var(--magenta); }
-.ph-soon {
-  position: absolute; left: 67%; bottom: 10px; transform: translateX(-50%);
-  background: var(--magenta); color: #fff; border-radius: 5px; padding: 1px 6px;
-  font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
-}
-.kt-cab-note { margin-top: 8px; font-size: 11px; color: var(--text-sec); opacity: 0.7; }
-
-/* ── 4. Игровой статус — лаймовая полоса + рамка, как на экране ── */
+/* ── 3. Игровой статус — лаймовая полоса + рамка, как на экране ── */
 .kt-lvl {
   margin-top: 40px;
   border-radius: 16px;
@@ -425,7 +369,7 @@ const openPrizes = () => data && track('Карта — призы', { park: data
 
 .kt-lvl-note { padding: 10px 14px 0; font-size: 11px; color: var(--text-sec); opacity: 0.75; }
 
-/* ── 5. Ссылки ── */
+/* ── 4. Ссылки ── */
 .kt-link {
   display: block;
   margin-top: 14px;
@@ -438,7 +382,7 @@ const openPrizes = () => data && track('Карта — призы', { park: data
   transition: border-color 0.2s;
 }
 .kt-link-prizes { margin-top: 28px; }
-.kt-link:hover { border-color: var(--cyan); }
+.kt .kt-link:hover { color: var(--text-pri); border-color: var(--cyan); }
 .kt-link-t {
   display: block;
   font-family: var(--font-head);
