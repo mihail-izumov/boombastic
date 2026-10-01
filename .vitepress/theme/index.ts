@@ -22,6 +22,7 @@ import TermsPrivacy from '../terms/TermsPrivacy.vue'
 import TurboSubscribe from '../turbo/TurboSubscribe.vue'
 import Bonus500Page from '../components/Bonus500Page.vue'
 import KartaPage from '../components/KartaPage.vue'
+import PopolnitPage from '../components/PopolnitPage.vue'
 
 // Свой счётчик вместо Plausible. Код и объяснения — в .vitepress/analytics/
 import { setup as setupStat, pageview as statPageview } from '../analytics/boom-stat'
@@ -54,6 +55,7 @@ export default {
     app.component('TurboSubscribe', TurboSubscribe)
     app.component('Bonus500Page', Bonus500Page)
     app.component('KartaPage', KartaPage)
+    app.component('PopolnitPage', PopolnitPage)
 
     /* === Счётчик посещений ===
        Первое открытие считаем сами: onAfterRouteChanged срабатывает только

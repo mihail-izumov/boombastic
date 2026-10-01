@@ -38,6 +38,7 @@ const SOURCES = [
   'sticker-mari',
   'tv',                // экраны в парках
   'loyalty-tv',        // ТВ-экран «Твоя карта» → b00m.fun/karta/<парк>
+  'kassa-tv',          // ТВ-экран у кассы «Пополни карту» → b00m.fun/popolnit/<парк>
   'tent',              // тейблтенты на столах
   'tent-ohta',         // тейбл-тент на кассе Охты
   'tent-piterland',    // тейбл-тент на кассе Питерлэнда
