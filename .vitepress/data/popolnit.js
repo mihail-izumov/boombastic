@@ -24,9 +24,10 @@
  *   иначе источник молча станет пустым. Переименовать файл
  *   popolnit/<парк>.md — значит сломать QR на экране.
  *
- * ⚠ ЧЕГО НА ЭТОЙ СТРАНИЦЕ НЕТ И НЕ ДОЛЖНО БЫТЬ: процентов, «числа игр»,
- *   сравнений «онлайн против кассы» (подарки одинаковые), турбо, статусов,
- *   скидок и розыгрышей — у них свои страницы и экраны.
+ * ⚠ ЧЕГО НА ЭТОЙ СТРАНИЦЕ НЕТ И НЕ ДОЛЖНО БЫТЬ: процентов, сравнений
+ *   «онлайн против кассы» (подарки одинаковые), турбо, скидок и
+ *   розыгрышей — у них свои страницы и экраны. «≈ +N игр» в карточках
+ *   разрешил владелец 01.10 — считается от GAME_PRICE ниже.
  */
 import { parks } from './parks'
 
@@ -49,6 +50,26 @@ export function giftFor (sum) {
   let gift = 0
   for (const s of STEPS) if (sum >= s.sum) gift = s.gift
   return gift
+}
+
+/* Средняя цена игры, ₽ — та же, что на b00m.fun/rewards («≈ расчёт при
+   средней цене игры ~70₽»), решение владельца 01.10. «≈ +7 игр» в карточке =
+   подарок / GAME_PRICE, вниз до целого. Та же цифра — game_price в
+   boom-cmd/media/kassa/kassa.data.json (ТВ-экран). */
+export const GAME_PRICE = 70
+
+/** Сколько игр даёт подарок, вниз до целого. */
+export function gamesFor (gift) {
+  return Math.floor(gift / GAME_PRICE)
+}
+
+/* 1 игра · 2 игры · 7 игр · 21 игра · 42 игры */
+export function plural (n, one, few, many) {
+  const a = n % 10
+  const b = n % 100
+  if (a === 1 && b !== 11) return one
+  if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return few
+  return many
 }
 
 /* ── Три суммы, которые кассир называет первыми ──────────────────────────
@@ -77,7 +98,9 @@ export const POPOLNIT_TEXT = {
   regBonus: '+500 бонусов за первую регистрацию в кабинете',
   offline: 'Пополнить карту можно на кассе парка',
   hallSub: 'На кассе парка',
-  topupInHall: 'Не хватило — докинем без очереди: скажите сотруднику в зале'
+  topupInHall: 'Не хватило — докинем без очереди: скажите сотруднику в зале',
+  gamesGift: 'в подарок',
+  ticketsCash: 'за наличные'
 }
 
 /* ── Парки ───────────────────────────────────────────────────────────────
@@ -86,7 +109,10 @@ export const POPOLNIT_TEXT = {
 
    park        — код парка в data/parks.js (оттуда название, цвет, кабинет)
    stepsFrom   — с какой суммы показывать полосу ступеней
-   tickets     — строка про тикеты за наличные; '' — строки нет
+   cashTickets — тикеты при оплате наличными на кассе по ступеням суммы:
+                 [{ from: 1000, tickets: 200 }, …]; [] — акции нет. Пишутся
+                 прямо в карточках сумм («+200 тикетов за наличные»), как на
+                 ТВ-экране (решение владельца 01.10)
    topupInHall — строка «Не хватило — докинем без очереди…»
    online      — онлайн-пополнение работает: есть кнопка кабинета.
                  false — кнопки нет, вместо неё «Пополнить карту можно на
@@ -101,7 +127,7 @@ export const POPOLNIT_PAGES = {
   ohtamall: {
     park: 'ohta',
     stepsFrom: 1000,
-    tickets: '+200 тикетов при оплате наличными от 1 000 ₽',
+    cashTickets: [{ from: 1000, tickets: 200 }, { from: 5000, tickets: 500 }],
     topupInHall: false,
     online: true,
     regBonus: true
@@ -113,7 +139,7 @@ export const POPOLNIT_PAGES = {
   piterland: {
     park: 'piterland',
     stepsFrom: 500,
-    tickets: '200 тикетов за 1 000 ₽ и 500 тикетов за 5 000 ₽ — при оплате наличными',
+    cashTickets: [{ from: 1000, tickets: 200 }, { from: 5000, tickets: 500 }],
     topupInHall: true,
     online: true,
     regBonus: true
@@ -125,7 +151,7 @@ export const POPOLNIT_PAGES = {
   june: {
     park: 'june',
     stepsFrom: 500,
-    tickets: '',
+    cashTickets: [],   // акции «тикеты за наличные» в Июне пока нет
     topupInHall: true,
     online: true,
     regBonus: true
@@ -149,7 +175,12 @@ export function popolnitPage (slug) {
     lk,
     /* Кабинета нет в parks.js — кнопку не рисуем, даже если флаг включён. */
     online: !!(cfg.online && lk),
-    offers: OFFERS.map((o) => ({ ...o, gift: giftFor(o.sum), onCard: o.sum + giftFor(o.sum) })),
+    offers: OFFERS.map((o) => {
+      const gift = giftFor(o.sum)
+      let tickets = 0
+      for (const t of cfg.cashTickets || []) if (o.sum >= t.from) tickets = t.tickets
+      return { ...o, gift, onCard: o.sum + gift, games: gamesFor(gift), tickets }
+    }),
     steps: STEPS.filter((s) => s.sum >= cfg.stepsFrom)
   }
 }

@@ -18,12 +18,13 @@
  *   адреса сам — по списку SOURCES в boom-stat.js.
  *   «Нажал кнопку» ≠ «пополнил»: счётчика в кабинетах нет.
  *
- * ⚠ ТИКЕТЫ — ТОЛЬКО ЗА НАЛИЧНЫЕ НА КАССЕ. Строка про них стоит в блоке
- *   «На кассе парка», отдельно от кнопки кабинета, чтобы никто не прочёл,
- *   что тикеты дают и за онлайн-пополнение.
+ * ⚠ ТИКЕТЫ — ТОЛЬКО ЗА НАЛИЧНЫЕ НА КАССЕ. С 01.10 (решение владельца) они
+ *   пишутся прямо в карточке суммы, как на ТВ-экране, и всегда со словами
+ *   «за наличные» — чтобы никто не прочёл, что тикеты дают и за
+ *   онлайн-пополнение. Рядом — «≈ +N игр в подарок» (подарок / 70 ₽).
  */
 import { onMounted } from 'vue'
-import { popolnitPage, POPOLNIT_TEXT as T } from '../data/popolnit'
+import { popolnitPage, plural, POPOLNIT_TEXT as T } from '../data/popolnit'
 import { track } from '../analytics/boom-stat'
 
 const props = defineProps({
@@ -86,6 +87,11 @@ function openLk () {
           <div class="pp-card">{{ fmt(o.onCard) }}</div>
           <div class="pp-gift">+{{ fmt(o.gift) }} в подарок</div>
         </div>
+        <!-- Тот же подарок с других сторон: игры и тикеты за наличные -->
+        <div v-if="o.games || o.tickets" class="pp-extra">
+          <span v-if="o.games" class="pp-chip">≈&nbsp;+{{ o.games }}&nbsp;{{ plural(o.games, 'игра', 'игры', 'игр') }} {{ T.gamesGift }}</span>
+          <span v-if="o.tickets" class="pp-chip pp-chip-t">+{{ fmt(o.tickets) }}&nbsp;{{ plural(o.tickets, 'тикет', 'тикета', 'тикетов') }} {{ T.ticketsCash }}</span>
+        </div>
       </div>
     </section>
 
@@ -133,19 +139,10 @@ function openLk () {
     <!-- Онлайн выключен — честно говорим, где пополнить -->
     <section v-else class="pp-offline">{{ T.offline }}</section>
 
-    <!-- ── На кассе: тикеты за наличные и докидка в зале ─────────────── -->
-    <section v-if="data.tickets || data.topupInHall" class="pp-hall">
+    <!-- ── На кассе: докидка в зале (тикеты за наличные — в карточках) ── -->
+    <section v-if="data.topupInHall" class="pp-hall">
       <div class="pp-sub">{{ T.hallSub }}</div>
-      <div v-if="data.tickets" class="pp-hall-row">
-        <span class="pp-hall-ico pp-ico-cash">
-          <!-- Купюра — тикеты только за наличные -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>
-          </svg>
-        </span>
-        <span class="pp-hall-t">{{ data.tickets }}</span>
-      </div>
-      <div v-if="data.topupInHall" class="pp-hall-row">
+      <div class="pp-hall-row">
         <span class="pp-hall-ico pp-ico-hall">
           <!-- Человек — сотрудник в зале -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -239,6 +236,7 @@ function openLk () {
   background: linear-gradient(135deg, rgba(197, 249, 70, 0.14), var(--bg-card) 70%);
   box-shadow: 0 10px 30px rgba(197, 249, 70, 0.14);
 }
+.pp-offer { flex-wrap: wrap; }
 .pp-offer-l { min-width: 0; }
 .pp-offer-r { text-align: right; flex-shrink: 0; }
 
@@ -282,6 +280,27 @@ function openLk () {
   white-space: nowrap;
   margin: 2px 0 6px;
 }
+/* Игры и тикеты за наличные — строкой под суммами, во всю ширину карточки */
+.pp-extra {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pp-chip {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lime);
+  background: rgba(197, 249, 70, 0.1);
+  border: 1px solid rgba(197, 249, 70, 0.35);
+  border-radius: 8px;
+  padding: 4px 9px;
+  white-space: nowrap;
+}
+.pp-chip-t { color: var(--yellow); background: rgba(255, 214, 10, 0.08); border-color: rgba(255, 214, 10, 0.4); }
+
 .pp-gift {
   display: inline-block;
   font-size: 13px;
@@ -436,7 +455,6 @@ function openLk () {
   background: rgba(255, 255, 255, 0.04);
 }
 .pp-hall-ico svg { width: 22px; height: 22px; }
-.pp-ico-cash { color: var(--yellow); }
 .pp-ico-hall { color: var(--cyan); }
 .pp-hall-t { font-size: 15px; line-height: 1.45; font-weight: 600; }
 
