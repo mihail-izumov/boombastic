@@ -99,7 +99,7 @@ export const POPOLNIT_TEXT = {
   offline: 'Пополнить карту можно на кассе парка',
   hallSub: 'На кассе парка',
   topupInHall: 'Не хватило — докинем без очереди: скажите сотруднику в зале',
-  gamesGift: 'в подарок',
+  bonus: 'бонус',          // «+525 бонус», «≈ +7 игр бонус» — как на ТВ-экране (решение владельца 01.10)
   ticketsCash: 'за наличные'
 }
 
@@ -109,8 +109,9 @@ export const POPOLNIT_TEXT = {
 
    park        — код парка в data/parks.js (оттуда название, цвет, кабинет)
    stepsFrom   — с какой суммы показывать полосу ступеней
-   cashTickets — тикеты при оплате наличными на кассе по ступеням суммы:
-                 [{ from: 1000, tickets: 200 }, …]; [] — акции нет. Пишутся
+   cashTickets — тикеты при оплате наличными на кассе за ТОЧНУЮ сумму
+                 пополнения: 200 — только за 1 000 ₽, 500 — за 5 000 ₽
+                 (решение владельца 01.10); [] — акции нет. Пишутся
                  прямо в карточках сумм («+200 тикетов за наличные»), как на
                  ТВ-экране (решение владельца 01.10)
    topupInHall — строка «Не хватило — докинем без очереди…»
@@ -127,7 +128,7 @@ export const POPOLNIT_PAGES = {
   ohtamall: {
     park: 'ohta',
     stepsFrom: 1000,
-    cashTickets: [{ from: 1000, tickets: 200 }, { from: 5000, tickets: 500 }],
+    cashTickets: [{ sum: 1000, tickets: 200 }, { sum: 5000, tickets: 500 }],
     topupInHall: false,
     online: true,
     regBonus: true
@@ -139,7 +140,7 @@ export const POPOLNIT_PAGES = {
   piterland: {
     park: 'piterland',
     stepsFrom: 500,
-    cashTickets: [{ from: 1000, tickets: 200 }, { from: 5000, tickets: 500 }],
+    cashTickets: [{ sum: 1000, tickets: 200 }, { sum: 5000, tickets: 500 }],
     topupInHall: true,
     online: true,
     regBonus: true
@@ -177,8 +178,8 @@ export function popolnitPage (slug) {
     online: !!(cfg.online && lk),
     offers: OFFERS.map((o) => {
       const gift = giftFor(o.sum)
-      let tickets = 0
-      for (const t of cfg.cashTickets || []) if (o.sum >= t.from) tickets = t.tickets
+      const hit = (cfg.cashTickets || []).find((t) => t.sum === o.sum)
+      const tickets = hit ? hit.tickets : 0
       return { ...o, gift, onCard: o.sum + gift, games: gamesFor(gift), tickets }
     }),
     steps: STEPS.filter((s) => s.sum >= cfg.stepsFrom)

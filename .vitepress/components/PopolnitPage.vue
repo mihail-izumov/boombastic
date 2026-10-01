@@ -21,7 +21,8 @@
  * ⚠ ТИКЕТЫ — ТОЛЬКО ЗА НАЛИЧНЫЕ НА КАССЕ. С 01.10 (решение владельца) они
  *   пишутся прямо в карточке суммы, как на ТВ-экране, и всегда со словами
  *   «за наличные» — чтобы никто не прочёл, что тикеты дают и за
- *   онлайн-пополнение. Рядом — «≈ +N игр в подарок» (подарок / 70 ₽).
+ *   онлайн-пополнение. Рядом — «≈ +N игр бонус» (бонус / 70 ₽). Тикеты —
+ *   только за точную сумму: из трёх карточек они есть лишь у 5 000 ₽.
  */
 import { onMounted } from 'vue'
 import { popolnitPage, plural, POPOLNIT_TEXT as T } from '../data/popolnit'
@@ -84,12 +85,13 @@ function openLk () {
         </div>
         <div class="pp-offer-r">
           <div class="pp-lbl">на карте</div>
-          <div class="pp-card">{{ fmt(o.onCard) }}</div>
-          <div class="pp-gift">+{{ fmt(o.gift) }} в подарок</div>
+          <!-- Пополнение — в рублях, на карте — заряды: после числа молния -->
+          <div class="pp-card">{{ fmt(o.onCard) }}<svg class="pp-bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="pp-gift">+{{ fmt(o.gift) }} {{ T.bonus }}</div>
         </div>
         <!-- Тот же подарок с других сторон: игры и тикеты за наличные -->
         <div v-if="o.games || o.tickets" class="pp-extra">
-          <span v-if="o.games" class="pp-chip">≈&nbsp;+{{ o.games }}&nbsp;{{ plural(o.games, 'игра', 'игры', 'игр') }} {{ T.gamesGift }}</span>
+          <span v-if="o.games" class="pp-chip">≈&nbsp;+{{ o.games }}&nbsp;{{ plural(o.games, 'игра', 'игры', 'игр') }} {{ T.bonus }}</span>
           <span v-if="o.tickets" class="pp-chip pp-chip-t">+{{ fmt(o.tickets) }}&nbsp;{{ plural(o.tickets, 'тикет', 'тикета', 'тикетов') }} {{ T.ticketsCash }}</span>
         </div>
       </div>
@@ -107,7 +109,7 @@ function openLk () {
         >
           <span class="pp-step-sum">{{ fmt(s.sum) }}&nbsp;₽</span>
           <span class="pp-step-gift">+{{ fmt(s.gift) }}</span>
-          <span class="pp-step-lbl">в подарок</span>
+          <span class="pp-step-lbl">{{ T.bonus }}</span>
         </div>
       </div>
       <p class="pp-round">{{ T.round }}</p>
@@ -284,7 +286,7 @@ function openLk () {
 .pp-extra {
   flex-basis: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;   /* каждая плашка — на всю ширину карточки */
   gap: 6px;
   padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -296,10 +298,19 @@ function openLk () {
   background: rgba(197, 249, 70, 0.1);
   border: 1px solid rgba(197, 249, 70, 0.35);
   border-radius: 8px;
-  padding: 4px 9px;
+  padding: 7px 12px;
   white-space: nowrap;
 }
 .pp-chip-t { color: var(--yellow); background: rgba(255, 214, 10, 0.08); border-color: rgba(255, 214, 10, 0.4); }
+
+.pp-bolt {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.62em;
+  margin-left: 0.08em;
+  vertical-align: baseline;
+  fill: var(--lime);
+}
 
 .pp-gift {
   display: inline-block;
