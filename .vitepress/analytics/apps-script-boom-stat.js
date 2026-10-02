@@ -26,6 +26,10 @@
 
 /* ── Настройки ────────────────────────────────────────────────────────── */
 
+/* Версия кода. Видна в журнале «Проверить приём событий» (testHit) — по ней
+   понятно, какой код сейчас стоит в Apps Script. Меняешь код — меняй дату. */
+var SCRIPT_VERSION = '2026-10-02';
+
 var HITS_SHEET = 'hits';   // единственный лист: одна строка = одно событие
 
 var HITS_HEADER = [
@@ -83,11 +87,24 @@ function doPost(e) {
       if (row) rows.push(row);
     }
     if (rows.length) {
-      var sh = hitsSheet_();
-      sh.getRange(sh.getLastRow() + 1, 1, rows.length, HITS_HEADER.length)
-        .setValues(rows);
+      /* ⚠ ЗАМОК. Два события часто приходят в одну и ту же долю секунды:
+         клик по «+500» и открытие страницы бонуса, на которую он ведёт.
+         Без замка оба запроса берут один и тот же «последний ряд + 1», и
+         второй затирает первый. Так до 02.10 пропадали «Пополнение — бонус»
+         и «Карта — бонус» — в таблице оставалось только «Бонус — открыл».
+         Замок пускает запросы к листу по одному. */
+      var lock = LockService.getScriptLock();
+      lock.waitLock(20000);
+      try {
+        var sh = hitsSheet_();
+        sh.getRange(sh.getLastRow() + 1, 1, rows.length, HITS_HEADER.length)
+          .setValues(rows);
+        SpreadsheetApp.flush();   // записать до того, как отпустить замок
+      } finally {
+        lock.releaseLock();
+      }
     }
-    return json_({ ok: true, saved: rows.length });
+    return json_({ ok: true, saved: rows.length, v: SCRIPT_VERSION });
   } catch (err) {
     // Гостю ошибка не важна — он её всё равно не увидит. Главное не упасть.
     return json_({ ok: false });

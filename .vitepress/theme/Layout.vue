@@ -119,7 +119,14 @@ onMounted(() => {
     preloaderTimeout = setTimeout(() => { showPreloader.value = false }, 2000)
   }
 
-  router.onAfterRouteChanged = () => {
+  /* ⚠ НЕ ЗАТИРАТЬ чужой хук. Тот же onAfterRouteChanged ставит счётчик
+     посещений (theme/index.ts — pageview на каждый переход по ссылке внутри
+     сайта). До 02.10 здесь было простое присваивание, и переходы внутри
+     сайта не попадали в таблицу: около пятой части открытий страниц.
+     Повтор того же адреса счётчик отбрасывает сам (boom-stat.js, pageview). */
+  const prevAfter = router.onAfterRouteChanged
+  router.onAfterRouteChanged = (to) => {
+    if (prevAfter) prevAfter(to)
     const elapsed = Date.now() - preloaderStart
     const remaining = Math.max(0, PRELOADER_MIN_MS - elapsed)
     clearTimeout(preloaderTimeout)
