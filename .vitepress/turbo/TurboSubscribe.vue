@@ -29,12 +29,21 @@
  *   текст) описывает ТРЕТИЙ продукт и сюда не переносится вовсе.
  */
 import { ref, computed, onMounted } from 'vue'
+import { track } from '../analytics/boom-stat'
 
 const PARKS = [
   { code: 'ohta', name: 'Охта Молл' },
   { code: 'piterland', name: 'Питерленд' },
   { code: 'iyun', name: 'ТЦ Июнь' }
 ]
+
+/* Счётчик сайта (boom-stat) знает Июнь как `june` — как data/parks.js и
+   соседние экраны «Твоя карта» и «Пополнить карту». Здесь код парка — `iyun`
+   (его шлёт QR экрана «Турбо» и ждёт таблица подписчиков), поэтому для
+   счётчика переводим. Иначе в своде Июнь турбо разошёлся бы с Июнем
+   соседних экранов. */
+const STAT_PARK = { iyun: 'june' }
+const statPark = (code) => STAT_PARK[code] || code || ''
 
 /* Откуда пришёл гость. Пишется в колонку source и отвечает на вопрос, который
    иначе не задать: работает экран у кассы или печатный тейблтент. Чужое
@@ -202,6 +211,11 @@ onMounted(() => {
   } catch (e) { /* ссылка без параметров — обычный случай */ }
   ready.value = true
   trackVisit()
+  /* В общий свод сайта — как «Карта — открыл» и «Пополнение — открыл» у
+     соседних экранов панели. Источник (turbo-tv и т.д.) счётчик берёт из
+     ?src= сам (TURBO_SRC в boom-stat.js). Событие обязано быть в EVENTS
+     apps-script-boom-stat.js. */
+  track('Турбо — открыл', { park: statPark(park.value) })
 })
 
 /**
@@ -322,7 +336,11 @@ async function submit () {
     })
     const data = await res.json()
 
-    if (data && data.ok) { state.value = 'done'; return }
+    if (data && data.ok) {
+      state.value = 'done'
+      track('Турбо — подписка', { park: statPark(park.value) })   // в свод сайта, см. onMounted
+      return
+    }
 
     state.value = 'error'
     errorText.value = ({

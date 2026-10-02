@@ -39,6 +39,9 @@ const SOURCES = [
   'tv',                // экраны в парках
   'loyalty-tv',        // ТВ-экран «Твоя карта» → b00m.fun/karta/<парк>
   'kassa-tv',          // ТВ-экран у кассы «Пополни карту» → b00m.fun/popolnit/<парк>
+  'turbo-tv',          // ТВ-экран «Турбо» → b00m.fun/turbo (в QR — ?src=tv, см. TURBO_SRC)
+  'turbo-tent',        // печатный тейбл-тент турбо (?src=tent)
+  'turbo-qr',          // прочие печатные QR турбо (?src=qr)
   'tent',              // тейблтенты на столах
   'tent-ohta',         // тейбл-тент на кассе Охты
   'tent-piterland',    // тейбл-тент на кассе Питерлэнда
@@ -48,6 +51,17 @@ const SOURCES = [
   'vk',
   'yandex'
 ]
+
+/* Метки QR страницы /turbo. Её коды (ТВ-экран «Турбо» и печать) появились
+   раньше счётчика и несут ?src=tv, а не ?from=… — как у соседних экранов.
+   Генератор этих кодов живёт в boom-cmd-data (tools/build_turbo_qr.py), а
+   страница подписки сама разбирает src для своей таблицы подписчиков, —
+   поэтому ссылки не трогаем, а читаем src здесь. Только на /turbo: на
+   других страницах src ничего не значит.
+   Без этого переход с экрана «Турбо» приходил в свод с пустым источником,
+   а с экранов «Твоя карта» и у кассы — с меткой: три экрана одной панели
+   считались по-разному. */
+const TURBO_SRC = { tv: 'turbo-tv', tent: 'turbo-tent', qr: 'turbo-qr' }
 
 let visitor = ''
 let session = ''
@@ -89,7 +103,9 @@ function init () {
 
   /* Источник: ?from=sticker-ohta в ссылке QR. Запоминаем на визит, чтобы
      он не потерялся, когда гость уйдёт со страницы бонуса вглубь сайта. */
-  const fromUrl = new URLSearchParams(location.search).get('from') || ''
+  const q = new URLSearchParams(location.search)
+  let fromUrl = q.get('from') || ''
+  if (!fromUrl && /^\/turbo(\/|$)/.test(location.pathname)) fromUrl = TURBO_SRC[q.get('src')] || ''
   if (SOURCES.indexOf(fromUrl) !== -1) {
     source = fromUrl
     writeStore(sessionStorage, SOURCE_KEY, source)
