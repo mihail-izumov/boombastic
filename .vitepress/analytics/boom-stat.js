@@ -39,6 +39,7 @@ const SOURCES = [
   'tv',                // экраны в парках
   'loyalty-tv',        // ТВ-экран «Твоя карта» → b00m.fun/karta/<парк>
   'kassa-tv',          // ТВ-экран у кассы «Пополни карту» → b00m.fun/popolnit/<парк>
+  'kassa-tent',        // печатный тейбл-тент «Заряди карту» (макет = экран «Зарядка») → popolnit/<парк>
   'turbo-tv',          // ТВ-экран «Турбо» → b00m.fun/turbo (в QR — ?src=tv, см. TURBO_SRC)
   'turbo-tent',        // печатный тейбл-тент турбо (?src=tent)
   'turbo-qr',          // прочие печатные QR турбо (?src=qr)
